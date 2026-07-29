@@ -1,8 +1,0 @@
-[project]
-name = "finreason-cup-starter-kit"
-version = "0.0.1"
-description = "Organizer-draft interfaces for the FinReason Cup"
-requires-python = ">=3.10"
-
-[tool.unittest]
-start-directory = "tests"
