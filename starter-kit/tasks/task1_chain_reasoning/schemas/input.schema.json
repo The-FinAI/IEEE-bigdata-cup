@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://finreason.example/schemas/task1/input.schema.json",
+  "title": "Task 1 public input record — organizer draft",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["instance_id", "problem"],
+  "properties": {
+    "instance_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "problem": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "$comment": "TODO: add organizer-approved FinChain metadata fields only after the real export is reviewed."
+}

@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://finreason.example/schemas/task3/input.schema.json",
+  "title": "Task 3 public input record — organizer draft",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "case_id",
+    "filing_bundle_ref",
+    "target_concept",
+    "reporting_period",
+    "taxonomy_metadata_ref"
+  ],
+  "properties": {
+    "case_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "filing_bundle_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "target_concept": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reporting_period": {
+      "type": ["string", "object"]
+    },
+    "taxonomy_metadata_ref": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "$comment": "TODO: freeze the reporting-period object and organizer-approved filing metadata."
+}

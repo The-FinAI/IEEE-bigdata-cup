@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://finreason.example/schemas/task2/action.schema.json",
+  "title": "Task 2 action record — organizer draft",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "episode_id",
+    "timestamp",
+    "asset_a",
+    "asset_b",
+    "action",
+    "position_size"
+  ],
+  "properties": {
+    "episode_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "timestamp": {
+      "type": "string",
+      "minLength": 1
+    },
+    "asset_a": {
+      "type": "string",
+      "minLength": 1
+    },
+    "asset_b": {
+      "type": "string",
+      "minLength": 1
+    },
+    "action": {
+      "enum": ["LONG_SHORT", "SHORT_LONG", "HOLD", "CLOSE"]
+    },
+    "position_size": {
+      "type": ["number", "null"]
+    }
+  },
+  "$comment": "TODO: decide whether position_size is required weight or quantity, and define HOLD/CLOSE pair semantics."
+}
