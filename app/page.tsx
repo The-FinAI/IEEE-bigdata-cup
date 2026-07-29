@@ -1,6 +1,7 @@
 import { LaunchStatus } from "./launch-status";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+const loiUrl = "https://forms.gle/D4VJqjgtmcaC77DL8";
 
 const tasks = [
   {
@@ -73,9 +74,10 @@ const evaluationSteps = [
 const launchItems = [
   {
     state: "current",
-    label: "Official overview",
+    label: "Optional Letter of Intent",
     date: "NOW",
-    detail: "The IEEE Big Data Cup overview is live; launch links are being finalized.",
+    detail:
+      "Share team interest for planning and updates. The LOI is not required for participation.",
   },
   {
     state: "upcoming",
@@ -107,7 +109,7 @@ const faqs = [
   {
     question: "Is full competition registration open?",
     answer:
-      "Not yet. Registration, starter-kit, and submission links will be published here after organizer verification.",
+      "The optional Letter of Intent is open, but it is not a participation requirement. Starter-kit and submission links will be published here after organizer verification.",
   },
   {
     question: "Can a team enter more than one task?",
@@ -147,8 +149,8 @@ export default function Home() {
             <a href="#timeline">Timeline</a>
             <a href="#faq">FAQ</a>
             <a className="nav-action" href="#interest">
-              <span className="nav-full">Launch status</span>
-              <span className="nav-short">Status</span>
+              <span className="nav-full">Participant access</span>
+              <span className="nav-short">Access</span>
             </a>
           </nav>
         </header>
@@ -170,8 +172,13 @@ export default function Home() {
               three complementary tracks—then prove how they reached the result.
             </p>
             <div className="hero-actions">
-              <a className="button button-bright" href="#interest">
-                Track launch updates
+              <a
+                className="button button-bright"
+                href={loiUrl}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Submit optional LOI
                 <span aria-hidden="true">↗</span>
               </a>
               <a
@@ -184,7 +191,8 @@ export default function Home() {
               </a>
             </div>
             <p className="hero-note">
-              Registration, dataset, starter-kit, and leaderboard links will
+              The optional LOI is open and does not gate participation.
+              Dataset, starter-kit, submission, and leaderboard links will
               appear here after organizer verification.
             </p>
           </div>
@@ -228,7 +236,7 @@ export default function Home() {
           </div>
           <div>
             <span>Status</span>
-            <strong className="status-open">Pre-launch</strong>
+            <strong className="status-open">LOI open</strong>
           </div>
         </div>
       </div>
@@ -400,12 +408,14 @@ export default function Home() {
 
       <section className="interest-wrap" id="interest">
         <div className="interest-intro">
-          <p className="section-index">04 / LAUNCH STATUS</p>
+          <p className="section-index">04 / PARTICIPANT ACCESS</p>
           <h2>One verified path into the competition.</h2>
           <p>
-            Registration is not open on this site yet. The confirmed schedule,
-            starter kits, platform links, and participant guidance will be
-            published here as soon as organizer review is complete.
+            The optional LOI is available now for organizer planning and
+            communication. It is separate from competition participation:
+            teams may still enter without submitting it. Starter kits, platform
+            links, and participant guidance will be added after organizer
+            review.
           </p>
           <div className="interest-points">
             <div>
@@ -418,7 +428,10 @@ export default function Home() {
             </div>
             <div>
               <span>03</span>
-              <p>No team data is being collected during pre-launch.</p>
+              <p>
+                LOI responses support organizer communication and aggregate
+                participation statistics.
+              </p>
             </div>
           </div>
         </div>
