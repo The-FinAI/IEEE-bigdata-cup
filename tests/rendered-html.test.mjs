@@ -23,10 +23,10 @@ test("contains the complete FinReason Cup landing-page contract", async () => {
   assert.match(page, /Verifiable Financial Chain Reasoning/);
   assert.match(page, /Market-Neutral Hedging/);
   assert.match(page, /Financial Audit Verification/);
-  assert.match(page, /Submit optional LOI/);
+  assert.match(page, /Submit LOI/);
   assert.match(page, /forms\.gle\/D4VJqjgtmcaC77DL8/);
-  assert.match(launchStatus, /not required to access the/);
-  assert.match(launchStatus, /Teams may participate even if they do not submit/);
+  assert.match(launchStatus, /Please submit one response per team/);
+  assert.match(launchStatus, /Letter of Intent is open/);
   assert.match(launchStatus, /forms\.gle\/D4VJqjgtmcaC77DL8/);
   assert.match(layout, /FinReason Cup 2026/);
   assert.match(layout, /the-finai\.github\.io\/IEEE-bigdata-cup/);
@@ -35,11 +35,12 @@ test("contains the complete FinReason Cup landing-page contract", async () => {
   assert.match(workflow, /actions\/deploy-pages@v4/);
   assert.match(packageJson, /build:pages/);
   assert.match(html, /Official challenge overview/);
-  assert.match(html, /Submit optional LOI/);
+  assert.match(html, /Submit LOI/);
   assert.match(html, /forms\.gle\/D4VJqjgtmcaC77DL8/);
   assert.match(html, /\/IEEE-bigdata-cup\/finreason-hero\.png/);
   assert.doesNotMatch(html, /\/api\/interest|name="contactEmail"/);
   assert.doesNotMatch(page, /The proposal supports/);
+  assert.doesNotMatch(page, /not required|may still enter without|does not gate/i);
   assert.doesNotMatch(page, /codex-preview|SkeletonPreview|2027 IEEE/i);
   assert.doesNotMatch(layout, /next\/headers|headers\(\)/);
   assert.doesNotMatch(packageJson, /vinext|wrangler|drizzle/);

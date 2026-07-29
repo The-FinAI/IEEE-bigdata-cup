@@ -9,12 +9,12 @@ The site presents the three planned technical tracks:
 2. Market-Neutral Hedging
 3. Financial Audit Verification
 
-The optional Letter of Intent is live at
-<https://forms.gle/D4VJqjgtmcaC77DL8>. It supports organizer planning,
-communication, and aggregate participation statistics; it is not required for
-participation. Participant-facing dates, rules, starter kits, and submission
-links remain marked as provisional or coming soon until organizer review is
-complete.
+The Letter of Intent is live at
+<https://forms.gle/D4VJqjgtmcaC77DL8>. Teams planning to participate are
+invited to submit one response per team. The responses support organizer
+planning, communication, and aggregate participation statistics.
+Participant-facing dates, rules, starter kits, and submission links remain
+marked as provisional or coming soon until organizer review is complete.
 
 ## Local development
 
@@ -46,5 +46,5 @@ Pushes to `main` build and deploy through
 <https://the-finai.github.io/IEEE-bigdata-cup/>
 
 GitHub Pages does not provide an application backend. The site links to an
-external Google Form for the optional Letter of Intent; the static site itself
-does not collect personal or team information.
+external Google Form for the Letter of Intent; the static site itself does not
+collect personal or team information.

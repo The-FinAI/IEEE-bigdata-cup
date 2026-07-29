@@ -74,10 +74,10 @@ const evaluationSteps = [
 const launchItems = [
   {
     state: "current",
-    label: "Optional Letter of Intent",
+    label: "Letter of Intent",
     date: "NOW",
     detail:
-      "Share team interest for planning and updates. The LOI is not required for participation.",
+      "Teams planning to participate can share their task interests and contact details.",
   },
   {
     state: "upcoming",
@@ -107,14 +107,14 @@ const launchItems = [
 
 const faqs = [
   {
-    question: "Is full competition registration open?",
+    question: "How do teams submit a Letter of Intent?",
     answer:
-      "The optional Letter of Intent is open, but it is not a participation requirement. Starter-kit and submission links will be published here after organizer verification.",
+      "Teams planning to participate should submit one LOI using the verified link on this page. Starter-kit and submission links will be published here after organizer verification.",
   },
   {
     question: "Can a team enter more than one task?",
     answer:
-      "Teams may indicate interest in any combination of tasks in the optional LOI. Final multi-task participation and submission rules will be published with the starter kits.",
+      "Teams may indicate interest in any combination of tasks in the LOI. Final multi-task participation and submission rules will be published with the starter kits.",
   },
   {
     question: "Where will the competition run?",
@@ -178,7 +178,7 @@ export default function Home() {
                 target="_blank"
                 rel="noreferrer"
               >
-                Submit optional LOI
+                Submit LOI
                 <span aria-hidden="true">↗</span>
               </a>
               <a
@@ -191,9 +191,9 @@ export default function Home() {
               </a>
             </div>
             <p className="hero-note">
-              The optional LOI is open and does not gate participation.
-              Dataset, starter-kit, submission, and leaderboard links will
-              appear here after organizer verification.
+              The LOI is open for teams planning to participate. Dataset,
+              starter-kit, submission, and leaderboard links will appear here
+              after organizer verification.
             </p>
           </div>
 
@@ -411,11 +411,10 @@ export default function Home() {
           <p className="section-index">04 / PARTICIPANT ACCESS</p>
           <h2>One verified path into the competition.</h2>
           <p>
-            The optional LOI is available now for organizer planning and
-            communication. It is separate from competition participation:
-            teams may still enter without submitting it. Starter kits, platform
-            links, and participant guidance will be added after organizer
-            review.
+            The LOI is available now for organizer planning and communication.
+            Teams planning to participate should submit one response per team.
+            Starter kits, platform links, and participant guidance will be
+            added after organizer review.
           </p>
           <div className="interest-points">
             <div>

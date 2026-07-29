@@ -11,12 +11,12 @@ export function LaunchStatus() {
 
       <div className="launch-status-copy">
         <p>
-          The optional Letter of Intent is open for planning, communication, and
-          aggregate participation statistics. It is not required to access the
-          data, enter a task, or submit a solution.
+          The Letter of Intent is open for teams planning to participate.
+          Responses support challenge planning, organizer communication, and
+          aggregate participation statistics.
         </p>
         <ul>
-          <li>Optional Letter of Intent: open</li>
+          <li>Letter of Intent: open</li>
           <li>Starter kits and schemas: coming soon</li>
           <li>Submission platform: coming soon</li>
         </ul>
@@ -28,13 +28,13 @@ export function LaunchStatus() {
         target="_blank"
         rel="noreferrer"
       >
-        Submit optional LOI
+        Submit LOI
         <span aria-hidden="true">↗</span>
       </a>
 
       <p className="form-status" role="status">
-        Teams may participate even if they do not submit the LOI. The form is
-        hosted externally by Google Forms.
+        Please submit one response per team. The form is hosted externally by
+        Google Forms.
       </p>
 
       <a href={ieeeCupUrl} target="_blank" rel="noreferrer">
