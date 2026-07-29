@@ -114,7 +114,7 @@ const faqs = [
   {
     question: "Can a team enter more than one task?",
     answer:
-      "The proposal supports participation in any subset of the three tasks. Final team and submission rules will be confirmed before evaluation opens.",
+      "Teams may indicate interest in any combination of tasks in the optional LOI. Final multi-task participation and submission rules will be published with the starter kits.",
   },
   {
     question: "Where will the competition run?",

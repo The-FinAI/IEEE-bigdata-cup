@@ -39,6 +39,7 @@ test("contains the complete FinReason Cup landing-page contract", async () => {
   assert.match(html, /forms\.gle\/D4VJqjgtmcaC77DL8/);
   assert.match(html, /\/IEEE-bigdata-cup\/finreason-hero\.png/);
   assert.doesNotMatch(html, /\/api\/interest|name="contactEmail"/);
+  assert.doesNotMatch(page, /The proposal supports/);
   assert.doesNotMatch(page, /codex-preview|SkeletonPreview|2027 IEEE/i);
   assert.doesNotMatch(layout, /next\/headers|headers\(\)/);
   assert.doesNotMatch(packageJson, /vinext|wrangler|drizzle/);
