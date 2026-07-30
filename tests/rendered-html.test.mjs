@@ -5,12 +5,21 @@ import test from "node:test";
 const projectRoot = new URL("../", import.meta.url);
 
 test("contains the complete FinReason Cup landing-page contract", async () => {
-  const [html, page, layout, launchStatus, nextConfig, workflow, packageJson] =
-    await Promise.all([
+  const [
+    html,
+    page,
+    layout,
+    launchStatus,
+    sitemap,
+    nextConfig,
+    workflow,
+    packageJson,
+  ] = await Promise.all([
     readFile(new URL("out/index.html", projectRoot), "utf8"),
     readFile(new URL("app/page.tsx", projectRoot), "utf8"),
     readFile(new URL("app/layout.tsx", projectRoot), "utf8"),
     readFile(new URL("app/launch-status.tsx", projectRoot), "utf8"),
+    readFile(new URL("out/sitemap.xml", projectRoot), "utf8"),
     readFile(new URL("next.config.ts", projectRoot), "utf8"),
     readFile(
       new URL(".github/workflows/deploy-pages.yml", projectRoot),
@@ -26,21 +35,31 @@ test("contains the complete FinReason Cup landing-page contract", async () => {
   assert.match(page, /Submit LOI/);
   assert.match(page, /forms\.gle\/D4VJqjgtmcaC77DL8/);
   assert.match(launchStatus, /Please submit one response per team/);
-  assert.match(launchStatus, /Letter of Intent is open/);
+  assert.match(launchStatus, /Letter of Intent records one team response/);
   assert.match(launchStatus, /forms\.gle\/D4VJqjgtmcaC77DL8/);
   assert.match(layout, /FinReason Cup 2026/);
   assert.match(layout, /the-finai\.github\.io\/IEEE-bigdata-cup/);
+  assert.match(layout, /og\.jpg/);
+  assert.match(sitemap, /https:\/\/the-finai\.github\.io\/IEEE-bigdata-cup\//);
   assert.match(nextConfig, /output: "export"/);
   assert.match(nextConfig, /\/IEEE-bigdata-cup/);
   assert.match(workflow, /actions\/deploy-pages@v4/);
   assert.match(packageJson, /build:pages/);
-  assert.match(html, /Official challenge overview/);
+  assert.match(html, /Organizer-maintained challenge site/);
   assert.match(html, /Submit LOI/);
   assert.match(html, /forms\.gle\/D4VJqjgtmcaC77DL8/);
-  assert.match(html, /\/IEEE-bigdata-cup\/finreason-hero\.png/);
+  assert.match(html, /\/IEEE-bigdata-cup\/finreason-hero\.webp/);
+  assert.match(html, /This is not a full financial-statement audit/);
+  assert.ok(html.indexOf("<header") < html.indexOf("<main"));
+  assert.ok(html.indexOf("</main>") < html.indexOf("<footer"));
   assert.doesNotMatch(html, /\/api\/interest|name="contactEmail"/);
+  assert.doesNotMatch(
+    html,
+    /\boptional\b|not required|non-gating|does not gate participation/i,
+  );
   assert.doesNotMatch(page, /The proposal supports/);
   assert.doesNotMatch(page, /not required|may still enter without|does not gate/i);
+  assert.doesNotMatch(page, /Enter one track or combine them|Reproducible code/);
   assert.doesNotMatch(page, /codex-preview|SkeletonPreview|2027 IEEE/i);
   assert.doesNotMatch(layout, /next\/headers|headers\(\)/);
   assert.doesNotMatch(packageJson, /vinext|wrangler|drizzle/);

@@ -6,45 +6,59 @@ const loiUrl = "https://forms.gle/D4VJqjgtmcaC77DL8";
 const tasks = [
   {
     number: "01",
+    slug: "chain",
     code: "CHAIN",
     accent: "mint",
     eyebrow: "Symbolic reasoning",
     title: "Verifiable Financial Chain Reasoning",
-    question: "Can the system expose every step behind a financial answer?",
+    question: "Can a system provide an auditable path to a financial answer?",
     description:
-      "Solve multi-step financial problems and return both the final answer and a structured reasoning trace that can be checked against executable references.",
-    flow: ["Financial problem", "Reasoning trace", "Checked answer"],
+      "Solve multi-step financial problems and provide a final answer plus a step-by-step reasoning trace, evaluated against gold traces generated from executable FinChain templates.",
+    flow: ["Financial problem", "Step-by-step trace", "Answer + trace score"],
     data:
-      "FinChain-derived problems across valuation, accounting ratios, rates, portfolio analysis, risk, derivatives, and capital budgeting.",
-    metrics: ["Accuracy", "ChainEval"],
+      "Planned FinChain-derived problems across core financial domains. The exact subset, trace format, ChainEval version, and tolerance policy will be frozen with the starter kit.",
+    metrics: ["Final-answer accuracy", "ChainEval · provisional"],
   },
   {
     number: "02",
+    slug: "hedge",
     code: "HEDGE",
     accent: "gold",
     eyebrow: "Sequential decisions",
     title: "Market-Neutral Hedging",
-    question: "Can an agent reason about relative value without hiding market risk?",
+    question:
+      "Can an agent exploit relative value without relying on net directional exposure?",
     description:
-      "Select an asset pair and manage a dollar-neutral position over time using prices, news, and corporate filings—rewarding relative reasoning rather than directional bets.",
+      "Select an asset pair and manage a zero-net-dollar position over time using point-in-time prices, news, and corporate filings. Final execution and position rules will be published with the scorer.",
     flow: ["Market context", "Paired actions", "Risk-aware return"],
     data:
-      "A HERCULEAN-derived environment with public development windows and hidden evaluation windows or held-out assets.",
-    metrics: ["Sharpe", "Return", "Drawdown"],
+      "Planned HERCULEAN-derived development and private evaluation splits. Exact windows, asset policy, costs, and validity rules will be published with the dataset release.",
+    metrics: [
+      "Cumulative return · CR",
+      "Sharpe ratio · SR",
+      "Max drawdown · MDD",
+    ],
   },
   {
     number: "03",
+    slug: "verify",
     code: "VERIFY",
     accent: "coral",
     eyebrow: "Structured verification",
     title: "Financial Audit Verification",
-    question: "Can a reported fact be traced back to its filing evidence?",
+    question:
+      "Can a reported XBRL fact be checked against its calculation context?",
     description:
-      "Identify a reported value and verify it against the XBRL calculation network and US-GAAP taxonomy of an SEC-style filing bundle.",
-    flow: ["Filing bundle", "XBRL evidence", "Verified value"],
+      "Perform targeted numeric-fact verification on organizer-packaged SEC EDGAR XBRL filing materials by comparing reported and calculation-derived values. This is not a full financial-statement audit.",
+    flow: ["Filing package", "Reported + calculated values", "Match status"],
     data:
-      "Public audit cases with filing bundles and taxonomy metadata, followed by hidden cases from newly collected public filings.",
-    metrics: ["ACC", "SER", "EER", "CER"],
+      "Planned public filing cases with taxonomy metadata, followed by separately constructed held-out SEC filing cases subject to leakage review.",
+    metrics: [
+      "ACC · correct",
+      "SER · format",
+      "EER · extraction",
+      "CER · calculation",
+    ],
   },
 ];
 
@@ -52,7 +66,8 @@ const evaluationSteps = [
   {
     number: "01",
     title: "Submission contract",
-    detail: "Predictions, traces, or actions must satisfy a machine-checkable format.",
+    detail:
+      "Published task contracts will define machine-checkable predictions, traces, and actions.",
   },
   {
     number: "02",
@@ -62,12 +77,14 @@ const evaluationSteps = [
   {
     number: "03",
     title: "Hidden evaluation",
-    detail: "Held-out seeds, windows, assets, and filings reduce memorization.",
+    detail:
+      "Separately constructed held-out seeds and cases are planned to reduce memorization and leakage.",
   },
   {
     number: "04",
     title: "Reproducibility review",
-    detail: "Eligible finalist systems are rerun from code or notebooks.",
+    detail:
+      "Final rules will specify the reproducibility materials required from eligible finalists.",
   },
 ];
 
@@ -95,7 +112,8 @@ const launchItems = [
     state: "scheduled",
     label: "Private evaluation",
     date: "TBD",
-    detail: "Hidden evaluation and finalist reproducibility checks follow.",
+    detail:
+      "A separately constructed held-out evaluation and reproducibility review are planned.",
   },
   {
     state: "conference",
@@ -109,7 +127,7 @@ const faqs = [
   {
     question: "How do teams submit a Letter of Intent?",
     answer:
-      "Teams planning to participate should submit one LOI using the verified link on this page. Starter-kit and submission links will be published here after organizer verification.",
+      "Teams planning to participate should submit one LOI using the verified link on this page. Technical participation, starter kit, and submission instructions will be published separately after organizer verification.",
   },
   {
     question: "Can a team enter more than one task?",
@@ -119,20 +137,33 @@ const faqs = [
   {
     question: "Where will the competition run?",
     answer:
-      "The competition platform and reproducible evaluation path are being finalized. Public links will appear here after organizer testing is complete.",
+      "The IEEE overview currently lists Kaggle with an organizer-run Docker evaluation path. The organizer team is validating the participant workflow; final verified platform and submission links will appear here.",
   },
   {
     question: "Are cash prizes confirmed?",
     answer:
-      "Award categories are planned for task winners, reproducible open-source systems, and student teams. Cash or registration support depends on confirmed IEEE or sponsor support; no cash amount is currently promised.",
+      "No FinReason cash prize or registration support is confirmed at this time. Award categories for task performance, reproducible open-source systems, and student teams remain provisional.",
+  },
+  {
+    question: "What happens after an LOI is submitted?",
+    answer:
+      "Google Forms displays a confirmation after submission. Follow this organizer-maintained site for verified starter kit, schedule, support, and submission updates.",
+  },
+  {
+    question: "How are LOI responses used?",
+    answer:
+      "Responses are used by the organizer team for challenge operations, communication permitted by the form, and aggregate participation statistics. Do not include sensitive information. The participant support contact and correction or deletion process will be published with the participant guidance.",
   },
 ];
 
 export default function Home() {
   return (
-    <main className="site-shell">
-      <div className="hero-stage" id="overview">
-        <header className="masthead">
+    <>
+      <a className="skip-link" href="#main-content">
+        Skip to main content
+      </a>
+      <header className="site-header">
+        <div className="masthead">
           <a className="wordmark" href="#overview" aria-label="FinReason Cup home">
             <span className="wordmark-symbol" aria-hidden="true">
               <span>F</span>
@@ -153,15 +184,22 @@ export default function Home() {
               <span className="nav-short">Access</span>
             </a>
           </nav>
-        </header>
+        </div>
+      </header>
 
+      <main className="site-shell" id="main-content" tabIndex={-1}>
+        <div className="hero-stage" id="overview">
         <section className="hero">
           <div className="hero-copy">
             <p className="eyebrow">
-              <span className="live-indicator" aria-hidden="true" />
-              Official challenge overview
+              <span className="eyebrow-label">
+                <span className="live-indicator" aria-hidden="true" />
+                Organizer-maintained challenge site
+              </span>
               <span className="eyebrow-divider" aria-hidden="true" />
-              Phoenix · 14–17 Dec 2026
+              <span className="eyebrow-location">
+                Phoenix · 14–17 Dec 2026
+              </span>
             </p>
             <h1>
               Financial AI
@@ -170,6 +208,10 @@ export default function Home() {
             <p className="hero-summary">
               FinReason Cup challenges systems to reason, act, and verify across
               three complementary tracks—then prove how they reached the result.
+            </p>
+            <p className="hero-organizers">
+              Led by The Fin AI, with contributors affiliated with MBZUAI,
+              McGill, Stevens, Yale, and the University of Manchester.
             </p>
             <div className="hero-actions">
               <a
@@ -180,6 +222,7 @@ export default function Home() {
               >
                 Submit LOI
                 <span aria-hidden="true">↗</span>
+                <span className="sr-only"> (opens in a new tab)</span>
               </a>
               <a
                 className="button button-ghost"
@@ -188,24 +231,26 @@ export default function Home() {
                 rel="noreferrer"
               >
                 IEEE Cup overview
+                <span aria-hidden="true">↗</span>
+                <span className="sr-only"> (opens in a new tab)</span>
               </a>
             </div>
             <p className="hero-note">
               The LOI is open for teams planning to participate. Dataset,
-              starter-kit, submission, and leaderboard links will appear here
+              starter kit, submission, and leaderboard links will appear here
               after organizer verification.
             </p>
           </div>
 
           <figure className="hero-art">
             <img
-              src={`${basePath}/finreason-hero.png`}
+              src={`${basePath}/finreason-hero.webp`}
               alt="An abstract verification engine connecting reasoning nodes, balanced market signals, and filing evidence."
+              width="1100"
+              height="1100"
+              decoding="async"
+              fetchPriority="high"
             />
-            <figcaption>
-              <span>Proof system / 03 tracks</span>
-              <strong>Reason · Hedge · Verify</strong>
-            </figcaption>
             <div className="art-index art-index-one">
               <span>01</span>
               Reason
@@ -218,27 +263,31 @@ export default function Home() {
               <span>03</span>
               Verify
             </div>
+            <figcaption>
+              <span>Proof system / 03 tracks</span>
+              <strong>Reason · Hedge · Verify</strong>
+            </figcaption>
           </figure>
         </section>
 
-        <div className="fact-rail" aria-label="Competition highlights">
-          <div>
+        <ul className="fact-rail" aria-label="Competition highlights">
+          <li>
             <span>Tracks</span>
             <strong>03 technical tasks</strong>
-          </div>
-          <div>
+          </li>
+          <li>
             <span>Evaluation</span>
             <strong>Public + private</strong>
-          </div>
-          <div>
-            <span>Finalists</span>
-            <strong>Reproducible code</strong>
-          </div>
-          <div>
+          </li>
+          <li>
+            <span>Finalist review</span>
+            <strong>Reproducibility planned</strong>
+          </li>
+          <li>
             <span>Status</span>
             <strong className="status-open">LOI open</strong>
-          </div>
-        </div>
+          </li>
+        </ul>
       </div>
 
       <section className="proof-section" aria-labelledby="proof-title">
@@ -248,7 +297,11 @@ export default function Home() {
             A plausible answer is not yet a trustworthy answer.
           </h2>
         </div>
-        <div className="proof-model" aria-label="FinReason verification model">
+        <div
+          className="proof-model"
+          role="group"
+          aria-label="FinReason verification model"
+        >
           <div>
             <span>Claim</span>
             <strong>What did the system conclude?</strong>
@@ -274,19 +327,29 @@ export default function Home() {
         <div className="split-heading">
           <p className="section-index">01 / TRACKS</p>
           <div>
-            <h2>Three failure modes. Three technical tracks.</h2>
+            <h2>Three financial-AI capabilities. Three technical tracks.</h2>
             <p>
-              Enter one track or combine them. Each dossier makes the input,
-              system behavior, output, and planned score signals visible at a
-              glance.
+              Explore one or more tracks. Final participation rules will be
+              published with the starter kits; each dossier summarizes the
+              planned inputs, system behavior, outputs, and score signals.
             </p>
           </div>
         </div>
+
+        <nav className="track-jump" aria-label="Task shortcuts">
+          {tasks.map((task) => (
+            <a href={`#task-${task.slug}`} key={task.slug}>
+              <span>{task.number}</span>
+              {task.code}
+            </a>
+          ))}
+        </nav>
 
         <div className="dossier-list">
           {tasks.map((task) => (
             <article
               className={`task-dossier task-${task.accent}`}
+              id={`task-${task.slug}`}
               key={task.number}
             >
               <div className="dossier-title">
@@ -300,9 +363,13 @@ export default function Home() {
                 <p className="task-description">{task.description}</p>
               </div>
 
-              <div className="task-flow" aria-label={`${task.title} workflow`}>
+              <div
+                className="task-flow"
+                role="list"
+                aria-label={`${task.title} workflow`}
+              >
                 {task.flow.map((step, index) => (
-                  <div className="flow-step" key={step}>
+                  <div className="flow-step" role="listitem" key={step}>
                     <span>{String(index + 1).padStart(2, "0")}</span>
                     <strong>{step}</strong>
                   </div>
@@ -311,7 +378,7 @@ export default function Home() {
 
               <div className="dossier-meta">
                 <div>
-                  <span className="meta-label">Planned public data</span>
+                  <span className="meta-label">Data plan</span>
                   <p>{task.data}</p>
                 </div>
                 <div>
@@ -363,8 +430,8 @@ export default function Home() {
             </div>
             <div className="score-row">
               <span>02 / HEDGE</span>
-              <strong>Sharpe · Return</strong>
-              <strong>Maximum drawdown</strong>
+              <strong>Cumulative return · Sharpe ratio</strong>
+              <strong>Maximum drawdown · provisional</strong>
             </div>
             <div className="score-row">
               <span>03 / VERIFY</span>
@@ -385,9 +452,9 @@ export default function Home() {
           <div>
             <h2>One source of truth as the competition comes online.</h2>
             <p>
-              Unconfirmed milestones stay marked TBD. The conference dates are
-              confirmed; launch dates will be added only after organizer and
-              IEEE verification.
+              This organizer-maintained page keeps unconfirmed milestones
+              marked TBD. Conference dates are confirmed; launch dates will be
+              added only after organizer and IEEE verification.
             </p>
           </div>
         </div>
@@ -409,12 +476,12 @@ export default function Home() {
       <section className="interest-wrap" id="interest">
         <div className="interest-intro">
           <p className="section-index">04 / PARTICIPANT ACCESS</p>
-          <h2>One verified path into the competition.</h2>
+          <h2>Share your interest in FinReason Cup.</h2>
           <p>
-            The LOI is available now for organizer planning and communication.
-            Teams planning to participate should submit one response per team.
-            Starter kits, platform links, and participant guidance will be
-            added after organizer review.
+            The LOI collects one response per team for challenge planning,
+            organizer communication, and aggregate participation statistics.
+            Technical participation and submission instructions will be
+            released separately.
           </p>
           <div className="interest-points">
             <div>
@@ -428,8 +495,8 @@ export default function Home() {
             <div>
               <span>03</span>
               <p>
-                LOI responses support organizer communication and aggregate
-                participation statistics.
+                Follow this page for verified data, support, platform, and
+                submission links.
               </p>
             </div>
           </div>
@@ -458,25 +525,63 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className="site-footer">
-        <div className="footer-brand">
-          <span className="wordmark-symbol" aria-hidden="true">
-            <span>F</span>
-            <span>R</span>
-          </span>
-          <p>
-            FinReason Cup
-            <small>Reason · Hedge · Verify</small>
-          </p>
+      </main>
+
+      <footer className="footer-stage">
+        <div className="site-footer">
+          <div className="footer-brand">
+            <span className="wordmark-symbol" aria-hidden="true">
+              <span>F</span>
+              <span>R</span>
+            </span>
+            <p>
+              FinReason Cup
+              <small>Reason · Hedge · Verify</small>
+            </p>
+          </div>
+          <div className="footer-details">
+            <p className="footer-copy">
+              Organizer team led by The Fin AI, with contributors affiliated
+              with MBZUAI, McGill, Stevens, Yale, and the University of
+              Manchester. Affiliations do not imply institutional sponsorship.
+              Final dates, eligibility, platform rules, awards, and data terms
+              remain subject to organizer and IEEE confirmation.
+            </p>
+            <nav className="source-links" aria-label="Challenge sources">
+              <a
+                href="https://bigdataieee.org/BigData2026/cup/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                IEEE Cup
+                <span className="sr-only"> (opens in a new tab)</span>
+              </a>
+              <a
+                href="https://github.com/mbzuai-nlp/finchain"
+                target="_blank"
+                rel="noreferrer"
+              >
+                FinChain
+                <span className="sr-only"> (opens in a new tab)</span>
+              </a>
+              <a
+                href="https://arxiv.org/abs/2605.14355"
+                target="_blank"
+                rel="noreferrer"
+              >
+                HERCULEAN
+                <span className="sr-only"> (opens in a new tab)</span>
+              </a>
+              <a href="https://thefin.ai/" target="_blank" rel="noreferrer">
+                The Fin AI
+                <span className="sr-only"> (opens in a new tab)</span>
+              </a>
+            </nav>
+            <p className="footer-updated">Last reviewed 30 July 2026.</p>
+          </div>
+          <a href="#overview">Back to top ↑</a>
         </div>
-        <p className="footer-copy">
-          Organized by The Fin AI with collaborators across MBZUAI, McGill,
-          Stevens, Yale, and the University of Manchester. Final dates,
-          eligibility, platform rules, awards, and data terms remain subject to
-          organizer and IEEE confirmation.
-        </p>
-        <a href="#overview">Back to top ↑</a>
       </footer>
-    </main>
+    </>
   );
 }

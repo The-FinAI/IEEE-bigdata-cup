@@ -1,21 +1,26 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
 const siteUrl = "https://the-finai.github.io/IEEE-bigdata-cup/";
 
-const geistSans = Geist({
+const geistSans = localFont({
+  src: "./fonts/geist-latin.woff2",
   variable: "--font-geist-sans",
-  subsets: ["latin"],
+  display: "swap",
+  weight: "100 900",
 });
 
-const geistMono = Geist_Mono({
+const geistMono = localFont({
+  src: "./fonts/geist-mono-latin.woff2",
   variable: "--font-geist-mono",
-  subsets: ["latin"],
+  display: "swap",
+  weight: "100 900",
 });
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
+  applicationName: "FinReason Cup",
   alternates: {
     canonical: siteUrl,
   },
@@ -34,13 +39,15 @@ export const metadata: Metadata = {
   openGraph: {
     title: "FinReason Cup 2026",
     description: "Financial AI should show its work.",
+    siteName: "FinReason Cup",
     type: "website",
     url: siteUrl,
+    locale: "en_US",
     images: [
       {
-        url: `${siteUrl}og.png`,
-        width: 1731,
-        height: 909,
+        url: `${siteUrl}og.jpg`,
+        width: 1200,
+        height: 630,
         alt: "FinReason Cup 2026 — Financial AI should show its work.",
       },
     ],
@@ -49,7 +56,16 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "FinReason Cup 2026",
     description: "Financial AI should show its work.",
-    images: [`${siteUrl}og.png`],
+    images: [
+      {
+        url: `${siteUrl}og.jpg`,
+        alt: "FinReason Cup 2026 — Financial AI should show its work.",
+      },
+    ],
+  },
+  robots: {
+    index: true,
+    follow: true,
   },
 };
 
