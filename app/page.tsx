@@ -2,6 +2,8 @@ import { LaunchStatus } from "./launch-status";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const loiUrl = "https://forms.gle/D4VJqjgtmcaC77DL8";
+const paperSubmissionUrl =
+  "https://wi-lab.com/cyberchair/2026/bigdata26/scripts/submit.php?subarea=SC03";
 
 const tasks = [
   {
@@ -84,7 +86,7 @@ const evaluationSteps = [
     number: "04",
     title: "Reproducibility review",
     detail:
-      "Final rules will specify the reproducibility materials required from eligible finalists.",
+      "Final rules will specify which teams must provide code and reproducibility materials.",
   },
 ];
 
@@ -105,15 +107,22 @@ const launchItems = [
   {
     state: "upcoming",
     label: "Competition platform",
-    date: "TBD",
-    detail: "The public submission path will be linked after organizer testing.",
+    date: "COMING SOON",
+    detail:
+      "The path for solution materials specified in the final task rules will be linked after organizer testing.",
   },
   {
     state: "scheduled",
-    label: "Private evaluation",
-    date: "TBD",
+    label: "Final paper + solution",
+    date: "15 NOV · 23:59 AOE",
     detail:
-      "A separately constructed held-out evaluation and reproducibility review are planned.",
+      "The challenge paper and solution materials specified in the final task rules are due.",
+  },
+  {
+    state: "scheduled",
+    label: "Winning teams announced",
+    date: "25 NOV",
+    detail: "Final results and winning teams are scheduled to be announced.",
   },
   {
     state: "conference",
@@ -125,9 +134,29 @@ const launchItems = [
 
 const faqs = [
   {
+    question: "Where do teams submit the challenge paper?",
+    answer:
+      "Use the official FinReason Cup SC03 track in CyberChair. Teams seeking final ranking and awards must submit a challenge paper of up to 6 pages total, including references, in the IEEE two-column conference format by 15 November 2026, 23:59 Anywhere on Earth.",
+  },
+  {
+    question: "Is the paper submission also the competition submission?",
+    answer:
+      "No. CyberChair SC03 is for the challenge paper. The final task rules will specify which solution materials each team must provide, including any required predictions, source code, and reproducibility materials. Those materials will use a separate competition submission path linked here after organizer testing. Both routes share the final submission deadline.",
+  },
+  {
+    question: "Why does CyberChair show a 10-page limit and deadline TBA?",
+    answer:
+      "CyberChair has not yet updated its displayed deadline and currently shows a 10-page upload limit. The FinReason Cup organizer deadline is 15 November 2026, 23:59 Anywhere on Earth, and FinReason teams should submit no more than 6 pages total, including references.",
+  },
+  {
+    question: "Does submitting a challenge paper guarantee publication?",
+    answer:
+      "No. Any publication is subject to conference peer review, acceptance, camera-ready submission, registration, and presentation requirements.",
+  },
+  {
     question: "How do teams submit a Letter of Intent?",
     answer:
-      "Teams planning to participate should submit one LOI using the verified link on this page. Technical participation, starter kit, and submission instructions will be published separately after organizer verification.",
+      "Teams planning to participate should submit one LOI using the verified link on this page. The LOI supports organizer communication but does not replace the challenge paper or final competition submission.",
   },
   {
     question: "Can a team enter more than one task?",
@@ -137,7 +166,7 @@ const faqs = [
   {
     question: "Where will the competition run?",
     answer:
-      "The IEEE overview currently lists Kaggle with an organizer-run Docker evaluation path. The organizer team is validating the participant workflow; final verified platform and submission links will appear here.",
+      "The organizer team is validating the participant workflow. The verified prediction, code, reproducibility-material, and leaderboard links will appear here when testing is complete. The paper route is already available through CyberChair SC03.",
   },
   {
     question: "Are cash prizes confirmed?",
@@ -180,8 +209,8 @@ export default function Home() {
             <a href="#timeline">Timeline</a>
             <a href="#faq">FAQ</a>
             <a className="nav-action" href="#interest">
-              <span className="nav-full">Participant access</span>
-              <span className="nav-short">Access</span>
+              <span className="nav-full">Submit paper</span>
+              <span className="nav-short">Submit</span>
             </a>
           </nav>
         </div>
@@ -216,6 +245,16 @@ export default function Home() {
             <div className="hero-actions">
               <a
                 className="button button-bright"
+                href={paperSubmissionUrl}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Submit paper
+                <span aria-hidden="true">↗</span>
+                <span className="sr-only"> (opens in a new tab)</span>
+              </a>
+              <a
+                className="button button-ghost"
                 href={loiUrl}
                 target="_blank"
                 rel="noreferrer"
@@ -224,20 +263,10 @@ export default function Home() {
                 <span aria-hidden="true">↗</span>
                 <span className="sr-only"> (opens in a new tab)</span>
               </a>
-              <a
-                className="button button-ghost"
-                href="https://bigdataieee.org/BigData2026/cup/"
-                target="_blank"
-                rel="noreferrer"
-              >
-                IEEE Cup overview
-                <span aria-hidden="true">↗</span>
-                <span className="sr-only"> (opens in a new tab)</span>
-              </a>
             </div>
             <p className="hero-note">
-              The LOI is open for teams planning to participate. Dataset,
-              starter kit, submission, and leaderboard links will appear here
+              The CyberChair paper channel is open. Dataset, starter kit,
+              competition submission, and leaderboard links will appear here
               after organizer verification.
             </p>
           </div>
@@ -276,16 +305,16 @@ export default function Home() {
             <strong>03 technical tasks</strong>
           </li>
           <li>
-            <span>Evaluation</span>
-            <strong>Public + private</strong>
+            <span>Final report</span>
+            <strong>Up to 6 pages</strong>
           </li>
           <li>
-            <span>Finalist review</span>
-            <strong>Reproducibility planned</strong>
+            <span>Deadline</span>
+            <strong>15 Nov · 23:59 AoE</strong>
           </li>
           <li>
             <span>Status</span>
-            <strong className="status-open">LOI open</strong>
+            <strong className="status-open">SC03 paper channel open</strong>
           </li>
         </ul>
       </div>
@@ -452,9 +481,9 @@ export default function Home() {
           <div>
             <h2>One source of truth as the competition comes online.</h2>
             <p>
-              This organizer-maintained page keeps unconfirmed milestones
-              marked TBD. Conference dates are confirmed; launch dates will be
-              added only after organizer and IEEE verification.
+              Final paper and solution submissions are due on 15 November.
+              Dataset, starter kit, and competition-platform dates will be
+              added after organizer testing.
             </p>
           </div>
         </div>
@@ -475,28 +504,34 @@ export default function Home() {
 
       <section className="interest-wrap" id="interest">
         <div className="interest-intro">
-          <p className="section-index">04 / PARTICIPANT ACCESS</p>
-          <h2>Share your interest in FinReason Cup.</h2>
+          <p className="section-index">04 / SUBMISSION</p>
+          <h2>Paper and competition files use separate routes.</h2>
           <p>
-            The LOI collects one response per team for challenge planning,
-            organizer communication, and aggregate participation statistics.
-            Technical participation and submission instructions will be
-            released separately.
+            Teams seeking final ranking and awards submit the challenge paper
+            through CyberChair SC03. Solution materials specified in the final
+            task rules will use the competition submission path published here
+            after testing.
           </p>
           <div className="interest-points">
             <div>
               <span>01</span>
-              <p>Review the three provisional technical tracks.</p>
+              <p>
+                Submit a paper of up to 6 pages total, including references,
+                using the IEEE two-column conference format.
+              </p>
             </div>
             <div>
               <span>02</span>
-              <p>Use only links marked as verified on this page.</p>
+              <p>
+                Upload the paper through the official FinReason Cup SC03 track
+                in CyberChair.
+              </p>
             </div>
             <div>
               <span>03</span>
               <p>
-                Follow this page for verified data, support, platform, and
-                submission links.
+                Submit the final paper and solution materials by 15 November
+                2026, 23:59 Anywhere on Earth.
               </p>
             </div>
           </div>
@@ -544,8 +579,8 @@ export default function Home() {
               Organizer team led by The Fin AI, with contributors affiliated
               with MBZUAI, McGill, Stevens, Yale, and the University of
               Manchester. Affiliations do not imply institutional sponsorship.
-              Final dates, eligibility, platform rules, awards, and data terms
-              remain subject to organizer and IEEE confirmation.
+              Dataset release dates, platform rules, award categories, and data
+              terms remain subject to organizer and IEEE confirmation.
             </p>
             <nav className="source-links" aria-label="Challenge sources">
               <a
@@ -577,7 +612,7 @@ export default function Home() {
                 <span className="sr-only"> (opens in a new tab)</span>
               </a>
             </nav>
-            <p className="footer-updated">Last reviewed 30 July 2026.</p>
+            <p className="footer-updated">Last reviewed 22 August 2026.</p>
           </div>
           <a href="#overview">Back to top ↑</a>
         </div>

@@ -12,6 +12,8 @@
 <p align="center">
   <a href="https://the-finai.github.io/IEEE-bigdata-cup/"><strong>Official website</strong></a>
   ·
+  <a href="https://wi-lab.com/cyberchair/2026/bigdata26/scripts/submit.php?subarea=SC03"><strong>Submit challenge paper</strong></a>
+  ·
   <a href="https://forms.gle/D4VJqjgtmcaC77DL8"><strong>Submit Letter of Intent</strong></a>
   ·
   <a href="https://bigdataieee.org/BigData2026/cup/"><strong>IEEE Cup overview</strong></a>
@@ -71,6 +73,32 @@ held-out cases subject to leakage review.
 Final scoring formulas, tolerances, tie-break procedures, submission contracts,
 and validity rules will be published with the public scorers.
 
+## Final paper and solution submission
+
+Teams seeking final ranking and awards must submit a challenge paper through
+the official [FinReason Cup SC03 track in
+CyberChair](https://wi-lab.com/cyberchair/2026/bigdata26/scripts/submit.php?subarea=SC03).
+
+- Length: up to 6 pages total, including references
+- Format: [IEEE two-column conference
+  template](https://www.ieee.org/conferences/publishing/templates.html)
+- Deadline: 15 November 2026, 23:59 Anywhere on Earth
+
+CyberChair has not yet updated its displayed deadline and currently shows a
+10-page upload limit. The FinReason Cup organizer deadline is 15 November 2026,
+23:59 Anywhere on Earth, and FinReason teams should follow the challenge
+requirement above and submit no more than 6 pages total, including references.
+
+The paper portal is separate from the competition submission path. The final
+task rules will specify which solution materials each team must provide,
+including any required predictions, source code, and reproducibility materials.
+They will use the verified competition link published on the official challenge
+website after organizer testing. Both routes share the 15 November deadline.
+
+Submission does not guarantee publication. Any publication is subject to
+conference peer review, acceptance, camera-ready submission, registration, and
+presentation requirements.
+
 ## Participant access
 
 Teams planning to participate should submit **one Letter of Intent per team**:
@@ -78,8 +106,8 @@ Teams planning to participate should submit **one Letter of Intent per team**:
 **[Submit the FinReason Cup Letter of Intent →](https://forms.gle/D4VJqjgtmcaC77DL8)**
 
 The LOI supports challenge planning, organizer communication, and aggregate
-participation statistics. Technical participation and submission instructions
-will be released separately.
+participation statistics. It does not replace either the challenge paper or the
+final competition submission.
 
 ### Current release status
 
@@ -90,18 +118,22 @@ will be released separately.
 | Datasets and development splits | Coming soon |
 | Starter kits, schemas, validators, and baselines | Coming soon |
 | Participant support channel | Coming soon |
-| Submission workflow | Under organizer validation |
+| [Challenge paper submission](https://wi-lab.com/cyberchair/2026/bigdata26/scripts/submit.php?subarea=SC03) | Open |
+| Competition solution-material submission | Under organizer testing |
 
-The IEEE overview currently lists Kaggle with an organizer-run Docker
-evaluation path. Final verified platform and submission links will be posted on
-the official challenge website after workflow testing.
+Final verified competition-platform and submission links will be posted on the
+official challenge website after workflow testing.
 
 ## Schedule
 
-The confirmed conference dates are **14–17 December 2026** in **Phoenix,
-Arizona, USA**. Competition release dates, submission deadlines, and private
-evaluation milestones remain to be confirmed and will be published on the
-official challenge website.
+| Milestone | Date |
+| --- | --- |
+| Final challenge paper and solution materials | **15 November 2026, 23:59 AoE** |
+| Winning teams announced | **25 November 2026** |
+| IEEE Big Data 2026, Phoenix, Arizona | **14–17 December 2026** |
+
+Dataset, starter kit, competition-platform, and private-evaluation dates will be
+published on the official challenge website after organizer testing.
 
 ## Repository scope
 
@@ -150,9 +182,9 @@ contributors affiliated with MBZUAI, McGill University, Stevens Institute of
 Technology, Yale University, and the University of Manchester. Affiliations do
 not imply institutional sponsorship.
 
-Competition dates, eligibility, platform rules, awards, and data terms remain
+Dataset release dates, platform rules, award categories, and data terms remain
 subject to organizer and IEEE confirmation.
 
 ---
 
-Last reviewed: 30 July 2026.
+Last reviewed: 22 August 2026.

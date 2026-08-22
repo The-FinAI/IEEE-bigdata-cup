@@ -975,7 +975,7 @@ label {
 
 .timeline-track {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   padding-top: 34px;
   position: relative;
 }
