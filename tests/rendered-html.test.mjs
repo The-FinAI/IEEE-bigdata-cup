@@ -14,6 +14,10 @@ test("contains the complete FinReason Cup landing-page contract", async () => {
     nextConfig,
     workflow,
     packageJson,
+    submitHtml,
+    leaderboardHtml,
+    issueForm,
+    submissionWorkflow,
   ] = await Promise.all([
     readFile(new URL("out/index.html", projectRoot), "utf8"),
     readFile(new URL("app/page.tsx", projectRoot), "utf8"),
@@ -26,6 +30,16 @@ test("contains the complete FinReason Cup landing-page contract", async () => {
       "utf8",
     ),
     readFile(new URL("package.json", projectRoot), "utf8"),
+    readFile(new URL("out/task1/submit/index.html", projectRoot), "utf8"),
+    readFile(new URL("out/task1/leaderboard/index.html", projectRoot), "utf8"),
+    readFile(
+      new URL(".github/ISSUE_TEMPLATE/task1-pilot-submission.yml", projectRoot),
+      "utf8",
+    ),
+    readFile(
+      new URL(".github/workflows/task1-submission-pilot.yml", projectRoot),
+      "utf8",
+    ),
   ]);
 
   assert.match(page, /FinReason Cup/);
@@ -51,7 +65,7 @@ test("contains the complete FinReason Cup landing-page contract", async () => {
   assert.match(sitemap, /https:\/\/the-finai\.github\.io\/IEEE-bigdata-cup\//);
   assert.match(nextConfig, /output: "export"/);
   assert.match(nextConfig, /\/IEEE-bigdata-cup/);
-  assert.match(workflow, /actions\/deploy-pages@v4/);
+  assert.match(workflow, /actions\/deploy-pages@[0-9a-f]{40} # v4/);
   assert.match(packageJson, /build:pages/);
   assert.match(html, /Organizer-maintained challenge site/);
   assert.match(html, /Submit paper/);
@@ -80,4 +94,21 @@ test("contains the complete FinReason Cup landing-page contract", async () => {
   assert.doesNotMatch(page, /codex-preview|SkeletonPreview|2027 IEEE/i);
   assert.doesNotMatch(layout, /next\/headers|headers\(\)/);
   assert.doesNotMatch(packageJson, /vinext|wrangler|drizzle/);
+  assert.match(submitHtml, /TASK 1 \/ GITHUB-ONLY PILOT/);
+  assert.match(submitHtml, /Prepare encrypted submission/);
+  assert.match(submitHtml, /Synthetic examples only/);
+  assert.match(submitHtml, /\/IEEE-bigdata-cup\/task1\/pilot-example-predictions\.jsonl/);
+  assert.match(leaderboardHtml, /GitHub-only pilot leaderboard/);
+  assert.match(leaderboardHtml, /Awaiting first pilot score|Seen FAC/);
+  assert.match(issueForm, /type: upload/);
+  assert.match(issueForm, /accept: "\.json"/);
+  assert.match(issueForm, /Do not attach a plaintext predictions ZIP/);
+  assert.match(submissionWorkflow, /issues:/);
+  assert.match(submissionWorkflow, /types:\s*\n\s*- opened/);
+  assert.match(submissionWorkflow, /TASK1_PILOT_PRIVATE_KEY_PKCS8_B64/);
+  assert.match(submissionWorkflow, /TASK1_PILOT_SIGNING_PRIVATE_KEY_PKCS8_B64/);
+  assert.match(submissionWorkflow, /github\.run_attempt/);
+  assert.match(submissionWorkflow, /actions: write/);
+  assert.match(submissionWorkflow, /permissions: \{\}/);
+  assert.doesNotMatch(submissionWorkflow, /pull_request_target|github\.event\.issue\.body\s*}}/);
 });

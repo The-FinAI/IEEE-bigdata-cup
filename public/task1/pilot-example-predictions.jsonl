@@ -1,0 +1,2 @@
+{"case_id":"pilot-001","final_answer":{"value":"120.00"},"steps":[{"slot_id":"gross_profit","value":{"value":"150.00"}}]}
+{"case_id":"pilot-002","final_answer":{"value":"0.25"},"steps":[{"slot_id":"ratio","value":{"value":"0.25"}}]}

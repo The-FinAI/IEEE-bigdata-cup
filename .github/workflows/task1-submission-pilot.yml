@@ -1,0 +1,107 @@
+name: Task 1 GitHub-only submission pilot
+
+on:
+  issues:
+    types:
+      - opened
+
+permissions: {}
+
+concurrency:
+  group: task1-pilot-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
+jobs:
+  intake:
+    if: >-
+      github.event.issue.user.id == 34633896 &&
+      contains(github.event.issue.labels.*.name, 'task1-pilot-submission')
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - name: Check out trusted workflow source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+
+      - name: Validate event and download bounded encrypted envelope
+        run: node scripts/task1/intake.mjs --event "$GITHUB_EVENT_PATH" --out "$RUNNER_TEMP/task1-intake"
+
+      - name: Pass encrypted intake to the isolated scoring job
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: task1-pilot-intake-${{ github.event.issue.number }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/task1-intake
+          if-no-files-found: error
+          retention-days: 1
+
+  score:
+    needs: intake
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    environment: task1-pilot
+    permissions:
+      actions: read
+      contents: read
+    steps:
+      - name: Check out trusted scorer source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+
+      - name: Download encrypted intake
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
+        with:
+          name: task1-pilot-intake-${{ github.event.issue.number }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/task1-intake
+
+      - name: Decrypt and score the synthetic fixture
+        env:
+          TASK1_PILOT_PRIVATE_KEY_PKCS8_B64: ${{ secrets.TASK1_PILOT_PRIVATE_KEY_PKCS8_B64 }}
+          TASK1_PILOT_SIGNING_PRIVATE_KEY_PKCS8_B64: ${{ secrets.TASK1_PILOT_SIGNING_PRIVATE_KEY_PKCS8_B64 }}
+        run: |
+          node scripts/task1/score-pilot.mjs \
+            --intake "$RUNNER_TEMP/task1-intake/intake.json" \
+            --envelope "$RUNNER_TEMP/task1-intake/envelope.json" \
+            --out "$RUNNER_TEMP/task1-result.json"
+
+      - name: Pass aggregate-only result to the publisher
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: task1-pilot-result-${{ github.event.issue.number }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/task1-result.json
+          if-no-files-found: error
+          retention-days: 1
+
+  publish:
+    needs: score
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      actions: write
+      contents: read
+      issues: write
+    steps:
+      - name: Check out trusted publisher source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+
+      - name: Download aggregate-only score
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
+        with:
+          name: task1-pilot-result-${{ github.event.issue.number }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/task1-result
+
+      - name: Publish one idempotent result comment
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          node scripts/task1/publish-result.mjs \
+            --event "$GITHUB_EVENT_PATH" \
+            --result "$RUNNER_TEMP/task1-result/task1-result.json"
