@@ -99,7 +99,7 @@ test("contains the complete FinReason Cup landing-page contract", async () => {
   assert.match(submitHtml, /Synthetic examples only/);
   assert.match(submitHtml, /\/IEEE-bigdata-cup\/task1\/pilot-example-predictions\.jsonl/);
   assert.match(leaderboardHtml, /GitHub-only pilot leaderboard/);
-  assert.match(leaderboardHtml, /Awaiting first pilot score|Seen FAC/);
+  assert.match(leaderboardHtml, /Awaiting first pilot score|Updated 20|Seen FAC/);
   assert.match(issueForm, /type: upload/);
   assert.match(issueForm, /accept: "\.json"/);
   assert.match(issueForm, /Do not attach a plaintext predictions ZIP/);
