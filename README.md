@@ -145,6 +145,25 @@ linked here as they are released.
 Please use only links marked as verified on the
 [official challenge website](https://the-finai.github.io/IEEE-bigdata-cup/).
 
+### GitHub-only Task 1 pilot
+
+This repository also contains an isolated organizer pilot for the planned Task 1
+submission experience. The pilot uses synthetic two-case data only and is not
+linked from the public landing page:
+
+- the static pilot page encrypts a canonical predictions ZIP locally in the
+  participant's browser;
+- a GitHub Issue Form accepts only the encrypted JSON envelope;
+- a trusted `issues: opened` workflow validates and scores the synthetic file,
+  posts one aggregate-only result comment, and rebuilds the pilot leaderboard;
+- the workflow does not execute participant code and contains no competition
+  questions or gold answers.
+
+The pilot is restricted to an organizer account until its live upload, replay,
+failure-recovery, and Pages readback checks pass. Its scores must not be cited as
+FinReason Cup results. The official submission route remains under organizer
+testing.
+
 ## Local development
 
 Requirements: Node.js 22.13 or newer.

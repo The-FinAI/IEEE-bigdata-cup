@@ -9,7 +9,7 @@
     "dev": "next dev",
     "build": "next build",
     "build:pages": "GITHUB_PAGES=true next build",
-    "test": "npm run build:pages && node --test tests/rendered-html.test.mjs",
+    "test": "npm run build:pages && node --test tests/*.test.mjs && python3 -m unittest tests.test_task1_pilot_scorer",
     "lint": "tsc --noEmit"
   },
   "dependencies": {

@@ -12,6 +12,8 @@
 
 # testing
 /coverage
+__pycache__/
+*.py[cod]
 
 # next.js
 /.next/
@@ -20,6 +22,7 @@
 # misc
 .DS_Store
 *.pem
+/_scratch/
 
 # debug
 npm-debug.log*

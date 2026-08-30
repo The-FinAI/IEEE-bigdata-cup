@@ -1357,6 +1357,297 @@ label {
   grid-template-columns: 1fr 1fr;
 }
 
+.pilot-page {
+  margin: 0 auto;
+  max-width: 1180px;
+  min-height: 100vh;
+  padding: 32px 48px 90px;
+}
+
+.pilot-nav {
+  align-items: center;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  font-family: var(--mono);
+  font-size: 10px;
+  justify-content: space-between;
+  letter-spacing: 0.04em;
+  padding-bottom: 24px;
+  text-transform: uppercase;
+}
+
+.pilot-nav a:hover,
+.pilot-grid a:hover,
+.leaderboard-panel a:hover {
+  color: var(--mint-deep);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.pilot-heading {
+  padding: 82px 0 54px;
+}
+
+.pilot-heading h1 {
+  color: var(--ink);
+  font-size: clamp(48px, 8vw, 92px);
+  letter-spacing: -0.07em;
+  line-height: 0.94;
+  margin: 20px 0 0;
+  max-width: 850px;
+}
+
+.pilot-heading > p:last-child {
+  color: var(--slate);
+  font-size: 17px;
+  line-height: 1.75;
+  margin: 30px 0 0;
+  max-width: 780px;
+}
+
+.pilot-grid {
+  border-bottom: 1px solid var(--line);
+  border-top: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.pilot-grid article {
+  min-height: 255px;
+  padding: 30px;
+}
+
+.pilot-grid article + article {
+  border-left: 1px solid var(--line);
+}
+
+.pilot-grid article > span,
+.pilot-banner strong,
+.leaderboard-heading span {
+  color: var(--mint-deep);
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.pilot-grid h2 {
+  font-size: 22px;
+  letter-spacing: -0.035em;
+  margin: 68px 0 12px;
+}
+
+.pilot-grid p {
+  color: var(--slate);
+  font-size: 13px;
+  line-height: 1.65;
+  margin: 0;
+}
+
+.pilot-grid code {
+  background: var(--paper-deep);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 11px;
+  margin: 0 4px;
+  padding: 2px 5px;
+}
+
+.pilot-grid a {
+  color: var(--mint-deep);
+  display: inline-block;
+  margin-left: 5px;
+}
+
+.submission-packer {
+  background: var(--ink);
+  color: #fff;
+  display: grid;
+  gap: 18px;
+  margin-top: 56px;
+  padding: clamp(28px, 6vw, 64px);
+}
+
+.pilot-banner {
+  align-items: start;
+  border-bottom: 1px solid var(--line-dark);
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding-bottom: 24px;
+}
+
+.pilot-banner span {
+  color: rgba(255, 255, 255, 0.67);
+  font-size: 12px;
+  line-height: 1.5;
+  max-width: 520px;
+  text-align: right;
+}
+
+.submission-packer label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  margin-top: 8px;
+  text-transform: uppercase;
+}
+
+.submission-packer input {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 0;
+  color: #fff;
+  font-size: 14px;
+  min-height: 52px;
+  outline: none;
+  padding: 13px 15px;
+  width: 100%;
+}
+
+.submission-packer input:focus {
+  border-color: var(--mint);
+  box-shadow: 0 0 0 3px rgba(45, 212, 191, 0.14);
+}
+
+.submission-packer input[type="file"] {
+  cursor: pointer;
+}
+
+.field-note,
+.packer-status {
+  color: rgba(255, 255, 255, 0.66);
+  font-size: 11px;
+  line-height: 1.6;
+  margin: -8px 0 4px;
+}
+
+.packer-status {
+  background: rgba(45, 212, 191, 0.1);
+  border-left: 3px solid var(--mint);
+  color: rgba(255, 255, 255, 0.84);
+  margin: 0;
+  padding: 12px 14px;
+}
+
+.button-primary {
+  background: var(--mint);
+  color: var(--ink);
+  justify-self: start;
+  margin-top: 6px;
+}
+
+.button-primary:hover {
+  background: #70e8d8;
+}
+
+.button:disabled {
+  cursor: wait;
+  opacity: 0.62;
+  transform: none;
+}
+
+.button-ghost-dark {
+  border-color: rgba(255, 255, 255, 0.32);
+  color: #fff;
+}
+
+.button-ghost-dark:hover {
+  border-color: var(--mint);
+}
+
+.prepared-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-top: 5px;
+}
+
+.pilot-note {
+  border-left: 3px solid var(--gold);
+  margin-top: 34px;
+  padding: 16px 20px;
+}
+
+.pilot-note strong {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.pilot-note p {
+  color: var(--slate);
+  font-size: 12px;
+  line-height: 1.65;
+  margin: 8px 0 0;
+  max-width: 790px;
+}
+
+.leaderboard-panel {
+  background: var(--paper-bright);
+  border-top: 3px solid var(--mint);
+  box-shadow: var(--shadow);
+  padding: clamp(24px, 5vw, 48px);
+}
+
+.leaderboard-heading {
+  align-items: end;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 24px;
+}
+
+.leaderboard-heading div {
+  display: grid;
+  gap: 7px;
+}
+
+.leaderboard-heading strong {
+  font-size: 20px;
+  letter-spacing: -0.03em;
+}
+
+.leaderboard-heading p,
+.leaderboard-empty {
+  color: var(--slate);
+  font-family: var(--mono);
+  font-size: 10px;
+  margin: 0;
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+.leaderboard-panel table {
+  border-collapse: collapse;
+  margin-top: 12px;
+  min-width: 760px;
+  width: 100%;
+}
+
+.leaderboard-panel th,
+.leaderboard-panel td {
+  border-bottom: 1px solid var(--line);
+  font-size: 12px;
+  padding: 17px 12px;
+  text-align: left;
+}
+
+.leaderboard-panel th {
+  color: var(--slate);
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.leaderboard-empty {
+  padding: 54px 0 18px;
+}
+
 details {
   background: var(--paper-bright);
   border: 1px solid var(--line);
@@ -1941,6 +2232,60 @@ details p {
 
   details {
     padding: 20px;
+  }
+
+  .pilot-page {
+    padding: 22px 20px 64px;
+  }
+
+  .pilot-heading {
+    padding: 58px 0 38px;
+  }
+
+  .pilot-heading h1 {
+    font-size: clamp(42px, 15vw, 66px);
+  }
+
+  .pilot-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pilot-grid article {
+    min-height: auto;
+    padding: 26px 0;
+  }
+
+  .pilot-grid article + article {
+    border-left: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .pilot-grid h2 {
+    margin-top: 34px;
+  }
+
+  .submission-packer {
+    margin-top: 38px;
+    padding: 26px 20px;
+  }
+
+  .pilot-banner,
+  .leaderboard-heading {
+    align-items: start;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .pilot-banner span {
+    text-align: left;
+  }
+
+  .prepared-actions,
+  .prepared-actions .button,
+  .submission-packer > .button {
+    align-items: center;
+    display: flex;
+    width: 100%;
   }
 
   .site-footer {
