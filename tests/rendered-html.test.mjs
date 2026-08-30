@@ -65,7 +65,7 @@ test("contains the complete FinReason Cup landing-page contract", async () => {
   assert.match(sitemap, /https:\/\/the-finai\.github\.io\/IEEE-bigdata-cup\//);
   assert.match(nextConfig, /output: "export"/);
   assert.match(nextConfig, /\/IEEE-bigdata-cup/);
-  assert.match(workflow, /actions\/deploy-pages@[0-9a-f]{40} # v4/);
+  assert.match(workflow, /actions\/deploy-pages@[0-9a-f]{40} # v5\.0\.0/);
   assert.match(packageJson, /build:pages/);
   assert.match(html, /Organizer-maintained challenge site/);
   assert.match(html, /Submit paper/);
