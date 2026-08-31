@@ -105,11 +105,11 @@ const launchItems = [
     detail: "Schemas, validators, baselines, and samples are being prepared.",
   },
   {
-    state: "upcoming",
-    label: "Competition platform",
-    date: "COMING SOON",
+    state: "current",
+    label: "Task 1 participant hub",
+    date: "TASK 1 HUB",
     detail:
-      "The path for solution materials specified in the final task rules will be linked after organizer testing.",
+      "Stable submission and leaderboard pages keep both participant paths on one organizer-verified Space.",
   },
   {
     state: "scheduled",
@@ -141,7 +141,7 @@ const faqs = [
   {
     question: "Is the paper submission also the competition submission?",
     answer:
-      "No. CyberChair SC03 is for the challenge paper. The final task rules will specify which solution materials each team must provide, including any required predictions, source code, and reproducibility materials. Those materials will use a separate competition submission path linked here after organizer testing. Both routes share the final submission deadline.",
+      "No. CyberChair SC03 is for the challenge paper. Task 1 uses the separate participant hub on this site, which activates one verified Hugging Face Space after organizer testing. The final task rules will specify the required solution and reproducibility materials. Both routes share the final submission deadline.",
   },
   {
     question: "Why does CyberChair show a 10-page limit and deadline TBA?",
@@ -166,7 +166,7 @@ const faqs = [
   {
     question: "Where will the competition run?",
     answer:
-      "The organizer team is validating the participant workflow. The verified prediction, code, reproducibility-material, and leaderboard links will appear here when testing is complete. The paper route is already available through CyberChair SC03.",
+      "The Task 1 participant hub is hosted on this site and uses one organizer-verified Hugging Face Space for both submission and leaderboard access. The hub reports the current Space availability, and a public aggregate table may also appear on the leaderboard page. The paper route is available separately through CyberChair SC03.",
   },
   {
     question: "Are cash prizes confirmed?",
@@ -265,9 +265,9 @@ export default function Home() {
               </a>
             </div>
             <p className="hero-note">
-              The CyberChair paper channel is open. Dataset, starter kit,
-              competition submission, and leaderboard links will appear here
-              after organizer verification.
+              The CyberChair paper channel is open. The Task 1 participant hub
+              keeps submission and leaderboard access on one organizer-verified
+              Hugging Face Space.
             </p>
           </div>
 
@@ -509,8 +509,9 @@ export default function Home() {
           <p>
             Teams seeking final ranking and awards submit the challenge paper
             through CyberChair SC03. Solution materials specified in the final
-            task rules will use the competition submission path published here
-            after testing.
+            task rules use a separate participant path. The Task 1 hub is
+            the stable entry point for its verified submission and leaderboard
+            Space.
           </p>
           <div className="interest-points">
             <div>
@@ -612,7 +613,7 @@ export default function Home() {
                 <span className="sr-only"> (opens in a new tab)</span>
               </a>
             </nav>
-            <p className="footer-updated">Last reviewed 22 August 2026.</p>
+            <p className="footer-updated">Last reviewed 31 August 2026.</p>
           </div>
           <a href="#overview">Back to top ↑</a>
         </div>

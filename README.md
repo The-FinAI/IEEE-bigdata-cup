@@ -119,7 +119,8 @@ final competition submission.
 | Starter kits, schemas, validators, and baselines | Coming soon |
 | Participant support channel | Coming soon |
 | [Challenge paper submission](https://wi-lab.com/cyberchair/2026/bigdata26/scripts/submit.php?subarea=SC03) | Open |
-| Competition solution-material submission | Under organizer testing |
+| [Task 1 submission hub](https://the-finai.github.io/IEEE-bigdata-cup/task1/submit/) | Space link controlled at build time |
+| [Task 1 leaderboard hub](https://the-finai.github.io/IEEE-bigdata-cup/task1/leaderboard/) | Same build-controlled Space link |
 
 Final verified competition-platform and submission links will be posted on the
 official challenge website after workflow testing.
@@ -145,24 +146,75 @@ linked here as they are released.
 Please use only links marked as verified on the
 [official challenge website](https://the-finai.github.io/IEEE-bigdata-cup/).
 
-### GitHub-only Task 1 pilot
+### Task 1 Pages hub
 
-This repository also contains an isolated organizer pilot for the planned Task 1
-submission experience. The pilot uses synthetic two-case data only and is not
-linked from the public landing page:
+The public Task 1 routes provide a stable participant entry point while the
+submission service is prepared:
 
-- the static pilot page encrypts a canonical predictions ZIP locally in the
-  participant's browser;
-- a GitHub Issue Form accepts only the encrypted JSON envelope;
-- a trusted `issues: opened` workflow validates and scores the synthetic file,
-  posts one aggregate-only result comment, and rebuilds the pilot leaderboard;
-- the workflow does not execute participant code and contains no competition
-  questions or gold answers.
+- `/task1/submit/` points to one organizer-verified Hugging Face Space after its
+  URL is supplied at build time;
+- `/task1/leaderboard/` points to the same authenticated Space for scores and
+  leaderboard access;
+- an optional public JSON endpoint can add an aggregate development table to
+  the Pages leaderboard route without becoming a launch dependency;
+- development results and final evaluation are described as separate modes;
+- GitHub Issues are not a participant submission channel.
 
-The pilot is restricted to an organizer account until its live upload, replay,
-failure-recovery, and Pages readback checks pass. Its scores must not be cited as
-FinReason Cup results. The official submission route remains under organizer
-testing.
+No live Hugging Face URL is stored in the repository. The safe default is a
+development build with both links unavailable. Copy the variable names from
+[`docs/task1-site.env.example`](docs/task1-site.env.example) and set values only
+after the public endpoints have been verified:
+
+| Variable | Behavior |
+| --- | --- |
+| `FINREASON_TASK1_SITE_MODE=development` | Both pages stay in the not-yet-live state, even if endpoint values are staged. |
+| `FINREASON_TASK1_SITE_MODE=final` | The build requires the verified HTTPS Space URL. A malformed optional API URL also fails the build. |
+| `NEXT_PUBLIC_FINREASON_TASK1_HF_SPACE_URL` | The single authenticated Hugging Face Space used for both submission and leaderboard access. |
+| `NEXT_PUBLIC_FINREASON_TASK1_LEADERBOARD_API_URL` | Optional CORS-enabled public aggregate JSON extension. |
+
+Both `NEXT_PUBLIC_*` values and their complete URLs are embedded in the public
+static artifact. They must not contain access tokens, signed credentials, or
+other secrets. The aggregate endpoint must be anonymously readable and return
+only the public contract below.
+
+When configured, the public endpoint must return the canonical aggregate-only
+development leaderboard contract below. Its root and row fields are exact; it
+must not expose predictions, attachments, email addresses, private evaluation
+data, or additional metadata. The response must be no larger than 1 MiB.
+
+```json
+{
+  "schema_version": "finreason.task1.development-leaderboard/1.0.0",
+  "phase": "development",
+  "rows": [
+    {
+      "rank": 1,
+      "team_id": "team-example",
+      "team_display_name": "Example team",
+      "seen_fac": "0.900000",
+      "seen_checkpoint": "0.800000",
+      "submission_id": "dev-20260831T120000Z-team-example-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "accepted_at": "2026-08-31T12:00:00Z"
+    }
+  ]
+}
+```
+
+The deployed Pages workflow reads the same names from GitHub repository
+variables. It defaults to `development`; changing the repository variable to
+`final` is the explicit release gate. Scores and the authoritative leaderboard
+remain available in the authenticated Space even when the optional public API
+is unset or temporarily unavailable. Changing repository variables does not
+deploy the site by itself; after setting them, run the existing Pages
+`workflow_dispatch` on `main` and verify both Task 1 routes in the deployed
+artifact. The isolated GitHub Issue pilot neither rebuilds nor dispatches the
+official Pages deployment.
+
+To withdraw a previously active Space link, set
+`FINREASON_TASK1_SITE_MODE=development`, dispatch the Pages workflow on `main`,
+and verify that both Task 1 routes show their pending state. Clearing an invalid
+URL while leaving mode set to `final` is not a withdrawal because the build
+fails safely and the previous Pages artifact remains live.
 
 ## Local development
 
@@ -206,4 +258,4 @@ subject to organizer and IEEE confirmation.
 
 ---
 
-Last reviewed: 22 August 2026.
+Last reviewed: 31 August 2026.

@@ -10,10 +10,11 @@ permissions: {}
 
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   build:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -30,11 +31,6 @@ jobs:
           node-version: 22
           cache: npm
 
-      - name: Rebuild Task 1 pilot leaderboard
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        run: node scripts/task1/build-leaderboard.mjs --out public/task1/pilot-leaderboard.json
-
       - name: Install dependencies
         run: npm ci
 
@@ -42,10 +38,22 @@ jobs:
         run: npm run lint
 
       - name: Build static site
+        env:
+          FINREASON_TASK1_SITE_MODE: ${{ vars.FINREASON_TASK1_SITE_MODE || 'development' }}
+          NEXT_PUBLIC_FINREASON_TASK1_HF_SPACE_URL: ${{ vars.NEXT_PUBLIC_FINREASON_TASK1_HF_SPACE_URL }}
+          NEXT_PUBLIC_FINREASON_TASK1_LEADERBOARD_API_URL: ${{ vars.NEXT_PUBLIC_FINREASON_TASK1_LEADERBOARD_API_URL }}
         run: npm run build:pages
 
-      - name: Verify rendered site
-        run: node --test tests/rendered-html.test.mjs
+      - name: Verify rendered site and public data contracts
+        env:
+          FINREASON_TASK1_SITE_MODE: ${{ vars.FINREASON_TASK1_SITE_MODE || 'development' }}
+          NEXT_PUBLIC_FINREASON_TASK1_HF_SPACE_URL: ${{ vars.NEXT_PUBLIC_FINREASON_TASK1_HF_SPACE_URL }}
+          NEXT_PUBLIC_FINREASON_TASK1_LEADERBOARD_API_URL: ${{ vars.NEXT_PUBLIC_FINREASON_TASK1_LEADERBOARD_API_URL }}
+        run: >-
+          node --test
+          tests/rendered-html.test.mjs
+          tests/task1-leaderboard.test.mjs
+          tests/task1-public-config.test.mjs
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
@@ -53,6 +61,7 @@ jobs:
           path: ./out
 
   deploy:
+    if: github.ref == 'refs/heads/main'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

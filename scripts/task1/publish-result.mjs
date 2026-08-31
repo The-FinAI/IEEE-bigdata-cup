@@ -79,12 +79,6 @@ export async function publishResult({ record, event, token, fetchImpl = fetch, v
   }
   const label = record.status === "scored" ? "task1-pilot-scored" : "task1-pilot-invalid";
   await github(`${issuePath}/labels`, { method: "POST", body: { labels: [label] }, token, fetchImpl });
-  await github(`/repos/${pilotConfig.repository}/actions/workflows/deploy-pages.yml/dispatches`, {
-    method: "POST",
-    body: { ref: "main" },
-    token,
-    fetchImpl,
-  });
   return { status: existing ? "already-published" : "published", label };
 }
 

@@ -1,71 +1,122 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { SubmissionPacker } from "./submission-packer";
-
-const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+import { getTask1PublicConfig } from "../public-config";
 
 export const metadata: Metadata = {
-  title: "Task 1 GitHub Submission Pilot | FinReason Cup",
-  description: "Organizer-only GitHub submission and automatic scoring pilot for FinReason Task 1.",
-  robots: { index: false, follow: false },
+  title: "Task 1 Submission | FinReason Cup",
+  description:
+    "Participant submission hub for FinReason Cup Task 1 development and final evaluation.",
+  alternates: {
+    canonical: "https://the-finai.github.io/IEEE-bigdata-cup/task1/submit/",
+  },
 };
 
 export default function Task1SubmitPage() {
+  const config = getTask1PublicConfig();
+  const spaceIsReady =
+    config.siteMode === "final" &&
+    config.hfSpace.state === "ready" &&
+    config.hfSpace.url;
+
   return (
-    <main className="pilot-page">
-      <nav className="pilot-nav" aria-label="Pilot navigation">
+    <main className="task-hub-page">
+      <nav className="task-hub-nav" aria-label="Task 1 navigation">
         <Link href="/">FinReason Cup</Link>
-        <Link href="/task1/leaderboard/">Pilot leaderboard</Link>
+        <Link href="/task1/leaderboard/">Development leaderboard</Link>
       </nav>
 
-      <header className="pilot-heading">
-        <p className="section-index">TASK 1 / GITHUB-ONLY PILOT</p>
-        <h1>Submit answers through GitHub.</h1>
+      <header className="task-hub-heading">
+        <p className="section-index">TASK 1 / PARTICIPANT HUB</p>
+        <h1>Submit Task 1 results.</h1>
         <p>
-          This isolated pilot verifies the intended participant experience: prepare a canonical ZIP,
-          encrypt it locally, upload the encrypted file in a GitHub form, and receive an automatic score
-          on the resulting issue.
+          Development and final submissions will use one organizer-verified Hugging Face Space. This
+          page is the stable entry point and will activate the Space link only after its public URL has
+          been verified.
         </p>
       </header>
 
-      <section className="pilot-grid" aria-label="Submission pilot steps">
-        <article>
-          <span>01</span>
-          <h2>Prepare the ZIP</h2>
+      <section className="task-platform-card" aria-labelledby="task1-platform-title">
+        <div className="task-platform-status">
+          <span
+            className="status-chip"
+            data-state={spaceIsReady ? "ready" : "pending"}
+          >
+            {spaceIsReady ? "Submission Space available" : "Space link not live yet"}
+          </span>
+          <span>
+            {config.siteMode === "final"
+              ? "Final Pages configuration"
+              : "Development preview configuration"}
+          </span>
+        </div>
+        <div className="task-platform-copy">
+          <div>
+            <p className="section-index">HUGGING FACE SPACE</p>
+            <h2 id="task1-platform-title">Task 1 submission workspace</h2>
+          </div>
           <p>
-            For this synthetic pilot, create a ZIP containing exactly one file named
-            <code>predictions.jsonl</code>. You can start from the
-            <a href={`${basePath}/task1/pilot-example-predictions.jsonl`} download>
-              pilot example
-            </a>.
+            Use the mode shown inside the Space and follow the current Task 1 package. Development
+            feedback and final evaluation remain separate even though they share one interface.
+          </p>
+        </div>
+
+        {spaceIsReady ? (
+          <a
+            className="button button-bright task-platform-action"
+            href={config.hfSpace.url ?? undefined}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Open Task 1 submission Space
+            <span aria-hidden="true">↗</span>
+            <span className="sr-only"> (opens in a new tab)</span>
+          </a>
+        ) : (
+          <span className="button task-platform-action button-disabled" aria-disabled="true">
+            Submission link pending verification
+          </span>
+        )}
+
+        <p className="task-platform-footnote">
+          GitHub Issues are not a participant submission channel. Do not post predictions, source
+          files, or private evaluation material in a public issue.
+        </p>
+      </section>
+
+      <section className="task-mode-grid" aria-label="Development and final submission behavior">
+        <article>
+          <span>01 / DEVELOPMENT</span>
+          <h2>Iterate with aggregate feedback.</h2>
+          <p>
+            Use development mode for format checks and development-set evaluation. When the aggregate
+            feed is available, eligible development results appear on the public development
+            leaderboard.
           </p>
         </article>
         <article>
-          <span>02</span>
-          <h2>Encrypt locally</h2>
+          <span>02 / FINAL</span>
+          <h2>Keep final evaluation separate.</h2>
           <p>
-            The preparation tool runs in your browser. Only the encrypted JSON envelope is uploaded to
-            the public GitHub issue.
+            Use final mode only when the Space identifies it as open. Development leaderboard rows are
+            not final results; the published final protocol determines the official ranking.
           </p>
         </article>
         <article>
-          <span>03</span>
-          <h2>Receive the score</h2>
+          <span>03 / RECEIPT</span>
+          <h2>Retain the submission record.</h2>
           <p>
-            GitHub automatically validates the archive, posts the two synthetic development metrics,
-            and refreshes the pilot leaderboard.
+            Keep the confirmation or submission identifier returned by the Space. A browser upload is
+            complete only when the interface confirms that it was accepted.
           </p>
         </article>
       </section>
 
-      <SubmissionPacker />
-
-      <aside className="pilot-note">
-        <strong>Scope of this test</strong>
+      <aside className="task-hub-note">
+        <strong>Current release state</strong>
         <p>
-          The pilot contains no competition questions or gold answers and currently accepts only the
-          organizer account. Passing it proves the GitHub upload, encryption, automatic reply, and Pages
-          publication path. It does not open the official competition phase.
+          {spaceIsReady
+            ? "The submission link was supplied to this build through the verified public site configuration."
+            : "This build is in development preview. The page remains informational until organizers provide the verified Space URL and pass the explicit final release gate."}
         </p>
       </aside>
     </main>

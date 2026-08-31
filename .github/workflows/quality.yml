@@ -9,7 +9,24 @@ permissions:
 
 jobs:
   verify:
+    name: Verify ${{ matrix.scenario }} Pages build
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - scenario: development-staged
+            site_mode: development
+            space_url: https://task1-space.example.invalid/
+            leaderboard_api_url: https://task1-space.example.invalid/api/leaderboard
+          - scenario: final-space-only
+            site_mode: final
+            space_url: https://task1-space.example.invalid/
+            leaderboard_api_url: ""
+          - scenario: final-space-with-api
+            site_mode: final
+            space_url: https://task1-space.example.invalid/
+            leaderboard_api_url: https://task1-space.example.invalid/api/leaderboard
     steps:
       - name: Check out repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -29,4 +46,8 @@ jobs:
         run: npm run lint
 
       - name: Build and verify static site
+        env:
+          FINREASON_TASK1_SITE_MODE: ${{ matrix.site_mode }}
+          NEXT_PUBLIC_FINREASON_TASK1_HF_SPACE_URL: ${{ matrix.space_url }}
+          NEXT_PUBLIC_FINREASON_TASK1_LEADERBOARD_API_URL: ${{ matrix.leaderboard_api_url }}
         run: npm test

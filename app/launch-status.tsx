@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const ieeeCupUrl = "https://bigdataieee.org/BigData2026/cup/";
 const loiUrl = "https://forms.gle/D4VJqjgtmcaC77DL8";
 const paperSubmissionUrl =
@@ -45,14 +47,17 @@ export function LaunchStatus() {
       </p>
 
       <div className="participant-notice">
-        <strong>Separate competition submission</strong>
+        <strong>Separate Task 1 participant hub</strong>
         <p>
-          The final task rules will specify which solution materials each team
-          must provide, including any required predictions, source code, and
-          reproducibility materials. They are not submitted through the paper
-          portal. Their verified submission link will be published here after
-          organizer testing. Both routes share the 15 November deadline.
+          Task 1 development and final submissions will use one verified
+          Hugging Face Space. Its stable Pages submission and leaderboard entry
+          points show the current availability and connect to that same Space
+          when it is active.
         </p>
+        <div className="participant-notice-links">
+          <Link href="/task1/submit/">Open Task 1 submission hub</Link>
+          <Link href="/task1/leaderboard/">Open Task 1 leaderboard hub</Link>
+        </div>
       </div>
 
       <a href={ieeeTemplateUrl} target="_blank" rel="noreferrer">

@@ -208,7 +208,7 @@ export function decodeResultMarker(body, options = {}) {
 export function renderResultComment(record, options = {}) {
   validateResultRecord(record, options);
   const marker = encodeResultMarker(record, options);
-  const leaderboardUrl = "https://the-finai.github.io/IEEE-bigdata-cup/task1/leaderboard/";
+  const leaderboardUrl = "https://the-finai.github.io/IEEE-bigdata-cup/task1/pilot/leaderboard/";
   if (record.status === "scored") {
     return `${marker}\n\n## Task 1 GitHub-only pilot result\n\n| Metric | Score |\n| --- | ---: |\n| Seen FAC | \`${record.seen_fac}\` |\n| Seen checkpoint | \`${record.seen_checkpoint}\` |\n\n[View the synthetic pilot leaderboard](${leaderboardUrl})\n\nThis confirms the GitHub upload and automatic scoring path only. It is not an official FinReason Cup score.`;
   }

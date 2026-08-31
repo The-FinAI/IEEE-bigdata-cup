@@ -60,6 +60,7 @@ test("encodes one machine-readable aggregate result marker", () => {
   assert.deepEqual(decodeResultMarker(marker, verification), record);
   assert.match(comment, /Seen FAC/);
   assert.match(comment, /0\.500000/);
+  assert.match(comment, /task1\/pilot\/leaderboard/);
   assert.doesNotMatch(comment, /predictions\.jsonl|pilot-001/);
   assert.equal("plaintext_sha256" in record, false);
   assert.equal("client_submission_id" in record, false);
@@ -139,13 +140,12 @@ test("treats an identical signed result comment as an idempotent rerun", async (
   };
   const requests = [];
   const fetchImpl = async (url, options) => {
-    requests.push({ url, method: options.method });
+    requests.push({ url, method: options.method, body: options.body });
     if (url.includes("/comments?")) {
       return Response.json([
         { user: { login: "github-actions[bot]" }, body: renderResultComment(record, verification) },
       ]);
     }
-    if (url.endsWith("/dispatches")) return new Response(null, { status: 204 });
     return Response.json([]);
   };
   const outcome = await publishResult({
@@ -157,5 +157,5 @@ test("treats an identical signed result comment as an idempotent rerun", async (
   });
   assert.equal(outcome.status, "already-published");
   assert.equal(requests.filter((request) => request.url.endsWith("/comments") && request.method === "POST").length, 0);
-  assert.equal(requests.some((request) => request.url.endsWith("/dispatches")), true);
+  assert.equal(requests.some((request) => request.url.endsWith("/dispatches")), false);
 });
