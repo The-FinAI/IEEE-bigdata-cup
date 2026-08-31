@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { resolveTask1PublicConfig } from "../lib/task1-public-config.mjs";
 
-const spaceUrl = "https://task1-space.example.invalid/";
+const spaceUrl = "https://mbzuai-finreason-task1-rehearsal.hf.space/";
 const leaderboardApiUrl = "https://task1-api.example.invalid/leaderboard.json";
 
 test("development mode is safe when public Task 1 endpoints are absent", () => {
@@ -39,17 +39,47 @@ test("final mode requires one verified Space and keeps the public API optional",
   });
   assert.equal(extended.leaderboardApi.url, leaderboardApiUrl);
 
-  const fragmentRemoved = resolveTask1PublicConfig({
-    siteMode: "final",
-    hfSpaceUrl: `${spaceUrl}#temporary-fragment`,
-  });
-  assert.equal(fragmentRemoved.hfSpace.url, spaceUrl);
+  assert.throws(
+    () =>
+      resolveTask1PublicConfig({
+        siteMode: "final",
+        hfSpaceUrl: `${spaceUrl}#temporary-fragment`,
+      }),
+    /NEXT_PUBLIC_FINREASON_TASK1_HF_SPACE_URL/,
+  );
 });
 
 test("rejects unsafe endpoints and invalid release modes", () => {
   assert.throws(
     () => resolveTask1PublicConfig({ siteMode: "production" }),
     /development or final/,
+  );
+  assert.throws(
+    () =>
+      resolveTask1PublicConfig({
+        siteMode: "final",
+        hfSpaceUrl: "https://example.invalid/",
+        leaderboardApiUrl,
+      }),
+    /NEXT_PUBLIC_FINREASON_TASK1_HF_SPACE_URL/,
+  );
+  assert.throws(
+    () =>
+      resolveTask1PublicConfig({
+        siteMode: "final",
+        hfSpaceUrl: `${spaceUrl}?token=must-not-be-public`,
+        leaderboardApiUrl,
+      }),
+    /NEXT_PUBLIC_FINREASON_TASK1_HF_SPACE_URL/,
+  );
+  assert.throws(
+    () =>
+      resolveTask1PublicConfig({
+        siteMode: "final",
+        hfSpaceUrl: `${spaceUrl}private-path`,
+        leaderboardApiUrl,
+      }),
+    /NEXT_PUBLIC_FINREASON_TASK1_HF_SPACE_URL/,
   );
   assert.throws(
     () =>

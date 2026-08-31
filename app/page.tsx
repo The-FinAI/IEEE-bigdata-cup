@@ -109,7 +109,7 @@ const launchItems = [
     label: "Task 1 participant hub",
     date: "TASK 1 HUB",
     detail:
-      "Stable submission and leaderboard pages keep both participant paths on one organizer-verified Space.",
+      "Stable submission and leaderboard pages connect registered teams to one organizer-verified Space, where they enter organizer-issued private access codes.",
   },
   {
     state: "scheduled",
@@ -166,7 +166,7 @@ const faqs = [
   {
     question: "Where will the competition run?",
     answer:
-      "The Task 1 participant hub is hosted on this site and uses one organizer-verified Hugging Face Space for both submission and leaderboard access. The hub reports the current Space availability, and a public aggregate table may also appear on the leaderboard page. The paper route is available separately through CyberChair SC03.",
+      "The Task 1 participant hub is hosted on this site and links to one organizer-verified Hugging Face Space for both submission and leaderboard access. Registered teams receive a private access code from the organizers and enter it only inside the Space. The public Pages hub stores no team codes or submissions, and a public aggregate table may also appear on the leaderboard page. The paper route is available separately through CyberChair SC03.",
   },
   {
     question: "Are cash prizes confirmed?",
@@ -266,8 +266,8 @@ export default function Home() {
             </div>
             <p className="hero-note">
               The CyberChair paper channel is open. The Task 1 participant hub
-              keeps submission and leaderboard access on one organizer-verified
-              Hugging Face Space.
+              connects registered teams to one organizer-verified Hugging Face
+              Space, where they enter organizer-issued private access codes.
             </p>
           </div>
 

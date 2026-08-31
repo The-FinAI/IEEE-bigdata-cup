@@ -32,19 +32,20 @@ export default function Task1LeaderboardPage() {
         <p className="section-index">TASK 1 / RESULTS</p>
         <h1>Scores and leaderboard.</h1>
         <p>
-          The authenticated Task 1 Space is the authoritative place to view submission status, scores,
-          and the leaderboard. This Pages route can also show a public aggregate development table when
+          The organizer-verified Task 1 Space is the authoritative place to view submission status,
+          scores, and the leaderboard. Registered teams use the private access code issued by the
+          organizers. This Pages route can also show a public aggregate development table when
           organizers enable its optional feed.
         </p>
       </header>
 
       <section className="space-access-card" aria-labelledby="space-results-title">
         <div>
-          <p className="section-index">AUTHENTICATED RESULTS</p>
+          <p className="section-index">PRIVATE TEAM ACCESS</p>
           <h2 id="space-results-title">Task 1 Hugging Face Space</h2>
           <p>
-            Submission and leaderboard access use the same verified Space. Sign in there to view the
-            results available to your team.
+            Submission and leaderboard access use the same verified Space. Enter the private access
+            code issued to your registered team inside the Space to view your team&apos;s results.
           </p>
         </div>
         {spaceIsReady ? (
@@ -77,7 +78,8 @@ export default function Task1LeaderboardPage() {
         <strong>Development is not final</strong>
         <p>
           Development scores support iteration. Final evaluation follows the separately published final
-          protocol and is not inferred from this table.
+          protocol and is not inferred from this table. This public Pages view contains no access codes,
+          secrets, gold answers, or private evaluation data.
         </p>
       </aside>
     </main>

@@ -15,18 +15,22 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          - scenario: development-unconfigured
+            site_mode: development
+            space_url: ""
+            leaderboard_api_url: ""
           - scenario: development-staged
             site_mode: development
-            space_url: https://task1-space.example.invalid/
-            leaderboard_api_url: https://task1-space.example.invalid/api/leaderboard
+            space_url: https://mbzuai-finreason-task1-rehearsal.hf.space/
+            leaderboard_api_url: https://mbzuai-finreason-task1-rehearsal.hf.space/api/leaderboard?phase=development&view=aggregate
           - scenario: final-space-only
             site_mode: final
-            space_url: https://task1-space.example.invalid/
+            space_url: https://mbzuai-finreason-task1-rehearsal.hf.space/
             leaderboard_api_url: ""
           - scenario: final-space-with-api
             site_mode: final
-            space_url: https://task1-space.example.invalid/
-            leaderboard_api_url: https://task1-space.example.invalid/api/leaderboard
+            space_url: https://mbzuai-finreason-task1-rehearsal.hf.space/
+            leaderboard_api_url: https://mbzuai-finreason-task1-rehearsal.hf.space/api/leaderboard?phase=development&view=aggregate
     steps:
       - name: Check out repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7

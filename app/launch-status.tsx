@@ -50,9 +50,10 @@ export function LaunchStatus() {
         <strong>Separate Task 1 participant hub</strong>
         <p>
           Task 1 development and final submissions will use one verified
-          Hugging Face Space. Its stable Pages submission and leaderboard entry
-          points show the current availability and connect to that same Space
-          when it is active.
+          Hugging Face Space. Registered teams receive a private access code
+          from the organizers and enter it only inside that Space. The stable
+          Pages submission and leaderboard entry points show its current
+          availability without storing team codes or submissions.
         </p>
         <div className="participant-notice-links">
           <Link href="/task1/submit/">Open Task 1 submission hub</Link>

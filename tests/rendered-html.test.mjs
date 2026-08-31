@@ -13,6 +13,34 @@ const siteMode = publicConfig.siteMode;
 const configuredSpace = publicConfig.hfSpace.url;
 const configuredLeaderboardApi = publicConfig.leaderboardApi.url;
 
+function escapeHtmlAttribute(value) {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;");
+}
+
+function assertRenderedUrl(page, value) {
+  const normalized = new URL(value).toString();
+  const nextInlineJson = normalized
+    .replaceAll("&", "\\u0026")
+    .replaceAll("<", "\\u003c")
+    .replaceAll(">", "\\u003e")
+    .replaceAll("\u2028", "\\u2028")
+    .replaceAll("\u2029", "\\u2029");
+  const candidates = [
+    normalized,
+    escapeHtmlAttribute(normalized),
+    JSON.stringify(normalized).slice(1, -1),
+    nextInlineJson,
+  ];
+  assert.ok(
+    candidates.some((candidate) => page.includes(candidate)),
+    `expected rendered output to contain configured URL ${normalized}`,
+  );
+}
+
 test("contains the complete FinReason Cup landing-page contract", async () => {
   const [
     html,
@@ -29,6 +57,7 @@ test("contains the complete FinReason Cup landing-page contract", async () => {
     pilotLeaderboardHtml,
     issueForm,
     submissionWorkflow,
+    aggregateLeaderboard,
   ] = await Promise.all([
     readFile(new URL("out/index.html", projectRoot), "utf8"),
     readFile(new URL("app/page.tsx", projectRoot), "utf8"),
@@ -51,6 +80,10 @@ test("contains the complete FinReason Cup landing-page contract", async () => {
     ),
     readFile(
       new URL(".github/workflows/task1-submission-pilot.yml", projectRoot),
+      "utf8",
+    ),
+    readFile(
+      new URL("app/task1/leaderboard/aggregate-leaderboard.tsx", projectRoot),
       "utf8",
     ),
   ]);
@@ -88,6 +121,7 @@ test("contains the complete FinReason Cup landing-page contract", async () => {
   assert.match(workflow, /NEXT_PUBLIC_FINREASON_TASK1_HF_SPACE_URL/);
   assert.match(workflow, /NEXT_PUBLIC_FINREASON_TASK1_LEADERBOARD_API_URL/);
   assert.doesNotMatch(workflow, /build-leaderboard|rebuild_pilot/);
+  assert.doesNotMatch(workflow, /issues:\s*read/);
   assert.match(packageJson, /build:pages/);
   assert.match(html, /Organizer-maintained challenge site/);
   assert.match(html, /Submit paper/);
@@ -125,6 +159,8 @@ test("contains the complete FinReason Cup landing-page contract", async () => {
   );
   assert.match(submitHtml, /01 \/ DEVELOPMENT/);
   assert.match(submitHtml, /02 \/ FINAL/);
+  assert.match(submitHtml, /private access code from the organizers/);
+  assert.match(submitHtml, /does not collect or store team access codes/);
   assert.match(submitHtml, /GitHub Issues are not a participant submission channel/);
   assert.doesNotMatch(
     submitHtml,
@@ -135,7 +171,9 @@ test("contains the complete FinReason Cup landing-page contract", async () => {
     leaderboardHtml,
     /rel="canonical" href="https:\/\/the-finai\.github\.io\/IEEE-bigdata-cup\/task1\/leaderboard\/"/,
   );
-  assert.match(leaderboardHtml, /authenticated Task 1 Space/);
+  assert.match(leaderboardHtml, /PRIVATE TEAM ACCESS/);
+  assert.match(leaderboardHtml, /private access code issued by the organizers/);
+  assert.doesNotMatch(leaderboardHtml, /authenticated Task 1 Space|Sign in there/i);
   assert.doesNotMatch(
     leaderboardHtml,
     /GitHub-only pilot leaderboard|Seen FAC|github\.com\/The-FinAI\/IEEE-bigdata-cup\/issues/,
@@ -146,14 +184,15 @@ test("contains the complete FinReason Cup landing-page contract", async () => {
     const normalizedSpace = new URL(configuredSpace).toString();
     assert.match(submitHtml, /Submission Space available/);
     assert.match(submitHtml, /Final Pages configuration/);
-    assert.ok(submitHtml.includes(`href="${normalizedSpace}"`));
-    assert.ok(leaderboardHtml.includes(`href="${normalizedSpace}"`));
+    const renderedSpace = escapeHtmlAttribute(normalizedSpace);
+    assert.ok(submitHtml.includes(`href="${renderedSpace}"`));
+    assert.ok(leaderboardHtml.includes(`href="${renderedSpace}"`));
     assert.doesNotMatch(submitHtml, /Submission link pending verification/);
     assert.doesNotMatch(leaderboardHtml, /Space link pending verification/);
 
     if (configuredLeaderboardApi) {
       assert.match(leaderboardHtml, /Loading development results/);
-      assert.ok(leaderboardHtml.includes(new URL(configuredLeaderboardApi).toString()));
+      assertRenderedUrl(leaderboardHtml, configuredLeaderboardApi);
     } else {
       assert.match(leaderboardHtml, /Public aggregate table not enabled/);
     }
@@ -165,8 +204,9 @@ test("contains the complete FinReason Cup landing-page contract", async () => {
     assert.match(leaderboardHtml, /Public aggregate table not enabled/);
     assert.match(leaderboardHtml, /does not substitute pilot or cached results/);
     if (configuredSpace) {
-      assert.ok(!submitHtml.includes(new URL(configuredSpace).toString()));
-      assert.ok(!leaderboardHtml.includes(new URL(configuredSpace).toString()));
+      const normalizedSpace = new URL(configuredSpace).toString();
+      assert.ok(!submitHtml.includes(`href="${escapeHtmlAttribute(normalizedSpace)}"`));
+      assert.ok(!leaderboardHtml.includes(`href="${escapeHtmlAttribute(normalizedSpace)}"`));
     }
   }
 
@@ -176,6 +216,7 @@ test("contains the complete FinReason Cup landing-page contract", async () => {
   assert.match(pilotSubmitHtml, /TASK 1 \/ ORGANIZER-ONLY PILOT/);
   assert.match(pilotSubmitHtml, /Prepare encrypted submission/);
   assert.match(pilotSubmitHtml, /Synthetic examples only/);
+  assert.match(pilotSubmitHtml, /It does not refresh the isolated pilot leaderboard/);
   assert.match(pilotSubmitHtml, /name="robots" content="noindex, nofollow"/);
   assert.match(issueForm, /type: upload/);
   assert.match(issueForm, /accept: "\.json"/);
@@ -190,5 +231,15 @@ test("contains the complete FinReason Cup landing-page contract", async () => {
   assert.doesNotMatch(
     submissionWorkflow,
     /pull_request_target|github\.event\.issue\.body\s*}}/,
+  );
+  assert.match(
+    aggregateLeaderboard,
+    /role="status" aria-live="polite" aria-atomic="true"/,
+  );
+  assert.match(aggregateLeaderboard, /aria-busy=\{state\.status === "loading"\}/);
+  assert.match(aggregateLeaderboard, /<th scope="row">\{row\.teamDisplayName\}<\/th>/);
+  assert.match(
+    aggregateLeaderboard,
+    /role="region"\s+aria-labelledby="development-table-title"\s+tabIndex=\{0\}/,
   );
 });

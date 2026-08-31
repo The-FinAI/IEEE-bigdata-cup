@@ -153,8 +153,10 @@ submission service is prepared:
 
 - `/task1/submit/` points to one organizer-verified Hugging Face Space after its
   URL is supplied at build time;
-- `/task1/leaderboard/` points to the same authenticated Space for scores and
+- `/task1/leaderboard/` points to the same verified Space for scores and
   leaderboard access;
+- registered teams receive a private access code from the organizers and enter
+  it only inside the Space;
 - an optional public JSON endpoint can add an aggregate development table to
   the Pages leaderboard route without becoming a launch dependency;
 - development results and final evaluation are described as separate modes;
@@ -169,13 +171,15 @@ after the public endpoints have been verified:
 | --- | --- |
 | `FINREASON_TASK1_SITE_MODE=development` | Both pages stay in the not-yet-live state, even if endpoint values are staged. |
 | `FINREASON_TASK1_SITE_MODE=final` | The build requires the verified HTTPS Space URL. A malformed optional API URL also fails the build. |
-| `NEXT_PUBLIC_FINREASON_TASK1_HF_SPACE_URL` | The single authenticated Hugging Face Space used for both submission and leaderboard access. |
+| `NEXT_PUBLIC_FINREASON_TASK1_HF_SPACE_URL` | The root HTTPS URL of the single organizer-verified `*.hf.space` deployment used for submission and leaderboard access. Query strings, fragments, credentials, ports, and subpaths are rejected. |
 | `NEXT_PUBLIC_FINREASON_TASK1_LEADERBOARD_API_URL` | Optional CORS-enabled public aggregate JSON extension. |
 
 Both `NEXT_PUBLIC_*` values and their complete URLs are embedded in the public
 static artifact. They must not contain access tokens, signed credentials, or
 other secrets. The aggregate endpoint must be anonymously readable and return
-only the public contract below.
+only the public contract below. Team access codes are issued privately by the
+organizers and entered only in the Space. GitHub Pages must not receive or
+store access codes, submissions, gold answers, or private evaluation data.
 
 When configured, the public endpoint must return the canonical aggregate-only
 development leaderboard contract below. Its root and row fields are exact; it
@@ -203,8 +207,9 @@ data, or additional metadata. The response must be no larger than 1 MiB.
 The deployed Pages workflow reads the same names from GitHub repository
 variables. It defaults to `development`; changing the repository variable to
 `final` activates the verified public link. Scores and the authoritative leaderboard
-remain available in the authenticated Space even when the optional public API
-is unset or temporarily unavailable. Changing repository variables does not
+remain available in the verified Space to registered teams using their organizer-issued
+private access code, even when the optional public API is unset or temporarily
+unavailable. Changing repository variables does not
 deploy the site by itself; after setting them, run the existing Pages
 `workflow_dispatch` on `main` and verify both Task 1 routes in the deployed
 artifact. The isolated GitHub Issue pilot neither rebuilds nor dispatches the

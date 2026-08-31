@@ -51,8 +51,8 @@ export default function Task1PilotSubmitPage() {
           <span>03</span>
           <h2>Check the smoke result</h2>
           <p>
-            The restricted workflow validates the archive, posts synthetic metrics, and refreshes the
-            isolated pilot leaderboard.
+            The restricted workflow validates the archive and posts synthetic metrics to the pilot
+            issue. It does not refresh the isolated pilot leaderboard.
           </p>
         </article>
       </section>

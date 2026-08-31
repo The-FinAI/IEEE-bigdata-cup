@@ -31,7 +31,8 @@ export default function Task1SubmitPage() {
         <p>
           Development and final submissions will use one organizer-verified Hugging Face Space. This
           page is the stable entry point and will activate the Space link only after its public URL has
-          been verified.
+          been verified. Registered teams receive a private access code from the organizers and enter
+          it only inside the Space.
         </p>
       </header>
 
@@ -55,8 +56,9 @@ export default function Task1SubmitPage() {
             <h2 id="task1-platform-title">Task 1 submission workspace</h2>
           </div>
           <p>
-            Use the mode shown inside the Space and follow the current Task 1 package. Development
-            feedback and final evaluation remain separate even though they share one interface.
+            Enter your organizer-issued private team access code when the Space prompts for it. Then
+            use the mode shown there and follow the current Task 1 package. Development feedback and
+            final evaluation remain separate even though they share one interface.
           </p>
         </div>
 
@@ -78,8 +80,9 @@ export default function Task1SubmitPage() {
         )}
 
         <p className="task-platform-footnote">
-          GitHub Issues are not a participant submission channel. Do not post predictions, source
-          files, or private evaluation material in a public issue.
+          This public Pages site does not collect or store team access codes, secrets, submissions,
+          gold answers, or private evaluation data. GitHub Issues are not a participant submission
+          channel.
         </p>
       </section>
 
