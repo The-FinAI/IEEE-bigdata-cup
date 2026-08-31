@@ -202,7 +202,7 @@ data, or additional metadata. The response must be no larger than 1 MiB.
 
 The deployed Pages workflow reads the same names from GitHub repository
 variables. It defaults to `development`; changing the repository variable to
-`final` is the explicit release gate. Scores and the authoritative leaderboard
+`final` activates the verified public link. Scores and the authoritative leaderboard
 remain available in the authenticated Space even when the optional public API
 is unset or temporarily unavailable. Changing repository variables does not
 deploy the site by itself; after setting them, run the existing Pages

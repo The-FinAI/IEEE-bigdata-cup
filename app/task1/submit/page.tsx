@@ -116,7 +116,7 @@ export default function Task1SubmitPage() {
         <p>
           {spaceIsReady
             ? "The submission link was supplied to this build through the verified public site configuration."
-            : "This build is in development preview. The page remains informational until organizers provide the verified Space URL and pass the explicit final release gate."}
+            : "This build is in development preview. The page remains informational until organizers provide and verify the final Space URL."}
         </p>
       </aside>
     </main>
