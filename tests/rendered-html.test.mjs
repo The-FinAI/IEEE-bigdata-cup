@@ -95,6 +95,8 @@ test("contains the complete FinReason Cup landing-page contract", async () => {
     packageJson,
     submitHtml,
     leaderboardHtml,
+    termsHtml,
+    privacyHtml,
     pilotSubmitHtml,
     pilotLeaderboardHtml,
     issueForm,
@@ -114,6 +116,8 @@ test("contains the complete FinReason Cup landing-page contract", async () => {
     readFile(new URL("package.json", projectRoot), "utf8"),
     readFile(new URL("out/task1/submit/index.html", projectRoot), "utf8"),
     readFile(new URL("out/task1/leaderboard/index.html", projectRoot), "utf8"),
+    readFile(new URL("out/terms/index.html", projectRoot), "utf8"),
+    readFile(new URL("out/privacy/index.html", projectRoot), "utf8"),
     readFile(new URL("out/task1/pilot/submit/index.html", projectRoot), "utf8"),
     readFile(new URL("out/task1/pilot/leaderboard/index.html", projectRoot), "utf8"),
     readFile(
@@ -155,6 +159,8 @@ test("contains the complete FinReason Cup landing-page contract", async () => {
   assert.match(sitemap, /https:\/\/the-finai\.github\.io\/IEEE-bigdata-cup\//);
   assert.match(sitemap, /task1\/submit/);
   assert.match(sitemap, /task1\/leaderboard/);
+  assert.match(sitemap, /\/terms\//);
+  assert.match(sitemap, /\/privacy\//);
   assert.doesNotMatch(sitemap, /task1\/pilot/);
   assert.match(nextConfig, /output: "export"/);
   assert.match(nextConfig, /\/IEEE-bigdata-cup/);
@@ -179,8 +185,12 @@ test("contains the complete FinReason Cup landing-page contract", async () => {
   assert.match(html, /\/IEEE-bigdata-cup\/task1\/leaderboard\//);
   assert.match(html, /CyberChair has not yet updated its displayed deadline/);
   assert.match(html, /Winning teams announced/);
-  assert.match(html, /Last reviewed 31 August 2026/);
+  assert.match(html, /Last reviewed 1 September 2026/);
   assert.match(html, /forms\.gle\/D4VJqjgtmcaC77DL8/);
+  assert.match(html, /\/IEEE-bigdata-cup\/terms\//);
+  assert.match(html, /\/IEEE-bigdata-cup\/privacy\//);
+  assert.match(html, /mailto:zhuohan\.xie@mbzuai\.ac\.ae/);
+  assert.match(html, /aria-label="Participant information and challenge sources"/);
   assert.match(html, /\/IEEE-bigdata-cup\/finreason-hero\.webp/);
   assert.match(html, /This is not a full financial-statement audit/);
   assert.ok(html.indexOf("<header") < html.indexOf("<main"));
@@ -210,6 +220,9 @@ test("contains the complete FinReason Cup landing-page contract", async () => {
   assert.match(submitHtml, /private access code issued by the organizers/);
   assert.match(submitHtml, /does not collect or store team access codes/);
   assert.match(submitHtml, /GitHub Issues are not a participant submission channel/);
+  assert.match(submitHtml, /Terms of Participation/);
+  assert.match(submitHtml, /Privacy Notice/);
+  assert.match(submitHtml, /mailto:zhuohan\.xie@mbzuai\.ac\.ae/);
   assert.doesNotMatch(
     submitHtml,
     /GITHUB-ONLY PILOT|Prepare encrypted submission|Open GitHub submission form/,
@@ -227,6 +240,37 @@ test("contains the complete FinReason Cup landing-page contract", async () => {
     leaderboardHtml,
     /GitHub-only pilot leaderboard|Seen FAC|github\.com\/The-FinAI\/IEEE-bigdata-cup\/issues/,
   );
+  assert.match(leaderboardHtml, /Terms of Participation/);
+  assert.match(leaderboardHtml, /Privacy Notice/);
+  assert.match(
+    termsHtml,
+    /rel="canonical" href="https:\/\/the-finai\.github\.io\/IEEE-bigdata-cup\/terms\/"/,
+  );
+  assert.match(termsHtml, /organizer-maintained terms/);
+  assert.match(termsHtml, /property="og:title" content="Terms of Participation \| FinReason Cup"/);
+  assert.match(
+    termsHtml,
+    /property="og:url" content="https:\/\/the-finai\.github\.io\/IEEE-bigdata-cup\/terms\/"/,
+  );
+  assert.match(termsHtml, /name="twitter:title" content="Terms of Participation \| FinReason Cup"/);
+  assert.match(termsHtml, /GitHub Issues are not an official participant submission channel/);
+  assert.match(termsHtml, /Test submissions return an acceptance receipt only/);
+  assert.match(termsHtml, /Participants retain their rights/);
+  assert.match(termsHtml, /mailto:zhuohan\.xie@mbzuai\.ac\.ae/);
+  assert.match(
+    privacyHtml,
+    /rel="canonical" href="https:\/\/the-finai\.github\.io\/IEEE-bigdata-cup\/privacy\/"/,
+  );
+  assert.match(privacyHtml, /public GitHub Pages website does not collect or store/);
+  assert.match(privacyHtml, /property="og:title" content="Privacy Notice \| FinReason Cup"/);
+  assert.match(
+    privacyHtml,
+    /property="og:url" content="https:\/\/the-finai\.github\.io\/IEEE-bigdata-cup\/privacy\/"/,
+  );
+  assert.match(privacyHtml, /name="twitter:title" content="Privacy Notice \| FinReason Cup"/);
+  assert.match(privacyHtml, /retained for up to 120 days from acceptance/);
+  assert.match(privacyHtml, /do not sell participant information/);
+  assert.match(privacyHtml, /mailto:zhuohan\.xie@mbzuai\.ac\.ae/);
 
   if (siteMode === "final") {
     assert.ok(

@@ -16,6 +16,10 @@
   ·
   <a href="https://forms.gle/D4VJqjgtmcaC77DL8"><strong>Submit Letter of Intent</strong></a>
   ·
+  <a href="https://the-finai.github.io/IEEE-bigdata-cup/terms/"><strong>Terms</strong></a>
+  ·
+  <a href="https://the-finai.github.io/IEEE-bigdata-cup/privacy/"><strong>Privacy</strong></a>
+  ·
   <a href="https://bigdataieee.org/BigData2026/cup/"><strong>IEEE Cup overview</strong></a>
 </p>
 
@@ -119,7 +123,9 @@ final competition submission.
 | Task 1 development questions and immediate leaderboard | Prepared; public link pending verification |
 | Task 1 test questions and receipt-only submission | Prepared; public link pending verification |
 | Starter kits, schemas, validators, and baselines | Coming soon |
-| Participant support channel | Coming soon |
+| Participant support | [zhuohan.xie@mbzuai.ac.ae](mailto:zhuohan.xie@mbzuai.ac.ae) |
+| Terms of Participation | Ready in the current release branch; public after website deployment |
+| Privacy Notice | Ready in the current release branch; public after website deployment |
 | [Challenge paper submission](https://wi-lab.com/cyberchair/2026/bigdata26/scripts/submit.php?subarea=SC03) | Open |
 | [Task 1 submission hub](https://the-finai.github.io/IEEE-bigdata-cup/task1/submit/) | Development and test Space links controlled at build time |
 | [Task 1 leaderboard hub](https://the-finai.github.io/IEEE-bigdata-cup/task1/leaderboard/) | Development Space link controlled at build time |
@@ -264,8 +270,13 @@ contract. Pushes to `main` deploy through
 The Letter of Intent is hosted on Google Forms. Responses are available to the
 organizer team and are used for challenge operations, communication permitted
 by the form, and aggregate reporting. Do not include sensitive information.
-Participant support and the correction or deletion process will be published
-with the participant guidance.
+Participant support, privacy questions, and correction or deletion requests can
+be sent to [zhuohan.xie@mbzuai.ac.ae](mailto:zhuohan.xie@mbzuai.ac.ae). See the
+[Privacy Notice](https://the-finai.github.io/IEEE-bigdata-cup/privacy/) for the
+public website boundary, public leaderboard fields, external services, and the
+Task 1 retention policy. Private Task 1 submission archives and non-public
+operational event records are retained for up to 120 days from acceptance,
+subject to the exceptions stated in that notice.
 
 ## Organizers
 
@@ -274,9 +285,11 @@ contributors affiliated with MBZUAI, McGill University, Stevens Institute of
 Technology, Yale University, and the University of Manchester. Affiliations do
 not imply institutional sponsorship.
 
-Dataset release dates, platform rules, award categories, and data terms remain
-subject to organizer and IEEE confirmation.
+Task-specific dates, platform settings, award categories, and resource licenses
+are published only after organizer verification. The
+[Terms of Participation](https://the-finai.github.io/IEEE-bigdata-cup/terms/)
+describe the current organizer-maintained participation rules.
 
 ---
 
-Last reviewed: 31 August 2026.
+Last reviewed: 1 September 2026.

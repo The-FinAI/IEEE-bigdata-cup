@@ -109,7 +109,9 @@ export default function Task1SubmitPage() {
         <p className="task-platform-footnote">
           This public Pages site does not collect or store team access codes, secrets, submissions,
           gold answers, or private evaluation data. GitHub Issues are not a participant submission
-          channel.
+          channel. Review the <Link href="/terms/">Terms of Participation</Link> and{" "}
+          <Link href="/privacy/">Privacy Notice</Link> before submitting. Participant support:{" "}
+          <a href="mailto:zhuohan.xie@mbzuai.ac.ae">zhuohan.xie@mbzuai.ac.ae</a>.
         </p>
       </section>
 

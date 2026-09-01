@@ -6,6 +6,7 @@ const paperSubmissionUrl =
   "https://wi-lab.com/cyberchair/2026/bigdata26/scripts/submit.php?subarea=SC03";
 const ieeeTemplateUrl =
   "https://www.ieee.org/conferences/publishing/templates.html";
+const contactEmail = "zhuohan.xie@mbzuai.ac.ae";
 
 export function LaunchStatus() {
   return (
@@ -59,6 +60,9 @@ export function LaunchStatus() {
         <div className="participant-notice-links">
           <Link href="/task1/submit/">Open Task 1 submission hub</Link>
           <Link href="/task1/leaderboard/">Open Task 1 leaderboard hub</Link>
+          <Link href="/terms/">Read the Terms of Participation</Link>
+          <Link href="/privacy/">Read the Privacy Notice</Link>
+          <a href={`mailto:${contactEmail}`}>Contact the organizer team</a>
         </div>
       </div>
 

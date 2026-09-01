@@ -1419,6 +1419,101 @@ label {
   max-width: 790px;
 }
 
+.policy-heading {
+  border-bottom: 1px solid var(--line);
+}
+
+.policy-heading > p:not(.section-index) {
+  color: var(--slate);
+  font-size: 17px;
+  line-height: 1.75;
+  margin: 30px 0 0;
+  max-width: 790px;
+}
+
+.policy-meta {
+  display: grid;
+  gap: 1px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 42px 0 0;
+  max-width: 790px;
+}
+
+.policy-meta div {
+  background: var(--paper-deep);
+  display: grid;
+  gap: 8px;
+  padding: 18px 20px;
+}
+
+.policy-meta dt {
+  color: var(--mint-deep);
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.policy-meta dd {
+  color: var(--ink);
+  font-size: 13px;
+  margin: 0;
+}
+
+.policy-meta a,
+.policy-section a,
+.task-hub-note a,
+.task-platform-footnote a {
+  color: var(--mint-deep);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.policy-content {
+  display: grid;
+  margin: 0 auto;
+  max-width: 900px;
+  padding-top: 24px;
+}
+
+.policy-section {
+  border-bottom: 1px solid var(--line);
+  display: grid;
+  gap: 18px;
+  padding: 46px 0;
+}
+
+.policy-section h2 {
+  color: var(--ink);
+  font-size: clamp(28px, 4vw, 42px);
+  letter-spacing: -0.045em;
+  line-height: 1.05;
+  margin: 0;
+  max-width: 760px;
+}
+
+.policy-section > p:not(.section-index),
+.policy-list {
+  color: var(--slate);
+  font-size: 14px;
+  line-height: 1.75;
+  margin: 0;
+  max-width: 760px;
+}
+
+.policy-list {
+  display: grid;
+  gap: 12px;
+  padding-left: 22px;
+}
+
+.policy-contact {
+  background: var(--paper-deep);
+  border-bottom: 0;
+  margin-top: 24px;
+  padding: 36px 40px;
+}
+
 .task-platform-card {
   background: var(--ink);
   box-shadow: var(--shadow);
@@ -1515,6 +1610,10 @@ label {
   margin: 38px 0 0;
   max-width: 820px;
   padding-top: 22px;
+}
+
+.task-platform-footnote a {
+  color: var(--mint);
 }
 
 .task-mode-grid {
@@ -2575,6 +2674,24 @@ details p {
 
   .task-hub-heading h1 {
     font-size: clamp(42px, 15vw, 66px);
+  }
+
+  .policy-meta {
+    grid-template-columns: 1fr;
+  }
+
+  .policy-content {
+    padding-top: 8px;
+  }
+
+  .policy-section {
+    padding: 36px 0;
+  }
+
+  .policy-contact {
+    margin-left: -20px;
+    margin-right: -20px;
+    padding: 32px 20px;
   }
 
   .task-platform-card {

@@ -4,6 +4,7 @@ const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const loiUrl = "https://forms.gle/D4VJqjgtmcaC77DL8";
 const paperSubmissionUrl =
   "https://wi-lab.com/cyberchair/2026/bigdata26/scripts/submit.php?subarea=SC03";
+const contactEmail = "zhuohan.xie@mbzuai.ac.ae";
 
 const tasks = [
   {
@@ -180,8 +181,28 @@ const faqs = [
   },
   {
     question: "How are LOI responses used?",
-    answer:
-      "Responses are used by the organizer team for challenge operations, communication permitted by the form, and aggregate participation statistics. Do not include sensitive information. The participant support contact and correction or deletion process will be published with the participant guidance.",
+    answer: (
+      <>
+        Responses are used by the organizer team for challenge operations,
+        communication permitted by the form, and aggregate participation
+        statistics. Do not include sensitive information. Privacy, correction,
+        and deletion requests can be sent to{" "}
+        <a href={`mailto:${contactEmail}`}>{contactEmail}</a>. See the{" "}
+        <a href={`${basePath}/privacy/`}>Privacy Notice</a>.
+      </>
+    ),
+  },
+  {
+    question: "How can participants contact the organizer team?",
+    answer: (
+      <>
+        Email <a href={`mailto:${contactEmail}`}>{contactEmail}</a> for
+        participant support, registration corrections, submission questions,
+        or privacy requests. Include the team name and task number when
+        applicable, but do not send an access code or submission archive by
+        email.
+      </>
+    ),
   },
 ];
 
@@ -580,10 +601,13 @@ export default function Home() {
               Organizer team led by The Fin AI, with contributors affiliated
               with MBZUAI, McGill, Stevens, Yale, and the University of
               Manchester. Affiliations do not imply institutional sponsorship.
-              Dataset release dates, platform rules, award categories, and data
-              terms remain subject to organizer and IEEE confirmation.
+              Task-specific dates, platform settings, award categories, and
+              resource licenses are published only after organizer verification.
             </p>
-            <nav className="source-links" aria-label="Challenge sources">
+            <nav className="source-links" aria-label="Participant information and challenge sources">
+              <a href={`${basePath}/terms/`}>Terms</a>
+              <a href={`${basePath}/privacy/`}>Privacy</a>
+              <a href={`mailto:${contactEmail}`}>Contact</a>
               <a
                 href="https://bigdataieee.org/BigData2026/cup/"
                 target="_blank"
@@ -613,7 +637,7 @@ export default function Home() {
                 <span className="sr-only"> (opens in a new tab)</span>
               </a>
             </nav>
-            <p className="footer-updated">Last reviewed 31 August 2026.</p>
+            <p className="footer-updated">Last reviewed 1 September 2026.</p>
           </div>
           <a href="#overview">Back to top ↑</a>
         </div>

@@ -82,6 +82,12 @@ export default function Task1LeaderboardPage() {
           scores or appear here. Official test evaluation is performed after submissions close. This
           public Pages view contains no access codes, secrets, gold answers, or private evaluation data.
         </p>
+        <p>
+          See the <Link href="/terms/">Terms of Participation</Link> and{" "}
+          <Link href="/privacy/">Privacy Notice</Link>, or email{" "}
+          <a href="mailto:zhuohan.xie@mbzuai.ac.ae">zhuohan.xie@mbzuai.ac.ae</a> for participant
+          support.
+        </p>
       </aside>
     </main>
   );
