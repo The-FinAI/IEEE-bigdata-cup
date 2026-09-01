@@ -1,16 +1,20 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { readFile, readdir } from "node:fs/promises";
+import path from "node:path";
 import test from "node:test";
 import { resolveTask1PublicConfig } from "../lib/task1-public-config.mjs";
 
 const projectRoot = new URL("../", import.meta.url);
 const publicConfig = resolveTask1PublicConfig({
   siteMode: process.env.FINREASON_TASK1_SITE_MODE,
-  hfSpaceUrl: process.env.NEXT_PUBLIC_FINREASON_TASK1_HF_SPACE_URL,
+  developmentSpaceUrl:
+    process.env.NEXT_PUBLIC_FINREASON_TASK1_DEVELOPMENT_SPACE_URL,
+  testSpaceUrl: process.env.NEXT_PUBLIC_FINREASON_TASK1_TEST_SPACE_URL,
   leaderboardApiUrl: process.env.NEXT_PUBLIC_FINREASON_TASK1_LEADERBOARD_API_URL,
 });
 const siteMode = publicConfig.siteMode;
-const configuredSpace = publicConfig.hfSpace.url;
+const configuredDevelopmentSpace = publicConfig.developmentSpace.url;
+const configuredTestSpace = publicConfig.testSpace.url;
 const configuredLeaderboardApi = publicConfig.leaderboardApi.url;
 
 function escapeHtmlAttribute(value) {
@@ -39,6 +43,44 @@ function assertRenderedUrl(page, value) {
     candidates.some((candidate) => page.includes(candidate)),
     `expected rendered output to contain configured URL ${normalized}`,
   );
+}
+
+function assertDoesNotRenderUrl(page, value) {
+  const normalized = new URL(value).toString();
+  const candidates = [
+    normalized,
+    escapeHtmlAttribute(normalized),
+    JSON.stringify(normalized).slice(1, -1),
+    normalized
+      .replaceAll("&", "\\u0026")
+      .replaceAll("<", "\\u003c")
+      .replaceAll(">", "\\u003e"),
+  ];
+  assert.ok(
+    candidates.every((candidate) => !page.includes(candidate)),
+    `expected rendered output not to disclose staged URL ${normalized}`,
+  );
+}
+
+async function readStaticTextArtifact() {
+  const outputRoot = new URL("out/", projectRoot);
+  const entries = await readdir(outputRoot, {
+    recursive: true,
+    withFileTypes: true,
+  });
+  const textExtensions = new Set([
+    ".css",
+    ".html",
+    ".js",
+    ".json",
+    ".jsonl",
+    ".txt",
+    ".xml",
+  ]);
+  const files = entries
+    .filter((entry) => entry.isFile() && textExtensions.has(path.extname(entry.name)))
+    .map((entry) => new URL(entry.parentPath.replaceAll("\\", "/") + "/" + entry.name, outputRoot));
+  return (await Promise.all(files.map((file) => readFile(file, "utf8")))).join("\n");
 }
 
 test("contains the complete FinReason Cup landing-page contract", async () => {
@@ -118,7 +160,9 @@ test("contains the complete FinReason Cup landing-page contract", async () => {
   assert.match(nextConfig, /\/IEEE-bigdata-cup/);
   assert.match(workflow, /actions\/deploy-pages@[0-9a-f]{40} # v5\.0\.0/);
   assert.match(workflow, /FINREASON_TASK1_SITE_MODE/);
-  assert.match(workflow, /NEXT_PUBLIC_FINREASON_TASK1_HF_SPACE_URL/);
+  assert.match(workflow, /NEXT_PUBLIC_FINREASON_TASK1_DEVELOPMENT_SPACE_URL/);
+  assert.match(workflow, /NEXT_PUBLIC_FINREASON_TASK1_TEST_SPACE_URL/);
+  assert.doesNotMatch(workflow, /NEXT_PUBLIC_FINREASON_TASK1_HF_SPACE_URL/);
   assert.match(workflow, /NEXT_PUBLIC_FINREASON_TASK1_LEADERBOARD_API_URL/);
   assert.doesNotMatch(workflow, /build-leaderboard|rebuild_pilot/);
   assert.doesNotMatch(workflow, /issues:\s*read/);
@@ -157,16 +201,21 @@ test("contains the complete FinReason Cup landing-page contract", async () => {
     submitHtml,
     /rel="canonical" href="https:\/\/the-finai\.github\.io\/IEEE-bigdata-cup\/task1\/submit\/"/,
   );
-  assert.match(submitHtml, /01 \/ DEVELOPMENT/);
-  assert.match(submitHtml, /02 \/ FINAL/);
-  assert.match(submitHtml, /private access code from the organizers/);
+  assert.match(submitHtml, /01 \/ TRAIN/);
+  assert.match(submitHtml, /02 \/ DEVELOPMENT/);
+  assert.match(submitHtml, /03 \/ TEST/);
+  assert.match(submitHtml, /Train results are not submitted to a leaderboard/);
+  assert.match(submitHtml, /SeenFAC and SeenCheckpoint immediately/);
+  assert.match(submitHtml, /Test submissions receive no online score/);
+  assert.match(submitHtml, /private access code issued by the organizers/);
   assert.match(submitHtml, /does not collect or store team access codes/);
   assert.match(submitHtml, /GitHub Issues are not a participant submission channel/);
   assert.doesNotMatch(
     submitHtml,
     /GITHUB-ONLY PILOT|Prepare encrypted submission|Open GitHub submission form/,
   );
-  assert.match(leaderboardHtml, /Scores and leaderboard/);
+  assert.match(leaderboardHtml, /Development scores and leaderboard/);
+  assert.match(leaderboardHtml, /Test submissions return receipts only/);
   assert.match(
     leaderboardHtml,
     /rel="canonical" href="https:\/\/the-finai\.github\.io\/IEEE-bigdata-cup\/task1\/leaderboard\/"/,
@@ -180,15 +229,34 @@ test("contains the complete FinReason Cup landing-page contract", async () => {
   );
 
   if (siteMode === "final") {
-    assert.ok(configuredSpace, "final render verification requires the configured Space URL");
-    const normalizedSpace = new URL(configuredSpace).toString();
-    assert.match(submitHtml, /Submission Space available/);
-    assert.match(submitHtml, /Final Pages configuration/);
-    const renderedSpace = escapeHtmlAttribute(normalizedSpace);
-    assert.ok(submitHtml.includes(`href="${renderedSpace}"`));
-    assert.ok(leaderboardHtml.includes(`href="${renderedSpace}"`));
-    assert.doesNotMatch(submitHtml, /Submission link pending verification/);
-    assert.doesNotMatch(leaderboardHtml, /Space link pending verification/);
+    assert.ok(
+      configuredDevelopmentSpace,
+      "final render verification requires the configured development Space URL",
+    );
+    assert.ok(
+      configuredTestSpace,
+      "final render verification requires the configured test Space URL",
+    );
+    const normalizedDevelopmentSpace = new URL(configuredDevelopmentSpace).toString();
+    const normalizedTestSpace = new URL(configuredTestSpace).toString();
+    assert.notEqual(normalizedDevelopmentSpace, normalizedTestSpace);
+    assert.match(submitHtml, /Submission Spaces available/);
+    assert.match(submitHtml, /Live Pages configuration/);
+    assert.match(submitHtml, /Open development submission Space/);
+    assert.match(submitHtml, /Open test submission Space/);
+    assert.match(leaderboardHtml, /Open development submission Space/);
+    assert.doesNotMatch(leaderboardHtml, /Open test submission Space/);
+    assert.match(submitHtml, /final site mode means the Pages deployment is live/i);
+    assert.ok(
+      submitHtml.includes(`href="${escapeHtmlAttribute(normalizedDevelopmentSpace)}"`),
+    );
+    assert.ok(submitHtml.includes(`href="${escapeHtmlAttribute(normalizedTestSpace)}"`));
+    assert.ok(
+      leaderboardHtml.includes(`href="${escapeHtmlAttribute(normalizedDevelopmentSpace)}"`),
+    );
+    assertDoesNotRenderUrl(leaderboardHtml, normalizedTestSpace);
+    assert.doesNotMatch(submitHtml, /Space link pending verification/);
+    assert.doesNotMatch(leaderboardHtml, /Development Space link pending verification/);
 
     if (configuredLeaderboardApi) {
       assert.match(leaderboardHtml, /Loading development results/);
@@ -198,15 +266,28 @@ test("contains the complete FinReason Cup landing-page contract", async () => {
     }
   } else {
     assert.equal(siteMode, "development");
-    assert.match(submitHtml, /Submission link pending verification/);
+    assert.match(submitHtml, /Development Space link pending verification/);
+    assert.match(submitHtml, /Test Space link pending verification/);
     assert.match(submitHtml, /Development preview configuration/);
-    assert.match(leaderboardHtml, /Space link pending verification/);
+    assert.match(leaderboardHtml, /Development Space link pending verification/);
     assert.match(leaderboardHtml, /Public aggregate table not enabled/);
     assert.match(leaderboardHtml, /does not substitute pilot or cached results/);
-    if (configuredSpace) {
-      const normalizedSpace = new URL(configuredSpace).toString();
-      assert.ok(!submitHtml.includes(`href="${escapeHtmlAttribute(normalizedSpace)}"`));
-      assert.ok(!leaderboardHtml.includes(`href="${escapeHtmlAttribute(normalizedSpace)}"`));
+    assert.doesNotMatch(submitHtml, /Open development submission Space|Open test submission Space/);
+    if (configuredDevelopmentSpace) {
+      assertDoesNotRenderUrl(submitHtml, configuredDevelopmentSpace);
+      assertDoesNotRenderUrl(leaderboardHtml, configuredDevelopmentSpace);
+    }
+    if (configuredTestSpace) {
+      assertDoesNotRenderUrl(submitHtml, configuredTestSpace);
+      assertDoesNotRenderUrl(leaderboardHtml, configuredTestSpace);
+    }
+    const staticArtifact = await readStaticTextArtifact();
+    for (const stagedEndpoint of [
+      configuredDevelopmentSpace,
+      configuredTestSpace,
+      configuredLeaderboardApi,
+    ]) {
+      if (stagedEndpoint) assertDoesNotRenderUrl(staticArtifact, stagedEndpoint);
     }
   }
 

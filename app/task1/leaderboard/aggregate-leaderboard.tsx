@@ -71,9 +71,9 @@ export function AggregateLeaderboard({ dataUrl }: AggregateLeaderboardProps) {
       <div className="leaderboard-state" data-state="pending">
         <strong>Public aggregate table not enabled</strong>
         <p>
-          Registered teams can use their organizer-issued private access code in the Task 1 Space.
-          This Pages build does not substitute pilot or cached results when the optional public feed
-          is absent.
+          Registered teams can use their organizer-issued private access code in the Task 1
+          development Space. This Pages build does not substitute pilot or cached results when the
+          optional public feed is absent.
         </p>
       </div>
     );

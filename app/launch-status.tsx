@@ -49,11 +49,12 @@ export function LaunchStatus() {
       <div className="participant-notice">
         <strong>Separate Task 1 participant hub</strong>
         <p>
-          Task 1 development and final submissions will use one verified
-          Hugging Face Space. Registered teams receive a private access code
-          from the organizers and enter it only inside that Space. The stable
-          Pages submission and leaderboard entry points show its current
-          availability without storing team codes or submissions.
+          Task 1 will publish train questions and answers with the verified participant
+          release. Development submissions receive immediate aggregate scores and can enter the
+          development
+          leaderboard. Test submissions return receipts only, with no online score
+          or test leaderboard. Registered teams enter their private access code only
+          inside the relevant isolated development or test Hugging Face Space.
         </p>
         <div className="participant-notice-links">
           <Link href="/task1/submit/">Open Task 1 submission hub</Link>

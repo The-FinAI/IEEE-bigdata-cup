@@ -109,7 +109,7 @@ const launchItems = [
     label: "Task 1 participant hub",
     date: "TASK 1 HUB",
     detail:
-      "Stable submission and leaderboard pages connect registered teams to one organizer-verified Space, where they enter organizer-issued private access codes.",
+      "One stable participant hub links registered teams to isolated organizer-verified development and test Spaces.",
   },
   {
     state: "scheduled",
@@ -141,7 +141,7 @@ const faqs = [
   {
     question: "Is the paper submission also the competition submission?",
     answer:
-      "No. CyberChair SC03 is for the challenge paper. Task 1 uses the separate participant hub on this site, which activates one verified Hugging Face Space after organizer testing. The final task rules will specify the required solution and reproducibility materials. Both routes share the final submission deadline.",
+      "No. CyberChair SC03 is for the challenge paper. Task 1 uses the separate participant hub on this site, which activates isolated verified development and test Hugging Face Spaces after organizer testing. The final task rules will specify the required solution and reproducibility materials. Both routes share the final submission deadline.",
   },
   {
     question: "Why does CyberChair show a 10-page limit and deadline TBA?",
@@ -166,7 +166,7 @@ const faqs = [
   {
     question: "Where will the competition run?",
     answer:
-      "The Task 1 participant hub is hosted on this site and links to one organizer-verified Hugging Face Space for both submission and leaderboard access. Registered teams receive a private access code from the organizers and enter it only inside the Space. The public Pages hub stores no team codes or submissions, and a public aggregate table may also appear on the leaderboard page. The paper route is available separately through CyberChair SC03.",
+      "The Task 1 participant hub is hosted on this site and links to separate organizer-verified development and test Hugging Face Spaces. The verified participant release provides train questions and answers. Development submissions receive immediate aggregate scores and can enter the development leaderboard. Test submissions use the isolated test Space, receive a receipt only, and never appear on a leaderboard. Registered teams enter their private access code only inside the relevant Space. The paper route is available separately through CyberChair SC03.",
   },
   {
     question: "Are cash prizes confirmed?",
@@ -266,8 +266,8 @@ export default function Home() {
             </div>
             <p className="hero-note">
               The CyberChair paper channel is open. The Task 1 participant hub
-              connects registered teams to one organizer-verified Hugging Face
-              Space, where they enter organizer-issued private access codes.
+              links registered teams to isolated organizer-verified development
+              and test Hugging Face Spaces.
             </p>
           </div>
 
@@ -510,8 +510,8 @@ export default function Home() {
             Teams seeking final ranking and awards submit the challenge paper
             through CyberChair SC03. Solution materials specified in the final
             task rules use a separate participant path. The Task 1 hub is
-            the stable entry point for its verified submission and leaderboard
-            Space.
+            the stable entry point for its isolated verified development and
+            test submission Spaces and development leaderboard.
           </p>
           <div className="interest-points">
             <div>

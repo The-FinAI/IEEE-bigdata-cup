@@ -5,7 +5,7 @@ import { getTask1PublicConfig } from "../public-config";
 export const metadata: Metadata = {
   title: "Task 1 Submission | FinReason Cup",
   description:
-    "Participant submission hub for FinReason Cup Task 1 development and final evaluation.",
+    "Participant hub for FinReason Cup Task 1 train, development, and test phases.",
   alternates: {
     canonical: "https://the-finai.github.io/IEEE-bigdata-cup/task1/submit/",
   },
@@ -13,10 +13,12 @@ export const metadata: Metadata = {
 
 export default function Task1SubmitPage() {
   const config = getTask1PublicConfig();
-  const spaceIsReady =
+  const spaceLinksAreReady =
     config.siteMode === "final" &&
-    config.hfSpace.state === "ready" &&
-    config.hfSpace.url;
+    config.developmentSpace.state === "ready" &&
+    config.developmentSpace.url &&
+    config.testSpace.state === "ready" &&
+    config.testSpace.url;
 
   return (
     <main className="task-hub-page">
@@ -29,10 +31,10 @@ export default function Task1SubmitPage() {
         <p className="section-index">TASK 1 / PARTICIPANT HUB</p>
         <h1>Submit Task 1 results.</h1>
         <p>
-          Development and final submissions will use one organizer-verified Hugging Face Space. This
-          page is the stable entry point and will activate the Space link only after its public URL has
-          been verified. Registered teams receive a private access code from the organizers and enter
-          it only inside the Space.
+          {spaceLinksAreReady
+            ? "Train questions and answers, development questions, and test questions are available through the verified participant resources. Registered teams submit results through two isolated organizer-verified Hugging Face Spaces."
+            : "Train questions and answers, development questions, and test questions will be published when the verified participant resources are activated. Registered teams will submit results through two isolated organizer-verified Hugging Face Spaces."}{" "}
+          Enter the private access code issued by the organizers only inside the relevant Space.
         </p>
       </header>
 
@@ -40,43 +42,68 @@ export default function Task1SubmitPage() {
         <div className="task-platform-status">
           <span
             className="status-chip"
-            data-state={spaceIsReady ? "ready" : "pending"}
+            data-state={spaceLinksAreReady ? "ready" : "pending"}
           >
-            {spaceIsReady ? "Submission Space available" : "Space link not live yet"}
+            {spaceLinksAreReady ? "Submission Spaces available" : "Space links not live yet"}
           </span>
           <span>
             {config.siteMode === "final"
-              ? "Final Pages configuration"
+              ? "Live Pages configuration"
               : "Development preview configuration"}
           </span>
         </div>
         <div className="task-platform-copy">
           <div>
-            <p className="section-index">HUGGING FACE SPACE</p>
-            <h2 id="task1-platform-title">Task 1 submission workspace</h2>
+            <p className="section-index">HUGGING FACE SPACES</p>
+            <h2 id="task1-platform-title">Task 1 submission workspaces</h2>
           </div>
           <p>
-            Enter your organizer-issued private team access code when the Space prompts for it. Then
-            use the mode shown there and follow the current Task 1 package. Development feedback and
-            final evaluation remain separate even though they share one interface.
+            Development and test submissions use separate isolated deployments. Development returns
+            SeenFAC and SeenCheckpoint immediately and can update the development leaderboard. Test
+            returns a receipt only, with no online score and no leaderboard.
           </p>
         </div>
 
-        {spaceIsReady ? (
-          <a
-            className="button button-bright task-platform-action"
-            href={config.hfSpace.url ?? undefined}
-            target="_blank"
-            rel="noreferrer"
+        {spaceLinksAreReady ? (
+          <div
+            className="task-platform-actions"
+            role="group"
+            aria-label="Task 1 submission Spaces"
           >
-            Open Task 1 submission Space
-            <span aria-hidden="true">↗</span>
-            <span className="sr-only"> (opens in a new tab)</span>
-          </a>
+            <a
+              className="button button-bright task-platform-action"
+              href={config.developmentSpace.url ?? undefined}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Open development submission Space
+              <span aria-hidden="true">↗</span>
+              <span className="sr-only"> (opens in a new tab)</span>
+            </a>
+            <a
+              className="button button-ghost task-platform-action"
+              href={config.testSpace.url ?? undefined}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Open test submission Space
+              <span aria-hidden="true">↗</span>
+              <span className="sr-only"> (opens in a new tab)</span>
+            </a>
+          </div>
         ) : (
-          <span className="button task-platform-action button-disabled" aria-disabled="true">
-            Submission link pending verification
-          </span>
+          <div
+            className="task-platform-actions"
+            role="group"
+            aria-label="Task 1 submission Spaces"
+          >
+            <span className="button task-platform-action button-disabled" aria-disabled="true">
+              Development Space link pending verification
+            </span>
+            <span className="button task-platform-action button-disabled" aria-disabled="true">
+              Test Space link pending verification
+            </span>
+          </div>
         )}
 
         <p className="task-platform-footnote">
@@ -86,30 +113,37 @@ export default function Task1SubmitPage() {
         </p>
       </section>
 
-      <section className="task-mode-grid" aria-label="Development and final submission behavior">
+      <section className="task-mode-grid" aria-label="Train, development, and test behavior">
         <article>
-          <span>01 / DEVELOPMENT</span>
-          <h2>Iterate with aggregate feedback.</h2>
+          <span>01 / TRAIN</span>
+          <h2>Build with public answers.</h2>
           <p>
-            Use development mode for format checks and development-set evaluation. When the aggregate
-            feed is available, eligible development results appear on the public development
-            leaderboard.
+            {spaceLinksAreReady
+              ? "Train questions, gold answers, and canonical target examples are available in the verified participant release."
+              : "Train questions, gold answers, and canonical target examples will be included in the verified participant release."}{" "}
+            Use them for training and local checks. Train results are not submitted to a leaderboard.
           </p>
         </article>
         <article>
-          <span>02 / FINAL</span>
-          <h2>Keep final evaluation separate.</h2>
+          <span>02 / DEVELOPMENT</span>
+          <h2>Receive scores immediately.</h2>
           <p>
-            Use final mode only when the Space identifies it as open. Development leaderboard rows are
-            not final results; the published final protocol determines the official ranking.
+            {spaceLinksAreReady
+              ? "Submit predictions for the public development questions."
+              : "When the verified participant resources are activated, submit predictions for the public development questions."}{" "}
+            Each accepted submission returns SeenFAC and SeenCheckpoint immediately, and the eligible
+            best result enters the authenticated development leaderboard.
           </p>
         </article>
         <article>
-          <span>03 / RECEIPT</span>
-          <h2>Retain the submission record.</h2>
+          <span>03 / TEST</span>
+          <h2>Submit without feedback.</h2>
           <p>
-            Keep the confirmation or submission identifier returned by the Space. A browser upload is
-            complete only when the interface confirms that it was accepted.
+            {spaceLinksAreReady
+              ? "Submit predictions for the public test questions and retain the receipt identifier."
+              : "When the verified participant resources are activated, submit predictions for the public test questions and retain the receipt identifier."}{" "}
+            Test submissions receive no online score and never appear on a leaderboard. Official test
+            evaluation is performed by the organizers after submissions close.
           </p>
         </article>
       </section>
@@ -117,9 +151,9 @@ export default function Task1SubmitPage() {
       <aside className="task-hub-note">
         <strong>Current release state</strong>
         <p>
-          {spaceIsReady
-            ? "The submission link was supplied to this build through the verified public site configuration."
-            : "This build is in development preview. The page remains informational until organizers provide and verify the final Space URL."}
+          {spaceLinksAreReady
+            ? "Both isolated Space links were supplied through the verified live Pages configuration. The final site mode means the Pages deployment is live; it does not identify the competition phase or make test scores available."
+            : "This build is in development preview. Staged Space URLs are not published as clickable links until organizers verify both isolated deployments and activate the live Pages configuration."}
         </p>
       </aside>
     </main>

@@ -17,19 +17,23 @@ jobs:
         include:
           - scenario: development-unconfigured
             site_mode: development
-            space_url: ""
+            development_space_url: ""
+            test_space_url: ""
             leaderboard_api_url: ""
           - scenario: development-staged
             site_mode: development
-            space_url: https://mbzuai-finreason-task1-rehearsal.hf.space/
+            development_space_url: https://task1-development-ci.hf.space/
+            test_space_url: https://task1-test-ci.hf.space/
             leaderboard_api_url: https://mbzuai-finreason-task1-rehearsal.hf.space/api/leaderboard?phase=development&view=aggregate
-          - scenario: final-space-only
+          - scenario: final-spaces-only
             site_mode: final
-            space_url: https://mbzuai-finreason-task1-rehearsal.hf.space/
+            development_space_url: https://task1-development-ci.hf.space/
+            test_space_url: https://task1-test-ci.hf.space/
             leaderboard_api_url: ""
-          - scenario: final-space-with-api
+          - scenario: final-spaces-with-api
             site_mode: final
-            space_url: https://mbzuai-finreason-task1-rehearsal.hf.space/
+            development_space_url: https://task1-development-ci.hf.space/
+            test_space_url: https://task1-test-ci.hf.space/
             leaderboard_api_url: https://mbzuai-finreason-task1-rehearsal.hf.space/api/leaderboard?phase=development&view=aggregate
     steps:
       - name: Check out repository
@@ -52,6 +56,7 @@ jobs:
       - name: Build and verify static site
         env:
           FINREASON_TASK1_SITE_MODE: ${{ matrix.site_mode }}
-          NEXT_PUBLIC_FINREASON_TASK1_HF_SPACE_URL: ${{ matrix.space_url }}
+          NEXT_PUBLIC_FINREASON_TASK1_DEVELOPMENT_SPACE_URL: ${{ matrix.development_space_url }}
+          NEXT_PUBLIC_FINREASON_TASK1_TEST_SPACE_URL: ${{ matrix.test_space_url }}
           NEXT_PUBLIC_FINREASON_TASK1_LEADERBOARD_API_URL: ${{ matrix.leaderboard_api_url }}
         run: npm test

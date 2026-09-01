@@ -1489,6 +1489,12 @@ label {
   margin-top: 6px;
 }
 
+.task-platform-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
 .button-disabled {
   background: rgba(255, 255, 255, 0.08);
   border-color: rgba(255, 255, 255, 0.2);
@@ -2593,6 +2599,12 @@ details p {
 
   .task-platform-action {
     display: flex;
+    width: 100%;
+  }
+
+  .task-platform-actions {
+    display: grid;
+    grid-template-columns: 1fr;
     width: 100%;
   }
 

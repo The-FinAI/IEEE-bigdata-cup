@@ -4,9 +4,9 @@ import { getTask1PublicConfig } from "../public-config";
 import { AggregateLeaderboard } from "./aggregate-leaderboard";
 
 export const metadata: Metadata = {
-  title: "Task 1 Leaderboard | FinReason Cup",
+  title: "Task 1 Development Leaderboard | FinReason Cup",
   description:
-    "Participant scores, leaderboard access, and optional aggregate development results for FinReason Cup Task 1.",
+    "Immediate development scores and the authenticated development leaderboard for FinReason Cup Task 1.",
   alternates: {
     canonical: "https://the-finai.github.io/IEEE-bigdata-cup/task1/leaderboard/",
   },
@@ -14,10 +14,10 @@ export const metadata: Metadata = {
 
 export default function Task1LeaderboardPage() {
   const config = getTask1PublicConfig();
-  const spaceIsReady =
+  const developmentSpaceIsReady =
     config.siteMode === "final" &&
-    config.hfSpace.state === "ready" &&
-    config.hfSpace.url;
+    config.developmentSpace.state === "ready" &&
+    config.developmentSpace.url;
   const publicLeaderboardUrl =
     config.siteMode === "final" ? config.leaderboardApi.url : null;
 
@@ -30,38 +30,39 @@ export default function Task1LeaderboardPage() {
 
       <header className="task-hub-heading">
         <p className="section-index">TASK 1 / RESULTS</p>
-        <h1>Scores and leaderboard.</h1>
+        <h1>Development scores and leaderboard.</h1>
         <p>
-          The organizer-verified Task 1 Space is the authoritative place to view submission status,
-          scores, and the leaderboard. Registered teams use the private access code issued by the
-          organizers. This Pages route can also show a public aggregate development table when
-          organizers enable its optional feed.
+          Accepted development submissions receive SeenFAC and SeenCheckpoint immediately. Eligible
+          best development results appear on the authenticated leaderboard inside the development
+          Space. When enabled, this Pages route also shows an aggregate public view. Registered teams
+          use the private access code issued by the organizers only inside the verified Task 1
+          development Space.
         </p>
       </header>
 
       <section className="space-access-card" aria-labelledby="space-results-title">
         <div>
           <p className="section-index">PRIVATE TEAM ACCESS</p>
-          <h2 id="space-results-title">Task 1 Hugging Face Space</h2>
+          <h2 id="space-results-title">Task 1 development Space</h2>
           <p>
-            Submission and leaderboard access use the same verified Space. Enter the private access
-            code issued to your registered team inside the Space to view your team&apos;s results.
+            This page links only to the isolated development Space. Enter the private access code
+            issued to your registered team inside that Space to submit and view development results.
           </p>
         </div>
-        {spaceIsReady ? (
+        {developmentSpaceIsReady ? (
           <a
             className="button button-bright"
-            href={config.hfSpace.url ?? undefined}
+            href={config.developmentSpace.url ?? undefined}
             target="_blank"
             rel="noreferrer"
           >
-            Open Task 1 leaderboard
+            Open development submission Space
             <span aria-hidden="true">↗</span>
             <span className="sr-only"> (opens in a new tab)</span>
           </a>
         ) : (
           <span className="button button-disabled" aria-disabled="true">
-            Space link pending verification
+            Development Space link pending verification
           </span>
         )}
       </section>
@@ -75,11 +76,11 @@ export default function Task1LeaderboardPage() {
       </section>
 
       <aside className="task-hub-note">
-        <strong>Development is not final</strong>
+        <strong>This leaderboard is development-only</strong>
         <p>
-          Development scores support iteration. Final evaluation follows the separately published final
-          protocol and is not inferred from this table. This public Pages view contains no access codes,
-          secrets, gold answers, or private evaluation data.
+          Train has no leaderboard. Test submissions return receipts only and do not receive online
+          scores or appear here. Official test evaluation is performed after submissions close. This
+          public Pages view contains no access codes, secrets, gold answers, or private evaluation data.
         </p>
       </aside>
     </main>

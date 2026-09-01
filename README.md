@@ -115,12 +115,14 @@ final competition submission.
 | --- | --- |
 | [Official challenge website](https://the-finai.github.io/IEEE-bigdata-cup/) | Live |
 | [Letter of Intent](https://forms.gle/D4VJqjgtmcaC77DL8) | Open |
-| Datasets and development splits | Coming soon |
+| Task 1 train questions, answers, and targets | Prepared; public link pending verification |
+| Task 1 development questions and immediate leaderboard | Prepared; public link pending verification |
+| Task 1 test questions and receipt-only submission | Prepared; public link pending verification |
 | Starter kits, schemas, validators, and baselines | Coming soon |
 | Participant support channel | Coming soon |
 | [Challenge paper submission](https://wi-lab.com/cyberchair/2026/bigdata26/scripts/submit.php?subarea=SC03) | Open |
-| [Task 1 submission hub](https://the-finai.github.io/IEEE-bigdata-cup/task1/submit/) | Space link controlled at build time |
-| [Task 1 leaderboard hub](https://the-finai.github.io/IEEE-bigdata-cup/task1/leaderboard/) | Same build-controlled Space link |
+| [Task 1 submission hub](https://the-finai.github.io/IEEE-bigdata-cup/task1/submit/) | Development and test Space links controlled at build time |
+| [Task 1 leaderboard hub](https://the-finai.github.io/IEEE-bigdata-cup/task1/leaderboard/) | Development Space link controlled at build time |
 
 Final verified competition-platform and submission links will be posted on the
 official challenge website after workflow testing.
@@ -151,35 +153,44 @@ Please use only links marked as verified on the
 The public Task 1 routes provide a stable participant entry point while the
 submission service is prepared:
 
-- `/task1/submit/` points to one organizer-verified Hugging Face Space after its
-  URL is supplied at build time;
-- `/task1/leaderboard/` points to the same verified Space for scores and
-  leaderboard access;
+- `/task1/submit/` points to separate organizer-verified development and test
+  Hugging Face Spaces after both URLs are supplied at build time;
+- `/task1/leaderboard/` points only to the development Space for submission,
+  scores, and development leaderboard access;
 - registered teams receive a private access code from the organizers and enter
-  it only inside the Space;
+  it only inside the relevant Space;
 - an optional public JSON endpoint can add an aggregate development table to
   the Pages leaderboard route without becoming a launch dependency;
-- development results and final evaluation are described as separate modes;
+- the verified participant release provides train questions and answers, with no
+  train leaderboard;
+- accepted development submissions return immediate SeenFAC and SeenCheckpoint
+  and can enter the authenticated development leaderboard;
+- accepted test submissions return a receipt only, with no online score and no
+  test leaderboard;
 - GitHub Issues are not a participant submission channel.
 
 No live Hugging Face URL is stored in the repository. The safe default is a
-development build with both links unavailable. Copy the variable names from
+development preview build with all Space links unavailable. Copy the variable
+names from
 [`docs/task1-site.env.example`](docs/task1-site.env.example) and set values only
 after the public endpoints have been verified:
 
 | Variable | Behavior |
 | --- | --- |
-| `FINREASON_TASK1_SITE_MODE=development` | Both pages stay in the not-yet-live state, even if endpoint values are staged. |
-| `FINREASON_TASK1_SITE_MODE=final` | The build requires the verified HTTPS Space URL. A malformed optional API URL also fails the build. |
-| `NEXT_PUBLIC_FINREASON_TASK1_HF_SPACE_URL` | The root HTTPS URL of the single organizer-verified `*.hf.space` deployment used for submission and leaderboard access. Query strings, fragments, credentials, ports, and subpaths are rejected. |
+| `FINREASON_TASK1_SITE_MODE=development` | Both pages stay in the not-yet-live preview state, even if endpoint values are staged. This is a Pages deployment state, not the competition development phase. |
+| `FINREASON_TASK1_SITE_MODE=final` | The build requires two distinct verified root `*.hf.space` HTTPS URLs. A malformed optional API URL also fails the build. `final` means the Pages links are live; it is not a competition phase and does not mean test scoring is live. |
+| `NEXT_PUBLIC_FINREASON_TASK1_DEVELOPMENT_SPACE_URL` | Root HTTPS URL of the organizer-verified development Space. Query strings, fragments, credentials, ports, and subpaths are rejected. |
+| `NEXT_PUBLIC_FINREASON_TASK1_TEST_SPACE_URL` | Root HTTPS URL of the separate organizer-verified test Space. It follows the same root-URL restrictions and must differ from the development URL. |
 | `NEXT_PUBLIC_FINREASON_TASK1_LEADERBOARD_API_URL` | Optional CORS-enabled public aggregate JSON extension. |
 
-Both `NEXT_PUBLIC_*` values and their complete URLs are embedded in the public
-static artifact. They must not contain access tokens, signed credentials, or
-other secrets. The aggregate endpoint must be anonymously readable and return
-only the public contract below. Team access codes are issued privately by the
-organizers and entered only in the Space. GitHub Pages must not receive or
-store access codes, submissions, gold answers, or private evaluation data.
+In `final` mode, both Space URLs and the optional leaderboard URL are embedded
+in the public static artifact. Development preview mode does not render staged
+endpoint values. Public URLs must not contain access tokens, signed credentials,
+or other secrets. The aggregate endpoint must be anonymously readable and
+return only the public contract below. Team access codes are issued privately
+by the organizers and entered only in the relevant Space. GitHub Pages must not
+receive or store access codes, submissions, gold answers, or private evaluation
+data.
 
 When configured, the public endpoint must return the canonical aggregate-only
 development leaderboard contract below. Its root and row fields are exact; it
@@ -206,20 +217,25 @@ data, or additional metadata. The response must be no larger than 1 MiB.
 
 The deployed Pages workflow reads the same names from GitHub repository
 variables. It defaults to `development`; changing the repository variable to
-`final` activates the verified public link. Scores and the authoritative leaderboard
-remain available in the verified Space to registered teams using their organizer-issued
-private access code, even when the optional public API is unset or temporarily
-unavailable. Changing repository variables does not
+`final` activates both verified public Space links. This mode name describes the
+live Pages deployment state, not a competition phase. Development scores and the
+development leaderboard remain available in the isolated development Space to
+registered teams using their organizer-issued private access code, even when the
+optional public API is unset or temporarily unavailable. The isolated test Space
+returns receipts only and is never linked from the leaderboard page. Test
+submissions are excluded from all online leaderboard projections. Changing
+repository variables does not
 deploy the site by itself; after setting them, run the existing Pages
 `workflow_dispatch` on `main` and verify both Task 1 routes in the deployed
 artifact. The isolated GitHub Issue pilot neither rebuilds nor dispatches the
 official Pages deployment.
 
-To withdraw a previously active Space link, set
+To withdraw previously active Space links, set
 `FINREASON_TASK1_SITE_MODE=development`, dispatch the Pages workflow on `main`,
-and verify that both Task 1 routes show their pending state. Clearing an invalid
-URL while leaving mode set to `final` is not a withdrawal because the build
-fails safely and the previous Pages artifact remains live.
+and verify that both Task 1 routes show their pending state without disclosing
+either staged URL. Clearing one URL while leaving mode set to `final` is not a
+withdrawal because the build fails safely and the previous Pages artifact
+remains live.
 
 ## Local development
 
