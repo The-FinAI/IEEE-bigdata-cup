@@ -84,8 +84,14 @@ function OrganizerBaselines() {
                   <span className="leaderboard-entry-pill baseline">Baseline</span>
                   <small>{baseline.description}</small>
                 </th>
-                <td className="leaderboard-score">{formatScore(baseline.finalAnswer)}</td>
-                <td className="leaderboard-score">{formatScore(baseline.reasoningSteps)}</td>
+                <td className="leaderboard-score">
+                  <span className="leaderboard-mobile-score-label">Final answer</span>
+                  {formatScore(baseline.finalAnswer)}
+                </td>
+                <td className="leaderboard-score">
+                  <span className="leaderboard-mobile-score-label">Reasoning steps</span>
+                  {formatScore(baseline.reasoningSteps)}
+                </td>
               </tr>
             ))}
           </tbody>
