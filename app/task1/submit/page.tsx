@@ -32,8 +32,8 @@ export default function Task1SubmitPage() {
             <p>
               All train, development, and test files are available from the participant hub. {" "}
               {spaceLinksAreReady
-                ? "Registered teams submit directly through two isolated organizer-verified Hugging Face Spaces."
-                : "The organizer team is verifying the two direct-upload workspaces before publishing their links."}
+                ? "Registered teams submit directly through separate development and test pages."
+                : "The organizer team is verifying the two submission pages before publishing their links."}
             </p>
           </div>
           <dl className="task-hub-facts" aria-label="Submission quick facts">
@@ -43,7 +43,7 @@ export default function Task1SubmitPage() {
             </div>
             <div>
               <dt>Development</dt>
-              <dd>Receipt: SeenFAC + SeenCheckpoint</dd>
+              <dd>Scores + ranking</dd>
             </div>
             <div>
               <dt>Test</dt>
@@ -62,14 +62,13 @@ export default function Task1SubmitPage() {
         </div>
         <div className="task-platform-copy">
           <div>
-            <p className="section-index">DIRECT UPLOAD WORKSPACES</p>
+            <p className="section-index">SUBMISSION PAGES</p>
             <h2 id="task1-platform-title">Development and test submission</h2>
           </div>
           <p>
-            Development and test use separate isolated services. An accepted development upload
-            returns a receipt showing SeenFAC and SeenCheckpoint immediately. Refresh the authenticated
-            development leaderboard to see the current eligible best result and rank. Test returns only
-            an acceptance receipt, with no score, rank, diagnostic, or online leaderboard.
+            Development and test use separate submission pages. An accepted development upload shows
+            the final-answer score, reasoning-step score, and current rank immediately. Test returns only
+            an acceptance receipt, with no score or rank before the final results are released.
           </p>
         </div>
 
@@ -108,9 +107,9 @@ export default function Task1SubmitPage() {
         )}
 
         <p className="task-platform-footnote">
-          This GitHub Pages site does not receive or store team codes, submissions, gold answers, or
-          private evaluation data. After submitting the Letter of Intent, enter the private team code
-          issued by the organizers only inside the verified submission workspace. Review the{" "}
+          This public website does not receive or store team codes or uploaded files. After submitting
+          the Letter of Intent, enter the private team code issued by the organizers only on the
+          submission page. Review the{" "}
           <Link href="/terms/">Terms of Participation</Link>{" "}
           and <Link href="/privacy/">Privacy Notice</Link>. Participant support:{" "}
           <a href="mailto:zhuohan.xie@mbzuai.ac.ae">zhuohan.xie@mbzuai.ac.ae</a>.
@@ -130,9 +129,8 @@ export default function Task1SubmitPage() {
           <span>02 / DEVELOPMENT</span>
           <h2>Receive scores immediately.</h2>
           <p>
-            Upload the canonical 580-row predictions ZIP. Each accepted submission immediately returns
-            a receipt with SeenFAC and SeenCheckpoint. Refresh the authenticated development leaderboard
-            to see whether the team&apos;s eligible best result and rank have updated.
+            Upload the 580-row predictions ZIP. Each accepted submission immediately shows the
+            final-answer score, reasoning-step score, and current rank.
           </p>
         </article>
         <article>

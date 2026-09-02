@@ -64,7 +64,7 @@ export default function Task1HubPage() {
             <p className="section-index">TASK 1 / PARTICIPANT HUB</p>
             <h1>Data and submission routes</h1>
             <p>
-              All frozen public Task 1 development and rotated V2 test files are available below. {" "}
+              Training, development, and test files for Task 1 are available below. {" "}
               {spaceLinksAreReady
                 ? "Registered teams submit through separate verified development and test web workspaces."
                 : "The direct-upload workspaces are being verified before their links are published."}
@@ -92,9 +92,8 @@ export default function Task1HubPage() {
           <span>01 / DEVELOPMENT</span>
           <h2>Submit 580 predictions.</h2>
           <p>
-            Use the canonical V4 leaderboard questions and expected IDs. Accepted development
-            submissions return SeenFAC and SeenCheckpoint immediately and can update the development
-            leaderboard.
+            Use the published development questions and expected IDs. Accepted submissions show the
+            final-answer score, reasoning-step score, and current rank immediately.
           </p>
           <Link className="button button-primary" href="/task1/submit/">
             {spaceLinksAreReady ? "Open development submission" : "View upload status"}
@@ -104,8 +103,8 @@ export default function Task1HubPage() {
           <span>02 / TEST</span>
           <h2>Download 928 test questions.</h2>
           <p>
-            The rotated V2 public test release is available. Accepted test submissions return only an
-            acceptance receipt. No score, rank, diagnostic, or test leaderboard is shown online.
+            The test questions are available now. Accepted test submissions return only an acceptance
+            receipt. Scores and ranks stay hidden until the final results are released.
           </p>
           {spaceLinksAreReady ? (
             <Link className="button button-primary" href="/task1/submit/">Open test submission</Link>
@@ -127,21 +126,21 @@ export default function Task1HubPage() {
       <section className="task-platform-card" aria-labelledby="task1-downloads-title">
         <div className="task-platform-copy">
           <div>
-            <p className="section-index">CANONICAL DOWNLOADS</p>
-            <h2 id="task1-downloads-title">Frozen public files</h2>
+            <p className="section-index">DOWNLOADS</p>
+            <h2 id="task1-downloads-title">Task 1 files</h2>
           </div>
           <p>
-            Verify the SHA-256 values in each release manifest before use. These lists contain exactly
-            the 13-file V4 development allowlist and three-file rotated V2 test allowlist.
+            Use each release manifest to verify your download. The development package contains 13
+            files and the test package contains three files.
           </p>
         </div>
         <div className="task-mode-grid">
           <article>
-            <span>V4 DEVELOPMENT / 13 FILES</span>
+            <span>DEVELOPMENT / 13 FILES</span>
             <DownloadList files={developmentDownloads} phase="development" />
           </article>
           <article>
-            <span>ROTATED V2 TEST / 3 FILES</span>
+            <span>TEST / 3 FILES</span>
             <DownloadList files={testDownloads} phase="test" />
           </article>
         </div>

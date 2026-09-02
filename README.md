@@ -160,9 +160,8 @@ The public `/task1/` route is the stable participant entry point:
   downloadable from Pages with their frozen manifests;
 - `/task1/submit/` publishes two distinct organizer-verified direct-upload links
   after both workspaces pass deployment checks;
-- the development workspace accepts the canonical 580-row predictions ZIP,
-  returns SeenFAC and SeenCheckpoint immediately, and maintains the eligible
-  best result per team;
+- the development page accepts the 580-row predictions ZIP, returns final-answer
+  and reasoning-step scores immediately, and maintains the best result per team;
 - the separate test workspace accepts the 928-row test predictions ZIP and
   returns only an acceptance receipt, with no score, rank, diagnostic, or test
   leaderboard;

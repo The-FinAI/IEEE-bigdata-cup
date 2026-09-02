@@ -20,6 +20,403 @@
   --mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
+/* FinMMEval-style Task 1 leaderboard */
+
+.task1-leaderboard-page {
+  background:
+    radial-gradient(circle at 12% 2%, rgba(31, 99, 216, 0.09), transparent 25rem),
+    linear-gradient(180deg, #eaf2ff 0, #f5f8ff 360px, #f8faff 100%);
+  margin: 0;
+  max-width: none;
+  padding: 24px 32px 80px;
+}
+
+.task1-leaderboard-shell {
+  margin: 0 auto;
+  max-width: 1156px;
+}
+
+.leaderboard-page-heading {
+  padding: 54px 4px 32px;
+}
+
+.leaderboard-page-heading h1 {
+  color: #162845;
+  font-size: clamp(38px, 4.4vw, 52px);
+  font-weight: 720;
+  letter-spacing: -0.045em;
+  line-height: 1.02;
+  margin: 13px 0 0;
+}
+
+.leaderboard-page-heading > p:last-child {
+  color: #64748f;
+  font-size: 16px;
+  line-height: 1.65;
+  margin: 17px 0 0;
+  max-width: 680px;
+}
+
+.leaderboard-phase-tabs {
+  background: rgba(255, 255, 255, 0.74);
+  border: 1px solid rgba(31, 99, 216, 0.12);
+  border-radius: 14px;
+  display: inline-grid;
+  gap: 5px;
+  grid-template-columns: repeat(2, auto);
+  padding: 5px;
+}
+
+.leaderboard-phase-tabs span {
+  border-radius: 10px;
+  color: #64748f;
+  font-size: 13px;
+  font-weight: 680;
+  padding: 11px 17px;
+}
+
+.leaderboard-phase-tabs span[aria-current="page"] {
+  background: #1f63d8;
+  box-shadow: 0 6px 16px rgba(31, 99, 216, 0.2);
+  color: #fff;
+}
+
+.leaderboard-guide {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(31, 99, 216, 0.12);
+  border-radius: 18px;
+  box-shadow: 0 12px 34px rgba(30, 64, 175, 0.07);
+  display: grid;
+  gap: 36px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  margin-top: 18px;
+  padding: 26px 28px;
+}
+
+.leaderboard-guide .section-index {
+  color: #1f63d8;
+  margin: 0;
+}
+
+.leaderboard-guide h2 {
+  color: #162845;
+  font-size: 21px;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+  margin: 8px 0 0;
+}
+
+.leaderboard-guide p:last-child {
+  color: #64748f;
+  font-size: 13.5px;
+  line-height: 1.65;
+  margin: 10px 0 0;
+  max-width: 710px;
+}
+
+.leaderboard-guide p strong {
+  color: #162845;
+}
+
+.leaderboard-guide .button {
+  background: #1f63d8;
+  box-shadow: 0 8px 20px rgba(31, 99, 216, 0.18);
+  color: #fff;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.leaderboard-guide .button:hover {
+  background: #174fae;
+  color: #fff;
+}
+
+.leaderboard-guide .button-disabled {
+  background: #e2e8f0;
+  box-shadow: none;
+  color: #64748f;
+}
+
+.finmmeval-leaderboard-card {
+  background: #fff;
+  border: 1px solid rgba(31, 99, 216, 0.12);
+  border-radius: 18px;
+  box-shadow: 0 15px 42px rgba(30, 64, 175, 0.08);
+  margin-top: 18px;
+  overflow: hidden;
+}
+
+.finmmeval-leaderboard-head {
+  align-items: center;
+  border-bottom: 1px solid #e5ecf7;
+  display: flex;
+  justify-content: space-between;
+  padding: 23px 26px;
+}
+
+.finmmeval-leaderboard-head > div > p {
+  color: #1f63d8;
+  font-size: 10px;
+  font-weight: 760;
+  letter-spacing: 0.08em;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.finmmeval-leaderboard-head h2 {
+  color: #162845;
+  font-size: 22px;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+  margin: 6px 0 0;
+}
+
+.finmmeval-leaderboard-head > p {
+  color: #64748f;
+  font-size: 12px;
+  margin: 0;
+}
+
+.leaderboard-inline-status {
+  background: #eff6ff;
+  color: #1e40af;
+  font-size: 12px;
+  margin: 0;
+  padding: 11px 26px;
+}
+
+.leaderboard-inline-error {
+  align-items: center;
+  background: #fff7ed;
+  color: #9a3412;
+  display: flex;
+  gap: 14px;
+  justify-content: space-between;
+}
+
+.leaderboard-inline-error button {
+  background: transparent;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 760;
+  padding: 3px 0;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.finmmeval-table-shell {
+  overflow-x: auto;
+  padding: 0 20px;
+}
+
+.finmmeval-table-shell:focus-visible {
+  outline: 3px solid rgba(31, 99, 216, 0.28);
+  outline-offset: -3px;
+}
+
+.finmmeval-table-shell table {
+  border-collapse: collapse;
+  min-width: 720px;
+  width: 100%;
+}
+
+.finmmeval-table-shell th,
+.finmmeval-table-shell td {
+  border-bottom: 1px solid #e8edf5;
+  padding: 16px 13px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.finmmeval-table-shell thead th {
+  color: #64748f;
+  font-size: 10px;
+  font-weight: 760;
+  letter-spacing: 0.055em;
+  text-transform: uppercase;
+}
+
+.finmmeval-table-shell thead th:first-child {
+  width: 76px;
+}
+
+.finmmeval-table-shell tbody th {
+  color: #162845;
+  font-size: 13px;
+  font-weight: 720;
+  min-width: 250px;
+}
+
+.finmmeval-table-shell tbody th small {
+  color: #64748f;
+  display: block;
+  font-size: 11px;
+  font-weight: 520;
+  line-height: 1.4;
+  margin-top: 5px;
+}
+
+.leaderboard-team-name {
+  margin-right: 9px;
+}
+
+.leaderboard-rank-badge {
+  align-items: center;
+  background: #dbeafe;
+  border-radius: 999px;
+  color: #1e40af;
+  display: inline-flex;
+  font-size: 11px;
+  font-weight: 800;
+  height: 30px;
+  justify-content: center;
+  min-width: 30px;
+  padding: 0 9px;
+}
+
+.leaderboard-rank-badge.muted {
+  background: rgba(154, 52, 18, 0.09);
+  color: #9a3412;
+}
+
+.leaderboard-entry-pill {
+  border-radius: 999px;
+  display: inline-flex;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.035em;
+  padding: 4px 8px;
+  text-transform: uppercase;
+}
+
+.leaderboard-entry-pill.participant {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.leaderboard-entry-pill.baseline {
+  background: #ffedd5;
+  color: #9a3412;
+}
+
+.leaderboard-baseline-row {
+  background: linear-gradient(90deg, rgba(255, 247, 237, 0.86), rgba(255, 255, 255, 0.56));
+}
+
+.finmmeval-table-shell tbody + tbody tr:first-child > * {
+  border-top: 2px solid #e2e8f0;
+}
+
+.leaderboard-score {
+  color: #1f63d8;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  font-weight: 780;
+  white-space: nowrap;
+}
+
+.leaderboard-updated-column {
+  color: #64748f;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.finmmeval-leaderboard-foot {
+  background: #f8faff;
+  padding: 15px 26px;
+}
+
+.finmmeval-leaderboard-foot p {
+  color: #64748f;
+  font-size: 11.5px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.leaderboard-test-note {
+  color: #64748f;
+  font-size: 12px;
+  line-height: 1.6;
+  margin: 16px 4px 0;
+}
+
+@media (max-width: 760px) {
+  .task1-leaderboard-page {
+    padding: 14px 16px 54px;
+  }
+
+  .leaderboard-page-heading {
+    padding: 42px 2px 27px;
+  }
+
+  .leaderboard-page-heading h1 {
+    font-size: clamp(36px, 10.5vw, 44px);
+  }
+
+  .leaderboard-phase-tabs {
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 100%;
+  }
+
+  .leaderboard-phase-tabs span {
+    text-align: center;
+  }
+
+  .leaderboard-guide {
+    align-items: stretch;
+    gap: 22px;
+    grid-template-columns: 1fr;
+    padding: 23px 20px;
+  }
+
+  .leaderboard-guide .button {
+    display: flex;
+    width: 100%;
+  }
+
+  .finmmeval-leaderboard-head {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+    padding: 21px 20px;
+  }
+
+  .finmmeval-table-shell {
+    padding: 0 10px;
+  }
+
+  .finmmeval-table-shell table {
+    min-width: 540px;
+  }
+
+  .finmmeval-table-shell th,
+  .finmmeval-table-shell td {
+    padding: 14px 10px;
+  }
+
+  .leaderboard-updated-column {
+    display: none;
+  }
+
+  .finmmeval-leaderboard-foot {
+    padding: 14px 20px;
+  }
+}
+
+@media (max-width: 470px) {
+  .finmmeval-table-shell table {
+    min-width: 500px;
+  }
+
+  .finmmeval-table-shell tbody th {
+    min-width: 210px;
+  }
+}
+
 * {
   box-sizing: border-box;
 }
@@ -3811,5 +4208,17 @@ details {
 
   .task1-page .leaderboard-panel {
     padding: 24px 20px;
+  }
+}
+
+.task1-page.task1-leaderboard-page {
+  margin: 0;
+  max-width: none;
+  padding: 24px 32px 80px;
+}
+
+@media (max-width: 760px) {
+  .task1-page.task1-leaderboard-page {
+    padding: 14px 16px 54px;
   }
 }
