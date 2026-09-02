@@ -119,7 +119,8 @@ final competition submission.
 | [Letter of Intent](https://forms.gle/D4VJqjgtmcaC77DL8) | Open |
 | Task 1 training, development, and test files | Live as 13 development files and 3 test files |
 | Task 1 direct web upload | See the participant hub for current verified availability |
-| Task 1 schemas, validator, sample B0, and B1 baseline | Live in this repository |
+| [Task 1 step-by-step submission guide](https://the-finai.github.io/IEEE-bigdata-cup/task1/submit/#how-to-submit) | Live |
+| Task 1 validator, sample B0, and B1 baseline | Live in this repository |
 | Task 1 organizer baseline scores | B0–B2 local-development references live on the leaderboard page |
 | Task 2 and Task 3 starter kits and baselines | Coming soon |
 | Participant support | [zhuohan.xie@mbzuai.ac.ae](mailto:zhuohan.xie@mbzuai.ac.ae) |
@@ -161,7 +162,8 @@ The public `/task1/` route is the stable participant entry point:
 - `/task1/submit/` publishes two distinct organizer-verified direct-upload links
   after both workspaces pass deployment checks;
 - the development page accepts the 580-row predictions ZIP, returns final-answer
-  and reasoning-step scores immediately, and maintains the best result per team;
+  and checkpoint scores immediately; participants select **Refresh leaderboard**
+  to load the current best result and rank;
 - the separate test workspace accepts the 928-row test predictions ZIP and
   returns only an acceptance receipt, with no score, rank, diagnostic, or test
   leaderboard;
@@ -169,6 +171,12 @@ The public `/task1/` route is the stable participant entry point:
   workspace, never into this GitHub Pages site;
 - team access codes are issued by the organizers after registration and are
   entered only inside the verified submission workspace.
+
+The [step-by-step submission guide](https://the-finai.github.io/IEEE-bigdata-cup/task1/submit/#how-to-submit)
+identifies the exact development and test input files, the five required JSONL
+fields, the validator and packaging commands, and each phase's receipt behavior.
+Every uploaded ZIP must contain exactly one root-level file named
+`predictions.jsonl`; the paper PDF is submitted separately through CyberChair.
 
 The public JSON feed uses the canonical aggregate-only development leaderboard
 contract below. Its root and row fields are exact; it

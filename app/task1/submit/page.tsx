@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getTask1PublicConfig } from "../public-config";
+import { SubmissionGuide } from "../submission-guide";
 import { Task1Nav } from "../task1-nav";
 
 export const metadata: Metadata = {
@@ -43,7 +44,7 @@ export default function Task1SubmitPage() {
             </div>
             <div>
               <dt>Development</dt>
-              <dd>Scores + ranking</dd>
+              <dd>Scores; refresh for rank</dd>
             </div>
             <div>
               <dt>Test</dt>
@@ -52,6 +53,12 @@ export default function Task1SubmitPage() {
           </dl>
         </div>
       </header>
+
+      <SubmissionGuide
+        developmentSpaceUrl={config.developmentSpace.url}
+        testSpaceUrl={config.testSpace.url}
+        linksReady={Boolean(spaceLinksAreReady)}
+      />
 
       <section className="task-platform-card" aria-labelledby="task1-platform-title">
         <div className="task-platform-status">
@@ -67,8 +74,9 @@ export default function Task1SubmitPage() {
           </div>
           <p>
             Development and test use separate submission pages. An accepted development upload shows
-            the final-answer score, reasoning-step score, and current rank immediately. Test returns only
-            an acceptance receipt, with no score or rank before the final results are released.
+            the final-answer and checkpoint scores in its receipt; select Refresh leaderboard in the
+            development workspace to load the current best-per-team table and rank. Test returns only an
+            acceptance receipt, with no score or rank before the final results are released.
           </p>
         </div>
 
@@ -107,9 +115,9 @@ export default function Task1SubmitPage() {
         )}
 
         <p className="task-platform-footnote">
-          This public website does not receive or store team codes or uploaded files. After submitting
-          the Letter of Intent, enter the private team code issued by the organizers only on the
-          submission page. Review the{" "}
+          This public website does not receive or store team codes or uploaded files. After your team is
+          registered, enter the private team code issued by the organizers only on the submission page.
+          Review the{" "}
           <Link href="/terms/">Terms of Participation</Link>{" "}
           and <Link href="/privacy/">Privacy Notice</Link>. Participant support:{" "}
           <a href="mailto:zhuohan.xie@mbzuai.ac.ae">zhuohan.xie@mbzuai.ac.ae</a>.
@@ -129,8 +137,9 @@ export default function Task1SubmitPage() {
           <span>02 / DEVELOPMENT</span>
           <h2>Receive scores immediately.</h2>
           <p>
-            Upload the 580-row predictions ZIP. Each accepted submission immediately shows the
-            final-answer score, reasoning-step score, and current rank.
+            Upload the 580-row predictions ZIP. Each accepted submission immediately returns the
+            final-answer and checkpoint scores. Select Refresh leaderboard to load the current
+            best-per-team result and rank.
           </p>
         </article>
         <article>

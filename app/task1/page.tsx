@@ -93,10 +93,11 @@ export default function Task1HubPage() {
           <h2>Submit 580 predictions.</h2>
           <p>
             Use the published development questions and expected IDs. Accepted submissions show the
-            final-answer score, reasoning-step score, and current rank immediately.
+            final-answer and checkpoint scores. Select Refresh leaderboard in the development workspace
+            to load the current best-per-team result and rank.
           </p>
-          <Link className="button button-primary" href="/task1/submit/">
-            {spaceLinksAreReady ? "Open development submission" : "View upload status"}
+          <Link className="button button-primary" href="/task1/submit/#how-to-submit">
+            {spaceLinksAreReady ? "View development submission steps" : "View upload status"}
           </Link>
         </article>
         <article>
@@ -107,7 +108,7 @@ export default function Task1HubPage() {
             receipt. Scores and ranks stay hidden until the final results are released.
           </p>
           {spaceLinksAreReady ? (
-            <Link className="button button-primary" href="/task1/submit/">Open test submission</Link>
+            <Link className="button button-primary" href="/task1/submit/#how-to-submit">View test submission steps</Link>
           ) : (
             <span className="button button-disabled" aria-disabled="true">Test upload link pending verification</span>
           )}
@@ -116,8 +117,9 @@ export default function Task1HubPage() {
           <span>03 / RESULTS</span>
           <h2>Development only.</h2>
           <p>
-            The public table shows each team&apos;s best eligible accepted development score. Test results
-            are excluded.
+            The authenticated table inside the development workspace shows each team&apos;s best accepted
+            development result and current rank. The public leaderboard page currently shows practice-set
+            baselines only; test results are excluded.
           </p>
           <Link className="button button-primary" href="/task1/leaderboard/">View development leaderboard</Link>
         </article>

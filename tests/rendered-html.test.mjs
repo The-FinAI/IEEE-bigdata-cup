@@ -16,7 +16,7 @@ async function text(path) {
 }
 
 test("renders direct web upload routes without a GitHub Issue intake", async () => {
-  const [home, hub, submit, leaderboard, terms, privacy, sitemap, readme] = await Promise.all([
+  const [home, hub, submit, leaderboard, terms, privacy, sitemap, readme, cliSource, guideSource] = await Promise.all([
     text("out/index.html"),
     text("out/task1/index.html"),
     text("out/task1/submit/index.html"),
@@ -25,15 +25,39 @@ test("renders direct web upload routes without a GitHub Issue intake", async () 
     text("out/privacy/index.html"),
     text("out/sitemap.xml"),
     text("README.md"),
+    text("scripts/task1_cli.py"),
+    text("app/task1/submission-guide.tsx"),
   ]);
 
   assert.match(hub, /TASK 1 \/ PARTICIPANT HUB/);
   assert.match(hub, /DEVELOPMENT \/ 13 FILES/);
   assert.match(hub, /TEST \/ 3 FILES/);
   assert.match(submit, /Submit Task 1 results on the web/);
+  assert.match(submit, /Six steps from data to receipt/);
+  assert.match(submit, /leaderboard_questions\.jsonl/);
+  assert.match(submit, /leaderboard_expected_ids\.json/);
+  assert.match(submit, /Do not use <code>dev_questions\.jsonl<\/code>/);
+  assert.match(submit, /test_questions\.jsonl/);
+  assert.match(submit, /test_expected_ids\.json/);
+  assert.match(submit, /exactly one root-level file named <code>predictions\.jsonl<\/code>/);
+  assert.match(submit, /baseline-b0/);
+  assert.match(submit, /task1_cli\.py validate/);
+  assert.match(submit, /task1_cli\.py package/);
+  assert.match(submit, /task1_cli\.py validate-zip/);
+  assert.match(submit, /Refresh leaderboard/);
+  assert.match(submit, /Challenge paper is separate/);
+  assert.match(submit, /no more than six pages total/);
+  assert.match(guideSource, /baseline-b0[^\n]+> blank_predictions\.jsonl/);
+  assert.doesNotMatch(guideSource, /baseline-b0[^\n]+> predictions\.jsonl/);
+  assert.match(cliSource, /commands\.add_parser\("validate"\)/);
+  assert.match(cliSource, /commands\.add_parser\("validate-zip"\)/);
+  assert.match(cliSource, /\("baseline-b0", command_baseline_b0\)/);
+  assert.match(cliSource, /commands\.add_parser\("package"\)/);
+  assert.match(cliSource, /package\.add_argument\("--output", required=True\)/);
+  assert.match(cliSource, /validate_zip\.add_argument\("--submission-zip", required=True\)/);
   assert.match(submit, /Development and test submission/);
-  assert.match(submit, /final-answer score, reasoning-step score, and current rank immediately/);
   assert.match(submit, /Test returns only an acceptance receipt/);
+  assert.doesNotMatch(`${hub}\n${submit}`, /current rank immediately|public table shows each team|eligible accepted/i);
   assert.match(leaderboard, /Development leaderboard/);
   assert.match(leaderboard, /Two scores, shown on a 0–1 scale/);
   assert.match(leaderboard, />Final answer</);
@@ -69,7 +93,8 @@ test("renders direct web upload routes without a GitHub Issue intake", async () 
   );
   assert.doesNotMatch(participantCopy, /organizer-only pilot|synthetic pilot/i);
   assert.doesNotMatch(readme, /Starter kits, schemas, validators, and baselines \| Coming soon/);
-  assert.match(readme, /Task 1 schemas, validator, sample B0, and B1 baseline \| Live/);
+  assert.match(readme, /Task 1 validator, sample B0, and B1 baseline \| Live/);
+  assert.match(readme, /Task 1 step-by-step submission guide/);
   assert.match(readme, /Task 2 and Task 3 starter kits and baselines \| Coming soon/);
   await assert.rejects(access(new URL("out/task1/pilot", root)));
 

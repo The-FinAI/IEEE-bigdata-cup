@@ -3901,6 +3901,205 @@ details {
   font-size: 10.5px;
 }
 
+.submission-guide-card {
+  background:
+    linear-gradient(135deg, rgba(45, 212, 191, 0.08), transparent 38%),
+    var(--paper-bright);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  box-shadow: 0 16px 44px rgba(5, 13, 25, 0.06);
+  margin-bottom: 22px;
+  overflow: hidden;
+  padding: clamp(30px, 5vw, 54px);
+  scroll-margin-top: 24px;
+}
+
+.submission-guide-heading {
+  align-items: end;
+  display: grid;
+  gap: 44px;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.56fr);
+}
+
+.submission-guide-heading h2 {
+  font-size: clamp(32px, 4vw, 48px);
+  letter-spacing: -0.045em;
+  line-height: 1.05;
+  margin: 12px 0 0;
+}
+
+.submission-guide-heading > p {
+  color: var(--slate);
+  font-size: 14px;
+  line-height: 1.65;
+  margin: 0;
+}
+
+.submission-guide-list {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  list-style: none;
+  margin: 38px 0 0;
+  padding: 0;
+}
+
+.submission-guide-list > li {
+  background: rgba(255, 255, 255, 0.76);
+  border: 1px solid rgba(7, 17, 31, 0.1);
+  border-radius: 16px;
+  display: grid;
+  gap: 16px;
+  grid-template-columns: 38px minmax(0, 1fr);
+  padding: 24px;
+}
+
+.submission-guide-step-wide {
+  grid-column: 1 / -1;
+}
+
+.submission-step-number {
+  align-items: center;
+  background: var(--ink);
+  border-radius: 9px;
+  color: var(--mint);
+  display: inline-flex;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 760;
+  height: 34px;
+  justify-content: center;
+  letter-spacing: 0.04em;
+  width: 34px;
+}
+
+.submission-guide-list h3 {
+  font-size: 18px;
+  letter-spacing: -0.025em;
+  line-height: 1.25;
+  margin: 5px 0 11px;
+}
+
+.submission-guide-list p,
+.submission-guide-paper-note p {
+  color: var(--slate);
+  font-size: 13px;
+  line-height: 1.68;
+  margin: 0;
+}
+
+.submission-guide-list p + p {
+  margin-top: 10px;
+}
+
+.submission-guide-list a,
+.submission-guide-paper-note a {
+  color: var(--mint-deep);
+  font-weight: 650;
+  overflow-wrap: anywhere;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.submission-guide-list code {
+  background: rgba(7, 17, 31, 0.07);
+  border-radius: 4px;
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 0.9em;
+  overflow-wrap: anywhere;
+  padding: 2px 4px;
+}
+
+.submission-command-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 20px;
+}
+
+.submission-command-grid strong {
+  display: block;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.045em;
+  margin-bottom: 9px;
+  text-transform: uppercase;
+}
+
+.submission-command-grid pre {
+  background: var(--ink);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 12px;
+  color: rgba(255, 255, 255, 0.86);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  line-height: 1.65;
+  margin: 0;
+  overflow-x: auto;
+  padding: 18px;
+  white-space: pre;
+}
+
+.submission-command-grid pre:focus-visible {
+  outline: 3px solid var(--mint);
+  outline-offset: 2px;
+}
+
+.submission-command-grid pre code {
+  background: transparent;
+  color: inherit;
+  font-size: inherit;
+  padding: 0;
+}
+
+.submission-guide-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.submission-guide-actions a,
+.submission-guide-actions > span {
+  border: 1px solid rgba(7, 17, 31, 0.14);
+  border-radius: 9px;
+  display: inline-flex;
+  font-size: 11px;
+  font-weight: 700;
+  min-height: 38px;
+  padding: 10px 13px;
+  text-decoration: none;
+}
+
+.submission-guide-actions a {
+  background: var(--mint);
+  color: var(--ink);
+}
+
+.submission-guide-actions > span {
+  background: rgba(7, 17, 31, 0.05);
+  color: var(--slate);
+}
+
+.submission-guide-paper-note {
+  align-items: baseline;
+  background: rgba(214, 166, 75, 0.08);
+  border: 1px solid rgba(214, 166, 75, 0.24);
+  border-left: 3px solid var(--gold);
+  border-radius: 12px;
+  display: grid;
+  gap: 12px;
+  grid-template-columns: max-content minmax(0, 1fr);
+  margin-top: 14px;
+  padding: 18px 20px;
+}
+
+.submission-guide-paper-note > strong {
+  font-size: 12px;
+}
+
 .task1-page .space-access-card {
   gap: 52px;
   padding: clamp(30px, 5vw, 48px);
@@ -4012,6 +4211,16 @@ details {
   .task-hub-facts > div + div {
     border-left: 1px solid var(--line);
     border-top: 0;
+  }
+
+  .submission-guide-heading {
+    align-items: start;
+    gap: 20px;
+    grid-template-columns: 1fr;
+  }
+
+  .submission-command-grid {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -4251,6 +4460,49 @@ details {
   .task1-page .task-platform-card {
     margin-top: 14px;
     padding: 27px 20px;
+  }
+
+  .submission-guide-card {
+    margin-bottom: 14px;
+    padding: 27px 20px;
+  }
+
+  .submission-guide-heading h2 {
+    font-size: clamp(31px, 9vw, 39px);
+  }
+
+  .submission-guide-list {
+    grid-template-columns: 1fr;
+    margin-top: 28px;
+  }
+
+  .submission-guide-list > li {
+    grid-template-columns: 34px minmax(0, 1fr);
+    padding: 20px 18px;
+  }
+
+  .submission-guide-step-wide {
+    grid-column: auto;
+  }
+
+  .submission-command-grid pre {
+    font-size: 9.5px;
+    padding: 15px;
+  }
+
+  .submission-guide-actions {
+    display: grid;
+  }
+
+  .submission-guide-actions a,
+  .submission-guide-actions > span {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .submission-guide-paper-note {
+    align-items: start;
+    grid-template-columns: 1fr;
   }
 
   .task1-page .task-platform-copy {
