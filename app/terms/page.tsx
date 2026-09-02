@@ -53,7 +53,7 @@ export default function TermsPage() {
         <dl className="policy-meta">
           <div>
             <dt>Effective</dt>
-            <dd>1 September 2026</dd>
+            <dd>2 September 2026</dd>
           </div>
           <div>
             <dt>Contact</dt>
@@ -78,8 +78,8 @@ export default function TermsPage() {
             affiliated university authored or legally endorsed them.
           </p>
           <p>
-            By downloading task materials or submitting competition materials,
-            a team agrees to these terms and the task-specific rules
+            By using an organizer-issued access code or submitting competition
+            materials, a team agrees to these terms and the task-specific rules
             published with the applicable verified release.
           </p>
         </section>
@@ -97,16 +97,16 @@ export default function TermsPage() {
               CyberChair.
             </li>
             <li>
-              Submit Task 1 development files only as locally encrypted JSON
-              ciphertext through the official GitHub Issue Form opened from the
-              participant hub. Never attach a plaintext predictions ZIP.
+              Submit Task 1 competition files only through the verified
+              development or test service linked from the Task 1 participant
+              hub.
             </li>
           </ul>
           <p>
-            The issue author&apos;s immutable numeric GitHub actor ID determines team
-            identity; the login is recorded for display and form text is not trusted. Each team must use one
-            designated account. Test intake is disabled until the organizers
-            publish a separately verified custody route.
+            GitHub Issues are not an official participant submission channel.
+            Teams must keep organizer-issued access codes confidential and must
+            not share or publish them. The verified service links remain withheld
+            while the organizer team completes deployment checks.
           </p>
         </section>
 
@@ -137,9 +137,10 @@ export default function TermsPage() {
             Public training materials may be used as described in their release
             documentation. Accepted development submissions return aggregate
             SeenFAC and SeenCheckpoint results and may enter the development
-            leaderboard. The rotated 928-question test release is public, but
-            test intake is disabled. There is currently no test submission,
-            receipt, score, rank, private diagnostic, or online test leaderboard.
+            leaderboard. Accepted test submissions return an acceptance receipt
+            only. They do not receive an online score or rank and do not appear
+            on an online test leaderboard. The organizers perform official test
+            evaluation after submissions close.
           </p>
           <p>
             Development scores are feedback for the active development phase.
@@ -154,12 +155,12 @@ export default function TermsPage() {
           <p className="section-index">05 / PUBLIC RESULTS</p>
           <h2 id="terms-public-results">Leaderboard visibility</h2>
           <p>
-            Eligible development results may appear on the aggregate public
-            development leaderboard. Public
+            Eligible development results may appear on an authenticated
+            leaderboard and, if enabled, an aggregate public leaderboard. Public
             fields may include a team identifier, team display name, submission
             identifier, rank, aggregate scores, and acceptance time. Raw
-            submissions, email addresses, hidden evaluation data, and private
-            evaluation records are not public leaderboard fields.
+            submissions, access codes, email addresses, hidden evaluation data,
+            and private evaluation receipts are not public leaderboard fields.
           </p>
         </section>
 
@@ -200,7 +201,7 @@ export default function TermsPage() {
           <p className="section-index">08 / SERVICES</p>
           <h2 id="terms-services">External platforms and rule updates</h2>
           <p>
-            Google Forms, CyberChair, GitHub, and the conference
+            Google Forms, CyberChair, GitHub, Hugging Face, and the conference
             website, and other external services may apply their own terms and
             privacy notices. The organizers may update technical rules, dates,
             or service routes when needed for a secure and fair competition.

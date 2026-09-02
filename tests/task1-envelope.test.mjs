@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import config from "../public/task1/submission-config.json" with { type: "json" };
+import config from "../config/task1-evaluator.json" with { type: "json" };
 import { createSubmissionEnvelope, decryptSubmissionEnvelope, sha256Hex } from "../lib/task1-envelope.mjs";
 
 async function keyMaterial() {

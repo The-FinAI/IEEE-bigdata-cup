@@ -1,74 +1,137 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { SubmissionPacker } from "./submission-packer";
-
-const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+import { getTask1PublicConfig } from "../public-config";
 
 export const metadata: Metadata = {
-  title: "Task 1 Development Submission | FinReason Cup",
-  description: "Encrypt and submit an official Task 1 V4 development predictions ZIP.",
-  alternates: { canonical: "https://the-finai.github.io/IEEE-bigdata-cup/task1/submit/" },
+  title: "Task 1 Submission | FinReason Cup",
+  description: "Direct web submission for FinReason Cup Task 1 development and test phases.",
+  alternates: {
+    canonical: "https://the-finai.github.io/IEEE-bigdata-cup/task1/submit/",
+  },
 };
 
 export default function Task1SubmitPage() {
+  const config = getTask1PublicConfig();
+  const spaceLinksAreReady =
+    config.siteMode === "final" &&
+    config.developmentSpace.state === "ready" &&
+    config.developmentSpace.url &&
+    config.testSpace.state === "ready" &&
+    config.testSpace.url;
+
   return (
     <main className="task-hub-page">
       <nav className="task-hub-nav" aria-label="Task 1 navigation">
-        <Link href="/task1/">Task 1 hub</Link>
+        <Link href="/">FinReason Cup</Link>
+        <Link href="/task1/">Data downloads</Link>
         <Link href="/task1/leaderboard/">Development leaderboard</Link>
       </nav>
 
       <header className="task-hub-heading">
-        <p className="section-index">TASK 1 / DEVELOPMENT</p>
-        <h1>Encrypt the canonical predictions ZIP.</h1>
+        <p className="section-index">TASK 1 / SUBMISSION</p>
+        <h1>Submit Task 1 results on the web.</h1>
         <p>
-          Prepare a ZIP containing exactly one file named <code>predictions.jsonl</code> with all 580
-          canonical V4 leaderboard IDs. Encryption happens locally in this browser. GitHub receives
-          only the encrypted JSON attachment. The deadline is 15 November 2026, 23:59 Anywhere on Earth.
+          All train, development, and test files are available from the participant hub. {" "}
+          {spaceLinksAreReady
+            ? "Registered teams submit directly through two isolated organizer-verified Hugging Face Spaces."
+            : "The organizer team is verifying the two direct-upload workspaces before publishing their links."}{" "}
+          GitHub Issues are not a submission channel.
         </p>
       </header>
 
-      <section className="pilot-grid" aria-label="Development submission steps">
-        <article>
-          <span>01</span>
-          <h2>Prepare</h2>
+      <section className="task-platform-card" aria-labelledby="task1-platform-title">
+        <div className="task-platform-status">
+          <span className="status-chip" data-state={spaceLinksAreReady ? "ready" : "pending"}>
+            {spaceLinksAreReady ? "Direct web upload available" : "Direct web upload under verification"}
+          </span>
+          <span>{spaceLinksAreReady ? "Verified live links" : "Links withheld until verification passes"}</span>
+        </div>
+        <div className="task-platform-copy">
+          <div>
+            <p className="section-index">DIRECT UPLOAD WORKSPACES</p>
+            <h2 id="task1-platform-title">Development and test submission</h2>
+          </div>
           <p>
-            Start from the <a href={`${basePath}/task1/data/development/sample_b0_submission.zip`} download>canonical B0 ZIP</a>{" "}
-            and replace its predictions without changing the row contract. Use the exact{" "}
-            <a href={`${basePath}/task1/data/development/leaderboard_questions.jsonl`} download>leaderboard questions</a>{" "}
-            and <a href={`${basePath}/task1/data/development/leaderboard_expected_ids.json`} download>expected IDs</a>.
-            Validate and package locally with the{" "}
-            <a href="https://github.com/The-FinAI/IEEE-bigdata-cup/blob/main/scripts/task1_cli.py">participant CLI</a>{" "}
-            and <a href="https://github.com/The-FinAI/IEEE-bigdata-cup/blob/main/finreason_task1/contracts.py">prediction contract</a>.
+            Development and test use separate isolated services. Development returns SeenFAC and
+            SeenCheckpoint immediately and updates the development leaderboard. Test returns only an
+            acceptance receipt, with no score, rank, diagnostic, or online leaderboard.
+          </p>
+        </div>
+
+        {spaceLinksAreReady ? (
+          <div className="task-platform-actions" role="group" aria-label="Task 1 submission workspaces">
+            <a
+              className="button button-bright task-platform-action"
+              href={config.developmentSpace.url ?? undefined}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Open development submission
+              <span aria-hidden="true">↗</span>
+              <span className="sr-only"> (opens in a new tab)</span>
+            </a>
+            <a
+              className="button button-ghost task-platform-action"
+              href={config.testSpace.url ?? undefined}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Open test submission
+              <span aria-hidden="true">↗</span>
+              <span className="sr-only"> (opens in a new tab)</span>
+            </a>
+          </div>
+        ) : (
+          <div className="task-platform-actions" role="group" aria-label="Task 1 submission workspaces">
+            <span className="button task-platform-action button-disabled" aria-disabled="true">
+              Development upload link pending verification
+            </span>
+            <span className="button task-platform-action button-disabled" aria-disabled="true">
+              Test upload link pending verification
+            </span>
+          </div>
+        )}
+
+        <p className="task-platform-footnote">
+          This GitHub Pages site does not receive or store team codes, submissions, gold answers, or
+          private evaluation data. Enter the private code issued by the organizers only inside the
+          verified submission workspace. Review the <Link href="/terms/">Terms of Participation</Link>{" "}
+          and <Link href="/privacy/">Privacy Notice</Link>. Participant support:{" "}
+          <a href="mailto:zhuohan.xie@mbzuai.ac.ae">zhuohan.xie@mbzuai.ac.ae</a>.
+        </p>
+      </section>
+
+      <section className="task-mode-grid" aria-label="Train, development, and test behavior">
+        <article>
+          <span>01 / TRAIN</span>
+          <h2>Build with public answers.</h2>
+          <p>
+            Train questions, gold answers, and canonical target examples are already available from
+            the <Link href="/task1/">participant hub</Link>. Train results are not submitted to a leaderboard.
           </p>
         </article>
         <article>
-          <span>02</span>
-          <h2>Encrypt locally</h2>
+          <span>02 / DEVELOPMENT</span>
+          <h2>Receive scores immediately.</h2>
           <p>
-            Use the exact GitHub login that will open the issue. The workflow derives team identity
-            from the immutable numeric issue actor ID and verifies the encrypted login binding.
+            Upload the canonical 580-row predictions ZIP. Each accepted submission returns SeenFAC
+            and SeenCheckpoint immediately, and the eligible best result enters the development leaderboard.
           </p>
         </article>
         <article>
-          <span>03</span>
-          <h2>Attach ciphertext</h2>
+          <span>03 / TEST</span>
+          <h2>Submit without feedback.</h2>
           <p>
-            Download the generated JSON, open the official Issue Form, and attach only that encrypted
-            file. Never attach the plaintext ZIP.
+            Upload predictions for the public 928-question test release and retain the receipt identifier.
+            Test submissions receive no online score and never appear on a leaderboard. Official test
+            evaluation is performed by the organizers after submissions close.
           </p>
         </article>
       </section>
 
-      <SubmissionPacker />
-
       <aside className="task-hub-note">
-        <strong>Development limits</strong>
-        <p>
-          One designated GitHub account per team. At most 2 accepted attempts per UTC day and 40 in
-          total. Replayed ciphertext or client submission IDs are rejected. Development returns only
-          aggregate SeenFAC and SeenCheckpoint scores when GitHub Actions processing completes.
-        </p>
+        <strong>Final paper and solution deadline</strong>
+        <p>15 November 2026, 23:59 Anywhere on Earth.</p>
       </aside>
     </main>
   );

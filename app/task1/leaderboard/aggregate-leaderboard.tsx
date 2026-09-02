@@ -71,8 +71,8 @@ export function AggregateLeaderboard({ dataUrl }: AggregateLeaderboardProps) {
       <div className="leaderboard-state" data-state="pending">
         <strong>Public aggregate table not enabled</strong>
         <p>
-          No signature-verified development leaderboard snapshot is available in this build. The
-          page never substitutes unsigned or cached results.
+          Registered teams can view results inside the verified development workspace. This Pages
+          build does not substitute cached results when the optional public feed is absent.
         </p>
       </div>
     );
@@ -80,7 +80,7 @@ export function AggregateLeaderboard({ dataUrl }: AggregateLeaderboardProps) {
     content = (
       <div className="leaderboard-state" data-state="loading">
         <strong>Loading development results</strong>
-        <p>Requesting the latest aggregate leaderboard from this GitHub Pages deployment.</p>
+        <p>Requesting the latest aggregate leaderboard from the organizer endpoint.</p>
       </div>
     );
   } else if (state.status === "error") {

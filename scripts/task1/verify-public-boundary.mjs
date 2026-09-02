@@ -27,7 +27,10 @@ const forbiddenNames = new Set([
   "dev-reference.enc.json",
   "leaderboard_gold.jsonl",
   "leaderboard_manifest.jsonl",
+  "submission-config.json",
 ]);
+const retiredIssueIntake =
+  /GitHub-only development route|official GitHub Issue Form|attached as ciphertext|immutable numeric GitHub actor ID|encrypted Issue intake/i;
 
 async function filesBelow(root) {
   const result = [];
@@ -78,7 +81,9 @@ for (const path of await filesBelow(outputRoot)) {
   const metadata = await stat(path);
   if (metadata.size > 10 * 1024 * 1024) continue;
   const content = await readFile(path, "utf8");
-  if (/Hugging Face|\.hf\.space/i.test(content)) throw new Error(`Retired endpoint wording reached Pages: ${path}`);
+  if (retiredIssueIntake.test(content)) {
+    throw new Error(`Retired GitHub Issue intake wording reached Pages: ${path}`);
+  }
   if (forbiddenValues.some((value) => content.includes(value))) {
     throw new Error(`Private evaluator commitment reached Pages: ${path}`);
   }
