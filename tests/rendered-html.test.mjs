@@ -28,31 +28,32 @@ test("renders direct web upload routes without a GitHub Issue intake", async () 
   ]);
 
   assert.match(hub, /TASK 1 \/ PARTICIPANT HUB/);
-  assert.match(hub, /V4 DEVELOPMENT \/ 13 FILES/);
-  assert.match(hub, /ROTATED V2 TEST \/ 3 FILES/);
+  assert.match(hub, /DEVELOPMENT \/ 13 FILES/);
+  assert.match(hub, /TEST \/ 3 FILES/);
   assert.match(submit, /Submit Task 1 results on the web/);
   assert.match(submit, /Development and test submission/);
-  assert.match(submit, /returns a receipt showing SeenFAC and SeenCheckpoint immediately/);
+  assert.match(submit, /final-answer score, reasoning-step score, and current rank immediately/);
   assert.match(submit, /Test returns only an acceptance receipt/);
-  assert.match(submit, /receipt with SeenFAC and SeenCheckpoint/);
-  assert.match(submit, /Refresh the authenticated development leaderboard/);
-  assert.doesNotMatch(submit, /Immediate scores \+ rank/);
-  assert.match(leaderboard, /Development scores and leaderboard/);
-  assert.match(leaderboard, /Test submissions are receipt-only/);
-  assert.match(leaderboard, /Task 1 organizer baselines/);
-  assert.match(leaderboard, /B0 · Valid abstention/);
-  assert.match(leaderboard, /B1 · Visible rule/);
-  assert.match(leaderboard, /B2 · Fin-o1-8B/);
+  assert.match(leaderboard, /Development leaderboard/);
+  assert.match(leaderboard, /Two scores, shown on a 0–1 scale/);
+  assert.match(leaderboard, />Final answer</);
+  assert.match(leaderboard, />Reasoning steps</);
+  assert.match(leaderboard, /No-answer baseline/);
+  assert.match(leaderboard, /Rule-based baseline/);
+  assert.match(leaderboard, /Fin-o1-8B/);
   assert.match(leaderboard, /0\.285873/);
   assert.match(leaderboard, /0\.592606/);
-  assert.match(leaderboard, /not participant submissions or ranks/);
-  assert.match(leaderboard, /Participant results only/);
-  const organizerStart = leaderboard.indexOf("Task 1 organizer baselines");
-  const participantStart = leaderboard.indexOf("OPTIONAL PUBLIC VIEW", organizerStart);
-  assert.ok(organizerStart >= 0 && participantStart > organizerStart);
-  const organizerSection = leaderboard.slice(organizerStart, participantStart);
-  assert.doesNotMatch(organizerSection, />Rank</);
-  assert.doesNotMatch(organizerSection, />Team</);
+  assert.match(leaderboard, /leaderboard-entry-pill baseline/);
+  assert.match(leaderboard, /the two should not be compared directly/);
+  assert.doesNotMatch(
+    `${hub}\n${submit}\n${leaderboard}\n${terms}\n${privacy}`,
+    /SeenFAC|SeenCheckpoint/,
+  );
+  assert.doesNotMatch(hub, /V4 DEVELOPMENT|ROTATED V2 TEST/);
+  assert.doesNotMatch(
+    leaderboard,
+    /ORGANIZER REFERENCE|OPTIONAL PUBLIC VIEW|Public aggregate table not enabled|Legal null-prediction control|Pinned zero-shot JSON-schema generation/,
+  );
   assert.match(terms, /verified development or test service/);
   assert.match(privacy, /does not collect or store team access codes/);
   assert.match(privacy, /up to 120 days from acceptance/);

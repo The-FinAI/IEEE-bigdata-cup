@@ -7,7 +7,6 @@ import {
 } from "@/lib/task1-leaderboard.mjs";
 
 type LoadState =
-  | { status: "unconfigured" }
   | { status: "loading" }
   | { status: "ready"; leaderboard: DevelopmentLeaderboard }
   | { status: "error" };
@@ -16,25 +15,99 @@ type AggregateLeaderboardProps = {
   dataUrl: string | null;
 };
 
+const organizerBaselines = [
+  {
+    id: "b0",
+    name: "No-answer baseline",
+    description: "Returns no answer",
+    finalAnswer: "0.000000",
+    reasoningSteps: "0.000000",
+  },
+  {
+    id: "b1",
+    name: "Rule-based baseline",
+    description: "Five financial formula rules",
+    finalAnswer: "0.020833",
+    reasoningSteps: "0.011574",
+  },
+  {
+    id: "b2",
+    name: "Fin-o1-8B",
+    description: "Reference language model",
+    finalAnswer: "0.285873",
+    reasoningSteps: "0.592606",
+  },
+];
+
 function formatAcceptedAt(value: string) {
   return `${new Intl.DateTimeFormat("en-GB", {
     dateStyle: "medium",
-    timeStyle: "short",
     timeZone: "UTC",
   }).format(new Date(value))} UTC`;
 }
 
+function formatScore(value: string) {
+  const score = Number(value);
+  return Number.isFinite(score) ? score.toFixed(6) : value;
+}
+
+function OrganizerBaselines() {
+  return (
+    <section className="finmmeval-leaderboard-card" aria-labelledby="baseline-table-title">
+      <header className="finmmeval-leaderboard-head">
+        <div>
+          <p>Public practice set</p>
+          <h2 id="baseline-table-title">Baseline scores</h2>
+        </div>
+        <p>3 baselines · 290 examples</p>
+      </header>
+
+      <div
+        className="finmmeval-table-shell"
+        role="region"
+        aria-labelledby="baseline-table-title"
+        tabIndex={0}
+      >
+        <table className="baseline-reference-table" aria-labelledby="baseline-table-title">
+          <thead>
+            <tr>
+              <th scope="col">Baseline</th>
+              <th scope="col">Final answer</th>
+              <th scope="col">Reasoning steps</th>
+            </tr>
+          </thead>
+          <tbody>
+            {organizerBaselines.map((baseline) => (
+              <tr className="leaderboard-baseline-row" key={baseline.id}>
+                <th scope="row">
+                  <span className="leaderboard-team-name">{baseline.name}</span>
+                  <span className="leaderboard-entry-pill baseline">Baseline</span>
+                  <small>{baseline.description}</small>
+                </th>
+                <td className="leaderboard-score">{formatScore(baseline.finalAnswer)}</td>
+                <td className="leaderboard-score">{formatScore(baseline.reasoningSteps)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <footer className="finmmeval-leaderboard-foot">
+        <p>
+          These are reference scores on the public practice set. Team rankings use a different
+          challenge set, so the two should not be compared directly.
+        </p>
+      </footer>
+    </section>
+  );
+}
+
 export function AggregateLeaderboard({ dataUrl }: AggregateLeaderboardProps) {
   const [requestVersion, setRequestVersion] = useState(0);
-  const [state, setState] = useState<LoadState>(() =>
-    dataUrl ? { status: "loading" } : { status: "unconfigured" },
-  );
+  const [state, setState] = useState<LoadState>({ status: "loading" });
 
   useEffect(() => {
-    if (!dataUrl) {
-      setState({ status: "unconfigured" });
-      return;
-    }
+    if (!dataUrl) return;
 
     const controller = new AbortController();
     setState({ status: "loading" });
@@ -45,7 +118,7 @@ export function AggregateLeaderboard({ dataUrl }: AggregateLeaderboardProps) {
           signal: controller.signal,
         });
         setState({ status: "ready", leaderboard });
-      } catch (error) {
+      } catch {
         if (controller.signal.aborted) return;
         setState({ status: "error" });
       }
@@ -55,107 +128,81 @@ export function AggregateLeaderboard({ dataUrl }: AggregateLeaderboardProps) {
     return () => controller.abort();
   }, [dataUrl, requestVersion]);
 
-  const statusMessage =
-    state.status === "unconfigured"
-      ? "The optional public aggregate leaderboard is not enabled."
-      : state.status === "loading"
-        ? "Loading the latest aggregate development leaderboard."
-        : state.status === "error"
-          ? "The aggregate development leaderboard is temporarily unavailable."
-          : `Loaded ${state.leaderboard.rows.length} development leaderboard rows.`;
+  let teamResults: ReactNode = null;
 
-  let content: ReactNode;
+  if (dataUrl) {
+    const rows = state.status === "ready" ? state.leaderboard.rows : [];
 
-  if (state.status === "unconfigured") {
-    content = (
-      <div className="leaderboard-state" data-state="pending">
-        <strong>Public aggregate table not enabled</strong>
-        <p>
-          Registered teams can view results inside the verified development workspace. This Pages
-          build does not substitute cached results when the optional public feed is absent.
-        </p>
-      </div>
-    );
-  } else if (state.status === "loading") {
-    content = (
-      <div className="leaderboard-state" data-state="loading">
-        <strong>Loading development results</strong>
-        <p>Requesting the latest aggregate leaderboard from the organizer endpoint.</p>
-      </div>
-    );
-  } else if (state.status === "error") {
-    content = (
-      <div className="leaderboard-state" data-state="error">
-        <strong>Leaderboard temporarily unavailable</strong>
-        <p>
-          The configured aggregate feed could not be read. No previous result is substituted.
-        </p>
-        <button
-          className="leaderboard-retry"
-          type="button"
-          onClick={() => setRequestVersion((version) => version + 1)}
-        >
-          Try again
-        </button>
-      </div>
-    );
-  } else {
-    const { leaderboard } = state;
-    content = (
-      <>
-        <div className="leaderboard-heading">
+    teamResults = (
+      <section className="finmmeval-leaderboard-card" aria-labelledby="team-table-title">
+        <header className="finmmeval-leaderboard-head">
           <div>
-            <span>Evaluation</span>
-            <strong id="development-table-title">Task 1 development</strong>
+            <p>Development results</p>
+            <h2 id="team-table-title">Team rankings</h2>
           </div>
-          <p>Best accepted development result per team</p>
-        </div>
+          {state.status === "ready" ? (
+            <p>{rows.length} ranked team{rows.length === 1 ? "" : "s"}</p>
+          ) : null}
+        </header>
 
-        {leaderboard.rows.length ? (
+        {state.status === "loading" ? (
+          <p className="leaderboard-inline-status" role="status">
+            Updating team results…
+          </p>
+        ) : null}
+        {state.status === "error" ? (
+          <div className="leaderboard-inline-status leaderboard-inline-error" role="alert">
+            <span>Team results are temporarily unavailable.</span>
+            <button type="button" onClick={() => setRequestVersion((version) => version + 1)}>
+              Try again
+            </button>
+          </div>
+        ) : null}
+        {state.status === "ready" && rows.length ? (
           <div
-            className="table-scroll"
+            className="finmmeval-table-shell"
             role="region"
-            aria-labelledby="development-table-title"
+            aria-labelledby="team-table-title"
             tabIndex={0}
           >
-            <table aria-labelledby="development-table-title">
+            <table aria-labelledby="team-table-title">
               <thead>
                 <tr>
                   <th scope="col">Rank</th>
                   <th scope="col">Team</th>
-                  <th scope="col">SeenFAC</th>
-                  <th scope="col">SeenCheckpoint</th>
-                  <th scope="col">Accepted</th>
+                  <th scope="col">Final answer</th>
+                  <th scope="col">Reasoning steps</th>
+                  <th className="leaderboard-updated-column" scope="col">Updated</th>
                 </tr>
               </thead>
               <tbody>
-                {leaderboard.rows.map((row) => (
+                {rows.map((row) => (
                   <tr key={row.teamId}>
-                    <td>{row.rank}</td>
-                    <th scope="row">{row.teamDisplayName}</th>
-                    <td>{row.seenFac}</td>
-                    <td>{row.seenCheckpoint}</td>
-                    <td>{formatAcceptedAt(row.acceptedAt)}</td>
+                    <td><span className="leaderboard-rank-badge">{row.rank}</span></td>
+                    <th scope="row">
+                      <span className="leaderboard-team-name">{row.teamDisplayName}</span>
+                      <span className="leaderboard-entry-pill participant">Participant</span>
+                    </th>
+                    <td className="leaderboard-score">{formatScore(row.seenFac)}</td>
+                    <td className="leaderboard-score">{formatScore(row.seenCheckpoint)}</td>
+                    <td className="leaderboard-updated-column">{formatAcceptedAt(row.acceptedAt)}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
-        ) : (
-          <p className="leaderboard-empty">
-            The development feed is live, but it does not contain any eligible rows yet.
-          </p>
-        )}
-      </>
+        ) : null}
+        {state.status === "ready" && !rows.length ? (
+          <p className="finmmeval-leaderboard-empty">No ranked team results yet.</p>
+        ) : null}
+      </section>
     );
   }
 
   return (
     <>
-      <p className="sr-only" role="status" aria-live="polite" aria-atomic="true">
-        {statusMessage}
-      </p>
-      <div aria-busy={state.status === "loading"}>{content}</div>
+      {teamResults}
+      <OrganizerBaselines />
     </>
   );
 }
