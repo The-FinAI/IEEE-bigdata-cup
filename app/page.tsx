@@ -142,7 +142,7 @@ const faqs = [
   {
     question: "Is the paper submission also the competition submission?",
     answer:
-      "No. CyberChair SC03 is for the challenge paper. Task 1 solution files use separate direct web upload workspaces linked from the participant hub, which publishes their current verified availability. Both routes share the final submission deadline.",
+      "No. CyberChair SC03 is for the challenge paper. Task 1 solution files use the separate development and test submission pages linked from the participant hub. Both routes share the final submission deadline.",
   },
   {
     question: "Why does CyberChair show a 10-page limit and deadline TBA?",
@@ -167,7 +167,7 @@ const faqs = [
   {
     question: "Where will the competition run?",
     answer:
-      "The Task 1 participant hub is hosted on this GitHub Pages site and provides the verified train, development, and rotated test downloads. Registered teams will upload development and test predictions through separate organizer-verified web workspaces. Development returns immediate aggregate scores and a leaderboard; test returns a receipt only, with no online score or rank. The paper route remains separate through CyberChair SC03.",
+      "The Task 1 participant hub provides the training, development, and test downloads. Registered teams upload predictions through separate development and test submission pages. Development returns scores and a leaderboard immediately; test returns a receipt only, with no online score or rank. The paper route remains separate through CyberChair SC03.",
   },
   {
     question: "Are cash prizes confirmed?",

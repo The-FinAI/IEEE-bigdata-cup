@@ -149,9 +149,9 @@ export default function PrivacyPage() {
           <p>
             The optional public development leaderboard may display a team
             identifier, team display name, submission identifier, rank,
-            aggregate SeenFAC and SeenCheckpoint scores, and acceptance time.
-            Raw submissions, access codes, email addresses, hidden evaluation
-            data, and private receipts are not published through that
+            aggregate final-answer and reasoning-step scores, and acceptance
+            time. Raw submissions, access codes, email addresses, hidden
+            evaluation data, and private receipts are not published through that
             leaderboard. Test submissions do not produce an online score, rank,
             diagnostic, or leaderboard entry.
           </p>

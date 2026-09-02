@@ -57,28 +57,29 @@
   max-width: 680px;
 }
 
-.leaderboard-phase-tabs {
+.leaderboard-phase-status {
+  align-items: center;
   background: rgba(255, 255, 255, 0.74);
   border: 1px solid rgba(31, 99, 216, 0.12);
   border-radius: 14px;
-  display: inline-grid;
-  gap: 5px;
-  grid-template-columns: repeat(2, auto);
-  padding: 5px;
+  display: inline-flex;
+  gap: 13px;
+  padding: 6px 15px 6px 6px;
 }
 
-.leaderboard-phase-tabs span {
+.leaderboard-phase-status strong {
+  background: #1f63d8;
   border-radius: 10px;
-  color: #64748f;
+  box-shadow: 0 6px 16px rgba(31, 99, 216, 0.2);
+  color: #fff;
   font-size: 13px;
-  font-weight: 680;
+  font-weight: 720;
   padding: 11px 17px;
 }
 
-.leaderboard-phase-tabs span[aria-current="page"] {
-  background: #1f63d8;
-  box-shadow: 0 6px 16px rgba(31, 99, 216, 0.2);
-  color: #fff;
+.leaderboard-phase-status span {
+  color: #64748f;
+  font-size: 12.5px;
 }
 
 .leaderboard-guide {
@@ -127,7 +128,7 @@
   white-space: nowrap;
 }
 
-.leaderboard-guide .button:hover {
+.leaderboard-guide a.button:hover {
   background: #174fae;
   color: #fff;
 }
@@ -243,6 +244,14 @@
   width: 76px;
 }
 
+.finmmeval-table-shell .baseline-reference-table {
+  min-width: 560px;
+}
+
+.finmmeval-table-shell .baseline-reference-table thead th:first-child {
+  width: auto;
+}
+
 .finmmeval-table-shell tbody th {
   color: #162845;
   font-size: 13px;
@@ -336,6 +345,13 @@
   margin: 0;
 }
 
+.finmmeval-leaderboard-empty {
+  color: #64748f;
+  font-size: 13px;
+  margin: 0;
+  padding: 30px 26px;
+}
+
 .leaderboard-test-note {
   color: #64748f;
   font-size: 12px;
@@ -356,14 +372,21 @@
     font-size: clamp(36px, 10.5vw, 44px);
   }
 
-  .leaderboard-phase-tabs {
-    display: grid;
-    grid-template-columns: 1fr;
+  .leaderboard-phase-status {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 9px;
+    padding: 6px;
     width: 100%;
   }
 
-  .leaderboard-phase-tabs span {
+  .leaderboard-phase-status strong,
+  .leaderboard-phase-status span {
     text-align: center;
+  }
+
+  .leaderboard-phase-status span {
+    padding: 5px 10px 8px;
   }
 
   .leaderboard-guide {

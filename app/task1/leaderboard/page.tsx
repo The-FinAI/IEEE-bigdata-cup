@@ -33,15 +33,15 @@ export default function Task1LeaderboardPage() {
           </p>
         </header>
 
-        <div className="leaderboard-phase-tabs" aria-label="Competition results phases">
-          <span aria-current="page">Development results</span>
-          <span>Final results after the deadline</span>
+        <div className="leaderboard-phase-status" aria-label="Current competition phase">
+          <strong>Development results</strong>
+          <span>Final results follow the submission deadline</span>
         </div>
 
         <section className="leaderboard-guide" aria-labelledby="leaderboard-guide-title">
           <div>
             <p className="section-index">HOW SCORING WORKS</p>
-            <h2 id="leaderboard-guide-title">Two scores, shown on a 0–100 scale</h2>
+            <h2 id="leaderboard-guide-title">Two scores, shown on a 0–1 scale</h2>
             <p>
               <strong>Final answer</strong> measures whether the submitted answer is correct. {" "}
               <strong>Reasoning steps</strong> measures the accuracy of the submitted intermediate

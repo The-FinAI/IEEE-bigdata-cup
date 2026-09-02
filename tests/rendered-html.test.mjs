@@ -35,18 +35,21 @@ test("renders direct web upload routes without a GitHub Issue intake", async () 
   assert.match(submit, /final-answer score, reasoning-step score, and current rank immediately/);
   assert.match(submit, /Test returns only an acceptance receipt/);
   assert.match(leaderboard, /Development leaderboard/);
-  assert.match(leaderboard, /Two scores, shown on a 0–100 scale/);
+  assert.match(leaderboard, /Two scores, shown on a 0–1 scale/);
   assert.match(leaderboard, />Final answer</);
   assert.match(leaderboard, />Reasoning steps</);
   assert.match(leaderboard, /No-answer baseline/);
   assert.match(leaderboard, /Rule-based baseline/);
   assert.match(leaderboard, /Fin-o1-8B/);
-  assert.match(leaderboard, /28\.6%/);
-  assert.match(leaderboard, /59\.3%/);
+  assert.match(leaderboard, /0\.285873/);
+  assert.match(leaderboard, /0\.592606/);
   assert.match(leaderboard, /leaderboard-entry-pill baseline/);
-  assert.doesNotMatch(leaderboard, /SeenFAC|SeenCheckpoint/);
-  assert.doesNotMatch(submit, /SeenFAC|SeenCheckpoint/);
-  assert.doesNotMatch(hub, /SeenFAC|SeenCheckpoint|V4 DEVELOPMENT|ROTATED V2 TEST/);
+  assert.match(leaderboard, /the two should not be compared directly/);
+  assert.doesNotMatch(
+    `${hub}\n${submit}\n${leaderboard}\n${terms}\n${privacy}`,
+    /SeenFAC|SeenCheckpoint/,
+  );
+  assert.doesNotMatch(hub, /V4 DEVELOPMENT|ROTATED V2 TEST/);
   assert.doesNotMatch(
     leaderboard,
     /ORGANIZER REFERENCE|OPTIONAL PUBLIC VIEW|Public aggregate table not enabled|Legal null-prediction control|Pinned zero-shot JSON-schema generation/,

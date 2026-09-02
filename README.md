@@ -117,7 +117,7 @@ final competition submission.
 | --- | --- |
 | [Official challenge website](https://the-finai.github.io/IEEE-bigdata-cup/) | Live |
 | [Letter of Intent](https://forms.gle/D4VJqjgtmcaC77DL8) | Open |
-| Task 1 train, development, and rotated V2 test files | Live as 13 development files and 3 test files |
+| Task 1 training, development, and test files | Live as 13 development files and 3 test files |
 | Task 1 direct web upload | See the participant hub for current verified availability |
 | Task 1 schemas, validator, sample B0, and B1 baseline | Live in this repository |
 | Task 1 organizer baseline scores | B0–B2 local-development references live on the leaderboard page |
@@ -156,7 +156,7 @@ Please use only links marked as verified on the
 
 The public `/task1/` route is the stable participant entry point:
 
-- exactly 13 V4 development files and three rotated V2 public test files are
+- exactly 13 development files and three public test files are
   downloadable from Pages with their frozen manifests;
 - `/task1/submit/` publishes two distinct organizer-verified direct-upload links
   after both workspaces pass deployment checks;

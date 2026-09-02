@@ -66,8 +66,8 @@ export default function Task1HubPage() {
             <p>
               Training, development, and test files for Task 1 are available below. {" "}
               {spaceLinksAreReady
-                ? "Registered teams submit through separate verified development and test web workspaces."
-                : "The direct-upload workspaces are being verified before their links are published."}
+                ? "Registered teams submit through separate development and test pages."
+                : "The two submission pages are being verified before their links are published."}
             </p>
           </div>
           <dl className="task-hub-facts" aria-label="Task 1 quick facts">
