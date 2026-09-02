@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getTask1PublicConfig } from "../public-config";
 import { AggregateLeaderboard } from "./aggregate-leaderboard";
+import { Task1Nav } from "../task1-nav";
 
 export const metadata: Metadata = {
   title: "Task 1 Development Leaderboard | FinReason Cup",
@@ -20,21 +21,35 @@ export default function Task1LeaderboardPage() {
   const publicLeaderboardUrl = config.siteMode === "final" ? config.leaderboardApi.url : null;
 
   return (
-    <main className="task-hub-page">
-      <nav className="task-hub-nav" aria-label="Task 1 navigation">
-        <Link href="/">FinReason Cup</Link>
-        <Link href="/task1/">Data downloads</Link>
-        <Link href="/task1/submit/">Submit Task 1</Link>
-      </nav>
+    <main className="task-hub-page task1-page">
+      <Task1Nav current="leaderboard" />
 
       <header className="task-hub-heading">
-        <p className="section-index">TASK 1 / RESULTS</p>
-        <h1>Development scores and leaderboard.</h1>
-        <p>
-          Accepted development submissions receive SeenFAC and SeenCheckpoint immediately. The
-          eligible best result per team appears on the authenticated leaderboard inside the verified
-          development workspace. Test submissions are receipt-only and never appear here.
-        </p>
+        <div className="task-hub-heading-content">
+          <div>
+            <p className="section-index">TASK 1 / RESULTS</p>
+            <h1>Development scores and leaderboard.</h1>
+            <p>
+              Accepted development submissions receive SeenFAC and SeenCheckpoint immediately. The
+              eligible best result per team appears on the authenticated leaderboard inside the verified
+              development workspace. Test submissions are receipt-only and never appear here.
+            </p>
+          </div>
+          <dl className="task-hub-facts" aria-label="Leaderboard quick facts">
+            <div>
+              <dt>Scope</dt>
+              <dd>Development only</dd>
+            </div>
+            <div>
+              <dt>Metrics</dt>
+              <dd>SeenFAC + SeenCheckpoint</dd>
+            </div>
+            <div>
+              <dt>Access</dt>
+              <dd>Registered teams</dd>
+            </div>
+          </dl>
+        </div>
       </header>
 
       <section className="space-access-card" aria-labelledby="space-results-title">

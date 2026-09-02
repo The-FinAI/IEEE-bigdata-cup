@@ -225,13 +225,14 @@ export default function Home() {
             </span>
           </a>
           <nav className="primary-nav" aria-label="Primary navigation">
+            <a href={`${basePath}/task1/`}>Task 1</a>
             <a href="#tracks">Tracks</a>
             <a href="#evaluation">Evaluation</a>
             <a href="#timeline">Timeline</a>
             <a href="#faq">FAQ</a>
             <a className="nav-action" href="#interest">
-              <span className="nav-full">Submit paper</span>
-              <span className="nav-short">Submit</span>
+              <span className="nav-full">Paper details</span>
+              <span className="nav-short">Paper</span>
             </a>
           </nav>
         </div>
@@ -264,8 +265,12 @@ export default function Home() {
               McGill, Stevens, Yale, and the University of Manchester.
             </p>
             <div className="hero-actions">
+              <a className="button button-bright" href={`${basePath}/task1/`}>
+                Open Task 1 hub
+                <span aria-hidden="true">→</span>
+              </a>
               <a
-                className="button button-bright"
+                className="button button-ghost"
                 href={paperSubmissionUrl}
                 target="_blank"
                 rel="noreferrer"
