@@ -1,9 +1,12 @@
+import Link from "next/link";
+
 const ieeeCupUrl = "https://bigdataieee.org/BigData2026/cup/";
 const loiUrl = "https://forms.gle/D4VJqjgtmcaC77DL8";
 const paperSubmissionUrl =
   "https://wi-lab.com/cyberchair/2026/bigdata26/scripts/submit.php?subarea=SC03";
 const ieeeTemplateUrl =
   "https://www.ieee.org/conferences/publishing/templates.html";
+const contactEmail = "zhuohan.xie@mbzuai.ac.ae";
 
 export function LaunchStatus() {
   return (
@@ -45,14 +48,21 @@ export function LaunchStatus() {
       </p>
 
       <div className="participant-notice">
-        <strong>Separate competition submission</strong>
+        <strong>Separate Task 1 participant hub</strong>
         <p>
-          The final task rules will specify which solution materials each team
-          must provide, including any required predictions, source code, and
-          reproducibility materials. They are not submitted through the paper
-          portal. Their verified submission link will be published here after
-          organizer testing. Both routes share the 15 November deadline.
+          Task 1 publishes canonical train and development files through the GitHub Pages hub.
+          Development predictions are encrypted locally and attached as ciphertext to the official
+          GitHub Issue Form. Accepted submissions receive aggregate scores when GitHub Actions
+          processing completes and can enter the development leaderboard. Rotated test questions are available, but test intake remains
+          disabled pending verification of private retention and offline custody.
         </p>
+        <div className="participant-notice-links">
+          <Link href="/task1/">Open Task 1 participant hub</Link>
+          <Link href="/task1/leaderboard/">Open Task 1 leaderboard hub</Link>
+          <Link href="/terms/">Read the Terms of Participation</Link>
+          <Link href="/privacy/">Read the Privacy Notice</Link>
+          <a href={`mailto:${contactEmail}`}>Contact the organizer team</a>
+        </div>
       </div>
 
       <a href={ieeeTemplateUrl} target="_blank" rel="noreferrer">

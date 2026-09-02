@@ -5,55 +5,58 @@ import {
   sign as cryptoSign,
   verify as cryptoVerify,
 } from "node:crypto";
-import pilotConfig from "../../public/task1/pilot-config.json" with { type: "json" };
+import submissionConfig from "../../config/task1-evaluator.json" with { type: "json" };
 
-export const markerPrefix = "<!-- finreason-task1-pilot-result:v1 ";
+export const markerPrefix = "<!-- finreason-task1-development-result:v1 ";
 
 const friendlyErrors = Object.freeze({
-  ENVELOPE_DECRYPTION_FAILED: "The encrypted submission file is invalid or was prepared for a different pilot key.",
+  ENVELOPE_DECRYPTION_FAILED: "The encrypted file is invalid or was prepared for a different release key.",
   GITHUB_LOGIN_MISMATCH: "The GitHub login inside the encrypted submission does not match the issue author.",
-  ARCHIVE_SIZE_INVALID: "The predictions ZIP is empty or exceeds the pilot size limit.",
-  ARCHIVE_MEMBER_COUNT_INVALID: "The ZIP must contain exactly one file.",
-  ARCHIVE_MEMBER_NAME_INVALID: "The only ZIP member must be named predictions.jsonl.",
-  ARCHIVE_SYMLINK_REJECTED: "Symbolic links are not accepted.",
-  ARCHIVE_FEATURE_REJECTED: "Unsupported, encrypted, or ZIP64 archive features are not accepted.",
-  ZIP_EXTRA_INVALID: "The ZIP contains a malformed extra-field record.",
-  ARCHIVE_RATIO_INVALID: "The ZIP compression ratio exceeds the pilot limit.",
-  ARCHIVE_INVALID: "The uploaded payload is not a valid ZIP archive.",
-  PAYLOAD_SIZE_INVALID: "predictions.jsonl exceeds the pilot size limit.",
-  PAYLOAD_UTF8_INVALID: "predictions.jsonl must be valid UTF-8.",
-  PAYLOAD_NUL_REJECTED: "predictions.jsonl contains an invalid NUL byte.",
-  PREDICTION_ROW_COUNT_INVALID: "The synthetic pilot requires exactly two prediction rows.",
-  PREDICTION_JSON_INVALID: "One or more prediction rows are not valid JSON objects.",
-  JSON_DUPLICATE_KEY: "Duplicate JSON keys are not accepted.",
-  PREDICTION_FIELDS_INVALID: "A prediction row has missing or extra fields.",
-  PREDICTION_CASE_ID_INVALID: "A synthetic case ID is missing, duplicated, or unknown.",
-  PREDICTION_COVERAGE_INVALID: "The prediction file does not cover the complete synthetic pilot set.",
-  FINAL_ANSWER_INVALID: "A final answer does not match the synthetic pilot value format.",
-  STEPS_INVALID: "The steps field must be a JSON array.",
-  STEP_FIELDS_INVALID: "A checkpoint row has missing or extra fields.",
-  STEP_ID_INVALID: "A checkpoint ID is missing, duplicated, or unknown.",
-  STEP_VALUE_INVALID: "A checkpoint value does not match the synthetic pilot value format.",
-  STEP_COVERAGE_INVALID: "The prediction file does not cover all synthetic checkpoints.",
+  SUBMISSION_REJECTED: "The ZIP does not satisfy the exact 580-row V4 submission contract.",
+  REPLAY_REJECTED: "This submission content or client submission ID was already accepted.",
+  DAILY_QUOTA_EXCEEDED: "This GitHub actor has reached the limit of 2 accepted development submissions for this UTC day.",
+  TOTAL_QUOTA_EXCEEDED: "This GitHub actor has reached the limit of 40 accepted development submissions.",
+  SUBMISSION_DEADLINE_CLOSED: "The issue was created after the published submission deadline.",
 });
 
 const commonFields = [
   "schema_version",
   "status",
+  "phase",
   "evaluation_version",
+  "dataset_version",
+  "release_version",
   "repository",
+  "repository_id",
   "issue_number",
   "issue_node_id",
   "issue_created_at",
   "actor_id",
   "github_login",
-];
-const signatureFields = [
+  "team_id",
+  "accepted_at",
+  "envelope_sha256",
+  "event_sha256",
+  "release_manifest_sha256",
+  "questions_sha256",
+  "expected_ids_sha256",
+  "reference_envelope_sha256",
+  "workflow_run_id",
+  "workflow_run_attempt",
+  "workflow_sha",
+  "submission_deadline_exclusive",
   "signature_algorithm",
   "signing_key_fingerprint_sha256",
-  "signature_b64",
 ];
-const scoredFields = [...commonFields, "seen_fac", "seen_checkpoint", "case_count"];
+const scoredFields = [
+  ...commonFields,
+  "submission_id",
+  "client_submission_id",
+  "submission_content_tag_sha256",
+  "seen_fac",
+  "seen_checkpoint",
+  "case_count",
+];
 const errorFields = [...commonFields, "error_code"];
 
 function exactFields(value, expected) {
@@ -65,120 +68,127 @@ function exactFields(value, expected) {
   }
 }
 
-function isIsoTimestamp(value) {
-  return typeof value === "string" && Number.isFinite(Date.parse(value));
-}
-
-function isScore(value) {
-  return typeof value === "string" && /^(?:0\.\d{6}|1\.000000)$/.test(value);
-}
-
 function canonicalJson(value) {
   if (value === null || typeof value !== "object") return JSON.stringify(value);
   if (Array.isArray(value)) return `[${value.map(canonicalJson).join(",")}]`;
   return `{${Object.keys(value).sort().map((key) => `${JSON.stringify(key)}:${canonicalJson(value[key])}`).join(",")}}`;
 }
 
-function signingOptions(options = {}) {
+function isTimestamp(value) {
+  if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/.test(value)) return false;
+  const parsed = new Date(value);
+  return !Number.isNaN(parsed.getTime()) && parsed.toISOString().replace(".000Z", "Z") === value;
+}
+
+function isSha256(value) {
+  return typeof value === "string" && /^[0-9a-f]{64}$/.test(value);
+}
+
+function isScore(value) {
+  return typeof value === "string" && /^(?:0\.\d{6}|1\.000000)$/.test(value);
+}
+
+function publicKeyOptions(options = {}) {
   return {
-    publicKeySpkiB64: options.publicKeySpkiB64 ?? pilotConfig.signing_public_key_spki_b64,
-    fingerprintSha256:
-      options.fingerprintSha256 ?? pilotConfig.signing_key_fingerprint_sha256,
+    publicKeySpkiB64: options.publicKeySpkiB64 ?? submissionConfig.signing_public_key_spki_b64,
+    fingerprintSha256: options.fingerprintSha256 ?? submissionConfig.signing_key_fingerprint_sha256,
   };
 }
 
-function validateUnsignedResult(record) {
-  const expectedFields = record?.status === "scored" ? scoredFields : errorFields;
-  exactFields(record, expectedFields);
+function unsignedRecord(record) {
+  const { signature_b64: _signature, ...unsigned } = record;
+  return unsigned;
+}
+
+function validateUnsignedResult(record, expectedFingerprint = submissionConfig.signing_key_fingerprint_sha256) {
+  exactFields(record, record?.status === "scored" ? scoredFields : errorFields);
+  const expectedTeamId = `team-gh-${record.actor_id}`;
   if (
-    record.schema_version !== "finreason.task1.github-pilot-result/1.0.0" ||
-    record.evaluation_version !== pilotConfig.evaluation_version ||
-    record.repository !== pilotConfig.repository ||
-    !Number.isInteger(record.issue_number) ||
-    record.issue_number < 1 ||
-    !Number.isInteger(record.actor_id) ||
-    record.actor_id < 1 ||
-    typeof record.issue_node_id !== "string" ||
-    !/^I_[A-Za-z0-9_-]+$/.test(record.issue_node_id) ||
-    !isIsoTimestamp(record.issue_created_at) ||
-    typeof record.github_login !== "string" ||
-    !/^[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?$/.test(record.github_login)
+    record.schema_version !== "finreason.task1.github-development-result/1.0.0" ||
+    record.phase !== submissionConfig.phase ||
+    record.evaluation_version !== submissionConfig.evaluation_version ||
+    record.dataset_version !== submissionConfig.dataset_version ||
+    record.release_version !== submissionConfig.release_version ||
+    record.repository !== submissionConfig.repository ||
+    record.repository_id !== submissionConfig.repository_id ||
+    record.release_manifest_sha256 !== submissionConfig.release_manifest_sha256 ||
+    record.questions_sha256 !== submissionConfig.questions_sha256 ||
+    record.expected_ids_sha256 !== submissionConfig.expected_ids_sha256 ||
+    record.reference_envelope_sha256 !== submissionConfig.reference_envelope_sha256 ||
+    record.submission_deadline_exclusive !== submissionConfig.submission_deadline_exclusive ||
+    !Number.isInteger(record.issue_number) || record.issue_number < 1 ||
+    typeof record.issue_node_id !== "string" || !/^I_[A-Za-z0-9_-]+$/.test(record.issue_node_id) ||
+    !Number.isInteger(record.actor_id) || record.actor_id < 1 ||
+    typeof record.github_login !== "string" || !/^[A-Za-z0-9](?:[A-Za-z0-9-]{0,37}[A-Za-z0-9])?$/.test(record.github_login) ||
+    record.team_id !== expectedTeamId ||
+    !isTimestamp(record.issue_created_at) || record.accepted_at !== record.issue_created_at ||
+    !isSha256(record.envelope_sha256) || !isSha256(record.event_sha256) ||
+    !Number.isInteger(record.workflow_run_id) || record.workflow_run_id < 1 ||
+    !Number.isInteger(record.workflow_run_attempt) || record.workflow_run_attempt < 1 ||
+    typeof record.workflow_sha !== "string" || !/^[0-9a-f]{40}$/.test(record.workflow_sha) ||
+    record.signature_algorithm !== "Ed25519" ||
+    record.signing_key_fingerprint_sha256 !== expectedFingerprint
   ) {
     throw new Error("RESULT_INVALID");
   }
   if (record.status === "scored") {
-    if (!isScore(record.seen_fac) || !isScore(record.seen_checkpoint) || record.case_count !== 2) {
+    const expectedSubmissionId = `dev-${record.accepted_at.replace(/[-:]/g, "")}-${expectedTeamId}-${record.submission_content_tag_sha256}`;
+    if (
+      typeof record.client_submission_id !== "string" ||
+      !/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(record.client_submission_id) ||
+      !isSha256(record.submission_content_tag_sha256) ||
+      record.submission_id !== expectedSubmissionId ||
+      !isScore(record.seen_fac) ||
+      !isScore(record.seen_checkpoint) ||
+      record.case_count !== submissionConfig.expected_rows
+    ) {
       throw new Error("RESULT_INVALID");
     }
   } else if (record.status === "participant_error") {
-    if (typeof record.error_code !== "string" || !friendlyErrors[record.error_code]) {
-      throw new Error("RESULT_INVALID");
-    }
+    if (!friendlyErrors[record.error_code]) throw new Error("RESULT_INVALID");
   } else {
     throw new Error("RESULT_INVALID");
   }
   return record;
 }
 
-function unsignedRecord(record) {
-  const {
-    signature_algorithm: _signatureAlgorithm,
-    signing_key_fingerprint_sha256: _fingerprint,
-    signature_b64: _signature,
-    ...unsigned
-  } = record;
-  return unsigned;
-}
-
 export function signResultRecord(record, privateKeyPkcs8B64, options = {}) {
-  validateUnsignedResult(record);
-  if (typeof privateKeyPkcs8B64 !== "string") throw new Error("RESULT_SIGNING_KEY_INVALID");
-  const expected = signingOptions(options);
-  const privateKey = createPrivateKey({
-    key: Buffer.from(privateKeyPkcs8B64, "base64"),
-    format: "der",
-    type: "pkcs8",
-  });
-  const publicDer = createPublicKey(privateKey).export({ format: "der", type: "spki" });
-  const observedFingerprint = createHash("sha256").update(publicDer).digest("hex");
-  if (
-    publicDer.toString("base64") !== expected.publicKeySpkiB64 ||
-    observedFingerprint !== expected.fingerprintSha256
-  ) {
-    throw new Error("RESULT_SIGNING_KEY_MISMATCH");
-  }
-  const signature = cryptoSign(null, Buffer.from(canonicalJson(record), "utf8"), privateKey);
-  return {
+  const expected = publicKeyOptions(options);
+  const signable = {
     ...record,
     signature_algorithm: "Ed25519",
     signing_key_fingerprint_sha256: expected.fingerprintSha256,
-    signature_b64: signature.toString("base64"),
+  };
+  validateUnsignedResult(signable, expected.fingerprintSha256);
+  const privateKey = createPrivateKey({ key: Buffer.from(privateKeyPkcs8B64, "base64"), format: "der", type: "pkcs8" });
+  const publicDer = createPublicKey(privateKey).export({ format: "der", type: "spki" });
+  if (
+    publicDer.toString("base64") !== expected.publicKeySpkiB64 ||
+    createHash("sha256").update(publicDer).digest("hex") !== expected.fingerprintSha256
+  ) {
+    throw new Error("RESULT_SIGNING_KEY_MISMATCH");
+  }
+  return {
+    ...signable,
+    signature_b64: cryptoSign(null, Buffer.from(canonicalJson(signable), "utf8"), privateKey).toString("base64"),
   };
 }
 
 export function validateResultRecord(record, options = {}) {
-  const expectedFields = record?.status === "scored"
-    ? [...scoredFields, ...signatureFields]
-    : [...errorFields, ...signatureFields];
-  exactFields(record, expectedFields);
-  const expected = signingOptions(options);
-  if (
-    record.signature_algorithm !== "Ed25519" ||
-    record.signing_key_fingerprint_sha256 !== expected.fingerprintSha256 ||
-    typeof record.signature_b64 !== "string" ||
-    !/^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/.test(record.signature_b64)
-  ) {
+  exactFields(record, [...(record?.status === "scored" ? scoredFields : errorFields), "signature_b64"]);
+  const expected = publicKeyOptions(options);
+  const unsigned = validateUnsignedResult(unsignedRecord(record), expected.fingerprintSha256);
+  if (record.signing_key_fingerprint_sha256 !== expected.fingerprintSha256 || typeof record.signature_b64 !== "string") {
     throw new Error("RESULT_SIGNATURE_INVALID");
   }
-  const unsigned = validateUnsignedResult(unsignedRecord(record));
   const publicDer = Buffer.from(expected.publicKeySpkiB64, "base64");
-  const observedFingerprint = createHash("sha256").update(publicDer).digest("hex");
-  if (observedFingerprint !== expected.fingerprintSha256) throw new Error("RESULT_SIGNATURE_INVALID");
-  const publicKey = createPublicKey({ key: publicDer, format: "der", type: "spki" });
+  if (createHash("sha256").update(publicDer).digest("hex") !== expected.fingerprintSha256) {
+    throw new Error("RESULT_SIGNATURE_INVALID");
+  }
   const valid = cryptoVerify(
     null,
     Buffer.from(canonicalJson(unsigned), "utf8"),
-    publicKey,
+    createPublicKey({ key: publicDer, format: "der", type: "spki" }),
     Buffer.from(record.signature_b64, "base64"),
   );
   if (!valid) throw new Error("RESULT_SIGNATURE_INVALID");
@@ -197,9 +207,7 @@ export function decodeResultMarker(body, options = {}) {
   const end = body.indexOf(" -->", start + markerPrefix.length);
   if (end < 0) return null;
   try {
-    const encoded = body.slice(start + markerPrefix.length, end);
-    const record = JSON.parse(Buffer.from(encoded, "base64url").toString("utf8"));
-    return validateResultRecord(record, options);
+    return validateResultRecord(JSON.parse(Buffer.from(body.slice(start + markerPrefix.length, end), "base64url").toString("utf8")), options);
   } catch {
     return null;
   }
@@ -208,9 +216,8 @@ export function decodeResultMarker(body, options = {}) {
 export function renderResultComment(record, options = {}) {
   validateResultRecord(record, options);
   const marker = encodeResultMarker(record, options);
-  const leaderboardUrl = "https://the-finai.github.io/IEEE-bigdata-cup/task1/leaderboard/";
   if (record.status === "scored") {
-    return `${marker}\n\n## Task 1 GitHub-only pilot result\n\n| Metric | Score |\n| --- | ---: |\n| Seen FAC | \`${record.seen_fac}\` |\n| Seen checkpoint | \`${record.seen_checkpoint}\` |\n\n[View the synthetic pilot leaderboard](${leaderboardUrl})\n\nThis confirms the GitHub upload and automatic scoring path only. It is not an official FinReason Cup score.`;
+    return `${marker}\n\n## Task 1 development result\n\n| Metric | Score |\n| --- | ---: |\n| SeenFAC | \`${record.seen_fac}\` |\n| SeenCheckpoint | \`${record.seen_checkpoint}\` |\n\n[View the development leaderboard](https://the-finai.github.io/IEEE-bigdata-cup/task1/leaderboard/)\n\nThis signed result contains aggregate development metrics only. The encrypted attachment remains ciphertext.`;
   }
-  return `${marker}\n\n## Task 1 GitHub-only pilot result\n\nThe synthetic submission was not scored: ${friendlyErrors[record.error_code]}\n\nCorrect the file and create a new pilot submission issue. This result is not an official FinReason Cup score.`;
+  return `${marker}\n\n## Task 1 development result\n\nThe submission was not scored: ${friendlyErrors[record.error_code]}\n\nCorrect the file and create a new development submission issue. The encrypted attachment remains ciphertext.`;
 }

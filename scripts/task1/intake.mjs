@@ -2,11 +2,11 @@ import { createHash } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { basename, dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import pilotConfig from "../../public/task1/pilot-config.json" with { type: "json" };
+import submissionConfig from "../../config/task1-evaluator.json" with { type: "json" };
 
 const expectedHeading = "Encrypted submission file";
 const maxEnvelopeBytes = Math.ceil(
-  (pilotConfig.max_plaintext_bytes + 4096 + 4 + 16) * 4 / 3,
+  (submissionConfig.max_plaintext_bytes + 4096 + 4 + 16) * 4 / 3,
 ) + 16_384;
 
 function parseArguments(argv) {
@@ -72,7 +72,7 @@ export async function downloadBounded(initialUrl, fetchImpl = fetch) {
     const response = await fetchImpl(current, {
       redirect: "manual",
       signal: AbortSignal.timeout(20_000),
-      headers: { "User-Agent": "finreason-task1-pilot-intake/1" },
+      headers: { "User-Agent": "finreason-task1-development-intake/1" },
     });
     if (response.status >= 300 && response.status < 400) {
       const location = response.headers.get("location");
@@ -100,7 +100,7 @@ export async function downloadBounded(initialUrl, fetchImpl = fetch) {
 
 export function validateIssueEvent(event) {
   if (!event || event.action !== "opened") throw new Error("EVENT_NOT_OPENED");
-  if (event.repository?.id !== pilotConfig.repository_id || event.repository?.full_name !== pilotConfig.repository) {
+  if (event.repository?.id !== submissionConfig.repository_id || event.repository?.full_name !== submissionConfig.repository) {
     throw new Error("REPOSITORY_MISMATCH");
   }
   if (!Number.isInteger(event.issue?.number) || typeof event.issue?.node_id !== "string") {
@@ -109,14 +109,8 @@ export function validateIssueEvent(event) {
   const login = event.issue?.user?.login;
   const actorId = event.issue?.user?.id;
   if (typeof login !== "string" || !Number.isInteger(actorId)) throw new Error("ACTOR_INVALID");
-  if (!pilotConfig.allowed_actor_ids.includes(actorId)) {
-    throw new Error("ACTOR_NOT_ALLOWED");
-  }
-  if (!pilotConfig.allowed_actors.some((allowed) => allowed.toLowerCase() === login.toLowerCase())) {
-    throw new Error("ACTOR_NOT_ALLOWED");
-  }
   const labels = new Set((event.issue?.labels ?? []).map((label) => label?.name));
-  if (!labels.has("task1-pilot-submission")) throw new Error("FORM_LABEL_MISSING");
+  if (!labels.has(submissionConfig.issue_label)) throw new Error("FORM_LABEL_MISSING");
   const createdAt = event.issue?.created_at;
   if (typeof createdAt !== "string" || !Number.isFinite(Date.parse(createdAt))) {
     throw new Error("ISSUE_TIME_INVALID");
@@ -131,7 +125,7 @@ export function validateIssueEvent(event) {
   };
 }
 
-export async function runIntake({ event, download = downloadBounded }) {
+export async function runIntake({ event, eventBytes = Buffer.from(JSON.stringify(event)), download = downloadBounded }) {
   const issue = validateIssueEvent(event);
   const attachment = parseSubmissionAttachment(issue.body);
   const envelopeBytes = await download(attachment.url);
@@ -146,10 +140,11 @@ export async function runIntake({ event, download = downloadBounded }) {
   }
   return {
     intake: {
-      schema_version: "finreason.task1.github-pilot-intake/1.0.0",
-      repository: pilotConfig.repository,
-      repository_id: pilotConfig.repository_id,
-      evaluation_version: pilotConfig.evaluation_version,
+      schema_version: "finreason.task1.github-development-intake/1.0.0",
+      repository: submissionConfig.repository,
+      repository_id: submissionConfig.repository_id,
+      phase: submissionConfig.phase,
+      evaluation_version: submissionConfig.evaluation_version,
       issue_number: issue.issue_number,
       issue_node_id: issue.issue_node_id,
       issue_created_at: issue.issue_created_at,
@@ -157,6 +152,7 @@ export async function runIntake({ event, download = downloadBounded }) {
       github_login: issue.github_login,
       attachment_name: basename(attachment.fileName),
       envelope_sha256: createHash("sha256").update(envelopeBytes).digest("hex"),
+      event_sha256: createHash("sha256").update(eventBytes).digest("hex"),
       received_at: new Date().toISOString(),
     },
     envelopeBytes,
@@ -168,8 +164,9 @@ async function main() {
   const eventPath = options.get("event");
   const outputDirectory = options.get("out");
   if (!eventPath || !outputDirectory) throw new Error("Usage: intake.mjs --event EVENT --out DIRECTORY");
-  const event = JSON.parse(await readFile(resolve(eventPath), "utf8"));
-  const result = await runIntake({ event });
+  const eventBytes = await readFile(resolve(eventPath));
+  const event = JSON.parse(eventBytes.toString("utf8"));
+  const result = await runIntake({ event, eventBytes });
   await mkdir(resolve(outputDirectory), { recursive: true, mode: 0o700 });
   await writeFile(resolve(outputDirectory, "envelope.json"), result.envelopeBytes, { mode: 0o600 });
   await writeFile(resolve(outputDirectory, "intake.json"), `${JSON.stringify(result.intake)}\n`, { mode: 0o600 });

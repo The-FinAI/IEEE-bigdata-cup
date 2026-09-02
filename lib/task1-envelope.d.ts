@@ -13,6 +13,12 @@ export function createSubmissionEnvelope(options: {
   archiveBytes: Uint8Array | ArrayBuffer;
   githubLogin: string;
   evaluationVersion: string;
+  phase: string;
+  repository: string;
+  repositoryId: number;
+  releaseManifestSha256: string;
+  questionsSha256: string;
+  expectedIdsSha256: string;
   recipientPublicKeyB64: string;
   keyFingerprintSha256: string;
   maxPlaintextBytes: number;
@@ -25,6 +31,12 @@ export function decryptSubmissionEnvelope(options: {
   recipientPrivateKeyPkcs8B64: string;
   expectedKeyFingerprintSha256: string;
   expectedEvaluationVersion: string;
+  expectedPhase: string;
+  expectedRepository: string;
+  expectedRepositoryId: number;
+  expectedReleaseManifestSha256: string;
+  expectedQuestionsSha256: string;
+  expectedIdsSha256: string;
   maxPlaintextBytes: number;
 }): Promise<{ archiveBytes: Uint8Array; metadata: Record<string, unknown> }>;
 
