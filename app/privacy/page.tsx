@@ -54,7 +54,7 @@ export default function PrivacyPage() {
         <dl className="policy-meta">
           <div>
             <dt>Effective</dt>
-            <dd>1 September 2026</dd>
+            <dd>2 September 2026</dd>
           </div>
           <div>
             <dt>Privacy contact</dt>
@@ -74,7 +74,7 @@ export default function PrivacyPage() {
             Cup organizer team through the Letter of Intent and
             organizer-operated participant services. It also describes the
             public result fields the organizers may publish. External services,
-            including Google Forms, CyberChair, GitHub, and the
+            including Google Forms, CyberChair, Hugging Face, GitHub, and the
             conference website, may apply their own privacy notices and terms.
           </p>
         </section>
@@ -131,12 +131,11 @@ export default function PrivacyPage() {
           <p className="section-index">04 / PUBLIC SITE</p>
           <h2 id="privacy-pages">GitHub Pages boundary</h2>
           <p>
-            The public GitHub Pages website encrypts a selected predictions ZIP
-            locally in the participant&apos;s browser. The plaintext ZIP is not sent
-            to Pages. The participant then uploads only the encrypted JSON to a
-            public GitHub Issue. GitHub publicly exposes the account, issue time,
-            issue text, and encrypted attachment URL; encryption hides the ZIP
-            contents, not those participation metadata.
+            The public GitHub Pages website does not collect or store team
+            access codes, submission files, gold answers, or private evaluation
+            data. Access codes and competition files are entered only in the
+            separate verified participant service linked from the Task 1 hub.
+            GitHub Issues are not a submission channel.
           </p>
           <p>
             The public site may receive ordinary technical requests handled by
@@ -152,10 +151,10 @@ export default function PrivacyPage() {
             The optional public development leaderboard may display a team
             identifier, team display name, submission identifier, rank,
             aggregate SeenFAC and SeenCheckpoint scores, and acceptance time.
-            Raw submissions, email addresses, hidden evaluation data, and
-            private evaluation records are not published through that leaderboard.
-            Test intake is currently disabled, so there is no test submission,
-            receipt, score, rank, private diagnostic, or leaderboard entry.
+            Raw submissions, access codes, email addresses, hidden evaluation
+            data, and private receipts are not published through that
+            leaderboard. Test submissions do not produce an online score, rank,
+            diagnostic, or leaderboard entry.
           </p>
           <p>
             Final team names, rankings, award results, papers, citations, and
@@ -170,10 +169,10 @@ export default function PrivacyPage() {
           <p>
             Task 1 participant services are designed to separate public
             resources from organizer-private submissions and evaluation data.
-            Development ciphertext is attached to the public issue and decrypted
-            only in a protected GitHub Actions environment for validation and
-            scoring. Plaintext exists only in runner-temporary storage and is not
-            placed in Git history, Actions artifacts, comments, or the leaderboard.
+            Accepted submission archives are encrypted before storage in the
+            organizer-private submission boundary. Access is limited to the
+            organizer functions needed to operate, evaluate, support, and audit
+            the challenge.
           </p>
           <p>
             No online service can guarantee absolute security. Participants
@@ -186,19 +185,13 @@ export default function PrivacyPage() {
           <p className="section-index">07 / RETENTION</p>
           <h2 id="privacy-retention">How long records are kept</h2>
           <p>
-            Any private Task 1 submission copy and non-public operational event
-            record is retained for up to 120 days from acceptance. A record
+            Private Task 1 submission archives and non-public operational event
+            records are retained for up to 120 days from acceptance. A record
             may be kept longer when needed to resolve an active appeal,
             integrity review, security incident, or applicable institutional or
             legal requirement. Public leaderboard and final result records,
             papers, citations, and aggregate statistics may remain available as
             part of the challenge record.
-          </p>
-          <p>
-            Public GitHub issues, comments, aggregate results, and ciphertext
-            attachment URLs are processed under GitHub&apos;s platform retention rules
-            and may remain available beyond 120 days. Participants must not attach
-            plaintext, credentials, personal data, or unrelated files.
           </p>
           <p>
             Letter of Intent and registration contact records are kept while
@@ -214,9 +207,8 @@ export default function PrivacyPage() {
           <p>
             The challenge uses external services for specific functions,
             including Google Forms for the Letter of Intent, CyberChair for
-            challenge papers, and GitHub for the public website, encrypted issue
-            intake, Actions evaluation, comments, and development leaderboard.
-            Information submitted to an
+            challenge papers, GitHub Pages for the public website, and Hugging
+            Face for verified participant services. Information submitted to an
             external service may also be processed under that service&apos;s terms,
             privacy notice, account settings, and infrastructure practices.
           </p>
@@ -230,7 +222,7 @@ export default function PrivacyPage() {
             of information provided directly to the organizer team, email{" "}
             <a href={`mailto:${contactEmail}`}>{contactEmail}</a>. Include enough
             information to identify the relevant team and record, but do not
-            send a submission archive by email.
+            send an access code or submission archive by email.
           </p>
           <p>
             A request may be limited when a record is needed for result

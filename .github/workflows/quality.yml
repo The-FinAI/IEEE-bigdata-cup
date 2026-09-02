@@ -8,8 +8,33 @@ permissions:
   contents: read
 
 jobs:
-  verify:
+  verify-site:
+    name: Verify ${{ matrix.scenario }} Pages build
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - scenario: development-unconfigured
+            site_mode: development
+            development_space_url: ""
+            test_space_url: ""
+            leaderboard_api_url: ""
+          - scenario: development-staged
+            site_mode: development
+            development_space_url: https://task1-development-ci.hf.space/
+            test_space_url: https://task1-test-ci.hf.space/
+            leaderboard_api_url: https://task1-api.example.invalid/leaderboard.json
+          - scenario: final-spaces-only
+            site_mode: final
+            development_space_url: https://task1-development-ci.hf.space/
+            test_space_url: https://task1-test-ci.hf.space/
+            leaderboard_api_url: ""
+          - scenario: final-spaces-with-api
+            site_mode: final
+            development_space_url: https://task1-development-ci.hf.space/
+            test_space_url: https://task1-test-ci.hf.space/
+            leaderboard_api_url: https://task1-api.example.invalid/leaderboard.json
     steps:
       - name: Check out repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -22,19 +47,30 @@ jobs:
           node-version: 22.13.0
           cache: npm
 
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build and verify static site
+        env:
+          FINREASON_TASK1_SITE_MODE: ${{ matrix.site_mode }}
+          NEXT_PUBLIC_FINREASON_TASK1_DEVELOPMENT_SPACE_URL: ${{ matrix.development_space_url }}
+          NEXT_PUBLIC_FINREASON_TASK1_TEST_SPACE_URL: ${{ matrix.test_space_url }}
+          NEXT_PUBLIC_FINREASON_TASK1_LEADERBOARD_API_URL: ${{ matrix.leaderboard_api_url }}
+        run: npm test
+
+  verify-scorer:
+    name: Verify frozen development scorer
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
       - name: Set up CPython 3.11.4
         uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
         with:
           python-version: 3.11.4
 
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Run static and Node tests
-        run: npm test
-
       - name: Run hosted Python contract tests
         run: python3 -m unittest tests.test_task1_development_scorer
-
-      - name: Verify Pages privacy boundary
-        run: node scripts/task1/verify-public-boundary.mjs --root out

@@ -1,15 +1,22 @@
 import assert from "node:assert/strict";
 import { access, readFile, readdir } from "node:fs/promises";
 import test from "node:test";
+import { resolveTask1PublicConfig } from "../lib/task1-public-config.mjs";
 
 const root = new URL("../", import.meta.url);
+const publicConfig = resolveTask1PublicConfig({
+  siteMode: process.env.FINREASON_TASK1_SITE_MODE,
+  developmentSpaceUrl: process.env.NEXT_PUBLIC_FINREASON_TASK1_DEVELOPMENT_SPACE_URL,
+  testSpaceUrl: process.env.NEXT_PUBLIC_FINREASON_TASK1_TEST_SPACE_URL,
+  leaderboardApiUrl: process.env.NEXT_PUBLIC_FINREASON_TASK1_LEADERBOARD_API_URL,
+});
 
 async function text(path) {
   return readFile(new URL(path, root), "utf8");
 }
 
-test("renders the official GitHub-only Task 1 participant routes", async () => {
-  const [home, hub, submit, leaderboard, terms, privacy, sitemap] = await Promise.all([
+test("renders direct web upload routes without a GitHub Issue intake", async () => {
+  const [home, hub, submit, leaderboard, terms, privacy, sitemap, readme] = await Promise.all([
     text("out/index.html"),
     text("out/task1/index.html"),
     text("out/task1/submit/index.html"),
@@ -17,33 +24,52 @@ test("renders the official GitHub-only Task 1 participant routes", async () => {
     text("out/terms/index.html"),
     text("out/privacy/index.html"),
     text("out/sitemap.xml"),
+    text("README.md"),
   ]);
 
-  assert.match(home, /GitHub-only development route/);
   assert.match(hub, /TASK 1 \/ PARTICIPANT HUB/);
   assert.match(hub, /V4 DEVELOPMENT \/ 13 FILES/);
   assert.match(hub, /ROTATED V2 TEST \/ 3 FILES/);
-  assert.match(hub, /Test intake disabled/);
-  assert.match(submit, /Prepare encrypted submission/);
-  assert.match(submit, /580-row V4 predictions ZIP/);
-  assert.match(submit, /2 accepted attempts per UTC day and 40 in total/);
-  assert.match(leaderboard, /Public development leaderboard/);
-  assert.match(leaderboard, /SeenFAC/);
-  assert.match(terms, /locally encrypted JSON ciphertext/);
-  assert.match(terms, /immutable numeric GitHub actor ID/);
-  assert.match(terms, /15 November 2026, 23:59 Anywhere on Earth/);
-  assert.match(privacy, /public GitHub Issue/);
+  assert.match(hub, /GitHub Issues are not a submission channel/);
+  assert.match(submit, /Submit Task 1 results on the web/);
+  assert.match(submit, /Development and test submission/);
+  assert.match(submit, /Development returns SeenFAC and SeenCheckpoint immediately/);
+  assert.match(submit, /Test returns only an acceptance receipt/);
+  assert.match(leaderboard, /Development scores and leaderboard/);
+  assert.match(leaderboard, /Test submissions are receipt-only/);
+  assert.match(terms, /verified development or test service/);
+  assert.match(privacy, /does not collect or store team access codes/);
   assert.match(privacy, /up to 120 days from acceptance/);
-  assert.match(privacy, /Test intake is currently disabled/);
   assert.match(sitemap, /\/task1\//);
   assert.match(sitemap, /\/task1\/submit\//);
   assert.match(sitemap, /\/task1\/leaderboard\//);
   assert.doesNotMatch(sitemap, /task1\/pilot/);
 
-  const publicCopy = `${home}\n${hub}\n${submit}\n${leaderboard}\n${terms}\n${privacy}`;
-  assert.doesNotMatch(publicCopy, /Hugging Face|\.hf\.space|access code/i);
-  assert.doesNotMatch(publicCopy, /organizer-only pilot|synthetic pilot/i);
+  const participantCopy = `${home}\n${hub}\n${submit}\n${leaderboard}\n${terms}\n${privacy}\n${readme}`;
+  assert.doesNotMatch(
+    participantCopy,
+    /GitHub-only development route|official GitHub Issue Form|attached as ciphertext|immutable numeric GitHub actor ID|encrypted Issue intake/i,
+  );
+  assert.doesNotMatch(participantCopy, /organizer-only pilot|synthetic pilot/i);
   await assert.rejects(access(new URL("out/task1/pilot", root)));
+
+  if (publicConfig.siteMode === "final") {
+    assert.ok(publicConfig.developmentSpace.url);
+    assert.ok(publicConfig.testSpace.url);
+    assert.match(submit, /Direct web upload available/);
+    assert.match(submit, /Open development submission/);
+    assert.match(submit, /Open test submission/);
+    assert.ok(submit.includes(publicConfig.developmentSpace.url));
+    assert.ok(submit.includes(publicConfig.testSpace.url));
+    assert.ok(leaderboard.includes(publicConfig.developmentSpace.url));
+    assert.ok(!leaderboard.includes(publicConfig.testSpace.url));
+    assert.doesNotMatch(submit, /link pending verification/);
+  } else {
+    assert.match(submit, /Direct web upload under verification/);
+    assert.match(submit, /Development upload link pending verification/);
+    assert.match(submit, /Test upload link pending verification/);
+    assert.doesNotMatch(submit, /href="https:\/\/[^" ]+\.hf\.space\//);
+  }
 });
 
 test("publishes exactly the frozen 13 development and 3 test downloads", async () => {
@@ -60,25 +86,26 @@ test("publishes exactly the frozen 13 development and 3 test downloads", async (
   ]);
 });
 
-test("workflow is actor-serialized, least-privilege, and test intake is absent", async () => {
-  const [workflow, issueForm, pages, config, rights] = await Promise.all([
-    text(".github/workflows/task1-development-submission.yml"),
-    text(".github/ISSUE_TEMPLATE/task1-development-submission.yml"),
+test("removes the Issue route and guards direct Space configuration", async () => {
+  const [pages, publicConfigSource, rights] = await Promise.all([
     text(".github/workflows/deploy-pages.yml"),
-    text("public/task1/submission-config.json"),
+    text("lib/task1-public-config.mjs"),
     text("public/task1/RIGHTS_AND_PROVENANCE.md"),
   ]);
-  assert.match(workflow, /group: task1-development-actor-\$\{\{ github\.event\.issue\.user\.id \}\}/);
-  assert.match(workflow, /environment: task1-pilot/);
-  assert.match(workflow, /actions: read[\s\S]*contents: read[\s\S]*issues: read/);
-  assert.match(workflow, /publish:[\s\S]*permissions:[\s\S]*contents: read[\s\S]*issues: write/);
-  assert.doesNotMatch(workflow, /actions: write/);
-  assert.match(issueForm, /title: "\[Task 1 DEV\] Encrypted submission"/);
-  assert.match(issueForm, /type: upload[\s\S]*validations:[\s\S]*accept: "\.json"[\s\S]*required: true/);
-  assert.doesNotMatch(issueForm, /team name|raw filename/i);
-  assert.match(pages, /Rebuild leaderboard from signed result comments/);
-  assert.match(config, /"submission_deadline_exclusive": "2026-11-16T12:00:00Z"/);
-  assert.match(rights, /six organizer-owned participant-tool files/);
-  assert.doesNotMatch(rights, /\.github\/workflows|app\/task1|scripts\/task1\/score-development/);
+
+  await assert.rejects(access(new URL(".github/workflows/task1-development-submission.yml", root)));
+  await assert.rejects(access(new URL(".github/ISSUE_TEMPLATE/task1-development-submission.yml", root)));
+  await assert.rejects(access(new URL("app/task1/submit/submission-packer.tsx", root)));
+  await assert.rejects(access(new URL("public/task1/submission-config.json", root)));
+  await assert.rejects(access(new URL("out/task1/submission-config.json", root)));
   await assert.rejects(access(new URL(".github/workflows/task1-test-submission.yml", root)));
+
+  assert.doesNotMatch(pages, /workflow_run|Task 1 development submission|issues:\s*read|build-leaderboard/);
+  assert.match(pages, /FINREASON_TASK1_SITE_MODE/);
+  assert.match(pages, /NEXT_PUBLIC_FINREASON_TASK1_DEVELOPMENT_SPACE_URL/);
+  assert.match(pages, /NEXT_PUBLIC_FINREASON_TASK1_TEST_SPACE_URL/);
+  assert.match(publicConfigSource, /two different isolated deployments/);
+  assert.match(publicConfigSource, /\.hf\.space/);
+  assert.match(rights, /six organizer-owned participant-tool files/);
+  assert.doesNotMatch(rights, /\.github\/workflows|app\/task1/);
 });

@@ -119,16 +119,15 @@ final competition submission.
 | --- | --- |
 | [Official challenge website](https://the-finai.github.io/IEEE-bigdata-cup/) | Live |
 | [Letter of Intent](https://forms.gle/D4VJqjgtmcaC77DL8) | Open |
-| Task 1 train questions, answers, and targets | Included in the launch candidate |
-| Task 1 development questions and encrypted Issue intake | Included in the launch candidate; live setup verification pending |
-| Task 1 rotated V2 test questions | Included; test intake disabled pending custody verification |
+| Task 1 train, development, and rotated V2 test files | Live as 13 development files and 3 test files |
+| Task 1 direct web upload | Development and test workspaces under verification; links withheld until ready |
 | Starter kits, schemas, validators, and baselines | Coming soon |
 | Participant support | [zhuohan.xie@mbzuai.ac.ae](mailto:zhuohan.xie@mbzuai.ac.ae) |
-| Terms of Participation | Ready in the current release branch; public after website deployment |
-| Privacy Notice | Ready in the current release branch; public after website deployment |
+| Terms of Participation | Live |
+| Privacy Notice | Live |
 | [Challenge paper submission](https://wi-lab.com/cyberchair/2026/bigdata26/scripts/submit.php?subarea=SC03) | Open |
-| [Task 1 participant hub](https://the-finai.github.io/IEEE-bigdata-cup/task1/) | GitHub-only development route; test intake disabled |
-| [Task 1 leaderboard](https://the-finai.github.io/IEEE-bigdata-cup/task1/leaderboard/) | Development aggregates only |
+| [Task 1 participant hub](https://the-finai.github.io/IEEE-bigdata-cup/task1/) | Public downloads live; direct-upload status published here |
+| [Task 1 leaderboard](https://the-finai.github.io/IEEE-bigdata-cup/task1/leaderboard/) | Development only |
 
 Final verified competition-platform and submission links will be posted on the
 official challenge website after workflow testing.
@@ -154,31 +153,23 @@ linked here as they are released.
 Please use only links marked as verified on the
 [official challenge website](https://the-finai.github.io/IEEE-bigdata-cup/).
 
-### Task 1 GitHub hub
+### Task 1 participant hub
 
 The public `/task1/` route is the stable participant entry point:
 
 - exactly 13 V4 development files and three rotated V2 public test files are
   downloadable from Pages with their frozen manifests;
-- `/task1/submit/` encrypts a selected development predictions ZIP locally with
-  X25519, HKDF-SHA256, and AES-256-GCM;
-- the participant attaches only the generated ciphertext JSON to the official
-  GitHub Issue Form;
-- GitHub Actions derives team identity from the immutable numeric issue actor
-  ID, records the login for display, enforces the 2-per-UTC-day and 40-total development quotas, validates
-  exactly 580 V4 rows, and returns signed aggregate SeenFAC and SeenCheckpoint;
-- `/task1/leaderboard/` displays the best accepted development result per actor
-  from signature-verified result comments;
-- rotated V2 test questions are public, but test intake is disabled until the
-  private retention and offline-custody boundary is verified;
-- no test score, rank, path, private diagnostic, or test leaderboard is exposed.
-
-The issue author, timestamp, body, and encrypted attachment URL are public.
-Encryption protects the predictions ZIP contents, not those participation
-metadata. A public result comment contains only visible aggregate scores plus
-signed integrity and source fields. A plaintext ZIP, raw prediction hash,
-evaluator reference, private key, or private diagnostic must never enter Git
-history, an Issue, an Actions artifact, or a public comment.
+- `/task1/submit/` publishes two distinct organizer-verified direct-upload links
+  after both workspaces pass deployment checks;
+- the development workspace accepts the canonical 580-row predictions ZIP,
+  returns SeenFAC and SeenCheckpoint immediately, and maintains the eligible
+  best result per team;
+- the separate test workspace accepts the 928-row test predictions ZIP and
+  returns only an acceptance receipt, with no score, rank, diagnostic, or test
+  leaderboard;
+- access codes and submission files are entered only inside the verified
+  workspace, never into this GitHub Pages site;
+- GitHub Issues are not a participant submission channel.
 
 The public JSON feed uses the canonical aggregate-only development leaderboard
 contract below. Its root and row fields are exact; it
@@ -193,12 +184,12 @@ data, or additional metadata. The response must be no larger than 1 MiB.
 }
 ```
 
-The Pages workflow rebuilds the public leaderboard from signature-verified
-aggregate result comments. It never reads a plaintext submission or evaluator
-reference. Activating the Issue Form and workflow requires the protected
-environment key, exact repository labels, Pages settings, and branch rules
-listed in the launch runbook. Test intake has no workflow or Issue Form and is
-therefore fail-closed.
+The Pages workflow builds the website, frozen public downloads, guarded links,
+and the optional aggregate development leaderboard view. It never receives a
+team code, submission archive, gold answer, or private evaluation record. Live
+mode requires two distinct verified root `*.hf.space` URLs. Until then, the
+public site shows the upload links as pending rather than publishing an
+unverified route.
 
 ## Local development
 
@@ -249,4 +240,4 @@ describe the current organizer-maintained participation rules.
 
 ---
 
-Last reviewed: 1 September 2026.
+Last reviewed: 2 September 2026.

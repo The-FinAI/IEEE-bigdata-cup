@@ -110,7 +110,7 @@ const launchItems = [
     label: "Task 1 participant hub",
     date: "TASK 1 HUB",
     detail:
-      "One stable GitHub hub publishes the data, development submission route, and test intake status.",
+      "One stable participant hub publishes all public Task 1 files, the development leaderboard, and current upload status.",
   },
   {
     state: "scheduled",
@@ -142,7 +142,7 @@ const faqs = [
   {
     question: "Is the paper submission also the competition submission?",
     answer:
-      "No. CyberChair SC03 is for the challenge paper. Task 1 uses the separate GitHub participant hub on this site. The development route accepts locally encrypted ciphertext through an official GitHub Issue Form. Test intake remains disabled until its private custody boundary is verified. Both routes share the final submission deadline.",
+      "No. CyberChair SC03 is for the challenge paper. Task 1 solution files use separate direct web upload workspaces linked from the participant hub. Those links are being verified before publication, and GitHub Issues are not a submission channel. Both routes share the final submission deadline.",
   },
   {
     question: "Why does CyberChair show a 10-page limit and deadline TBA?",
@@ -167,7 +167,7 @@ const faqs = [
   {
     question: "Where will the competition run?",
     answer:
-      "The Task 1 participant hub is hosted on this GitHub Pages site. The verified participant release provides train questions and answers. Development submissions are encrypted locally, attached as ciphertext to an official GitHub Issue Form, scored by GitHub Actions, and can enter the public development leaderboard. Rotated test questions are available, but test intake remains disabled until the private retention and offline-custody boundary is verified. The paper route is available separately through CyberChair SC03.",
+      "The Task 1 participant hub is hosted on this GitHub Pages site and provides the verified train, development, and rotated test downloads. Registered teams will upload development and test predictions through separate organizer-verified web workspaces. Development returns immediate aggregate scores and a leaderboard; test returns a receipt only, with no online score or rank. The paper route remains separate through CyberChair SC03.",
   },
   {
     question: "Are cash prizes confirmed?",
@@ -287,8 +287,8 @@ export default function Home() {
             </div>
             <p className="hero-note">
               The CyberChair paper channel is open. The Task 1 participant hub
-              publishes the canonical data and the GitHub-only development route.
-              Test intake is clearly disabled pending custody verification.
+              publishes the canonical data and current direct-upload status.
+              GitHub Issues are not a submission channel.
             </p>
           </div>
 
@@ -531,8 +531,8 @@ export default function Home() {
             Teams seeking final ranking and awards submit the challenge paper
             through CyberChair SC03. Solution materials specified in the final
             task rules use a separate participant path. The Task 1 hub is
-            the stable entry point for encrypted development submission,
-            rotated test downloads, and the development leaderboard.
+            the stable entry point for public data downloads, direct-upload
+            status, and the development leaderboard.
           </p>
           <div className="interest-points">
             <div>
@@ -637,7 +637,7 @@ export default function Home() {
                 <span className="sr-only"> (opens in a new tab)</span>
               </a>
             </nav>
-            <p className="footer-updated">Last reviewed 1 September 2026.</p>
+            <p className="footer-updated">Last reviewed 2 September 2026.</p>
           </div>
           <a href="#overview">Back to top ↑</a>
         </div>

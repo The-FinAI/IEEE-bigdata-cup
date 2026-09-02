@@ -50,11 +50,11 @@ export function LaunchStatus() {
       <div className="participant-notice">
         <strong>Separate Task 1 participant hub</strong>
         <p>
-          Task 1 publishes canonical train and development files through the GitHub Pages hub.
-          Development predictions are encrypted locally and attached as ciphertext to the official
-          GitHub Issue Form. Accepted submissions receive aggregate scores when GitHub Actions
-          processing completes and can enter the development leaderboard. Rotated test questions are available, but test intake remains
-          disabled pending verification of private retention and offline custody.
+          Task 1 publishes the canonical train, development, and rotated test files through the
+          participant hub. Development and test use separate direct-upload workspaces: development
+          returns immediate aggregate scores and can update the leaderboard, while test returns only
+          an acceptance receipt. The organizer team is verifying those links before publishing them.
+          GitHub Issues are not a submission channel.
         </p>
         <div className="participant-notice-links">
           <Link href="/task1/">Open Task 1 participant hub</Link>
