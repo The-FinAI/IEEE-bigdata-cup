@@ -32,10 +32,27 @@ test("renders direct web upload routes without a GitHub Issue intake", async () 
   assert.match(hub, /ROTATED V2 TEST \/ 3 FILES/);
   assert.match(submit, /Submit Task 1 results on the web/);
   assert.match(submit, /Development and test submission/);
-  assert.match(submit, /Development returns SeenFAC and SeenCheckpoint immediately/);
+  assert.match(submit, /returns a receipt showing SeenFAC and SeenCheckpoint immediately/);
   assert.match(submit, /Test returns only an acceptance receipt/);
+  assert.match(submit, /receipt with SeenFAC and SeenCheckpoint/);
+  assert.match(submit, /Refresh the authenticated development leaderboard/);
+  assert.doesNotMatch(submit, /Immediate scores \+ rank/);
   assert.match(leaderboard, /Development scores and leaderboard/);
   assert.match(leaderboard, /Test submissions are receipt-only/);
+  assert.match(leaderboard, /Task 1 organizer baselines/);
+  assert.match(leaderboard, /B0 · Valid abstention/);
+  assert.match(leaderboard, /B1 · Visible rule/);
+  assert.match(leaderboard, /B2 · Fin-o1-8B/);
+  assert.match(leaderboard, /0\.285873/);
+  assert.match(leaderboard, /0\.592606/);
+  assert.match(leaderboard, /not participant submissions or ranks/);
+  assert.match(leaderboard, /Participant results only/);
+  const organizerStart = leaderboard.indexOf("Task 1 organizer baselines");
+  const participantStart = leaderboard.indexOf("OPTIONAL PUBLIC VIEW", organizerStart);
+  assert.ok(organizerStart >= 0 && participantStart > organizerStart);
+  const organizerSection = leaderboard.slice(organizerStart, participantStart);
+  assert.doesNotMatch(organizerSection, />Rank</);
+  assert.doesNotMatch(organizerSection, />Team</);
   assert.match(terms, /verified development or test service/);
   assert.match(privacy, /does not collect or store team access codes/);
   assert.match(privacy, /up to 120 days from acceptance/);
@@ -50,6 +67,9 @@ test("renders direct web upload routes without a GitHub Issue intake", async () 
     /GitHub Issues?|GitHub-only development route|official GitHub Issue Form|attached as ciphertext|immutable numeric GitHub actor ID|encrypted Issue intake/i,
   );
   assert.doesNotMatch(participantCopy, /organizer-only pilot|synthetic pilot/i);
+  assert.doesNotMatch(readme, /Starter kits, schemas, validators, and baselines \| Coming soon/);
+  assert.match(readme, /Task 1 schemas, validator, sample B0, and B1 baseline \| Live/);
+  assert.match(readme, /Task 2 and Task 3 starter kits and baselines \| Coming soon/);
   await assert.rejects(access(new URL("out/task1/pilot", root)));
 
   if (publicConfig.siteMode === "final") {

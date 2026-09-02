@@ -38,12 +38,10 @@ reasoning, sequential financial decisions, and structured verification.
 ### Task 1 · Verifiable Financial Chain Reasoning
 
 Solve multi-step financial problems and return both a final answer and a
-step-by-step reasoning trace. Predictions are planned to be checked against
-gold traces generated from executable [FinChain](https://github.com/mbzuai-nlp/finchain)
-templates.
-
-The exact problem subset, trace schema, ChainEval version, and numerical
-tolerance policy will be frozen with the starter kit.
+step-by-step reasoning trace. Predictions are checked against organizer references
+generated from executable [FinChain](https://github.com/mbzuai-nlp/finchain)
+templates. The released Task 1 package freezes the prediction schema, evaluator
+contract, numerical tolerance policy, and development data.
 
 ### Task 2 · Market-Neutral Hedging
 
@@ -121,7 +119,9 @@ final competition submission.
 | [Letter of Intent](https://forms.gle/D4VJqjgtmcaC77DL8) | Open |
 | Task 1 train, development, and rotated V2 test files | Live as 13 development files and 3 test files |
 | Task 1 direct web upload | See the participant hub for current verified availability |
-| Starter kits, schemas, validators, and baselines | Coming soon |
+| Task 1 schemas, validator, sample B0, and B1 baseline | Live in this repository |
+| Task 1 organizer baseline scores | B0–B2 local-development references live on the leaderboard page |
+| Task 2 and Task 3 starter kits and baselines | Coming soon |
 | Participant support | [zhuohan.xie@mbzuai.ac.ae](mailto:zhuohan.xie@mbzuai.ac.ae) |
 | Terms of Participation | Live |
 | Privacy Notice | Live |
@@ -140,15 +140,14 @@ submission links and records their current availability.
 | Winning teams announced | **25 November 2026** |
 | IEEE Big Data 2026, Phoenix, Arizona | **14–17 December 2026** |
 
-Dataset, starter kit, competition-platform, and private-evaluation dates will be
-published on the official challenge website after organizer testing.
+Task 2, Task 3, and remaining private-evaluation dates will be published on the
+official challenge website after organizer testing.
 
 ## Repository scope
 
-This repository currently contains the source for the organizer-maintained
-FinReason Cup website. Verified participant resources—including datasets,
-starter kits, schemas, validators, baselines, and submission links—will be
-linked here as they are released.
+This repository contains the organizer-maintained FinReason Cup website and the
+released Task 1 participant data and tools. Task 2 and Task 3 participant
+resources will be linked here after organizer verification.
 
 Please use only links marked as verified on the
 [official challenge website](https://the-finai.github.io/IEEE-bigdata-cup/).
