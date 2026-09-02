@@ -2036,6 +2036,14 @@ label {
   padding: 54px 0 18px;
 }
 
+.leaderboard-benchmark-note {
+  color: var(--slate);
+  font-size: 11px;
+  line-height: 1.65;
+  margin: 18px 0 0;
+  max-width: 880px;
+}
+
 .leaderboard-state {
   padding: 32px 0 8px;
 }

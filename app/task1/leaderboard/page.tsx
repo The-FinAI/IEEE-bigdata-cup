@@ -80,8 +80,65 @@ export default function Task1LeaderboardPage() {
       </section>
 
       <div className="optional-leaderboard-heading">
+        <p className="section-index">ORGANIZER REFERENCE</p>
+        <p>Labeled local-development split</p>
+      </div>
+      <section className="leaderboard-panel" aria-labelledby="organizer-baseline-title">
+        <div className="leaderboard-heading">
+          <div>
+            <span>Evaluation</span>
+            <strong id="organizer-baseline-title">Task 1 organizer baselines</strong>
+          </div>
+          <p>Fixed 290-case reference results</p>
+        </div>
+        <div
+          className="table-scroll"
+          role="region"
+          aria-labelledby="organizer-baseline-title"
+          tabIndex={0}
+        >
+          <table aria-labelledby="organizer-baseline-title">
+            <thead>
+              <tr>
+                <th scope="col">Baseline</th>
+                <th scope="col">Method</th>
+                <th scope="col">SeenFAC</th>
+                <th scope="col">SeenCheckpoint</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">B0 · Valid abstention</th>
+                <td>Legal null-prediction control</td>
+                <td>0.000000</td>
+                <td>0.000000</td>
+              </tr>
+              <tr>
+                <th scope="row">B1 · Visible rule</th>
+                <td>Deterministic five-family rules</td>
+                <td>0.020833</td>
+                <td>0.011574</td>
+              </tr>
+              <tr>
+                <th scope="row">B2 · Fin-o1-8B</th>
+                <td>Pinned zero-shot JSON-schema generation</td>
+                <td>0.285873</td>
+                <td>0.592606</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p className="leaderboard-benchmark-note">
+          These organizer results use the released 290-case labeled local-development split. The
+          participant ranking uses the separate 580-case leaderboard-development split, so these
+          values are reference points, not participant submissions or ranks, and are not directly
+          comparable with the ranking below.
+        </p>
+      </section>
+
+      <div className="optional-leaderboard-heading">
         <p className="section-index">OPTIONAL PUBLIC VIEW</p>
-        <p>Aggregate development results only</p>
+        <p>Participant results only</p>
       </div>
       <section className="leaderboard-panel" aria-label="Task 1 development leaderboard">
         <AggregateLeaderboard dataUrl={publicLeaderboardUrl} />

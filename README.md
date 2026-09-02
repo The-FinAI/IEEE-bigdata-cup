@@ -120,7 +120,7 @@ final competition submission.
 | Task 1 train, development, and rotated V2 test files | Live as 13 development files and 3 test files |
 | Task 1 direct web upload | See the participant hub for current verified availability |
 | Task 1 schemas, validator, sample B0, and B1 baseline | Live in this repository |
-| Task 1 organizer LLM baselines | Verified score snapshots are published only after pinned runs |
+| Task 1 organizer baseline scores | B0–B2 local-development references live on the leaderboard page |
 | Task 2 and Task 3 starter kits and baselines | Coming soon |
 | Participant support | [zhuohan.xie@mbzuai.ac.ae](mailto:zhuohan.xie@mbzuai.ac.ae) |
 | Terms of Participation | Live |
