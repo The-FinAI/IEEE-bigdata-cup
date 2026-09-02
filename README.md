@@ -120,7 +120,7 @@ final competition submission.
 | [Official challenge website](https://the-finai.github.io/IEEE-bigdata-cup/) | Live |
 | [Letter of Intent](https://forms.gle/D4VJqjgtmcaC77DL8) | Open |
 | Task 1 train, development, and rotated V2 test files | Live as 13 development files and 3 test files |
-| Task 1 direct web upload | Development and test workspaces under verification; links withheld until ready |
+| Task 1 direct web upload | See the participant hub for current verified availability |
 | Starter kits, schemas, validators, and baselines | Coming soon |
 | Participant support | [zhuohan.xie@mbzuai.ac.ae](mailto:zhuohan.xie@mbzuai.ac.ae) |
 | Terms of Participation | Live |
@@ -129,8 +129,8 @@ final competition submission.
 | [Task 1 participant hub](https://the-finai.github.io/IEEE-bigdata-cup/task1/) | Public downloads live; direct-upload status published here |
 | [Task 1 leaderboard](https://the-finai.github.io/IEEE-bigdata-cup/task1/leaderboard/) | Development only |
 
-Final verified competition-platform and submission links will be posted on the
-official challenge website after workflow testing.
+The participant hub publishes only organizer-verified competition-platform and
+submission links and records their current availability.
 
 ## Schedule
 

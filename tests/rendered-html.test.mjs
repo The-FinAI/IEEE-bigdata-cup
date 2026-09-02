@@ -63,7 +63,10 @@ test("renders direct web upload routes without a GitHub Issue intake", async () 
     assert.ok(submit.includes(publicConfig.testSpace.url));
     assert.ok(leaderboard.includes(publicConfig.developmentSpace.url));
     assert.ok(!leaderboard.includes(publicConfig.testSpace.url));
-    assert.doesNotMatch(submit, /link pending verification/);
+    assert.doesNotMatch(
+      participantCopy,
+      /under verification|pending verification|links? (?:remain )?withheld|links? (?:are|were) being verified before/i,
+    );
   } else {
     assert.match(submit, /Direct web upload under verification/);
     assert.match(submit, /Development upload link pending verification/);
@@ -99,6 +102,13 @@ test("removes the Issue route and guards direct Space configuration", async () =
   await assert.rejects(access(new URL("public/task1/submission-config.json", root)));
   await assert.rejects(access(new URL("out/task1/submission-config.json", root)));
   await assert.rejects(access(new URL(".github/workflows/task1-test-submission.yml", root)));
+  await assert.rejects(access(new URL("config/task1-evaluator.json", root)));
+  await assert.rejects(access(new URL("evaluator/task1/dev-reference.enc.json", root)));
+  await assert.rejects(access(new URL("scripts/task1/intake.mjs", root)));
+  await assert.rejects(access(new URL("scripts/task1/publish-result.mjs", root)));
+  await assert.rejects(access(new URL("scripts/task1/build-leaderboard.mjs", root)));
+  await assert.rejects(access(new URL("tests/task1-intake.test.mjs", root)));
+  await assert.rejects(access(new URL("public/task1/development-leaderboard.json", root)));
 
   assert.doesNotMatch(pages, /workflow_run|Task 1 development submission|issues:\s*read|build-leaderboard/);
   assert.match(pages, /FINREASON_TASK1_SITE_MODE/);

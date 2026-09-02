@@ -53,7 +53,7 @@ export function LaunchStatus() {
           Task 1 publishes the canonical train, development, and rotated test files through the
           participant hub. Development and test use separate direct-upload workspaces: development
           returns immediate aggregate scores and can update the leaderboard, while test returns only
-          an acceptance receipt. The organizer team is verifying those links before publishing them.
+          an acceptance receipt. The participant hub publishes their current verified availability.
           GitHub Issues are not a submission channel.
         </p>
         <div className="participant-notice-links">

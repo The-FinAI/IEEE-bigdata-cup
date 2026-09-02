@@ -1,7 +1,6 @@
 import { createHash } from "node:crypto";
 import { readdir, readFile, stat } from "node:fs/promises";
 import { basename, join, resolve } from "node:path";
-import evaluatorConfig from "../../config/task1-evaluator.json" with { type: "json" };
 
 const developmentFiles = Object.freeze({
   "train_questions.jsonl": "60851375e2d64b348bb5efe95466a894acab5978caac03e55ec9bfeb6d9d3046",
@@ -73,7 +72,6 @@ if (!(await stat(outputRoot)).isDirectory()) throw new Error("Public output dire
 await verifyMirroredFiles(outputRoot, "development", developmentFiles);
 await verifyMirroredFiles(outputRoot, "test", testFiles);
 
-const forbiddenValues = [evaluatorConfig.reference_envelope_sha256];
 for (const path of await filesBelow(outputRoot)) {
   if (forbiddenNames.has(basename(path)) || path.includes("/task1/pilot/")) {
     throw new Error(`Private or retired path reached Pages: ${path}`);
@@ -83,9 +81,6 @@ for (const path of await filesBelow(outputRoot)) {
   const content = await readFile(path, "utf8");
   if (retiredIssueIntake.test(content)) {
     throw new Error(`Retired GitHub Issue intake wording reached Pages: ${path}`);
-  }
-  if (forbiddenValues.some((value) => content.includes(value))) {
-    throw new Error(`Private evaluator commitment reached Pages: ${path}`);
   }
 }
 

@@ -52,4 +52,4 @@ The unmodified license text is `public/task1/licenses/Apache-2.0.txt`.
 
 ## Exclusions
 
-No license is granted here for any unlisted path. In particular, the scope excludes website and workflow orchestration code, the encrypted evaluator reference blob, private keys, test answers, private evaluation data, raw participant submissions, ciphertext attachments, receipts, logs, operational evidence, trademarks, names, likenesses, and third-party dependencies. Participant submissions remain owned by their submitters subject to the Terms of Participation.
+No license is granted here for any unlisted path. In particular, the scope excludes website and workflow orchestration code, private evaluator artifacts, private keys, test answers, private evaluation data, raw participant submissions, encrypted submission archives, receipts, logs, operational evidence, trademarks, names, likenesses, and third-party dependencies. Participant submissions remain owned by their submitters subject to the Terms of Participation.

@@ -4,7 +4,8 @@ import { resolveTask1PublicConfig } from "../lib/task1-public-config.mjs";
 
 const developmentSpaceUrl = "https://task1-development-ci.hf.space/";
 const testSpaceUrl = "https://task1-test-ci.hf.space/";
-const leaderboardApiUrl = "https://task1-api.example.invalid/leaderboard.json";
+const leaderboardApiUrl =
+  "https://task1-development-ci.hf.space/api/task1/development/leaderboard";
 
 test("development mode is safe when public Task 1 endpoints are absent", () => {
   const config = resolveTask1PublicConfig({ siteMode: "development" });
@@ -67,8 +68,26 @@ test("rejects unsafe or non-root public endpoints", () => {
         testSpaceUrl,
         leaderboardApiUrl: "http://example.invalid/leaderboard.json",
       }),
-    /NEXT_PUBLIC_FINREASON_TASK1_LEADERBOARD_API_URL/,
+      /NEXT_PUBLIC_FINREASON_TASK1_LEADERBOARD_API_URL/,
   );
+
+  for (const unsafeLeaderboardApiUrl of [
+    "https://task1-api.example.invalid/leaderboard.json",
+    "https://127.0.0.1/leaderboard.json",
+    "https://task1-development-ci.hf.space/api/leaderboard?token=secret",
+    "https://task1-development-ci.hf.space/api/leaderboard#private",
+  ]) {
+    assert.throws(
+      () =>
+        resolveTask1PublicConfig({
+          siteMode: "final",
+          developmentSpaceUrl,
+          testSpaceUrl,
+          leaderboardApiUrl: unsafeLeaderboardApiUrl,
+        }),
+      /NEXT_PUBLIC_FINREASON_TASK1_LEADERBOARD_API_URL/,
+    );
+  }
 });
 
 test("localhost HTTP is accepted only in explicit local development", () => {
@@ -88,4 +107,13 @@ test("localhost HTTP is accepted only in explicit local development", () => {
   });
   assert.equal(accepted.developmentSpace.state, "ready");
   assert.equal(accepted.testSpace.state, "ready");
+
+  const withLocalLeaderboard = resolveTask1PublicConfig({
+    siteMode: "development",
+    developmentSpaceUrl: "http://localhost:7860/",
+    testSpaceUrl: "http://localhost:7861/",
+    leaderboardApiUrl: "http://localhost:7860/api/leaderboard",
+    allowLocalHttp: true,
+  });
+  assert.equal(withLocalLeaderboard.leaderboardApi.state, "ready");
 });
