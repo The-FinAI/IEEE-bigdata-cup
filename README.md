@@ -153,6 +153,14 @@ linked here as they are released.
 Please use only links marked as verified on the
 [official challenge website](https://the-finai.github.io/IEEE-bigdata-cup/).
 
+The dependency-free Task 1 CLI includes deterministic B1 materialization and a
+provider-neutral structured request/response boundary for the versioned B2/B3
+organizer profiles. See the
+[Task 1 organizer baseline harness](docs/task1-organizer-baselines.md) for the
+artifact contract, exact-arithmetic executor, and reproducible commands. Model
+IDs and revisions remain explicit run inputs; this repository does not bundle a
+provider SDK or credential handling.
+
 ### Task 1 participant hub
 
 The public `/task1/` route is the stable participant entry point:

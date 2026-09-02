@@ -39,10 +39,11 @@ The unmodified license text is `public/task1/licenses/CC-BY-4.0.txt`. Attributio
 
 ## Apache 2.0 exact code allowlist
 
-Apache License, Version 2.0 applies only to these six organizer-owned participant-tool files:
+Apache License, Version 2.0 applies only to these seven organizer-owned participant-tool files:
 
 - `finreason_task1/admission.py`
 - `finreason_task1/baseline_b1.py`
+- `finreason_task1/baseline_harness.py`
 - `finreason_task1/contracts.py`
 - `finreason_task1/leaderboard.py`
 - `finreason_task1/scoring.py`

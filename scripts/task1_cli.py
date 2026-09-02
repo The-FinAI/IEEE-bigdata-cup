@@ -134,6 +134,114 @@ def command_baseline_b1(args: argparse.Namespace) -> int:
     return 0
 
 
+def command_baseline_b1_materialize(args: argparse.Namespace) -> int:
+    from finreason_task1.baseline_harness import (
+        MATERIALIZATION_SCHEMA_VERSION,
+        materialize_b1,
+    )
+
+    card = materialize_b1(
+        args.questions,
+        args.output_dir,
+        implementation_revision=args.implementation_revision,
+    )
+    print(
+        canonical_json(
+            {
+                "schema_version": MATERIALIZATION_SCHEMA_VERSION,
+                "status": "PASS",
+                "output_dir": str(Path(args.output_dir).resolve()),
+                "method_card": card,
+            }
+        )
+    )
+    return 0
+
+
+def command_baseline_llm_requests(args: argparse.Namespace) -> int:
+    from finreason_task1.baseline_harness import (
+        REQUEST_SCHEMA_VERSION,
+        build_llm_requests,
+        load_prediction_bundle,
+        load_question_bundle,
+        resolve_profile,
+        sha256_bytes,
+        write_canonical_jsonl,
+    )
+
+    question_content, questions = load_question_bundle(args.questions)
+    train_questions = None
+    train_targets = None
+    train_question_content = None
+    train_target_content = None
+    if args.profile == "b3":
+        if not args.train_questions or not args.train_targets:
+            raise ContractError("B3 requires --train-questions and --train-targets")
+        train_question_content, train_questions = load_question_bundle(args.train_questions)
+        train_target_content, train_targets = load_prediction_bundle(args.train_targets)
+    elif args.train_questions or args.train_targets:
+        raise ContractError("B2 does not accept public training examples")
+    requests = build_llm_requests(
+        args.profile,
+        questions,
+        train_questions=train_questions,
+        train_targets=train_targets,
+        retrieval_k=args.retrieval_k,
+    )
+    output_sha256 = write_canonical_jsonl(args.output, requests)
+    source = {"questions_jsonl_sha256": sha256_bytes(question_content)}
+    if train_question_content is not None and train_target_content is not None:
+        source.update(
+            {
+                "train_questions_jsonl_sha256": sha256_bytes(train_question_content),
+                "train_targets_jsonl_sha256": sha256_bytes(train_target_content),
+            }
+        )
+    print(
+        canonical_json(
+            {
+                "schema_version": REQUEST_SCHEMA_VERSION,
+                "status": "PASS",
+                "method_id": resolve_profile(args.profile).method_id,
+                "record_count": len(requests),
+                "requests_jsonl_sha256": output_sha256,
+                "source": source,
+            }
+        )
+    )
+    return 0
+
+
+def command_baseline_llm_materialize(args: argparse.Namespace) -> int:
+    from finreason_task1.baseline_harness import (
+        MATERIALIZATION_SCHEMA_VERSION,
+        materialize_llm,
+    )
+
+    card = materialize_llm(
+        args.profile,
+        args.questions,
+        args.requests,
+        args.responses,
+        args.output_dir,
+        provider=args.provider,
+        model_id=args.model_id,
+        model_revision=args.model_revision,
+        implementation_revision=args.implementation_revision,
+    )
+    print(
+        canonical_json(
+            {
+                "schema_version": MATERIALIZATION_SCHEMA_VERSION,
+                "status": "PASS",
+                "output_dir": str(Path(args.output_dir).resolve()),
+                "method_card": card,
+            }
+        )
+    )
+    return 0
+
+
 def command_expected_ids(args: argparse.Namespace) -> int:
     questions = load_questions(args.questions)
     context = question_context(args.questions, questions)
@@ -236,6 +344,42 @@ def build_parser() -> argparse.ArgumentParser:
         baseline = commands.add_parser(name)
         baseline.add_argument("--questions", required=True)
         baseline.set_defaults(handler=handler)
+
+    b1_materialize = commands.add_parser(
+        "baseline-b1-materialize",
+        help="write canonical B1 predictions, ZIP, diagnostics, and method card",
+    )
+    b1_materialize.add_argument("--questions", required=True)
+    b1_materialize.add_argument("--output-dir", required=True)
+    b1_materialize.add_argument("--implementation-revision", required=True)
+    b1_materialize.set_defaults(handler=command_baseline_b1_materialize)
+
+    llm_requests = commands.add_parser(
+        "baseline-llm-requests",
+        help="write provider-neutral structured requests for B2 or B3",
+    )
+    llm_requests.add_argument("--profile", required=True, choices=("b2", "b3"))
+    llm_requests.add_argument("--questions", required=True)
+    llm_requests.add_argument("--output", required=True)
+    llm_requests.add_argument("--train-questions")
+    llm_requests.add_argument("--train-targets")
+    llm_requests.add_argument("--retrieval-k", type=int, default=3)
+    llm_requests.set_defaults(handler=command_baseline_llm_requests)
+
+    llm_materialize = commands.add_parser(
+        "baseline-llm-materialize",
+        help="fail closed from structured responses into canonical baseline artifacts",
+    )
+    llm_materialize.add_argument("--profile", required=True, choices=("b2", "b3"))
+    llm_materialize.add_argument("--questions", required=True)
+    llm_materialize.add_argument("--requests", required=True)
+    llm_materialize.add_argument("--responses", required=True)
+    llm_materialize.add_argument("--output-dir", required=True)
+    llm_materialize.add_argument("--provider", required=True)
+    llm_materialize.add_argument("--model-id", required=True)
+    llm_materialize.add_argument("--model-revision", required=True)
+    llm_materialize.add_argument("--implementation-revision", required=True)
+    llm_materialize.set_defaults(handler=command_baseline_llm_materialize)
 
     expected_ids = commands.add_parser("expected-ids")
     expected_ids.add_argument("--questions", required=True)

@@ -115,6 +115,6 @@ test("removes the Issue route and guards direct Space configuration", async () =
   assert.match(pages, /NEXT_PUBLIC_FINREASON_TASK1_TEST_SPACE_URL/);
   assert.match(publicConfigSource, /two different isolated deployments/);
   assert.match(publicConfigSource, /\.hf\.space/);
-  assert.match(rights, /six organizer-owned participant-tool files/);
+  assert.match(rights, /seven organizer-owned participant-tool files/);
   assert.doesNotMatch(rights, /\.github\/workflows|app\/task1/);
 });
