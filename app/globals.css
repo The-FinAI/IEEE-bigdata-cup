@@ -4019,6 +4019,10 @@ details {
   margin-top: 20px;
 }
 
+.submission-command-grid > div {
+  min-width: 0;
+}
+
 .submission-command-grid strong {
   display: block;
   font-family: var(--mono);
@@ -4487,7 +4491,10 @@ details {
 
   .submission-command-grid pre {
     font-size: 9.5px;
+    overflow-wrap: anywhere;
     padding: 15px;
+    white-space: pre-wrap;
+    word-break: break-word;
   }
 
   .submission-guide-actions {
