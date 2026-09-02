@@ -103,7 +103,6 @@ export default function TermsPage() {
             </li>
           </ul>
           <p>
-            GitHub Issues are not an official participant submission channel.
             Teams must keep organizer-issued access codes confidential and must
             not share or publish them. The participant hub publishes service
             links only after organizer deployment checks and records their

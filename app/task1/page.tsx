@@ -67,8 +67,7 @@ export default function Task1HubPage() {
           All frozen public Task 1 development and rotated V2 test files are available below. {" "}
           {spaceLinksAreReady
             ? "Registered teams submit through separate verified development and test web workspaces."
-            : "The direct-upload workspaces are being verified before their links are published."}{" "}
-          GitHub Issues are not a submission channel.
+            : "The direct-upload workspaces are being verified before their links are published."}
         </p>
       </header>
 

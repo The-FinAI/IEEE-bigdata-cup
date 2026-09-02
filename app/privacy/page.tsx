@@ -134,8 +134,7 @@ export default function PrivacyPage() {
             The public GitHub Pages website does not collect or store team
             access codes, submission files, gold answers, or private evaluation
             data. Access codes and competition files are entered only in the
-            separate verified participant service linked from the Task 1 hub.
-            GitHub Issues are not a submission channel.
+            separate verified participant services linked from the Task 1 hub.
           </p>
           <p>
             The public site may receive ordinary technical requests handled by

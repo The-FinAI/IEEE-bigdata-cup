@@ -30,7 +30,6 @@ test("renders direct web upload routes without a GitHub Issue intake", async () 
   assert.match(hub, /TASK 1 \/ PARTICIPANT HUB/);
   assert.match(hub, /V4 DEVELOPMENT \/ 13 FILES/);
   assert.match(hub, /ROTATED V2 TEST \/ 3 FILES/);
-  assert.match(hub, /GitHub Issues are not a submission channel/);
   assert.match(submit, /Submit Task 1 results on the web/);
   assert.match(submit, /Development and test submission/);
   assert.match(submit, /Development returns SeenFAC and SeenCheckpoint immediately/);
@@ -48,7 +47,7 @@ test("renders direct web upload routes without a GitHub Issue intake", async () 
   const participantCopy = `${home}\n${hub}\n${submit}\n${leaderboard}\n${terms}\n${privacy}\n${readme}`;
   assert.doesNotMatch(
     participantCopy,
-    /GitHub-only development route|official GitHub Issue Form|attached as ciphertext|immutable numeric GitHub actor ID|encrypted Issue intake/i,
+    /GitHub Issues?|GitHub-only development route|official GitHub Issue Form|attached as ciphertext|immutable numeric GitHub actor ID|encrypted Issue intake/i,
   );
   assert.doesNotMatch(participantCopy, /organizer-only pilot|synthetic pilot/i);
   await assert.rejects(access(new URL("out/task1/pilot", root)));
