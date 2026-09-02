@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getTask1PublicConfig } from "./public-config";
+import { Task1Nav } from "./task1-nav";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
@@ -54,21 +55,36 @@ export default function Task1HubPage() {
     config.testSpace.url;
 
   return (
-    <main className="task-hub-page">
-      <nav className="task-hub-nav" aria-label="Task 1 navigation">
-        <Link href="/">FinReason Cup</Link>
-        <Link href="/task1/leaderboard/">Development leaderboard</Link>
-      </nav>
+    <main className="task-hub-page task1-page">
+      <Task1Nav current="data" />
 
       <header className="task-hub-heading">
-        <p className="section-index">TASK 1 / PARTICIPANT HUB</p>
-        <h1>Data and submission routes.</h1>
-        <p>
-          All frozen public Task 1 development and rotated V2 test files are available below. {" "}
-          {spaceLinksAreReady
-            ? "Registered teams submit through separate verified development and test web workspaces."
-            : "The direct-upload workspaces are being verified before their links are published."}
-        </p>
+        <div className="task-hub-heading-content">
+          <div>
+            <p className="section-index">TASK 1 / PARTICIPANT HUB</p>
+            <h1>Data and submission routes</h1>
+            <p>
+              All frozen public Task 1 development and rotated V2 test files are available below. {" "}
+              {spaceLinksAreReady
+                ? "Registered teams submit through separate verified development and test web workspaces."
+                : "The direct-upload workspaces are being verified before their links are published."}
+            </p>
+          </div>
+          <dl className="task-hub-facts" aria-label="Task 1 quick facts">
+            <div>
+              <dt>Status</dt>
+              <dd>{spaceLinksAreReady ? "Development + test open" : "Links under verification"}</dd>
+            </div>
+            <div>
+              <dt>Deadline</dt>
+              <dd>15 Nov 2026 · 23:59 AoE</dd>
+            </div>
+            <div>
+              <dt>Submission</dt>
+              <dd>{spaceLinksAreReady ? "Direct web upload" : "Publication pending"}</dd>
+            </div>
+          </dl>
+        </div>
       </header>
 
       <section className="task-mode-grid" aria-label="Task 1 phases">

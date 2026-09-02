@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getTask1PublicConfig } from "../public-config";
+import { Task1Nav } from "../task1-nav";
 
 export const metadata: Metadata = {
   title: "Task 1 Submission | FinReason Cup",
@@ -20,22 +21,36 @@ export default function Task1SubmitPage() {
     config.testSpace.url;
 
   return (
-    <main className="task-hub-page">
-      <nav className="task-hub-nav" aria-label="Task 1 navigation">
-        <Link href="/">FinReason Cup</Link>
-        <Link href="/task1/">Data downloads</Link>
-        <Link href="/task1/leaderboard/">Development leaderboard</Link>
-      </nav>
+    <main className="task-hub-page task1-page">
+      <Task1Nav current="submit" />
 
       <header className="task-hub-heading">
-        <p className="section-index">TASK 1 / SUBMISSION</p>
-        <h1>Submit Task 1 results on the web.</h1>
-        <p>
-          All train, development, and test files are available from the participant hub. {" "}
-          {spaceLinksAreReady
-            ? "Registered teams submit directly through two isolated organizer-verified Hugging Face Spaces."
-            : "The organizer team is verifying the two direct-upload workspaces before publishing their links."}
-        </p>
+        <div className="task-hub-heading-content">
+          <div>
+            <p className="section-index">TASK 1 / SUBMISSION</p>
+            <h1>Submit Task 1 results on the web.</h1>
+            <p>
+              All train, development, and test files are available from the participant hub. {" "}
+              {spaceLinksAreReady
+                ? "Registered teams submit directly through two isolated organizer-verified Hugging Face Spaces."
+                : "The organizer team is verifying the two direct-upload workspaces before publishing their links."}
+            </p>
+          </div>
+          <dl className="task-hub-facts" aria-label="Submission quick facts">
+            <div>
+              <dt>Access</dt>
+              <dd>Organizer-issued team code</dd>
+            </div>
+            <div>
+              <dt>Development</dt>
+              <dd>Immediate scores + rank</dd>
+            </div>
+            <div>
+              <dt>Test</dt>
+              <dd>Receipt only</dd>
+            </div>
+          </dl>
+        </div>
       </header>
 
       <section className="task-platform-card" aria-labelledby="task1-platform-title">
