@@ -1,86 +1,44 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import leaderboard from "../../../public/task1/pilot-leaderboard.json";
+import { AggregateLeaderboard } from "./aggregate-leaderboard";
+
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 export const metadata: Metadata = {
-  title: "Task 1 GitHub Pilot Leaderboard | FinReason Cup",
-  description: "Synthetic organizer pilot results for the FinReason Task 1 GitHub workflow.",
-  robots: { index: false, follow: false },
-};
-
-type PilotRow = {
-  rank: number;
-  github_login: string;
-  seen_fac: string;
-  seen_checkpoint: string;
-  attempts: number;
-  last_submission_issue: number;
+  title: "Task 1 Development Leaderboard | FinReason Cup",
+  description: "Signed aggregate development scores for FinReason Cup Task 1.",
+  alternates: { canonical: "https://the-finai.github.io/IEEE-bigdata-cup/task1/leaderboard/" },
 };
 
 export default function Task1LeaderboardPage() {
-  const rows = leaderboard.rows as PilotRow[];
   return (
-    <main className="pilot-page">
-      <nav className="pilot-nav" aria-label="Pilot navigation">
-        <Link href="/">FinReason Cup</Link>
-        <Link href="/task1/submit/">Submission pilot</Link>
+    <main className="task-hub-page">
+      <nav className="task-hub-nav" aria-label="Task 1 navigation">
+        <Link href="/task1/">Task 1 hub</Link>
+        <Link href="/task1/submit/">Development submission</Link>
       </nav>
 
-      <header className="pilot-heading">
-        <p className="section-index">TASK 1 / SYNTHETIC RESULTS</p>
-        <h1>GitHub-only pilot leaderboard.</h1>
+      <header className="task-hub-heading">
+        <p className="section-index">TASK 1 / DEVELOPMENT RESULTS</p>
+        <h1>Public development leaderboard.</h1>
         <p>
-          These rows exercise automatic scoring and publication only. They are not official FinReason
-          Cup results and do not use competition data.
+          Best accepted V4 development result per immutable numeric GitHub actor ID. Ranking uses SeenFAC,
+          followed by SeenCheckpoint, then the earliest acceptance time. This is not the official
+          final Task 1 ranking.
         </p>
       </header>
 
-      <section className="leaderboard-panel" aria-labelledby="pilot-table-title">
-        <div className="leaderboard-heading">
-          <div>
-            <span>Evaluation</span>
-            <strong id="pilot-table-title">{leaderboard.evaluation_version}</strong>
-          </div>
-          <p>{leaderboard.generated_at ? `Updated ${leaderboard.generated_at}` : "Awaiting first pilot score"}</p>
-        </div>
-
-        {rows.length ? (
-          <div className="table-scroll">
-            <table>
-              <thead>
-                <tr>
-                  <th>Rank</th>
-                  <th>GitHub account</th>
-                  <th>Seen FAC</th>
-                  <th>Seen checkpoint</th>
-                  <th>Attempts</th>
-                  <th>Submission</th>
-                </tr>
-              </thead>
-              <tbody>
-                {rows.map((row) => (
-                  <tr key={row.github_login}>
-                    <td>{row.rank}</td>
-                    <td>{row.github_login}</td>
-                    <td>{row.seen_fac}</td>
-                    <td>{row.seen_checkpoint}</td>
-                    <td>{row.attempts}</td>
-                    <td>
-                      <a
-                        href={`https://github.com/The-FinAI/IEEE-bigdata-cup/issues/${row.last_submission_issue}`}
-                      >
-                        #{row.last_submission_issue}
-                      </a>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        ) : (
-          <p className="leaderboard-empty">No synthetic pilot submissions have been scored yet.</p>
-        )}
+      <section className="leaderboard-panel" aria-label="Task 1 development leaderboard">
+        <AggregateLeaderboard dataUrl={`${basePath}/task1/development-leaderboard.json`} />
       </section>
+
+      <aside className="task-hub-note">
+        <strong>No test feedback</strong>
+        <p>
+          Test intake is disabled. There is currently no test submission, receipt, score, rank,
+          private diagnostic, or test leaderboard.
+        </p>
+      </aside>
     </main>
   );
 }

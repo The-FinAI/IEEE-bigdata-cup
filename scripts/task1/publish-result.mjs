@@ -1,7 +1,7 @@
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import pilotConfig from "../../public/task1/pilot-config.json" with { type: "json" };
+import submissionConfig from "../../config/task1-evaluator.json" with { type: "json" };
 import {
   decodeResultMarker,
   markerPrefix,
@@ -19,7 +19,7 @@ async function github(path, { method = "GET", body, token, fetchImpl = fetch } =
       Accept: "application/vnd.github+json",
       Authorization: `Bearer ${token}`,
       "X-GitHub-Api-Version": "2022-11-28",
-      "User-Agent": "finreason-task1-pilot-publisher/1",
+      "User-Agent": "finreason-task1-development-publisher/1",
       ...(body ? { "Content-Type": "application/json" } : {}),
     },
     body: body ? JSON.stringify(body) : undefined,
@@ -37,15 +37,15 @@ async function fetchAllComments(issuePath, options) {
     comments.push(...batch);
     if (batch.length < 100) return comments;
   }
-  throw new Error("Pilot result comment scan exceeded its safety limit");
+  throw new Error("Development result comment scan exceeded its safety limit");
 }
 
 export function validatePublishEvent(record, event, verification = {}) {
   validateResultRecord(record, verification);
   if (
     event?.action !== "opened" ||
-    event.repository?.id !== pilotConfig.repository_id ||
-    event.repository?.full_name !== pilotConfig.repository ||
+    event.repository?.id !== submissionConfig.repository_id ||
+    event.repository?.full_name !== submissionConfig.repository ||
     event.issue?.number !== record.issue_number ||
     event.issue?.node_id !== record.issue_node_id ||
     event.issue?.created_at !== record.issue_created_at ||
@@ -59,32 +59,29 @@ export function validatePublishEvent(record, event, verification = {}) {
 
 export async function publishResult({ record, event, token, fetchImpl = fetch, verification = {} }) {
   validatePublishEvent(record, event, verification);
-  const issuePath = `/repos/${pilotConfig.repository}/issues/${record.issue_number}`;
+  const issuePath = `/repos/${submissionConfig.repository}/issues/${record.issue_number}`;
   const comments = await fetchAllComments(issuePath, { token, fetchImpl });
   const markerComments = comments.filter(
     (comment) => comment.user?.login === "github-actions[bot]" && comment.body?.includes(markerPrefix),
   );
   const existingRecords = markerComments.map((comment) => decodeResultMarker(comment.body, verification));
   if (existingRecords.some((existing) => !existing) || existingRecords.length > 1) {
-    throw new Error("Pilot result comment integrity check failed");
+    throw new Error("Development result comment integrity check failed");
   }
   const existing = existingRecords[0] ?? null;
   const body = renderResultComment(record, verification);
   if (existing) {
     if (JSON.stringify(existing) !== JSON.stringify(record)) {
-      throw new Error("A different pilot result already exists for this issue");
+      throw new Error("A different development result already exists for this issue");
     }
   } else {
     await github(`${issuePath}/comments`, { method: "POST", body: { body }, token, fetchImpl });
   }
-  const label = record.status === "scored" ? "task1-pilot-scored" : "task1-pilot-invalid";
+  const label = record.status === "scored" ? submissionConfig.scored_label : submissionConfig.invalid_label;
   await github(`${issuePath}/labels`, { method: "POST", body: { labels: [label] }, token, fetchImpl });
-  await github(`/repos/${pilotConfig.repository}/actions/workflows/deploy-pages.yml/dispatches`, {
-    method: "POST",
-    body: { ref: "main" },
-    token,
-    fetchImpl,
-  });
+  await github(issuePath, { method: "PATCH", body: { state: "closed", state_reason: "completed" }, token, fetchImpl });
+  await github(`${issuePath}/lock`, { method: "PUT", body: { lock_reason: "resolved" }, token, fetchImpl });
+
   return { status: existing ? "already-published" : "published", label };
 }
 

@@ -1,114 +1,84 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { access, readFile, readdir } from "node:fs/promises";
 import test from "node:test";
 
-const projectRoot = new URL("../", import.meta.url);
+const root = new URL("../", import.meta.url);
 
-test("contains the complete FinReason Cup landing-page contract", async () => {
-  const [
-    html,
-    page,
-    layout,
-    launchStatus,
-    sitemap,
-    nextConfig,
-    workflow,
-    packageJson,
-    submitHtml,
-    leaderboardHtml,
-    issueForm,
-    submissionWorkflow,
-  ] = await Promise.all([
-    readFile(new URL("out/index.html", projectRoot), "utf8"),
-    readFile(new URL("app/page.tsx", projectRoot), "utf8"),
-    readFile(new URL("app/layout.tsx", projectRoot), "utf8"),
-    readFile(new URL("app/launch-status.tsx", projectRoot), "utf8"),
-    readFile(new URL("out/sitemap.xml", projectRoot), "utf8"),
-    readFile(new URL("next.config.ts", projectRoot), "utf8"),
-    readFile(
-      new URL(".github/workflows/deploy-pages.yml", projectRoot),
-      "utf8",
-    ),
-    readFile(new URL("package.json", projectRoot), "utf8"),
-    readFile(new URL("out/task1/submit/index.html", projectRoot), "utf8"),
-    readFile(new URL("out/task1/leaderboard/index.html", projectRoot), "utf8"),
-    readFile(
-      new URL(".github/ISSUE_TEMPLATE/task1-pilot-submission.yml", projectRoot),
-      "utf8",
-    ),
-    readFile(
-      new URL(".github/workflows/task1-submission-pilot.yml", projectRoot),
-      "utf8",
-    ),
+async function text(path) {
+  return readFile(new URL(path, root), "utf8");
+}
+
+test("renders the official GitHub-only Task 1 participant routes", async () => {
+  const [home, hub, submit, leaderboard, terms, privacy, sitemap] = await Promise.all([
+    text("out/index.html"),
+    text("out/task1/index.html"),
+    text("out/task1/submit/index.html"),
+    text("out/task1/leaderboard/index.html"),
+    text("out/terms/index.html"),
+    text("out/privacy/index.html"),
+    text("out/sitemap.xml"),
   ]);
 
-  assert.match(page, /FinReason Cup/);
-  assert.match(page, /Verifiable Financial Chain Reasoning/);
-  assert.match(page, /Market-Neutral Hedging/);
-  assert.match(page, /Financial Audit Verification/);
-  assert.match(page, /Submit LOI/);
-  assert.match(page, /forms\.gle\/D4VJqjgtmcaC77DL8/);
-  assert.match(page, /15 NOV · 23:59 AOE/);
-  assert.match(page, /Winning teams announced/);
-  assert.match(page, /25 NOV/);
-  assert.match(page, /Why does CyberChair show a 10-page limit and deadline TBA/);
-  assert.match(page, /publication is subject to conference peer review/);
-  assert.match(launchStatus, /Submit paper in CyberChair/);
-  assert.match(launchStatus, /up to 6 pages total, including references/);
-  assert.match(launchStatus, /15 November 2026, 23:59 AoE/);
-  assert.match(launchStatus, /subarea=SC03/);
-  assert.match(launchStatus, /publishing\/templates\.html/);
-  assert.match(launchStatus, /forms\.gle\/D4VJqjgtmcaC77DL8/);
-  assert.match(layout, /FinReason Cup 2026/);
-  assert.match(layout, /the-finai\.github\.io\/IEEE-bigdata-cup/);
-  assert.match(layout, /og\.jpg/);
-  assert.match(sitemap, /https:\/\/the-finai\.github\.io\/IEEE-bigdata-cup\//);
-  assert.match(nextConfig, /output: "export"/);
-  assert.match(nextConfig, /\/IEEE-bigdata-cup/);
-  assert.match(workflow, /actions\/deploy-pages@[0-9a-f]{40} # v5\.0\.0/);
-  assert.match(packageJson, /build:pages/);
-  assert.match(html, /Organizer-maintained challenge site/);
-  assert.match(html, /Submit paper/);
-  assert.match(html, /Submit paper in CyberChair/);
-  assert.match(html, /up to 6 pages total, including references/);
-  assert.match(html, /15 November 2026, 23:59 AoE/);
-  assert.match(html, /subarea=SC03/);
-  assert.match(html, /publishing\/templates\.html/);
-  assert.match(html, /including any required predictions, source code/);
-  assert.match(html, /CyberChair has not yet updated its displayed deadline/);
-  assert.match(html, /Winning teams announced/);
-  assert.match(html, /Last reviewed 22 August 2026/);
-  assert.match(html, /forms\.gle\/D4VJqjgtmcaC77DL8/);
-  assert.match(html, /\/IEEE-bigdata-cup\/finreason-hero\.webp/);
-  assert.match(html, /This is not a full financial-statement audit/);
-  assert.ok(html.indexOf("<header") < html.indexOf("<main"));
-  assert.ok(html.indexOf("</main>") < html.indexOf("<footer"));
-  assert.doesNotMatch(html, /\/api\/interest|name="contactEmail"/);
-  assert.doesNotMatch(
-    html,
-    /\boptional\b|not required|non-gating|does not gate participation/i,
-  );
-  assert.doesNotMatch(page, /The proposal supports/);
-  assert.doesNotMatch(page, /not required|may still enter without|does not gate/i);
-  assert.doesNotMatch(page, /Enter one track or combine them|Reproducible code/);
-  assert.doesNotMatch(page, /codex-preview|SkeletonPreview|2027 IEEE/i);
-  assert.doesNotMatch(layout, /next\/headers|headers\(\)/);
-  assert.doesNotMatch(packageJson, /vinext|wrangler|drizzle/);
-  assert.match(submitHtml, /TASK 1 \/ GITHUB-ONLY PILOT/);
-  assert.match(submitHtml, /Prepare encrypted submission/);
-  assert.match(submitHtml, /Synthetic examples only/);
-  assert.match(submitHtml, /\/IEEE-bigdata-cup\/task1\/pilot-example-predictions\.jsonl/);
-  assert.match(leaderboardHtml, /GitHub-only pilot leaderboard/);
-  assert.match(leaderboardHtml, /Awaiting first pilot score|Updated 20|Seen FAC/);
-  assert.match(issueForm, /type: upload/);
-  assert.match(issueForm, /accept: "\.json"/);
-  assert.match(issueForm, /Do not attach a plaintext predictions ZIP/);
-  assert.match(submissionWorkflow, /issues:/);
-  assert.match(submissionWorkflow, /types:\s*\n\s*- opened/);
-  assert.match(submissionWorkflow, /TASK1_PILOT_PRIVATE_KEY_PKCS8_B64/);
-  assert.match(submissionWorkflow, /TASK1_PILOT_SIGNING_PRIVATE_KEY_PKCS8_B64/);
-  assert.match(submissionWorkflow, /github\.run_attempt/);
-  assert.match(submissionWorkflow, /actions: write/);
-  assert.match(submissionWorkflow, /permissions: \{\}/);
-  assert.doesNotMatch(submissionWorkflow, /pull_request_target|github\.event\.issue\.body\s*}}/);
+  assert.match(home, /GitHub-only development route/);
+  assert.match(hub, /TASK 1 \/ PARTICIPANT HUB/);
+  assert.match(hub, /V4 DEVELOPMENT \/ 13 FILES/);
+  assert.match(hub, /ROTATED V2 TEST \/ 3 FILES/);
+  assert.match(hub, /Test intake disabled/);
+  assert.match(submit, /Prepare encrypted submission/);
+  assert.match(submit, /580-row V4 predictions ZIP/);
+  assert.match(submit, /2 accepted attempts per UTC day and 40 in total/);
+  assert.match(leaderboard, /Public development leaderboard/);
+  assert.match(leaderboard, /SeenFAC/);
+  assert.match(terms, /locally encrypted JSON ciphertext/);
+  assert.match(terms, /immutable numeric GitHub actor ID/);
+  assert.match(terms, /15 November 2026, 23:59 Anywhere on Earth/);
+  assert.match(privacy, /public GitHub Issue/);
+  assert.match(privacy, /up to 120 days from acceptance/);
+  assert.match(privacy, /Test intake is currently disabled/);
+  assert.match(sitemap, /\/task1\//);
+  assert.match(sitemap, /\/task1\/submit\//);
+  assert.match(sitemap, /\/task1\/leaderboard\//);
+  assert.doesNotMatch(sitemap, /task1\/pilot/);
+
+  const publicCopy = `${home}\n${hub}\n${submit}\n${leaderboard}\n${terms}\n${privacy}`;
+  assert.doesNotMatch(publicCopy, /Hugging Face|\.hf\.space|access code/i);
+  assert.doesNotMatch(publicCopy, /organizer-only pilot|synthetic pilot/i);
+  await assert.rejects(access(new URL("out/task1/pilot", root)));
+});
+
+test("publishes exactly the frozen 13 development and 3 test downloads", async () => {
+  const development = (await readdir(new URL("out/task1/data/development/", root))).sort();
+  const rotatedTest = (await readdir(new URL("out/task1/data/test/", root))).sort();
+  assert.deepEqual(development, [
+    "dev_gold.jsonl", "dev_manifest.jsonl", "dev_questions.jsonl", "dev_targets.jsonl",
+    "leaderboard_expected_ids.json", "leaderboard_questions.jsonl", "release_manifest.json",
+    "sample_b0_predictions.jsonl", "sample_b0_submission.zip", "train_gold.jsonl",
+    "train_manifest.jsonl", "train_questions.jsonl", "train_targets.jsonl",
+  ]);
+  assert.deepEqual(rotatedTest, [
+    "test_expected_ids.json", "test_questions.jsonl", "test_release_manifest.json",
+  ]);
+});
+
+test("workflow is actor-serialized, least-privilege, and test intake is absent", async () => {
+  const [workflow, issueForm, pages, config, rights] = await Promise.all([
+    text(".github/workflows/task1-development-submission.yml"),
+    text(".github/ISSUE_TEMPLATE/task1-development-submission.yml"),
+    text(".github/workflows/deploy-pages.yml"),
+    text("public/task1/submission-config.json"),
+    text("public/task1/RIGHTS_AND_PROVENANCE.md"),
+  ]);
+  assert.match(workflow, /group: task1-development-actor-\$\{\{ github\.event\.issue\.user\.id \}\}/);
+  assert.match(workflow, /environment: task1-pilot/);
+  assert.match(workflow, /actions: read[\s\S]*contents: read[\s\S]*issues: read/);
+  assert.match(workflow, /publish:[\s\S]*permissions:[\s\S]*contents: read[\s\S]*issues: write/);
+  assert.doesNotMatch(workflow, /actions: write/);
+  assert.match(issueForm, /title: "\[Task 1 DEV\] Encrypted submission"/);
+  assert.match(issueForm, /type: upload[\s\S]*validations:[\s\S]*accept: "\.json"[\s\S]*required: true/);
+  assert.doesNotMatch(issueForm, /team name|raw filename/i);
+  assert.match(pages, /Rebuild leaderboard from signed result comments/);
+  assert.match(config, /"submission_deadline_exclusive": "2026-11-16T12:00:00Z"/);
+  assert.match(rights, /six organizer-owned participant-tool files/);
+  assert.doesNotMatch(rights, /\.github\/workflows|app\/task1|scripts\/task1\/score-development/);
+  await assert.rejects(access(new URL(".github/workflows/task1-test-submission.yml", root)));
 });

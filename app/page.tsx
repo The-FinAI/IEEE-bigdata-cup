@@ -4,6 +4,7 @@ const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const loiUrl = "https://forms.gle/D4VJqjgtmcaC77DL8";
 const paperSubmissionUrl =
   "https://wi-lab.com/cyberchair/2026/bigdata26/scripts/submit.php?subarea=SC03";
+const contactEmail = "zhuohan.xie@mbzuai.ac.ae";
 
 const tasks = [
   {
@@ -105,11 +106,11 @@ const launchItems = [
     detail: "Schemas, validators, baselines, and samples are being prepared.",
   },
   {
-    state: "upcoming",
-    label: "Competition platform",
-    date: "COMING SOON",
+    state: "current",
+    label: "Task 1 participant hub",
+    date: "TASK 1 HUB",
     detail:
-      "The path for solution materials specified in the final task rules will be linked after organizer testing.",
+      "One stable GitHub hub publishes the data, development submission route, and test intake status.",
   },
   {
     state: "scheduled",
@@ -141,7 +142,7 @@ const faqs = [
   {
     question: "Is the paper submission also the competition submission?",
     answer:
-      "No. CyberChair SC03 is for the challenge paper. The final task rules will specify which solution materials each team must provide, including any required predictions, source code, and reproducibility materials. Those materials will use a separate competition submission path linked here after organizer testing. Both routes share the final submission deadline.",
+      "No. CyberChair SC03 is for the challenge paper. Task 1 uses the separate GitHub participant hub on this site. The development route accepts locally encrypted ciphertext through an official GitHub Issue Form. Test intake remains disabled until its private custody boundary is verified. Both routes share the final submission deadline.",
   },
   {
     question: "Why does CyberChair show a 10-page limit and deadline TBA?",
@@ -166,7 +167,7 @@ const faqs = [
   {
     question: "Where will the competition run?",
     answer:
-      "The organizer team is validating the participant workflow. The verified prediction, code, reproducibility-material, and leaderboard links will appear here when testing is complete. The paper route is already available through CyberChair SC03.",
+      "The Task 1 participant hub is hosted on this GitHub Pages site. The verified participant release provides train questions and answers. Development submissions are encrypted locally, attached as ciphertext to an official GitHub Issue Form, scored by GitHub Actions, and can enter the public development leaderboard. Rotated test questions are available, but test intake remains disabled until the private retention and offline-custody boundary is verified. The paper route is available separately through CyberChair SC03.",
   },
   {
     question: "Are cash prizes confirmed?",
@@ -180,8 +181,28 @@ const faqs = [
   },
   {
     question: "How are LOI responses used?",
-    answer:
-      "Responses are used by the organizer team for challenge operations, communication permitted by the form, and aggregate participation statistics. Do not include sensitive information. The participant support contact and correction or deletion process will be published with the participant guidance.",
+    answer: (
+      <>
+        Responses are used by the organizer team for challenge operations,
+        communication permitted by the form, and aggregate participation
+        statistics. Do not include sensitive information. Privacy, correction,
+        and deletion requests can be sent to{" "}
+        <a href={`mailto:${contactEmail}`}>{contactEmail}</a>. See the{" "}
+        <a href={`${basePath}/privacy/`}>Privacy Notice</a>.
+      </>
+    ),
+  },
+  {
+    question: "How can participants contact the organizer team?",
+    answer: (
+      <>
+        Email <a href={`mailto:${contactEmail}`}>{contactEmail}</a> for
+        participant support, registration corrections, submission questions,
+        or privacy requests. Include the team name and task number when
+        applicable, but do not send a submission archive by
+        email.
+      </>
+    ),
   },
 ];
 
@@ -265,9 +286,9 @@ export default function Home() {
               </a>
             </div>
             <p className="hero-note">
-              The CyberChair paper channel is open. Dataset, starter kit,
-              competition submission, and leaderboard links will appear here
-              after organizer verification.
+              The CyberChair paper channel is open. The Task 1 participant hub
+              publishes the canonical data and the GitHub-only development route.
+              Test intake is clearly disabled pending custody verification.
             </p>
           </div>
 
@@ -509,8 +530,9 @@ export default function Home() {
           <p>
             Teams seeking final ranking and awards submit the challenge paper
             through CyberChair SC03. Solution materials specified in the final
-            task rules will use the competition submission path published here
-            after testing.
+            task rules use a separate participant path. The Task 1 hub is
+            the stable entry point for encrypted development submission,
+            rotated test downloads, and the development leaderboard.
           </p>
           <div className="interest-points">
             <div>
@@ -579,10 +601,13 @@ export default function Home() {
               Organizer team led by The Fin AI, with contributors affiliated
               with MBZUAI, McGill, Stevens, Yale, and the University of
               Manchester. Affiliations do not imply institutional sponsorship.
-              Dataset release dates, platform rules, award categories, and data
-              terms remain subject to organizer and IEEE confirmation.
+              Task-specific dates, platform settings, award categories, and
+              resource licenses are published only after organizer verification.
             </p>
-            <nav className="source-links" aria-label="Challenge sources">
+            <nav className="source-links" aria-label="Participant information and challenge sources">
+              <a href={`${basePath}/terms/`}>Terms</a>
+              <a href={`${basePath}/privacy/`}>Privacy</a>
+              <a href={`mailto:${contactEmail}`}>Contact</a>
               <a
                 href="https://bigdataieee.org/BigData2026/cup/"
                 target="_blank"
@@ -612,7 +637,7 @@ export default function Home() {
                 <span className="sr-only"> (opens in a new tab)</span>
               </a>
             </nav>
-            <p className="footer-updated">Last reviewed 22 August 2026.</p>
+            <p className="footer-updated">Last reviewed 1 September 2026.</p>
           </div>
           <a href="#overview">Back to top ↑</a>
         </div>

@@ -5,67 +5,69 @@ import { SubmissionPacker } from "./submission-packer";
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 export const metadata: Metadata = {
-  title: "Task 1 GitHub Submission Pilot | FinReason Cup",
-  description: "Organizer-only GitHub submission and automatic scoring pilot for FinReason Task 1.",
-  robots: { index: false, follow: false },
+  title: "Task 1 Development Submission | FinReason Cup",
+  description: "Encrypt and submit an official Task 1 V4 development predictions ZIP.",
+  alternates: { canonical: "https://the-finai.github.io/IEEE-bigdata-cup/task1/submit/" },
 };
 
 export default function Task1SubmitPage() {
   return (
-    <main className="pilot-page">
-      <nav className="pilot-nav" aria-label="Pilot navigation">
-        <Link href="/">FinReason Cup</Link>
-        <Link href="/task1/leaderboard/">Pilot leaderboard</Link>
+    <main className="task-hub-page">
+      <nav className="task-hub-nav" aria-label="Task 1 navigation">
+        <Link href="/task1/">Task 1 hub</Link>
+        <Link href="/task1/leaderboard/">Development leaderboard</Link>
       </nav>
 
-      <header className="pilot-heading">
-        <p className="section-index">TASK 1 / GITHUB-ONLY PILOT</p>
-        <h1>Submit answers through GitHub.</h1>
+      <header className="task-hub-heading">
+        <p className="section-index">TASK 1 / DEVELOPMENT</p>
+        <h1>Encrypt the canonical predictions ZIP.</h1>
         <p>
-          This isolated pilot verifies the intended participant experience: prepare a canonical ZIP,
-          encrypt it locally, upload the encrypted file in a GitHub form, and receive an automatic score
-          on the resulting issue.
+          Prepare a ZIP containing exactly one file named <code>predictions.jsonl</code> with all 580
+          canonical V4 leaderboard IDs. Encryption happens locally in this browser. GitHub receives
+          only the encrypted JSON attachment. The deadline is 15 November 2026, 23:59 Anywhere on Earth.
         </p>
       </header>
 
-      <section className="pilot-grid" aria-label="Submission pilot steps">
+      <section className="pilot-grid" aria-label="Development submission steps">
         <article>
           <span>01</span>
-          <h2>Prepare the ZIP</h2>
+          <h2>Prepare</h2>
           <p>
-            For this synthetic pilot, create a ZIP containing exactly one file named
-            <code>predictions.jsonl</code>. You can start from the
-            <a href={`${basePath}/task1/pilot-example-predictions.jsonl`} download>
-              pilot example
-            </a>.
+            Start from the <a href={`${basePath}/task1/data/development/sample_b0_submission.zip`} download>canonical B0 ZIP</a>{" "}
+            and replace its predictions without changing the row contract. Use the exact{" "}
+            <a href={`${basePath}/task1/data/development/leaderboard_questions.jsonl`} download>leaderboard questions</a>{" "}
+            and <a href={`${basePath}/task1/data/development/leaderboard_expected_ids.json`} download>expected IDs</a>.
+            Validate and package locally with the{" "}
+            <a href="https://github.com/The-FinAI/IEEE-bigdata-cup/blob/main/scripts/task1_cli.py">participant CLI</a>{" "}
+            and <a href="https://github.com/The-FinAI/IEEE-bigdata-cup/blob/main/finreason_task1/contracts.py">prediction contract</a>.
           </p>
         </article>
         <article>
           <span>02</span>
           <h2>Encrypt locally</h2>
           <p>
-            The preparation tool runs in your browser. Only the encrypted JSON envelope is uploaded to
-            the public GitHub issue.
+            Use the exact GitHub login that will open the issue. The workflow derives team identity
+            from the immutable numeric issue actor ID and verifies the encrypted login binding.
           </p>
         </article>
         <article>
           <span>03</span>
-          <h2>Receive the score</h2>
+          <h2>Attach ciphertext</h2>
           <p>
-            GitHub automatically validates the archive, posts the two synthetic development metrics,
-            and refreshes the pilot leaderboard.
+            Download the generated JSON, open the official Issue Form, and attach only that encrypted
+            file. Never attach the plaintext ZIP.
           </p>
         </article>
       </section>
 
       <SubmissionPacker />
 
-      <aside className="pilot-note">
-        <strong>Scope of this test</strong>
+      <aside className="task-hub-note">
+        <strong>Development limits</strong>
         <p>
-          The pilot contains no competition questions or gold answers and currently accepts only the
-          organizer account. Passing it proves the GitHub upload, encryption, automatic reply, and Pages
-          publication path. It does not open the official competition phase.
+          One designated GitHub account per team. At most 2 accepted attempts per UTC day and 40 in
+          total. Replayed ciphertext or client submission IDs are rejected. Development returns only
+          aggregate SeenFAC and SeenCheckpoint scores when GitHub Actions processing completes.
         </p>
       </aside>
     </main>

@@ -1,10 +1,10 @@
 "use client";
 
 import { FormEvent, useEffect, useMemo, useState } from "react";
-import pilotConfig from "@/public/task1/pilot-config.json";
+import submissionConfig from "@/public/task1/submission-config.json";
 import { createSubmissionEnvelope } from "@/lib/task1-envelope.mjs";
 
-const repositoryUrl = `https://github.com/${pilotConfig.repository}`;
+const repositoryUrl = `https://github.com/${submissionConfig.repository}`;
 
 type PreparedSubmission = {
   downloadUrl: string;
@@ -25,7 +25,7 @@ export function SubmissionPacker() {
   }, [prepared]);
 
   const maxSize = useMemo(
-    () => `${Math.floor(pilotConfig.max_plaintext_bytes / (1024 * 1024))} MiB`,
+    () => `${Math.floor(submissionConfig.max_plaintext_bytes / (1024 * 1024))} MiB`,
     [],
   );
 
@@ -47,7 +47,7 @@ export function SubmissionPacker() {
       setMessage("The selected file must be a .zip archive.");
       return;
     }
-    if (archive.size === 0 || archive.size > pilotConfig.max_plaintext_bytes) {
+    if (archive.size === 0 || archive.size > submissionConfig.max_plaintext_bytes) {
       setMessage(`The ZIP must be non-empty and no larger than ${maxSize}.`);
       return;
     }
@@ -59,20 +59,25 @@ export function SubmissionPacker() {
       const envelope = await createSubmissionEnvelope({
         archiveBytes: new Uint8Array(await archive.arrayBuffer()),
         githubLogin,
-        evaluationVersion: pilotConfig.evaluation_version,
-        recipientPublicKeyB64: pilotConfig.recipient_public_key_b64,
-        keyFingerprintSha256: pilotConfig.key_fingerprint_sha256,
-        maxPlaintextBytes: pilotConfig.max_plaintext_bytes,
+        evaluationVersion: submissionConfig.evaluation_version,
+        phase: submissionConfig.phase,
+        repository: submissionConfig.repository,
+        repositoryId: submissionConfig.repository_id,
+        releaseManifestSha256: submissionConfig.release_manifest_sha256,
+        questionsSha256: submissionConfig.questions_sha256,
+        expectedIdsSha256: submissionConfig.expected_ids_sha256,
+        recipientPublicKeyB64: submissionConfig.recipient_public_key_b64,
+        keyFingerprintSha256: submissionConfig.key_fingerprint_sha256,
+        maxPlaintextBytes: submissionConfig.max_plaintext_bytes,
         clientSubmissionId,
       });
       const blob = new Blob([JSON.stringify(envelope)], {
         type: "application/json",
       });
-      const downloadName = `finreason-task1-pilot-${clientSubmissionId}.json`;
+      const downloadName = `finreason-task1-dev-${clientSubmissionId}.json`;
       const downloadUrl = URL.createObjectURL(blob);
       const issueUrl = new URL(`${repositoryUrl}/issues/new`);
-      issueUrl.searchParams.set("template", pilotConfig.issue_template);
-      issueUrl.searchParams.set("github_login", githubLogin.trim());
+      issueUrl.searchParams.set("template", submissionConfig.issue_template);
       setPrepared({
         downloadUrl,
         downloadName,
@@ -91,8 +96,8 @@ export function SubmissionPacker() {
   return (
     <form className="submission-packer" onSubmit={prepare}>
       <div className="pilot-banner">
-        <strong>Organizer pilot</strong>
-        <span>Synthetic examples only. Results are not official competition scores.</span>
+        <strong>Development submission</strong>
+        <span>The official 580-row V4 predictions ZIP is encrypted locally before GitHub receives it.</span>
       </div>
 
       <label htmlFor="github-login">GitHub login</label>
@@ -118,7 +123,7 @@ export function SubmissionPacker() {
         required
       />
       <p className="field-note">
-        The ZIP is encrypted inside your browser and is not uploaded by this page. Pilot limit: {maxSize}.
+        The ZIP is encrypted inside your browser and is not uploaded by this page. Limit: {maxSize}.
       </p>
 
       <button className="button button-primary" type="submit" disabled={busy}>

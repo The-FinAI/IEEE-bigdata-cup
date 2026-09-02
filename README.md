@@ -16,6 +16,10 @@
   ·
   <a href="https://forms.gle/D4VJqjgtmcaC77DL8"><strong>Submit Letter of Intent</strong></a>
   ·
+  <a href="https://the-finai.github.io/IEEE-bigdata-cup/terms/"><strong>Terms</strong></a>
+  ·
+  <a href="https://the-finai.github.io/IEEE-bigdata-cup/privacy/"><strong>Privacy</strong></a>
+  ·
   <a href="https://bigdataieee.org/BigData2026/cup/"><strong>IEEE Cup overview</strong></a>
 </p>
 
@@ -115,11 +119,16 @@ final competition submission.
 | --- | --- |
 | [Official challenge website](https://the-finai.github.io/IEEE-bigdata-cup/) | Live |
 | [Letter of Intent](https://forms.gle/D4VJqjgtmcaC77DL8) | Open |
-| Datasets and development splits | Coming soon |
+| Task 1 train questions, answers, and targets | Included in the launch candidate |
+| Task 1 development questions and encrypted Issue intake | Included in the launch candidate; live setup verification pending |
+| Task 1 rotated V2 test questions | Included; test intake disabled pending custody verification |
 | Starter kits, schemas, validators, and baselines | Coming soon |
-| Participant support channel | Coming soon |
+| Participant support | [zhuohan.xie@mbzuai.ac.ae](mailto:zhuohan.xie@mbzuai.ac.ae) |
+| Terms of Participation | Ready in the current release branch; public after website deployment |
+| Privacy Notice | Ready in the current release branch; public after website deployment |
 | [Challenge paper submission](https://wi-lab.com/cyberchair/2026/bigdata26/scripts/submit.php?subarea=SC03) | Open |
-| Competition solution-material submission | Under organizer testing |
+| [Task 1 participant hub](https://the-finai.github.io/IEEE-bigdata-cup/task1/) | GitHub-only development route; test intake disabled |
+| [Task 1 leaderboard](https://the-finai.github.io/IEEE-bigdata-cup/task1/leaderboard/) | Development aggregates only |
 
 Final verified competition-platform and submission links will be posted on the
 official challenge website after workflow testing.
@@ -145,24 +154,51 @@ linked here as they are released.
 Please use only links marked as verified on the
 [official challenge website](https://the-finai.github.io/IEEE-bigdata-cup/).
 
-### GitHub-only Task 1 pilot
+### Task 1 GitHub hub
 
-This repository also contains an isolated organizer pilot for the planned Task 1
-submission experience. The pilot uses synthetic two-case data only and is not
-linked from the public landing page:
+The public `/task1/` route is the stable participant entry point:
 
-- the static pilot page encrypts a canonical predictions ZIP locally in the
-  participant's browser;
-- a GitHub Issue Form accepts only the encrypted JSON envelope;
-- a trusted `issues: opened` workflow validates and scores the synthetic file,
-  posts one aggregate-only result comment, and rebuilds the pilot leaderboard;
-- the workflow does not execute participant code and contains no competition
-  questions or gold answers.
+- exactly 13 V4 development files and three rotated V2 public test files are
+  downloadable from Pages with their frozen manifests;
+- `/task1/submit/` encrypts a selected development predictions ZIP locally with
+  X25519, HKDF-SHA256, and AES-256-GCM;
+- the participant attaches only the generated ciphertext JSON to the official
+  GitHub Issue Form;
+- GitHub Actions derives team identity from the immutable numeric issue actor
+  ID, records the login for display, enforces the 2-per-UTC-day and 40-total development quotas, validates
+  exactly 580 V4 rows, and returns signed aggregate SeenFAC and SeenCheckpoint;
+- `/task1/leaderboard/` displays the best accepted development result per actor
+  from signature-verified result comments;
+- rotated V2 test questions are public, but test intake is disabled until the
+  private retention and offline-custody boundary is verified;
+- no test score, rank, path, private diagnostic, or test leaderboard is exposed.
 
-The pilot is restricted to an organizer account until its live upload, replay,
-failure-recovery, and Pages readback checks pass. Its scores must not be cited as
-FinReason Cup results. The official submission route remains under organizer
-testing.
+The issue author, timestamp, body, and encrypted attachment URL are public.
+Encryption protects the predictions ZIP contents, not those participation
+metadata. A public result comment contains only visible aggregate scores plus
+signed integrity and source fields. A plaintext ZIP, raw prediction hash,
+evaluator reference, private key, or private diagnostic must never enter Git
+history, an Issue, an Actions artifact, or a public comment.
+
+The public JSON feed uses the canonical aggregate-only development leaderboard
+contract below. Its root and row fields are exact; it
+must not expose predictions, attachments, email addresses, private evaluation
+data, or additional metadata. The response must be no larger than 1 MiB.
+
+```json
+{
+  "schema_version": "finreason.task1.development-leaderboard/1.0.0",
+  "phase": "development",
+  "rows": []
+}
+```
+
+The Pages workflow rebuilds the public leaderboard from signature-verified
+aggregate result comments. It never reads a plaintext submission or evaluator
+reference. Activating the Issue Form and workflow requires the protected
+environment key, exact repository labels, Pages settings, and branch rules
+listed in the launch runbook. Test intake has no workflow or Issue Form and is
+therefore fail-closed.
 
 ## Local development
 
@@ -191,8 +227,13 @@ contract. Pushes to `main` deploy through
 The Letter of Intent is hosted on Google Forms. Responses are available to the
 organizer team and are used for challenge operations, communication permitted
 by the form, and aggregate reporting. Do not include sensitive information.
-Participant support and the correction or deletion process will be published
-with the participant guidance.
+Participant support, privacy questions, and correction or deletion requests can
+be sent to [zhuohan.xie@mbzuai.ac.ae](mailto:zhuohan.xie@mbzuai.ac.ae). See the
+[Privacy Notice](https://the-finai.github.io/IEEE-bigdata-cup/privacy/) for the
+public website boundary, public leaderboard fields, external services, and the
+Task 1 retention policy. Private Task 1 submission archives and non-public
+operational event records are retained for up to 120 days from acceptance,
+subject to the exceptions stated in that notice.
 
 ## Organizers
 
@@ -201,9 +242,11 @@ contributors affiliated with MBZUAI, McGill University, Stevens Institute of
 Technology, Yale University, and the University of Manchester. Affiliations do
 not imply institutional sponsorship.
 
-Dataset release dates, platform rules, award categories, and data terms remain
-subject to organizer and IEEE confirmation.
+Task-specific dates, platform settings, award categories, and resource licenses
+are published only after organizer verification. The
+[Terms of Participation](https://the-finai.github.io/IEEE-bigdata-cup/terms/)
+describe the current organizer-maintained participation rules.
 
 ---
 
-Last reviewed: 22 August 2026.
+Last reviewed: 1 September 2026.
