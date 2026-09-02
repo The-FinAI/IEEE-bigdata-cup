@@ -169,7 +169,8 @@ The public `/task1/` route is the stable participant entry point:
   leaderboard;
 - access codes and submission files are entered only inside the verified
   workspace, never into this GitHub Pages site;
-- GitHub Issues are not a participant submission channel.
+- team access codes are issued by the organizers after registration and are
+  entered only inside the verified submission workspace.
 
 The public JSON feed uses the canonical aggregate-only development leaderboard
 contract below. Its root and row fields are exact; it

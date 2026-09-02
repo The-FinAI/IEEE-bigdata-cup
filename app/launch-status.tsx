@@ -54,7 +54,6 @@ export function LaunchStatus() {
           participant hub. Development and test use separate direct-upload workspaces: development
           returns immediate aggregate scores and can update the leaderboard, while test returns only
           an acceptance receipt. The participant hub publishes their current verified availability.
-          GitHub Issues are not a submission channel.
         </p>
         <div className="participant-notice-links">
           <Link href="/task1/">Open Task 1 participant hub</Link>

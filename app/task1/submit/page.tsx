@@ -34,8 +34,7 @@ export default function Task1SubmitPage() {
           All train, development, and test files are available from the participant hub. {" "}
           {spaceLinksAreReady
             ? "Registered teams submit directly through two isolated organizer-verified Hugging Face Spaces."
-            : "The organizer team is verifying the two direct-upload workspaces before publishing their links."}{" "}
-          GitHub Issues are not a submission channel.
+            : "The organizer team is verifying the two direct-upload workspaces before publishing their links."}
         </p>
       </header>
 
@@ -94,8 +93,9 @@ export default function Task1SubmitPage() {
 
         <p className="task-platform-footnote">
           This GitHub Pages site does not receive or store team codes, submissions, gold answers, or
-          private evaluation data. Enter the private code issued by the organizers only inside the
-          verified submission workspace. Review the <Link href="/terms/">Terms of Participation</Link>{" "}
+          private evaluation data. After submitting the Letter of Intent, enter the private team code
+          issued by the organizers only inside the verified submission workspace. Review the{" "}
+          <Link href="/terms/">Terms of Participation</Link>{" "}
           and <Link href="/privacy/">Privacy Notice</Link>. Participant support:{" "}
           <a href="mailto:zhuohan.xie@mbzuai.ac.ae">zhuohan.xie@mbzuai.ac.ae</a>.
         </p>

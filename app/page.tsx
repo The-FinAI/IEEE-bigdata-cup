@@ -142,7 +142,7 @@ const faqs = [
   {
     question: "Is the paper submission also the competition submission?",
     answer:
-      "No. CyberChair SC03 is for the challenge paper. Task 1 solution files use separate direct web upload workspaces linked from the participant hub, which publishes their current verified availability. GitHub Issues are not a submission channel. Both routes share the final submission deadline.",
+      "No. CyberChair SC03 is for the challenge paper. Task 1 solution files use separate direct web upload workspaces linked from the participant hub, which publishes their current verified availability. Both routes share the final submission deadline.",
   },
   {
     question: "Why does CyberChair show a 10-page limit and deadline TBA?",
@@ -288,7 +288,6 @@ export default function Home() {
             <p className="hero-note">
               The CyberChair paper channel is open. The Task 1 participant hub
               publishes the canonical data and current direct-upload status.
-              GitHub Issues are not a submission channel.
             </p>
           </div>
 

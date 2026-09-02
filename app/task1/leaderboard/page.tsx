@@ -43,7 +43,7 @@ export default function Task1LeaderboardPage() {
           <h2 id="space-results-title">Development submission and results</h2>
           <p>
             Enter the private access code issued to your registered team only inside the verified
-            development workspace. GitHub Issues are not a submission channel.
+            development workspace.
           </p>
         </div>
         {developmentSpaceIsReady ? (
