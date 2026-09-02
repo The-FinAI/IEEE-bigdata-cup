@@ -161,6 +161,10 @@ artifact contract, exact-arithmetic executor, and reproducible commands. Model
 IDs and revisions remain explicit run inputs; this repository does not bundle a
 provider SDK or credential handling.
 
+The baseline-harness branch is not approved for merge or publication until the
+Task 1 data and release owner confirms its exact license scope. See the pending
+scope in `public/task1/RIGHTS_AND_PROVENANCE.md`.
+
 ### Task 1 participant hub
 
 The public `/task1/` route is the stable participant entry point:

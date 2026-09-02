@@ -164,12 +164,14 @@ def command_baseline_llm_requests(args: argparse.Namespace) -> int:
         build_llm_requests,
         load_prediction_bundle,
         load_question_bundle,
+        load_run_manifest,
         resolve_profile,
         sha256_bytes,
         write_canonical_jsonl,
     )
 
     question_content, questions = load_question_bundle(args.questions)
+    manifest_content, run_manifest = load_run_manifest(args.run_manifest, args.profile)
     train_questions = None
     train_targets = None
     train_question_content = None
@@ -184,12 +186,16 @@ def command_baseline_llm_requests(args: argparse.Namespace) -> int:
     requests = build_llm_requests(
         args.profile,
         questions,
+        run_manifest=run_manifest,
         train_questions=train_questions,
         train_targets=train_targets,
         retrieval_k=args.retrieval_k,
     )
     output_sha256 = write_canonical_jsonl(args.output, requests)
-    source = {"questions_jsonl_sha256": sha256_bytes(question_content)}
+    source = {
+        "questions_jsonl_sha256": sha256_bytes(question_content),
+        "run_manifest_sha256": sha256_bytes(manifest_content),
+    }
     if train_question_content is not None and train_target_content is not None:
         source.update(
             {
@@ -221,13 +227,13 @@ def command_baseline_llm_materialize(args: argparse.Namespace) -> int:
     card = materialize_llm(
         args.profile,
         args.questions,
+        args.run_manifest,
         args.requests,
         args.responses,
         args.output_dir,
-        provider=args.provider,
-        model_id=args.model_id,
-        model_revision=args.model_revision,
-        implementation_revision=args.implementation_revision,
+        train_questions_path=args.train_questions,
+        train_targets_path=args.train_targets,
+        retrieval_k=args.retrieval_k,
     )
     print(
         canonical_json(
@@ -360,6 +366,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     llm_requests.add_argument("--profile", required=True, choices=("b2", "b3"))
     llm_requests.add_argument("--questions", required=True)
+    llm_requests.add_argument("--run-manifest", required=True)
     llm_requests.add_argument("--output", required=True)
     llm_requests.add_argument("--train-questions")
     llm_requests.add_argument("--train-targets")
@@ -372,13 +379,13 @@ def build_parser() -> argparse.ArgumentParser:
     )
     llm_materialize.add_argument("--profile", required=True, choices=("b2", "b3"))
     llm_materialize.add_argument("--questions", required=True)
+    llm_materialize.add_argument("--run-manifest", required=True)
     llm_materialize.add_argument("--requests", required=True)
     llm_materialize.add_argument("--responses", required=True)
     llm_materialize.add_argument("--output-dir", required=True)
-    llm_materialize.add_argument("--provider", required=True)
-    llm_materialize.add_argument("--model-id", required=True)
-    llm_materialize.add_argument("--model-revision", required=True)
-    llm_materialize.add_argument("--implementation-revision", required=True)
+    llm_materialize.add_argument("--train-questions")
+    llm_materialize.add_argument("--train-targets")
+    llm_materialize.add_argument("--retrieval-k", type=int, default=3)
     llm_materialize.set_defaults(handler=command_baseline_llm_materialize)
 
     expected_ids = commands.add_parser("expected-ids")

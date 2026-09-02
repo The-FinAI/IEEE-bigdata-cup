@@ -37,6 +37,7 @@ from .contracts import (
     RATIONAL_PATTERN,
     ContractError,
     load_jsonl_snapshot,
+    load_json_object_snapshot,
     validate_question,
     validate_prediction_record,
     validate_submission,
@@ -47,13 +48,14 @@ B1_METHOD_ID = "FR-T1-B1-RULE-v1"
 B2_METHOD_ID = "FR-T1-B2-OPEN8B-STRUCT-v1"
 B3_METHOD_ID = "FR-T1-B3-OPEN32B-PAL-v1"
 
-REQUEST_SCHEMA_VERSION = "finreason.task1.baseline-request/1.0.0"
-RESPONSE_SCHEMA_VERSION = "finreason.task1.baseline-response/1.0.0"
+RUN_MANIFEST_SCHEMA_VERSION = "finreason.task1.baseline-run-manifest/1.0.0"
+REQUEST_SCHEMA_VERSION = "finreason.task1.baseline-request/2.0.0"
+RESPONSE_SCHEMA_VERSION = "finreason.task1.baseline-response/2.0.0"
 DIAGNOSTIC_SCHEMA_VERSION = "finreason.task1.baseline-diagnostic/1.0.0"
-METHOD_CARD_SCHEMA_VERSION = "finreason.task1.baseline-method-card/1.0.0"
-MATERIALIZATION_SCHEMA_VERSION = "finreason.task1.baseline-materialization/1.0.0"
-STRUCTURED_OUTPUT_PROTOCOL_VERSION = "finreason.task1.structured-output/1.0.0"
-PAL_PROGRAM_VERSION = "finreason.task1.exact-pal/1.0.0"
+METHOD_CARD_SCHEMA_VERSION = "finreason.task1.baseline-method-card/2.0.0"
+MATERIALIZATION_SCHEMA_VERSION = "finreason.task1.baseline-materialization/2.0.0"
+STRUCTURED_OUTPUT_PROTOCOL_VERSION = "finreason.task1.structured-output/2.0.0"
+PAL_PROGRAM_VERSION = "finreason.task1.exact-pal/2.0.0"
 
 MAX_RAW_RESPONSE_BYTES = 65_536
 MAX_PAL_INSTRUCTIONS = 96
@@ -62,6 +64,21 @@ MAX_RETRIEVAL_EXAMPLES = 8
 
 _INSTRUCTION_ID = re.compile(r"v(?:[1-9][0-9]{0,2})\Z")
 _TOKEN = re.compile(r"[A-Za-z][A-Za-z0-9_]*|[0-9]+(?:\.[0-9]+)?")
+_IMMUTABLE_REVISION = re.compile(r"(?:[0-9a-f]{40,64}|sha256:[0-9a-f]{64})\Z")
+
+_GENERATION_SETTING_KEYS = {
+    "strategy",
+    "do_sample",
+    "temperature",
+    "top_p",
+    "top_k",
+    "num_beams",
+    "max_new_tokens",
+    "seed",
+    "stop",
+    "response_format",
+    "provider_options",
+}
 
 
 @dataclass(frozen=True)
@@ -101,8 +118,8 @@ PROFILE_ALIASES = {"b2": B2_METHOD_ID, "b3": B3_METHOD_ID, **{key: key for key i
 class StructuredBaselineProvider(Protocol):
     """Minimal adapter boundary; implementations own transport and credentials."""
 
-    def generate(self, request: Mapping[str, Any]) -> str | Mapping[str, Any]:
-        """Return exactly one JSON object (or its JSON text) for one request."""
+    def generate(self, request: Mapping[str, Any]) -> str:
+        """Return the unmodified raw model text for exactly one request."""
 
 
 class BaselineResponseError(ValueError):
@@ -129,6 +146,113 @@ def canonical_jsonl(rows: Sequence[Mapping[str, Any]]) -> bytes:
 
 def sha256_bytes(content: bytes) -> str:
     return hashlib.sha256(content).hexdigest()
+
+
+def _bounded_label(value: Any, label: str) -> str:
+    if not isinstance(value, str) or not value.strip() or value != value.strip():
+        raise ContractError(f"run manifest {label} must be one explicit string")
+    if len(value.encode("utf-8")) > 512:
+        raise ContractError(f"run manifest {label} exceeds the byte limit")
+    return value
+
+
+def _validate_generation_settings(value: Any) -> Mapping[str, Any]:
+    if not isinstance(value, Mapping) or set(value) != _GENERATION_SETTING_KEYS:
+        raise ContractError("run manifest generation_settings has wrong fields")
+    if (
+        value.get("strategy") != "greedy"
+        or value.get("do_sample") is not False
+        or type(value.get("temperature")) not in {int, float}
+        or value.get("temperature") != 0
+        or type(value.get("top_p")) not in {int, float}
+        or value.get("top_p") != 1
+        or type(value.get("top_k")) is not int
+        or value.get("top_k") != 0
+        or type(value.get("num_beams")) is not int
+        or value.get("num_beams") != 1
+    ):
+        raise ContractError("run manifest generation_settings is not greedy decoding")
+    max_new_tokens = value.get("max_new_tokens")
+    seed = value.get("seed")
+    stop = value.get("stop")
+    response_format = value.get("response_format")
+    provider_options = value.get("provider_options")
+    if not (
+        type(max_new_tokens) is int
+        and 1 <= max_new_tokens <= 32_768
+        and type(seed) is int
+        and 0 <= seed <= 2**63 - 1
+        and isinstance(stop, list)
+        and len(stop) <= 32
+        and all(
+            isinstance(item, str)
+            and item
+            and len(item.encode("utf-8")) <= 256
+            for item in stop
+        )
+        and len(set(stop)) == len(stop)
+        and response_format in {"prompted_json_object", "native_json_object"}
+        and isinstance(provider_options, Mapping)
+    ):
+        raise ContractError("run manifest generation_settings is invalid or incomplete")
+    try:
+        encoded = canonical_json(value).encode("utf-8")
+    except (TypeError, ValueError) as exc:
+        raise ContractError("run manifest generation_settings is not canonical JSON data") from exc
+    if len(encoded) > MAX_RAW_RESPONSE_BYTES:
+        raise ContractError("run manifest generation_settings exceeds the byte limit")
+    return value
+
+
+def validate_run_manifest(
+    manifest: Mapping[str, Any], profile_name: str
+) -> Mapping[str, Any]:
+    """Validate the exact provider, model, runner, and generation identity."""
+
+    profile = resolve_profile(profile_name)
+    expected = {
+        "schema_version",
+        "method_id",
+        "provider",
+        "model_id",
+        "model_revision",
+        "runner_revision",
+        "generation_settings",
+    }
+    if not isinstance(manifest, Mapping) or set(manifest) != expected:
+        raise ContractError("run manifest has wrong fields")
+    if (
+        manifest.get("schema_version") != RUN_MANIFEST_SCHEMA_VERSION
+        or manifest.get("method_id") != profile.method_id
+    ):
+        raise ContractError("run manifest identity differs from the selected profile")
+    _bounded_label(manifest.get("provider"), "provider")
+    _bounded_label(manifest.get("model_id"), "model_id")
+    model_revision = _bounded_label(manifest.get("model_revision"), "model_revision")
+    runner_revision = _bounded_label(manifest.get("runner_revision"), "runner_revision")
+    if not _IMMUTABLE_REVISION.fullmatch(model_revision):
+        raise ContractError("run manifest model_revision must be an immutable content revision")
+    if not _IMMUTABLE_REVISION.fullmatch(runner_revision):
+        raise ContractError("run manifest runner_revision must be an immutable content revision")
+    _validate_generation_settings(manifest.get("generation_settings"))
+    return manifest
+
+
+def run_manifest_sha256(manifest: Mapping[str, Any]) -> str:
+    return sha256_bytes((canonical_json(manifest) + "\n").encode("utf-8"))
+
+
+def load_run_manifest(
+    path: str | Path, profile_name: str
+) -> tuple[bytes, Mapping[str, Any]]:
+    """Load one canonical run manifest without accepting alternate encodings."""
+
+    content, manifest = load_json_object_snapshot(path)
+    validate_run_manifest(manifest, profile_name)
+    expected = (canonical_json(manifest) + "\n").encode("utf-8")
+    if content != expected:
+        raise ContractError("run manifest must use canonical JSON with one final LF")
+    return content, manifest
 
 
 def canonical_question_sha256(question: Mapping[str, Any]) -> str:
@@ -299,23 +423,11 @@ def _strict_json_object(text: str) -> Mapping[str, Any]:
 
 
 def _response_object(value: Any) -> Mapping[str, Any]:
-    if isinstance(value, str):
-        return _strict_json_object(value)
-    if not isinstance(value, Mapping):
+    if not isinstance(value, str):
         raise BaselineResponseError(
-            "E_RESPONSE_PARSE", "response must be an object or exact JSON-object text"
+            "E_RESPONSE_PARSE", "response must be the unmodified raw model string"
         )
-    try:
-        encoded = canonical_json(value).encode("utf-8")
-    except (TypeError, ValueError) as exc:
-        raise BaselineResponseError(
-            "E_RESPONSE_PARSE", "structured response is not canonical JSON data"
-        ) from exc
-    if len(encoded) > MAX_RAW_RESPONSE_BYTES:
-        raise BaselineResponseError(
-            "E_RESPONSE_RESOURCE", "structured response exceeds the byte contract"
-        )
-    return value
+    return _strict_json_object(value)
 
 
 def _profile_response_contract(profile: BaselineProfile) -> dict[str, Any]:
@@ -333,10 +445,14 @@ def _profile_response_contract(profile: BaselineProfile) -> dict[str, Any]:
         "pal_exact_fields": [
             "kind",
             "instructions",
-            "final_ref",
-            "slot_refs",
+            "final_output",
+            "slot_outputs",
         ],
-        "slot_policy": "every published slot exactly once in published order",
+        "direct_prediction_policy": "allowed only when final answer and every slot are enum",
+        "pal_output_policy": (
+            "required when any output is decimal; decimal outputs use value_ref and "
+            "enum outputs use value; every slot appears exactly once in published order"
+        ),
         "pal_program_version": PAL_PROGRAM_VERSION,
         "pal_operations": ["literal", "add", "sub", "mul", "div", "neg", "abs", "min", "max", "pow_int"],
         "pal_limit": MAX_PAL_INSTRUCTIONS,
@@ -354,10 +470,10 @@ def _system_message(profile: BaselineProfile) -> str:
         return common + " Return only final_answer; do not return reasoning or checkpoints."
     return (
         common
-        + " For decimal arithmetic, prefer kind=pal and express all calculations in "
-        "the bounded exact program. Use only earlier instruction references. The "
-        "harness performs final rounding and renders every published checkpoint. "
-        "For non-arithmetic enum cases, kind=prediction is allowed."
+        + " If the final answer or any checkpoint is decimal, use kind=pal and bind "
+        "every decimal output to the bounded exact program by value_ref. Bind enum "
+        "outputs by value. Use only earlier instruction references. The harness "
+        "performs numeric rendering. Use kind=prediction only when every output is enum."
     )
 
 
@@ -417,6 +533,7 @@ def _request_record(
     profile: BaselineProfile,
     question: Mapping[str, Any],
     examples: Sequence[Mapping[str, Any]],
+    manifest_sha256: str,
 ) -> dict[str, Any]:
     user_payload: dict[str, Any] = {"question": question}
     if examples:
@@ -427,6 +544,7 @@ def _request_record(
         "dataset_version": question["dataset_version"],
         "case_id": question["case_id"],
         "question_sha256": canonical_question_sha256(question),
+        "run_manifest_sha256": manifest_sha256,
         "messages": [
             {"role": "system", "content": _system_message(profile)},
             {"role": "user", "content": canonical_json(user_payload)},
@@ -442,6 +560,7 @@ def build_llm_requests(
     profile_name: str,
     questions: Mapping[str, Mapping[str, Any]],
     *,
+    run_manifest: Mapping[str, Any],
     train_questions: Mapping[str, Mapping[str, Any]] | None = None,
     train_targets: Mapping[str, Mapping[str, Any]] | None = None,
     retrieval_k: int = 3,
@@ -449,6 +568,8 @@ def build_llm_requests(
     """Build stable provider-neutral B2/B3 requests from public inputs only."""
 
     profile = resolve_profile(profile_name)
+    validate_run_manifest(run_manifest, profile.method_id)
+    manifest_sha256 = run_manifest_sha256(run_manifest)
     if not 1 <= retrieval_k <= MAX_RETRIEVAL_EXAMPLES:
         raise ValueError(f"retrieval_k must be between 1 and {MAX_RETRIEVAL_EXAMPLES}")
     for question in questions.values():
@@ -476,7 +597,7 @@ def build_llm_requests(
             if profile.uses_retrieval
             else []
         )
-        records.append(_request_record(profile, question, examples))
+        records.append(_request_record(profile, question, examples, manifest_sha256))
     return tuple(records)
 
 
@@ -484,8 +605,12 @@ def validate_llm_requests(
     records: Sequence[Mapping[str, Any]],
     profile_name: str,
     questions: Mapping[str, Mapping[str, Any]],
+    *,
+    run_manifest: Mapping[str, Any],
 ) -> dict[str, Mapping[str, Any]]:
     profile = resolve_profile(profile_name)
+    validate_run_manifest(run_manifest, profile.method_id)
+    manifest_sha256 = run_manifest_sha256(run_manifest)
     by_case: dict[str, Mapping[str, Any]] = {}
     expected_keys = {
         "schema_version",
@@ -493,6 +618,7 @@ def validate_llm_requests(
         "dataset_version",
         "case_id",
         "question_sha256",
+        "run_manifest_sha256",
         "messages",
         "response_contract",
         "retrieval_case_ids",
@@ -510,6 +636,7 @@ def validate_llm_requests(
             or record.get("method_id") != profile.method_id
             or record.get("dataset_version") != question["dataset_version"]
             or record.get("question_sha256") != canonical_question_sha256(question)
+            or record.get("run_manifest_sha256") != manifest_sha256
         ):
             raise ContractError("baseline request identity differs from the question bundle")
         without_id = {key: value for key, value in record.items() if key != "request_id"}
@@ -584,15 +711,18 @@ def validate_llm_requests(
 
 
 def response_envelope(
-    request: Mapping[str, Any], response: str | Mapping[str, Any]
+    request: Mapping[str, Any], response: str
 ) -> dict[str, Any]:
     """Bind an adapter's unmodified model response to one canonical request."""
 
+    if not isinstance(response, str):
+        raise ValueError("response envelope requires the unmodified raw model string")
     return {
         "schema_version": RESPONSE_SCHEMA_VERSION,
         "method_id": request.get("method_id"),
         "request_id": request.get("request_id"),
         "case_id": request.get("case_id"),
+        "run_manifest_sha256": request.get("run_manifest_sha256"),
         "response": response,
     }
 
@@ -666,7 +796,7 @@ def _instruction_args(
     return [values[arg] for arg in args]
 
 
-def _execute_pal(program: Mapping[str, Any]) -> tuple[dict[str, Fraction], str, list[Mapping[str, Any]]]:
+def _execute_pal(program: Mapping[str, Any]) -> dict[str, Fraction]:
     instructions = program.get("instructions")
     if not isinstance(instructions, list) or not 1 <= len(instructions) <= MAX_PAL_INSTRUCTIONS:
         raise BaselineResponseError(
@@ -730,13 +860,7 @@ def _execute_pal(program: Mapping[str, Any]) -> tuple[dict[str, Fraction], str, 
                 ) from exc
             _check_fraction(result)
         values[instruction_id] = result
-    final_ref = program.get("final_ref")
-    slot_refs = program.get("slot_refs")
-    if not isinstance(final_ref, str) or final_ref not in values:
-        raise BaselineResponseError("E_PAL_REFERENCE", "PAL final_ref is unknown")
-    if not isinstance(slot_refs, list):
-        raise BaselineResponseError("E_PAL_SCHEMA", "PAL slot_refs must be an array")
-    return values, final_ref, slot_refs
+    return values
 
 
 def _fraction_to_exact_text(value: Fraction) -> str:
@@ -819,6 +943,34 @@ def _slot_values_to_steps(
     return result
 
 
+def _all_outputs_are_enum(question: Mapping[str, Any]) -> bool:
+    specs = [question["answer_spec"]] + [
+        slot["result_spec"] for slot in question["trace_spec"]["slots"]
+    ]
+    return all(spec.get("type") == "enum" for spec in specs)
+
+
+def _render_typed_pal_output(
+    output: Any,
+    spec: Mapping[str, Any],
+    values: Mapping[str, Fraction],
+    label: str,
+) -> str:
+    if not isinstance(output, Mapping):
+        raise BaselineResponseError("E_PAL_SCHEMA", f"{label} must be an object")
+    if spec.get("type") == "decimal":
+        _exact_keys(output, {"value_ref"}, label)
+        value_ref = output.get("value_ref")
+        if not isinstance(value_ref, str) or value_ref not in values:
+            raise BaselineResponseError("E_PAL_REFERENCE", f"{label} value_ref is unknown")
+        return _render_fraction(values[value_ref], spec)
+    _exact_keys(output, {"value"}, label)
+    value = output.get("value")
+    if not isinstance(value, str):
+        raise BaselineResponseError("E_RESPONSE_SCHEMA", f"{label} enum value must be a string")
+    return value
+
+
 def _prediction_from_response(
     profile: BaselineProfile,
     question: Mapping[str, Any],
@@ -842,6 +994,11 @@ def _prediction_from_response(
                 {"kind", "final_answer", "slot_values"},
                 "B3 direct response",
             )
+            if not _all_outputs_are_enum(question):
+                raise BaselineResponseError(
+                    "E_RESPONSE_SCHEMA",
+                    "B3 direct prediction is allowed only when every output is enum",
+                )
             prediction = {
                 "schema_version": PREDICTION_SCHEMA_VERSION,
                 "dataset_version": question["dataset_version"],
@@ -852,31 +1009,35 @@ def _prediction_from_response(
         elif kind == "pal":
             program = _exact_keys(
                 parsed,
-                {"kind", "instructions", "final_ref", "slot_refs"},
+                {"kind", "instructions", "final_output", "slot_outputs"},
                 "B3 PAL response",
             )
-            values, final_ref, slot_refs = _execute_pal(program)
-            slots = question["trace_spec"]["slots"]
-            if len(slot_refs) != len(slots):
+            if _all_outputs_are_enum(question):
                 raise BaselineResponseError(
-                    "E_PAL_REFERENCE", "PAL slot_refs must cover every published slot"
+                    "E_RESPONSE_SCHEMA", "B3 all-enum output must use direct prediction"
+                )
+            values = _execute_pal(program)
+            slots = question["trace_spec"]["slots"]
+            slot_outputs = program.get("slot_outputs")
+            if not isinstance(slot_outputs, list) or len(slot_outputs) != len(slots):
+                raise BaselineResponseError(
+                    "E_PAL_REFERENCE", "PAL slot_outputs must cover every published slot"
                 )
             steps: list[dict[str, str]] = []
-            for slot_ref, slot in zip(slot_refs, slots, strict=True):
-                _exact_keys(slot_ref, {"slot_id", "value_ref"}, "PAL slot reference")
-                if (
-                    slot_ref.get("slot_id") != slot["slot_id"]
-                    or not isinstance(slot_ref.get("value_ref"), str)
-                    or slot_ref["value_ref"] not in values
-                ):
+            for slot_output, slot in zip(slot_outputs, slots, strict=True):
+                if not isinstance(slot_output, Mapping) or slot_output.get("slot_id") != slot["slot_id"]:
                     raise BaselineResponseError(
-                        "E_PAL_REFERENCE", "PAL slot references must follow public slot order"
+                        "E_PAL_REFERENCE", "PAL slot outputs must follow public slot order"
                     )
+                output_value = {key: value for key, value in slot_output.items() if key != "slot_id"}
                 steps.append(
                     {
                         "slot_id": slot["slot_id"],
-                        "value": _render_fraction(
-                            values[slot_ref["value_ref"]], slot["result_spec"]
+                        "value": _render_typed_pal_output(
+                            output_value,
+                            slot["result_spec"],
+                            values,
+                            "PAL slot output",
                         ),
                     }
                 )
@@ -884,9 +1045,12 @@ def _prediction_from_response(
                 "schema_version": PREDICTION_SCHEMA_VERSION,
                 "dataset_version": question["dataset_version"],
                 "case_id": question["case_id"],
-                "final_answer": {
-                    "value": _render_fraction(values[final_ref], question["answer_spec"])
-                },
+                "final_answer": {"value": _render_typed_pal_output(
+                    program.get("final_output"),
+                    question["answer_spec"],
+                    values,
+                    "PAL final output",
+                )},
                 "steps": steps,
             }
         else:
@@ -966,6 +1130,7 @@ def predictions_from_llm_responses(
         "method_id",
         "request_id",
         "case_id",
+        "run_manifest_sha256",
         "response",
     }
     for line_number, row in rows:
@@ -1011,6 +1176,7 @@ def predictions_from_llm_responses(
             row.get("schema_version") != RESPONSE_SCHEMA_VERSION
             or row.get("method_id") != profile.method_id
             or row.get("request_id") != request["request_id"]
+            or row.get("run_manifest_sha256") != request["run_manifest_sha256"]
         ):
             failed_cases[case_id] = (
                 "E_RESPONSE_BINDING",
@@ -1074,20 +1240,24 @@ def _method_card(
     output_root: Path,
     diagnostics: Sequence[Mapping[str, Any]],
     implementation_revision: str,
-    provider: str | None = None,
-    model_id: str | None = None,
-    model_revision: str | None = None,
+    run_manifest: Mapping[str, Any] | None = None,
+    run_manifest_content: bytes | None = None,
     requests_content: bytes | None = None,
     responses_content: bytes | None = None,
+    train_questions_content: bytes | None = None,
+    train_targets_content: bytes | None = None,
     retrieval_example_count: int | None = None,
 ) -> dict[str, Any]:
     dataset_versions = {prediction["dataset_version"] for prediction in predictions}
     if len(dataset_versions) != 1:
         raise ContractError("materialized predictions must contain one dataset version")
     code_counts = Counter(diagnostic["code"] for diagnostic in diagnostics)
+    artifact_names = ["predictions.jsonl", "submission.zip", "diagnostics.jsonl"]
+    if run_manifest_content is not None:
+        artifact_names.append("run-manifest.json")
     artifacts = {
         name: _fingerprint(output_root / name)
-        for name in ("predictions.jsonl", "submission.zip", "diagnostics.jsonl")
+        for name in artifact_names
     }
     source: dict[str, Any] = {
         "questions_jsonl_sha256": sha256_bytes(questions_content),
@@ -1096,6 +1266,12 @@ def _method_card(
         source["requests_jsonl_sha256"] = sha256_bytes(requests_content)
     if responses_content is not None:
         source["responses_jsonl_sha256"] = sha256_bytes(responses_content)
+    if run_manifest_content is not None:
+        source["run_manifest_sha256"] = sha256_bytes(run_manifest_content)
+    if train_questions_content is not None:
+        source["train_questions_jsonl_sha256"] = sha256_bytes(train_questions_content)
+    if train_targets_content is not None:
+        source["train_targets_jsonl_sha256"] = sha256_bytes(train_targets_content)
     method: dict[str, Any]
     if profile is None:
         method = {
@@ -1103,14 +1279,17 @@ def _method_card(
             "supported_public_families": list(B1_SUPPORTED_PUBLIC_FAMILIES),
         }
     else:
+        if run_manifest is None:
+            raise ContractError("LLM method card requires a validated run manifest")
         method = {
             "kind": "provider_neutral_structured_llm",
             "model_class": profile.model_class,
             "inference": profile.inference,
-            "provider": provider,
-            "model_id": model_id,
-            "model_revision": model_revision,
-            "decoding": {"strategy": "greedy"},
+            "provider": run_manifest["provider"],
+            "model_id": run_manifest["model_id"],
+            "model_revision": run_manifest["model_revision"],
+            "runner_revision": run_manifest["runner_revision"],
+            "generation_settings": run_manifest["generation_settings"],
             "structured_output_protocol": STRUCTURED_OUTPUT_PROTOCOL_VERSION,
             "retrieval": (
                 {
@@ -1154,11 +1333,12 @@ def _materialize(
     method_id: str,
     implementation_revision: str,
     profile: BaselineProfile | None = None,
-    provider: str | None = None,
-    model_id: str | None = None,
-    model_revision: str | None = None,
+    run_manifest: Mapping[str, Any] | None = None,
+    run_manifest_content: bytes | None = None,
     requests_content: bytes | None = None,
     responses_content: bytes | None = None,
+    train_questions_content: bytes | None = None,
+    train_targets_content: bytes | None = None,
     retrieval_example_count: int | None = None,
 ) -> dict[str, Any]:
     if not isinstance(implementation_revision, str) or not implementation_revision.strip():
@@ -1176,6 +1356,8 @@ def _materialize(
         predictions_path.write_bytes(canonical_jsonl(list(predictions)))
         diagnostics_path = scratch / "diagnostics.jsonl"
         diagnostics_path.write_bytes(canonical_jsonl(list(diagnostics)))
+        if run_manifest_content is not None:
+            (scratch / "run-manifest.json").write_bytes(run_manifest_content)
         archive_path = scratch / "submission.zip"
         build_submission_archive(predictions_path, archive_path)
         admitted = validate_submission_archive(archive_path, questions)
@@ -1189,11 +1371,12 @@ def _materialize(
             output_root=scratch,
             diagnostics=diagnostics,
             implementation_revision=implementation_revision,
-            provider=provider,
-            model_id=model_id,
-            model_revision=model_revision,
+            run_manifest=run_manifest,
+            run_manifest_content=run_manifest_content,
             requests_content=requests_content,
             responses_content=responses_content,
+            train_questions_content=train_questions_content,
+            train_targets_content=train_targets_content,
             retrieval_example_count=retrieval_example_count,
         )
         (scratch / "method-card.json").write_bytes(
@@ -1236,26 +1419,54 @@ def materialize_b1(
 def materialize_llm(
     profile_name: str,
     questions_path: str | Path,
+    run_manifest_path: str | Path,
     requests_path: str | Path,
     responses_path: str | Path,
     output_dir: str | Path,
     *,
-    provider: str,
-    model_id: str,
-    model_revision: str,
-    implementation_revision: str,
+    train_questions_path: str | Path | None = None,
+    train_targets_path: str | Path | None = None,
+    retrieval_k: int = 3,
 ) -> dict[str, Any]:
     profile = resolve_profile(profile_name)
-    if not all(
-        isinstance(value, str) and value.strip()
-        for value in (provider, model_id, model_revision)
-    ):
-        raise ValueError("provider, model_id, and model_revision must be explicit")
+    run_manifest_content, run_manifest = load_run_manifest(
+        run_manifest_path, profile.method_id
+    )
     questions_content, questions = load_question_bundle(questions_path)
+    train_questions_content: bytes | None = None
+    train_targets_content: bytes | None = None
+    train_questions: Mapping[str, Mapping[str, Any]] | None = None
+    train_targets: Mapping[str, Mapping[str, Any]] | None = None
+    if profile.uses_retrieval:
+        if train_questions_path is None or train_targets_path is None:
+            raise ContractError("B3 materialization requires public training questions and targets")
+        train_questions_content, train_questions = load_question_bundle(train_questions_path)
+        train_targets_content, train_targets = load_prediction_bundle(train_targets_path)
+    elif train_questions_path is not None or train_targets_path is not None:
+        raise ContractError("B2 materialization does not accept public training examples")
+
+    expected_requests = build_llm_requests(
+        profile.method_id,
+        questions,
+        run_manifest=run_manifest,
+        train_questions=train_questions,
+        train_targets=train_targets,
+        retrieval_k=retrieval_k,
+    )
+    expected_requests_content = canonical_jsonl(expected_requests)
     requests_content, loaded_requests = load_jsonl_snapshot(requests_path)
     if not loaded_requests.valid:
         raise ContractError(f"baseline request JSONL is invalid: {loaded_requests.as_dict()}")
-    requests = validate_llm_requests(loaded_requests.records, profile.method_id, questions)
+    if requests_content != expected_requests_content:
+        raise ContractError(
+            "baseline request JSONL does not byte-match the authoritative input rebuild"
+        )
+    requests = validate_llm_requests(
+        loaded_requests.records,
+        profile.method_id,
+        questions,
+        run_manifest=run_manifest,
+    )
     response_content, _ = load_jsonl_snapshot(responses_path)
     predictions, diagnostics = predictions_from_llm_responses(
         profile.method_id, questions, requests, response_content
@@ -1267,18 +1478,15 @@ def materialize_llm(
         diagnostics=diagnostics,
         output_dir=output_dir,
         method_id=profile.method_id,
-        implementation_revision=implementation_revision,
+        implementation_revision=run_manifest["runner_revision"],
         profile=profile,
-        provider=provider,
-        model_id=model_id,
-        model_revision=model_revision,
+        run_manifest=run_manifest,
+        run_manifest_content=run_manifest_content,
         requests_content=requests_content,
         responses_content=response_content,
-        retrieval_example_count=(
-            len(next(iter(requests.values()))["retrieval_case_ids"])
-            if profile.uses_retrieval
-            else None
-        ),
+        train_questions_content=train_questions_content,
+        train_targets_content=train_targets_content,
+        retrieval_example_count=retrieval_k if profile.uses_retrieval else None,
     )
 
 
@@ -1286,6 +1494,7 @@ __all__ = [
     "B1_METHOD_ID",
     "B2_METHOD_ID",
     "B3_METHOD_ID",
+    "RUN_MANIFEST_SCHEMA_VERSION",
     "BaselineProfile",
     "StructuredBaselineProvider",
     "build_llm_requests",
@@ -1293,11 +1502,14 @@ __all__ = [
     "canonical_jsonl",
     "load_prediction_bundle",
     "load_question_bundle",
+    "load_run_manifest",
     "materialize_b1",
     "materialize_llm",
     "predictions_from_llm_responses",
     "resolve_profile",
     "response_envelope",
+    "run_manifest_sha256",
+    "validate_run_manifest",
     "validate_llm_requests",
     "write_canonical_jsonl",
 ]

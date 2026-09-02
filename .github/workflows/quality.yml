@@ -73,4 +73,4 @@ jobs:
           python-version: 3.11.4
 
       - name: Run hosted Python contract tests
-        run: python3 -m unittest tests.test_task1_development_scorer
+        run: python3 -m unittest tests.test_task1_baseline_harness tests.test_task1_development_scorer

@@ -115,6 +115,7 @@ test("removes the Issue route and guards direct Space configuration", async () =
   assert.match(pages, /NEXT_PUBLIC_FINREASON_TASK1_TEST_SPACE_URL/);
   assert.match(publicConfigSource, /two different isolated deployments/);
   assert.match(publicConfigSource, /\.hf\.space/);
-  assert.match(rights, /seven organizer-owned participant-tool files/);
-  assert.doesNotMatch(rights, /\.github\/workflows|app\/task1/);
+  assert.match(rights, /six organizer-owned participant-tool files/);
+  const currentApacheScope = rights.split("## Pending baseline-harness publication scope")[0];
+  assert.doesNotMatch(currentApacheScope, /\.github\/workflows|app\/task1/);
 });

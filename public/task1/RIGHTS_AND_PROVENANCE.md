@@ -39,17 +39,36 @@ The unmodified license text is `public/task1/licenses/CC-BY-4.0.txt`. Attributio
 
 ## Apache 2.0 exact code allowlist
 
-Apache License, Version 2.0 applies only to these seven organizer-owned participant-tool files:
+Apache License, Version 2.0 applies only to these six organizer-owned participant-tool files:
 
 - `finreason_task1/admission.py`
 - `finreason_task1/baseline_b1.py`
-- `finreason_task1/baseline_harness.py`
 - `finreason_task1/contracts.py`
 - `finreason_task1/leaderboard.py`
 - `finreason_task1/scoring.py`
 - `scripts/task1_cli.py`
 
 The unmodified license text is `public/task1/licenses/Apache-2.0.txt`.
+
+## Pending baseline-harness publication scope
+
+The existing organizer confirmation and private attestation have not been
+expanded by the baseline implementation task. Publication or merge of the
+baseline-harness branch is blocked pending authoritative confirmation from the
+Task 1 data and release owner for the exact changed scope below:
+
+- `.github/workflows/quality.yml`
+- `README.md`
+- `docs/task1-organizer-baselines.md`
+- `finreason_task1/baseline_harness.py`
+- `public/task1/RIGHTS_AND_PROVENANCE.md`
+- `scripts/task1_cli.py`
+- `tests/rendered-html.test.mjs`
+- `tests/test_task1_baseline_harness.py`
+
+This section records candidate scope only. It grants no license for those new
+or changed bytes and does not modify the existing attestation digest, private
+commit, confirmation date, or six-file Apache 2.0 allowlist.
 
 ## Exclusions
 
