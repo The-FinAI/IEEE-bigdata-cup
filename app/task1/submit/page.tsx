@@ -43,7 +43,7 @@ export default function Task1SubmitPage() {
             </div>
             <div>
               <dt>Development</dt>
-              <dd>Immediate scores + rank</dd>
+              <dd>Receipt: SeenFAC + SeenCheckpoint</dd>
             </div>
             <div>
               <dt>Test</dt>
@@ -66,9 +66,10 @@ export default function Task1SubmitPage() {
             <h2 id="task1-platform-title">Development and test submission</h2>
           </div>
           <p>
-            Development and test use separate isolated services. Development returns SeenFAC and
-            SeenCheckpoint immediately and updates the development leaderboard. Test returns only an
-            acceptance receipt, with no score, rank, diagnostic, or online leaderboard.
+            Development and test use separate isolated services. An accepted development upload
+            returns a receipt showing SeenFAC and SeenCheckpoint immediately. Refresh the authenticated
+            development leaderboard to see the current eligible best result and rank. Test returns only
+            an acceptance receipt, with no score, rank, diagnostic, or online leaderboard.
           </p>
         </div>
 
@@ -129,8 +130,9 @@ export default function Task1SubmitPage() {
           <span>02 / DEVELOPMENT</span>
           <h2>Receive scores immediately.</h2>
           <p>
-            Upload the canonical 580-row predictions ZIP. Each accepted submission returns SeenFAC
-            and SeenCheckpoint immediately, and the eligible best result enters the development leaderboard.
+            Upload the canonical 580-row predictions ZIP. Each accepted submission immediately returns
+            a receipt with SeenFAC and SeenCheckpoint. Refresh the authenticated development leaderboard
+            to see whether the team&apos;s eligible best result and rank have updated.
           </p>
         </article>
         <article>
