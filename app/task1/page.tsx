@@ -66,7 +66,7 @@ export default function Task1HubPage() {
             <p>
               Training, development, and test files for Task 1 are available below. {" "}
               {spaceLinksAreReady
-                ? "Registered teams submit through separate development and test pages."
+                ? "No pre-registration or access code is required; submit directly through the separate development and test pages."
                 : "The two submission pages are being verified before their links are published."}
             </p>
           </div>
@@ -93,8 +93,8 @@ export default function Task1HubPage() {
           <h2>Submit 580 predictions.</h2>
           <p>
             Use the published development questions and expected IDs. Accepted submissions show the
-            Final answer and Reasoning steps scores. Select Refresh leaderboard in the development workspace
-            to load the current best-per-team result and rank.
+            Final answer and Reasoning steps scores, a receipt, and current rank immediately. The team&apos;s
+            best eligible result also appears on the public leaderboard. Enter a consistent Team Name.
           </p>
           <Link className="button button-primary" href="/task1/submit/#how-to-submit">
             {spaceLinksAreReady ? "View development submission steps" : "View upload status"}
@@ -105,7 +105,8 @@ export default function Task1HubPage() {
           <h2>Download 928 test questions.</h2>
           <p>
             The test questions are available now. Accepted test submissions return only an acceptance
-            receipt. Scores and ranks stay hidden until the final results are released.
+            receipt. Enter the same Team Name, a Contact Email, and the canonical ZIP. Scores and ranks
+            stay hidden until the final results are released.
           </p>
           {spaceLinksAreReady ? (
             <Link className="button button-primary" href="/task1/submit/#how-to-submit">View test submission steps</Link>
@@ -117,9 +118,9 @@ export default function Task1HubPage() {
           <span>03 / RESULTS</span>
           <h2>Development only.</h2>
           <p>
-            The authenticated table inside the development workspace shows each team&apos;s best accepted
-            development result and current rank. The public leaderboard page currently shows practice-set
-            baselines only; test results are excluded.
+            The public leaderboard shows each team&apos;s best eligible development result and current rank,
+            alongside organizer practice baselines in a separate table. Contact emails, raw submissions,
+            receipts, and test results are excluded.
           </p>
           <Link className="button button-primary" href="/task1/leaderboard/">View development leaderboard</Link>
         </article>

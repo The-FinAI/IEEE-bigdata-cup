@@ -24,17 +24,12 @@ jobs:
             site_mode: development
             development_space_url: https://task1-development-ci.hf.space/
             test_space_url: https://task1-test-ci.hf.space/
-            leaderboard_api_url: https://task1-development-ci.hf.space/api/task1/development/leaderboard
-          - scenario: final-spaces-only
+            leaderboard_api_url: https://task1-development-ci.hf.space/api/leaderboard
+          - scenario: final-ready
             site_mode: final
             development_space_url: https://task1-development-ci.hf.space/
             test_space_url: https://task1-test-ci.hf.space/
-            leaderboard_api_url: ""
-          - scenario: final-spaces-with-api
-            site_mode: final
-            development_space_url: https://task1-development-ci.hf.space/
-            test_space_url: https://task1-test-ci.hf.space/
-            leaderboard_api_url: https://task1-development-ci.hf.space/api/task1/development/leaderboard
+            leaderboard_api_url: https://task1-development-ci.hf.space/api/leaderboard
     steps:
       - name: Check out repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7

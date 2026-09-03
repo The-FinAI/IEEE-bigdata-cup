@@ -4,7 +4,7 @@ import Link from "next/link";
 const contactEmail = "zhuohan.xie@mbzuai.ac.ae";
 const pageUrl = "https://the-finai.github.io/IEEE-bigdata-cup/privacy/";
 const pageDescription =
-  "Privacy notice for the FinReason Cup organizer website, Letter of Intent, and participant services.";
+  "Privacy notice for the FinReason Cup organizer website and participant services.";
 
 export const metadata: Metadata = {
   title: "Privacy Notice | FinReason Cup",
@@ -48,13 +48,12 @@ export default function PrivacyPage() {
         <h1>Privacy Notice.</h1>
         <p>
           This notice explains how the FinReason Cup organizer team uses
-          information provided through the Letter of Intent and
-          organizer-operated participant services.
+          information provided through organizer-operated participant services.
         </p>
         <dl className="policy-meta">
           <div>
             <dt>Effective</dt>
-            <dd>2 September 2026</dd>
+            <dd>3 September 2026</dd>
           </div>
           <div>
             <dt>Privacy contact</dt>
@@ -71,11 +70,11 @@ export default function PrivacyPage() {
           <h2 id="privacy-scope">What this notice covers</h2>
           <p>
             This notice covers information provided directly to the FinReason
-            Cup organizer team through the Letter of Intent and
-            organizer-operated participant services. It also describes the
-            public result fields the organizers may publish. External services,
-            including Google Forms, CyberChair, Hugging Face, GitHub, and the
-            conference website, may apply their own privacy notices and terms.
+            Cup organizer team through organizer-operated participant services.
+            It also describes the public result fields the organizers may
+            publish. External services, including CyberChair, Hugging Face,
+            GitHub, and the conference website, may apply their own privacy
+            notices and terms.
           </p>
         </section>
 
@@ -84,24 +83,28 @@ export default function PrivacyPage() {
           <h2 id="privacy-data">Information processed</h2>
           <ul className="policy-list">
             <li>
-              Letter of Intent information, such as team contact details,
-              affiliation, task interests, and other information entered by the
-              submitter.
+              Development submission records, including Team Name, submitted
+              prediction archive, validation record, aggregate scores, receipt
+              information, and event times. Team Name is the only
+              participant-provided identity or contact field for development.
             </li>
             <li>
-              Team registration records, including team and member details,
-              contact addresses, team status, and organizer-issued access
-              records.
-            </li>
-            <li>
-              Task 1 submission records, including team and submission
-              identifiers, submitted prediction archives, validation records,
-              aggregate development scores, receipt information, and event
-              times.
+              Test submission records, including Team Name, Contact Email,
+              submitted prediction archive, validation and receipt records, and
+              event times. Contact Email is collected only for submission
+              identification, submission-related support, matching final
+              results to the related challenge paper, and enforcing test
+              submission quotas and replay protection through a non-public
+              pseudonymous identifier.
             </li>
             <li>
               Support messages and the information needed to investigate a
               correction, appeal, integrity issue, or service incident.
+            </li>
+            <li>
+              Legacy interest-form and access-registration records collected or
+              created before 3 September 2026, if any. These records are no
+              longer used to control Task 1 submission access.
             </li>
           </ul>
           <p>
@@ -114,12 +117,19 @@ export default function PrivacyPage() {
           <p className="section-index">03 / PURPOSE</p>
           <h2 id="privacy-purpose">Why information is used</h2>
           <p>
-            The organizer team uses the information for challenge planning,
-            participant communication permitted by the relevant form,
-            registration and team administration, submission authentication and
-            validation, scoring, quota and replay enforcement, leaderboard and
-            result administration, support, integrity review, and aggregate
-            participation reporting.
+            The organizer team uses submission records for validation,
+            development scoring, quota and replay enforcement, leaderboard and
+            result administration, integrity review, and aggregate participation
+            reporting. Contact Email is used only for submission identification,
+            submission-related support, matching final results to the related
+            challenge paper, and enforcing test submission quotas and replay
+            protection through a non-public pseudonymous identifier.
+          </p>
+          <p>
+            Legacy interest-form and access-registration records are used only
+            for transition support, record consistency, and handling related
+            participant requests. They are not used to require approval or a
+            code for Task 1 participation.
           </p>
           <p>
             The organizers do not sell participant information or use it for
@@ -131,10 +141,11 @@ export default function PrivacyPage() {
           <p className="section-index">04 / PUBLIC SITE</p>
           <h2 id="privacy-pages">GitHub Pages boundary</h2>
           <p>
-            The public GitHub Pages website does not collect or store team
-            access codes, submission files, gold answers, or private evaluation
-            data. Access codes and competition files are entered only in the
-            separate verified participant services linked from the Task 1 hub.
+            The public GitHub Pages website does not collect or store Contact
+            Email, submission files, gold answers, or private evaluation data.
+            Team Name and competition files are entered only in the separate
+            verified participant services linked from the Task 1 hub. Contact
+            Email is entered only on the verified test submission page.
           </p>
           <p>
             The public site may receive ordinary technical requests handled by
@@ -147,18 +158,18 @@ export default function PrivacyPage() {
           <p className="section-index">05 / VISIBILITY</p>
           <h2 id="privacy-public">What may be public</h2>
           <p>
-            The optional public development leaderboard may display a team
-            identifier, team display name, submission identifier, rank,
+            The public development leaderboard may display Team Name, rank,
             aggregate final-answer and reasoning-step scores, and acceptance
-            time. Raw submissions, access codes, email addresses, hidden
-            evaluation data, and private receipts are not published through that
+            time. Raw submissions, Contact Email, private identifiers, hidden
+            evaluation data, and receipts are never published through that
             leaderboard. Test submissions do not produce an online score, rank,
-            diagnostic, or leaderboard entry.
+            diagnostic, score-derived signal, or leaderboard entry.
           </p>
           <p>
             Final team names, rankings, award results, papers, citations, and
             aggregate competition statistics may remain public as part of the
-            challenge record.
+            challenge record. Contact Email is never published or included in a
+            public result or challenge record.
           </p>
         </section>
 
@@ -184,19 +195,29 @@ export default function PrivacyPage() {
           <p className="section-index">07 / RETENTION</p>
           <h2 id="privacy-retention">How long records are kept</h2>
           <p>
-            Private Task 1 submission archives and non-public operational event
-            records are retained for up to 120 days from acceptance. A record
-            may be kept longer when needed to resolve an active appeal,
-            integrity review, security incident, or applicable institutional or
-            legal requirement. Public leaderboard and final result records,
-            papers, citations, and aggregate statistics may remain available as
-            part of the challenge record.
+            Readable Contact Email is kept only while needed for submission
+            identification, support, result matching, and test-submission
+            administration, then deleted or minimized when those purposes end.
+            A non-public pseudonymous identifier derived from the email may be
+            retained separately for quota enforcement and replay protection.
           </p>
           <p>
-            Letter of Intent and registration contact records are kept while
-            needed to operate the current competition and handle follow-up
-            questions, then deleted or minimized when they are no longer needed,
-            subject to the exceptions above.
+            Encrypted submission archives and non-public operational event
+            records may remain in restricted organizer-private repository
+            history for challenge administration, integrity review, audit,
+            dispute resolution, security, and applicable institutional or legal
+            requirements. They are not published, and retained fields and
+            access are minimized when the records are no longer operationally
+            needed. Because repository history may preserve prior encrypted
+            records, the organizers do not promise deletion of every historical
+            copy within a fixed period.
+          </p>
+          <p>
+            Legacy interest-form and access-registration records are kept only
+            while needed to operate the current competition and handle related
+            follow-up, then deleted or minimized, subject to the integrity,
+            dispute-resolution, security, institutional, and legal purposes
+            stated above.
           </p>
         </section>
 
@@ -205,11 +226,17 @@ export default function PrivacyPage() {
           <h2 id="privacy-services">Where information may be processed</h2>
           <p>
             The challenge uses external services for specific functions,
-            including Google Forms for the Letter of Intent, CyberChair for
-            challenge papers, GitHub Pages for the public website, and Hugging
-            Face for verified participant services. Information submitted to an
+            including CyberChair for challenge papers, GitHub Pages for the
+            public website, and Hugging Face for verified participant services.
+            Information submitted to an
             external service may also be processed under that service&apos;s terms,
             privacy notice, account settings, and infrastructure practices.
+          </p>
+          <p>
+            Before 3 September 2026, the organizers also used a Google Forms
+            interest form. That form is no longer a participation or submission
+            route, but Google may continue to process prior responses under its
+            own privacy notice and account settings.
           </p>
         </section>
 
@@ -221,7 +248,7 @@ export default function PrivacyPage() {
             of information provided directly to the organizer team, email{" "}
             <a href={`mailto:${contactEmail}`}>{contactEmail}</a>. Include enough
             information to identify the relevant team and record, but do not
-            send an access code or submission archive by email.
+            send a submission archive by email.
           </p>
           <p>
             A request may be limited when a record is needed for result

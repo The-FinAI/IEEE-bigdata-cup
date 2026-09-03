@@ -29,22 +29,22 @@ export default function Task1SubmitPage() {
         <div className="task-hub-heading-content">
           <div>
             <p className="section-index">TASK 1 / SUBMISSION</p>
-            <h1>Submit Task 1 results on the web.</h1>
+            <h1>Submit Task 1 predictions on the web.</h1>
             <p>
               All train, development, and test files are available from the participant hub. {" "}
               {spaceLinksAreReady
-                ? "Registered teams submit directly through separate development and test pages."
+                ? "No pre-registration or access code is required; submit directly through the separate development and test pages."
                 : "The organizer team is verifying the two submission pages before publishing their links."}
             </p>
           </div>
           <dl className="task-hub-facts" aria-label="Submission quick facts">
             <div>
               <dt>Access</dt>
-              <dd>Organizer-issued team code</dd>
+              <dd>Open · no team code</dd>
             </div>
             <div>
               <dt>Development</dt>
-              <dd>Scores; refresh for rank</dd>
+              <dd>Scores + receipt + rank</dd>
             </div>
             <div>
               <dt>Test</dt>
@@ -74,9 +74,9 @@ export default function Task1SubmitPage() {
           </div>
           <p>
             Development and test use separate submission pages. An accepted development upload shows
-            the Final answer and Reasoning steps scores in its receipt; select Refresh leaderboard in the
-            development workspace to load the current best-per-team table and rank. Test returns only an
-            acceptance receipt, with no score or rank before the final results are released.
+            the Final answer score, Reasoning steps score, receipt ID, and current rank immediately, and
+            updates the public best-per-team leaderboard. Test returns only an acceptance receipt, with no score, rank, diagnostic, or
+            score-derived signal before the final results are released.
           </p>
         </div>
 
@@ -115,8 +115,11 @@ export default function Task1SubmitPage() {
         )}
 
         <p className="task-platform-footnote">
-          This public website does not receive or store team codes or uploaded files. After your team is
-          registered, enter the private team code issued by the organizers only on the submission page.
+          No pre-registration, approval, access code, or account is required. The development page asks for
+          Team Name and a ZIP. The test page asks for Team Name, Contact Email, and a ZIP. Contact Email is
+          private and is used only for submission identification, submission-related support, matching final
+          results to the related challenge paper, and enforcing test submission quotas and replay protection
+          through a non-public pseudonymous identifier, not as a login.
           Review the{" "}
           <Link href="/terms/">Terms of Participation</Link>{" "}
           and <Link href="/privacy/">Privacy Notice</Link>. Participant support:{" "}
@@ -138,8 +141,8 @@ export default function Task1SubmitPage() {
           <h2>Receive scores immediately.</h2>
           <p>
             Upload the 580-row predictions ZIP. Each accepted submission immediately returns the
-            Final answer and Reasoning steps scores. Select Refresh leaderboard to load the current
-            best-per-team result and rank.
+            Final answer score, Reasoning steps score, receipt ID, and current rank, and updates the public
+            best-per-team leaderboard.
           </p>
         </article>
         <article>

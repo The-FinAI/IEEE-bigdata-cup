@@ -2,7 +2,6 @@ import Link from "next/link";
 import { getTask1PublicConfig } from "./task1/public-config";
 
 const ieeeCupUrl = "https://bigdataieee.org/BigData2026/cup/";
-const loiUrl = "https://forms.gle/D4VJqjgtmcaC77DL8";
 const paperSubmissionUrl =
   "https://wi-lab.com/cyberchair/2026/bigdata26/scripts/submit.php?subarea=SC03";
 const ieeeTemplateUrl =
@@ -61,7 +60,7 @@ export function LaunchStatus() {
         <strong>Separate Task 1 participant hub</strong>
         <p>
           Task 1 data and tools are released through the participant hub. {spaceLinksAreReady
-            ? "Development accepts a 580-row predictions ZIP and returns Final answer and Reasoning steps scores immediately; select Refresh leaderboard to load the current best result and rank. Test accepts a 928-row predictions ZIP and returns only an acceptance receipt, with no online score or rank."
+            ? "No pre-registration or access code is required. Development accepts Team Name plus a 580-row predictions ZIP, immediately returns Final answer, Reasoning steps, a receipt, and current rank, and publishes the team’s best eligible result on the public leaderboard. Test accepts Team Name, Contact Email, and a 928-row predictions ZIP, then returns only an acceptance receipt with no online score or rank."
             : "The two direct-upload links remain under verification; the participant hub will publish them only after both checks pass."}
         </p>
         <div className="participant-notice-links">
@@ -75,11 +74,6 @@ export function LaunchStatus() {
 
       <a href={ieeeTemplateUrl} target="_blank" rel="noreferrer">
         Download the official IEEE conference templates
-        <span aria-hidden="true"> ↗</span>
-        <span className="sr-only"> (opens in a new tab)</span>
-      </a>
-      <a href={loiUrl} target="_blank" rel="noreferrer">
-        Submit one Letter of Intent per team
         <span aria-hidden="true"> ↗</span>
         <span className="sr-only"> (opens in a new tab)</span>
       </a>

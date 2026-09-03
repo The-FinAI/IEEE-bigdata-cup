@@ -14,7 +14,7 @@
   ·
   <a href="https://wi-lab.com/cyberchair/2026/bigdata26/scripts/submit.php?subarea=SC03"><strong>Submit challenge paper</strong></a>
   ·
-  <a href="https://forms.gle/D4VJqjgtmcaC77DL8"><strong>Submit Letter of Intent</strong></a>
+  <a href="https://the-finai.github.io/IEEE-bigdata-cup/task1/submit/"><strong>Submit Task 1 predictions</strong></a>
   ·
   <a href="https://the-finai.github.io/IEEE-bigdata-cup/terms/"><strong>Terms</strong></a>
   ·
@@ -93,10 +93,12 @@ CyberChair has not yet updated its displayed deadline and currently shows a
 23:59 Anywhere on Earth, and FinReason teams should follow the challenge
 requirement above and submit no more than 6 pages total, including references.
 
-The paper portal is separate from the competition submission path. Registered
-Task 1 teams upload predictions through the verified development and test pages
-linked from the participant hub. Development returns scores and a current rank;
-test returns only an acceptance receipt. Task 2 and Task 3 solution materials
+The paper portal is separate from the competition submission path. Task 1 does
+not require pre-registration, organizer approval, an access code, or an account.
+Teams upload predictions through the verified development and test pages linked
+from the participant hub. Development immediately returns two scores, a receipt,
+and a current rank, and the team's best eligible result appears on the public
+leaderboard. Test returns only an acceptance receipt. Task 2 and Task 3 solution materials
 and submission routes will be published after organizer testing. All routes
 share the 15 November deadline.
 
@@ -118,22 +120,22 @@ Winning teams will receive a winner certificate. Additional award categories
 remain provisional until published. Certificates do not imply challenge-paper
 acceptance or publication.
 
-## Participant access
+## Direct participation
 
-Teams planning to participate should submit **one Letter of Intent per team**:
-
-**[Submit the FinReason Cup Letter of Intent →](https://forms.gle/D4VJqjgtmcaC77DL8)**
-
-The LOI supports challenge planning, organizer communication, and aggregate
-participation statistics. It does not replace either the challenge paper or the
-final competition submission.
+Task 1 is open for direct participation. Choose one consistent Team Name and
+follow the [step-by-step submission guide](https://the-finai.github.io/IEEE-bigdata-cup/task1/submit/#how-to-submit).
+Development requires Team Name and a canonical ZIP. Test requires the same Team
+Name, a private Contact Email, and a canonical ZIP. Contact Email is not a login
+and is used only for submission identification, submission-related support,
+matching final results to the related challenge paper, and enforcing test
+submission quotas and replay protection through a non-public pseudonymous
+identifier.
 
 ### Current release status
 
 | Resource | Status |
 | --- | --- |
 | [Official challenge website](https://the-finai.github.io/IEEE-bigdata-cup/) | Live |
-| [Letter of Intent](https://forms.gle/D4VJqjgtmcaC77DL8) | Open |
 | Task 1 training, development, and test files | Live as 13 development files and 3 test files |
 | Task 1 direct web upload | See the participant hub for current verified availability |
 | [Task 1 step-by-step submission guide](https://the-finai.github.io/IEEE-bigdata-cup/task1/submit/#how-to-submit) | Live |
@@ -178,16 +180,14 @@ The public `/task1/` route is the stable participant entry point:
   downloadable from Pages with their frozen manifests;
 - `/task1/submit/` publishes two distinct organizer-verified direct-upload links
   after both workspaces pass deployment checks;
-- the development page accepts the 580-row predictions ZIP, returns Final answer
-  and Reasoning steps scores immediately; participants select **Refresh leaderboard**
-  to load the current best result and rank;
+- the development page accepts Team Name and the 580-row predictions ZIP, then
+  immediately returns Final answer, Reasoning steps, a receipt, and current rank;
+- each team's best eligible development result appears on the public leaderboard;
 - the separate test workspace accepts the 928-row test predictions ZIP and
-  returns only an acceptance receipt, with no score, rank, diagnostic, or test
-  leaderboard;
-- access codes and submission files are entered only inside the verified
-  workspace, never into this GitHub Pages site;
-- team access codes are issued by the organizers after registration and are
-  entered only inside the verified submission workspace.
+  requires Team Name and Contact Email, then returns only an acceptance receipt,
+  with no score, rank, diagnostic, score-derived signal, or test leaderboard;
+- Contact Email, submission files, gold answers, and private evaluation records
+  stay inside the verified private submission boundary and are never published.
 
 The [step-by-step submission guide](https://the-finai.github.io/IEEE-bigdata-cup/task1/submit/#how-to-submit)
 identifies the exact development and test input files, the five required JSONL
@@ -195,25 +195,18 @@ fields, the validator and packaging commands, and each phase's receipt behavior.
 Every uploaded ZIP must contain exactly one root-level file named
 `predictions.jsonl`; the paper PDF is submitted separately through CyberChair.
 
-The public JSON feed uses the canonical aggregate-only development leaderboard
-contract below. Its root and row fields are exact; it
-must not expose predictions, attachments, email addresses, private evaluation
-data, or additional metadata. The response must be no larger than 1 MiB.
-
-```json
-{
-  "schema_version": "finreason.task1.development-leaderboard/1.0.0",
-  "phase": "development",
-  "rows": []
-}
-```
+The public JSON feed uses a frozen aggregate-only development leaderboard
+contract. It publishes only Team Name, rank, the two aggregate scores, and
+acceptance time. It must not expose predictions, attachments, Contact Email,
+receipts, private identifiers, test results, or additional metadata. The
+response must be no larger than 1 MiB.
 
 The Pages workflow builds the website, frozen public downloads, guarded links,
-and the optional aggregate development leaderboard view. It never receives a
-team code, submission archive, gold answer, or private evaluation record. Live
-mode requires two distinct verified root `*.hf.space` URLs. Until then, the
-public site shows the upload links as pending rather than publishing an
-unverified route.
+and the aggregate development leaderboard view. It never receives a Contact
+Email, submission archive, gold answer, or private evaluation record. Live mode
+requires two distinct verified root `*.hf.space` URLs and the verified public
+development leaderboard endpoint. Until then, the public site shows the upload
+links as pending rather than publishing an unverified route.
 
 ## Local development
 
@@ -239,16 +232,15 @@ contract. Pushes to `main` deploy through
 
 ## Data-use notice
 
-The Letter of Intent is hosted on Google Forms. Responses are available to the
-organizer team and are used for challenge operations, communication permitted
-by the form, and aggregate reporting. Do not include sensitive information.
 Participant support, privacy questions, and correction or deletion requests can
 be sent to [zhuohan.xie@mbzuai.ac.ae](mailto:zhuohan.xie@mbzuai.ac.ae). See the
 [Privacy Notice](https://the-finai.github.io/IEEE-bigdata-cup/privacy/) for the
 public website boundary, public leaderboard fields, external services, and the
-Task 1 retention policy. Private Task 1 submission archives and non-public
-operational event records are retained for up to 120 days from acceptance,
-subject to the exceptions stated in that notice.
+Task 1 retention policy. Readable Contact Email is kept only while needed for
+the stated purposes, then deleted or minimized. Encrypted submission archives
+and non-public operational event records may remain in restricted
+organizer-private repository history for challenge administration and audit;
+the Privacy Notice explains this boundary and its exceptions.
 
 ## Organizers
 

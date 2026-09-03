@@ -6,17 +6,12 @@ import {
   TASK1_LEADERBOARD_SCHEMA_VERSION,
 } from "../lib/task1-leaderboard.mjs";
 
-const hashA = "a".repeat(64);
-const hashB = "b".repeat(64);
-
 function row(overrides = {}) {
   return {
     rank: 1,
-    team_id: "team-one",
-    team_display_name: "Team One",
-    seen_fac: "0.900000",
-    seen_checkpoint: "0.800000",
-    submission_id: `dev-20260831T120000Z-team-one-${hashA}`,
+    team_name: "Team One",
+    final_answer_score: "0.900000",
+    reasoning_steps_score: "0.800000",
     accepted_at: "2026-08-31T12:00:00Z",
     ...overrides,
   };
@@ -32,9 +27,12 @@ function payload(overrides = {}) {
 }
 
 test("parses the canonical Task 1 development leaderboard contract", () => {
+  assert.equal(
+    TASK1_LEADERBOARD_SCHEMA_VERSION,
+    "finreason.task1.development-leaderboard/2.0.0",
+  );
   const leaderboard = parseDevelopmentLeaderboard(payload());
   assert.equal(leaderboard.phase, "development");
-  assert.equal(leaderboard.rows[0].teamId, "team-one");
   assert.equal(leaderboard.rows[0].teamDisplayName, "Team One");
   assert.equal(leaderboard.rows[0].seenCheckpoint, "0.800000");
 });
@@ -44,19 +42,15 @@ test("allows an authoritative feed with no eligible rows", () => {
   assert.deepEqual(leaderboard.rows, []);
 });
 
-test("accepts shared ranks and rejects wrong score order, duplicates, and extra fields", () => {
+test("accepts shared ranks and rejects wrong score order, non-canonical names, and extra fields", () => {
   const tied = row({
-    team_id: "team-two",
-    team_display_name: "Team Two",
-    submission_id: `dev-20260831T120100Z-team-two-${hashB}`,
+    team_name: "Team Two",
     accepted_at: "2026-08-31T12:01:00Z",
   });
   assert.equal(parseDevelopmentLeaderboard(payload({ rows: [row(), tied] })).rows[1].rank, 1);
 
   const unicodeTie = row({
-    team_id: "team-strasse",
-    team_display_name: "Straße",
-    submission_id: `dev-20260831T120200Z-team-strasse-${hashB}`,
+    team_name: "Straße",
     accepted_at: "2026-08-31T12:02:00Z",
   });
   assert.equal(
@@ -73,27 +67,58 @@ test("accepts shared ranks and rejects wrong score order, duplicates, and extra 
       parseDevelopmentLeaderboard(
         payload({
           rows: [
-            row({ seen_fac: "0.700000", seen_checkpoint: "0.700000" }),
+            row({
+              final_answer_score: "0.700000",
+              reasoning_steps_score: "0.700000",
+            }),
             tied,
           ],
         }),
       ),
     /rank or order/,
   );
-  assert.throws(
-    () => parseDevelopmentLeaderboard(payload({ rows: [row(), row()] })),
-    /invalid/,
-  );
+  for (const team_name of [
+    " Team One",
+    "Team One ",
+    "Team  One",
+    "Team\u00a0One",
+    "Ｔｅａｍ One",
+    "Team\u202eOne",
+  ]) {
+    assert.throws(
+      () => parseDevelopmentLeaderboard(payload({ rows: [row({ team_name })] })),
+      /team_name/,
+    );
+  }
   assert.throws(
     () => parseDevelopmentLeaderboard(payload({ internal_note: "private" })),
     /development-leaderboard/,
   );
+  for (const privateField of [
+    "email",
+    "contact_email",
+    "team_id",
+    "submission_id",
+    "receipt_id",
+    "access_code",
+    "team_key",
+    "raw_submission",
+    "test_score",
+    "diagnostic",
+  ]) {
+    assert.throws(
+      () =>
+        parseDevelopmentLeaderboard(
+          payload({ rows: [{ ...row(), [privateField]: "private" }] }),
+        ),
+      /wrong fields/,
+    );
+  }
   assert.throws(
-    () => parseDevelopmentLeaderboard(payload({ rows: [{ ...row(), email: "private@example.invalid" }] })),
-    /wrong fields/,
-  );
-  assert.throws(
-    () => parseDevelopmentLeaderboard(payload({ rows: [row({ seen_fac: ["0.900000"] })] })),
+    () =>
+      parseDevelopmentLeaderboard(
+        payload({ rows: [row({ final_answer_score: ["0.900000"] })] }),
+      ),
     /invalid/,
   );
 });
@@ -102,7 +127,7 @@ test("rejects legacy, final, and malformed canonical values", () => {
   assert.throws(
     () =>
       parseDevelopmentLeaderboard(
-        payload({ schema_version: "finreason.task1.legacy-leaderboard/1.0.0" }),
+        payload({ schema_version: "finreason.task1.development-leaderboard/1.0.0" }),
       ),
     /development-leaderboard/,
   );
@@ -111,7 +136,14 @@ test("rejects legacy, final, and malformed canonical values", () => {
     /development-leaderboard/,
   );
   assert.throws(
-    () => parseDevelopmentLeaderboard(payload({ rows: [row({ seen_fac: "0.9" })] })),
+    () => parseDevelopmentLeaderboard(payload({ phase: "test" })),
+    /development-leaderboard/,
+  );
+  assert.throws(
+    () =>
+      parseDevelopmentLeaderboard(
+        payload({ rows: [row({ final_answer_score: "0.9" })] }),
+      ),
     /invalid/,
   );
   assert.throws(
@@ -128,11 +160,19 @@ test("rejects legacy, final, and malformed canonical values", () => {
 });
 
 test("fetches, validates, and bounds the public leaderboard request", async () => {
+  let requestOptions;
   const valid = await fetchDevelopmentLeaderboard(
     "https://task1-api.example.invalid/leaderboard.json",
-    { fetchImpl: async () => Response.json(payload()) },
+    {
+      fetchImpl: async (_url, options) => {
+        requestOptions = options;
+        return Response.json(payload());
+      },
+    },
   );
   assert.equal(valid.rows[0].teamDisplayName, "Team One");
+  assert.equal(requestOptions.credentials, "omit");
+  assert.deepEqual(requestOptions.headers, { Accept: "application/json" });
 
   await assert.rejects(
     fetchDevelopmentLeaderboard("https://task1-api.example.invalid/leaderboard.json", {

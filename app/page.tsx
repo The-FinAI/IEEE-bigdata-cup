@@ -2,7 +2,6 @@ import { LaunchStatus } from "./launch-status";
 import { getTask1PublicConfig } from "./task1/public-config";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-const loiUrl = "https://forms.gle/D4VJqjgtmcaC77DL8";
 const paperSubmissionUrl =
   "https://wi-lab.com/cyberchair/2026/bigdata26/scripts/submit.php?subarea=SC03";
 const contactEmail = "zhuohan.xie@mbzuai.ac.ae";
@@ -92,13 +91,14 @@ const evaluationSteps = [
   },
 ];
 
-const launchItems = [
+const buildLaunchItems = (spaceLinksAreReady: boolean) => [
   {
     state: "current",
-    label: "Letter of Intent",
-    date: "NOW",
-    detail:
-      "Teams planning to participate can share their task interests and contact details.",
+    label: "Task 1 direct submission",
+    date: spaceLinksAreReady ? "OPEN" : "VERIFYING",
+    detail: spaceLinksAreReady
+      ? "No pre-registration or access code is required. Submit a canonical ZIP directly through the development or test page."
+      : "No pre-registration or access code will be required. The two direct-upload links remain under verification.",
   },
   {
     state: "current",
@@ -157,19 +157,14 @@ const faqs = [
       "No. Any publication is subject to conference peer review, acceptance, camera-ready submission, registration, and presentation requirements.",
   },
   {
-    question: "How do teams submit a Letter of Intent?",
-    answer:
-      "Teams planning to participate should submit one LOI using the verified link on this page. The LOI supports organizer communication but does not replace the challenge paper or final competition submission.",
-  },
-  {
     question: "Can a team enter more than one task?",
     answer:
-      "Teams may indicate interest in any combination of tasks in the LOI. Final multi-task participation and submission rules will be published with the starter kits.",
+      "Task 1 is open for direct participation now. Multi-task participation and the separate Task 2 and Task 3 submission rules will be published with those starter kits.",
   },
   {
     question: "Where will the competition run?",
     answer:
-      "The Task 1 participant hub provides the training, development, and test downloads. Registered teams upload predictions through separate development and test submission pages. Development returns scores and a leaderboard immediately; test returns a receipt only, with no online score or rank. The paper route remains separate through CyberChair SC03.",
+      "The Task 1 participant hub provides the training, development, and test downloads. Teams upload predictions directly through separate development and test submission pages. Development returns scores and updates the public leaderboard immediately; test returns a receipt only, with no online score or rank. The paper route remains separate through CyberChair SC03.",
   },
   {
     question: "What certificates and prizes are available?",
@@ -177,30 +172,22 @@ const faqs = [
       "FinReason does not offer cash prizes. Registration support is not confirmed at this time. A team will receive a participation certificate if it submits both (1) at least one valid final solution under the applicable task rules and (2) a challenge paper through CyberChair SC03 by 15 November 2026, 23:59 Anywhere on Earth. Winning teams will receive a winner certificate. Additional award categories remain provisional until published. Certificates do not imply paper acceptance or publication.",
   },
   {
-    question: "What happens after an LOI is submitted?",
+    question: "Does Task 1 require registration or a team code?",
     answer:
-      "Google Forms displays a confirmation after submission. Follow this organizer-maintained site for verified starter kit, schedule, support, and submission updates.",
+      "No. Choose a consistent team name and submit directly. Development asks for Team Name and a canonical ZIP. Test asks for the same Team Name, a Contact Email, and a canonical ZIP. The Contact Email is private, is not used as a login, and is used only for submission identification, submission-related support, matching final results to the related challenge paper, and enforcing test submission quotas and replay protection through a non-public pseudonymous identifier.",
   },
   {
-    question: "How are LOI responses used?",
-    answer: (
-      <>
-        Responses are used by the organizer team for challenge operations,
-        communication permitted by the form, and aggregate participation
-        statistics. Do not include sensitive information. Privacy, correction,
-        and deletion requests can be sent to{" "}
-        <a href={`mailto:${contactEmail}`}>{contactEmail}</a>. See the{" "}
-        <a href={`${basePath}/privacy/`}>Privacy Notice</a>.
-      </>
-    ),
+    question: "What happens after a Task 1 upload?",
+    answer:
+      "An accepted development upload immediately shows the Final answer score, Reasoning steps score, receipt ID, and current rank, and updates the public development leaderboard. An accepted test upload shows only a receipt; test scores, ranks, diagnostics, and score-derived signals remain hidden until final results.",
   },
   {
     question: "How can participants contact the organizer team?",
     answer: (
       <>
         Email <a href={`mailto:${contactEmail}`}>{contactEmail}</a> for
-        participant support, registration corrections, submission questions,
-        or privacy requests. Include the team name and task number when
+        participant support, submission questions, team-name corrections, or
+        privacy requests. Include the team name and task number when
         applicable, but do not send a submission archive by
         email.
       </>
@@ -217,6 +204,7 @@ export default function Home() {
       config.testSpace.state === "ready" &&
       config.testSpace.url,
   );
+  const launchItems = buildLaunchItems(spaceLinksAreReady);
 
   return (
     <>
@@ -287,16 +275,6 @@ export default function Home() {
                 rel="noreferrer"
               >
                 Submit paper
-                <span aria-hidden="true">↗</span>
-                <span className="sr-only"> (opens in a new tab)</span>
-              </a>
-              <a
-                className="button button-ghost"
-                href={loiUrl}
-                target="_blank"
-                rel="noreferrer"
-              >
-                Submit LOI
                 <span aria-hidden="true">↗</span>
                 <span className="sr-only"> (opens in a new tab)</span>
               </a>

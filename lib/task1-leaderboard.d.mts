@@ -1,10 +1,8 @@
 export type DevelopmentLeaderboardRow = {
   rank: number;
-  teamId: string;
   teamDisplayName: string;
   seenFac: string;
   seenCheckpoint: string;
-  submissionId: string;
   acceptedAt: string;
 };
 

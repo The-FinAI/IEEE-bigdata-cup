@@ -1,7 +1,6 @@
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 const participantRepository = "https://github.com/The-FinAI/IEEE-bigdata-cup";
-const letterOfIntent = "https://forms.gle/D4VJqjgtmcaC77DL8";
 const predictionSchema =
   "https://huggingface.co/spaces/Zhuohan/finreason-task1-development/blob/main/schemas/task1_prediction.schema.json";
 const paperSubmission =
@@ -49,10 +48,13 @@ export function SubmissionGuide({
         <li>
           <span className="submission-step-number" aria-hidden="true">01</span>
           <div>
-            <h3><span className="sr-only">Step 1 of 6: </span>Register and receive a team code.</h3>
+            <h3><span className="sr-only">Step 1 of 6: </span>Choose a consistent team name.</h3>
             <p>
-              Submit one <a href={letterOfIntent}>Letter of Intent</a> per team. Registered teams receive one
-              private access code from the organizers. Keep the code private.
+              No pre-registration, approval, access code, or account is required. Choose one Team Name and
+              use it consistently for development and test submissions. The test page also asks for a
+              Contact Email for submission identification, submission-related support, matching final
+              results to the related challenge paper, and quota and replay enforcement through an
+              non-public pseudonymous identifier; the email is not a login and is never published.
             </p>
           </div>
         </li>
@@ -148,8 +150,9 @@ export function SubmissionGuide({
           <div>
             <h3><span className="sr-only">Step 5 of 6: </span>Upload submission.zip on the matching webpage.</h3>
             <p>
-              Enter the same private team code, select the single <code>submission.zip</code> file, and choose
-              Submit once. Do not upload the individual JSONL files.
+              <strong>Development:</strong> enter Team Name and select the single <code>submission.zip</code> file. {" "}
+              <strong>Test:</strong> enter the same Team Name, provide a Contact Email, and select the single
+              <code> submission.zip</code> file. Choose Submit once and do not upload individual JSONL files.
             </p>
             <div className="submission-guide-actions" aria-label="Task 1 direct upload links">
               {linksReady && developmentSpaceUrl ? (
@@ -175,10 +178,10 @@ export function SubmissionGuide({
           <div>
             <h3><span className="sr-only">Step 6 of 6: </span>Check the correct result.</h3>
             <p>
-              <strong>Development:</strong> wait for the receipt to show the Final answer and Reasoning steps
-              scores, then select <strong>Refresh leaderboard</strong> to load the current best-per-team table
-              and rank. <strong>Test:</strong> save the receipt ID; no test score or rank is shown before the
-              final results are released.
+              <strong>Development:</strong> wait for the result to show the Final answer score, Reasoning steps
+              score, receipt ID, and current rank; the team&apos;s best eligible result also appears on the public
+              development leaderboard. <strong>Test:</strong> save the receipt ID; no test score, rank, diagnostic, or
+              score-derived signal is shown before the final results are released.
             </p>
           </div>
         </li>

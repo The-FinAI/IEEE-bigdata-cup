@@ -78,9 +78,9 @@ export default function TermsPage() {
             affiliated university authored or legally endorsed them.
           </p>
           <p>
-            By using an organizer-issued access code or submitting competition
-            materials, a team agrees to these terms and the task-specific rules
-            published with the applicable verified release.
+            By using an organizer-operated participant service or submitting
+            competition materials, a team agrees to these terms and the
+            task-specific rules published with the applicable verified release.
           </p>
         </section>
 
@@ -88,10 +88,6 @@ export default function TermsPage() {
           <p className="section-index">02 / OFFICIAL ROUTES</p>
           <h2 id="terms-routes">Use the route assigned to each item</h2>
           <ul className="policy-list">
-            <li>
-              Submit one Letter of Intent per team through the verified Google
-              Forms link on the challenge website.
-            </li>
             <li>
               Submit the challenge paper through the FinReason Cup SC03 track in
               CyberChair.
@@ -103,10 +99,15 @@ export default function TermsPage() {
             </li>
           </ul>
           <p>
-            Teams must keep organizer-issued access codes confidential and must
-            not share or publish them. The participant hub publishes service
-            links only after organizer deployment checks and records their
-            current verified availability.
+            Task 1 does not require pre-registration, organizer approval, an
+            access code, or a participant account. Development submission uses
+            Team Name and a canonical ZIP. Test submission uses the same Team
+            Name, a Contact Email, and a canonical ZIP. The Contact Email is not
+            a login, is never published, and is used only for submission
+            identification, submission-related support, matching final results
+            to the related challenge paper, and enforcing test submission
+            quotas and replay protection through a non-public pseudonymous
+            identifier.
           </p>
         </section>
 
@@ -114,16 +115,16 @@ export default function TermsPage() {
           <p className="section-index">03 / PARTICIPATION</p>
           <h2 id="terms-conduct">Team and submission conduct</h2>
           <p>
-            Teams must provide accurate registration information, use one team
-            identity unless the organizers approve a change, and submit only
-            materials they are permitted to use. Submissions must follow the
-            published schema and must not contain malware, credentials, hidden
-            network calls, or material intended to access private evaluation
-            data or disrupt the service.
+            Teams must use one consistent Team Name, provide an accurate Contact
+            Email for test submissions, and submit only materials they are
+            permitted to use. Submissions must follow the published schema and
+            must not contain malware, credentials, hidden network calls, or
+            material intended to access private evaluation data or disrupt the
+            service.
           </p>
           <p>
-            Attempts to obtain hidden answers, bypass access controls, evade
-            submission limits, impersonate another team, or interfere with
+            Attempts to obtain hidden answers, bypass submission constraints,
+            evade submission limits, impersonate another team, or interfere with
             evaluation integrity may be rejected or removed from ranking. The
             organizers will document any material enforcement decision and give
             the affected team a contact route.
@@ -136,11 +137,12 @@ export default function TermsPage() {
           <p>
             Public training materials may be used as described in their release
             documentation. Accepted development submissions return Final answer
-            and Reasoning steps scores and may enter the development leaderboard.
+            and Reasoning steps scores, a receipt, and current rank, and each
+            team&apos;s best eligible result appears on the public development leaderboard.
             Accepted test submissions return an acceptance receipt only. They do
-            not receive an online score or rank and do not appear on an online
-            test leaderboard. The organizers perform official test evaluation
-            after submissions close.
+            not receive an online score, rank, diagnostic, score-derived signal,
+            or test leaderboard entry. The organizers perform official test
+            evaluation after submissions close.
           </p>
           <p>
             Development scores are feedback for the active development phase.
@@ -155,12 +157,11 @@ export default function TermsPage() {
           <p className="section-index">05 / PUBLIC RESULTS</p>
           <h2 id="terms-public-results">Leaderboard visibility</h2>
           <p>
-            Eligible development results may appear on an authenticated
-            leaderboard and, if enabled, an aggregate public leaderboard. Public
-            fields may include a team identifier, team display name, submission
-            identifier, rank, aggregate scores, and acceptance time. Raw
-            submissions, access codes, email addresses, hidden evaluation data,
-            and private evaluation receipts are not public leaderboard fields.
+            Each team&apos;s best eligible development result appears on the
+            public development leaderboard. Public fields are limited to Team
+            Name, rank, aggregate scores, and acceptance time. Raw submissions,
+            Contact Email, private identifiers, hidden evaluation data, and
+            evaluation receipts are not public leaderboard fields.
           </p>
         </section>
 
@@ -219,8 +220,8 @@ export default function TermsPage() {
           <p className="section-index">09 / SERVICES</p>
           <h2 id="terms-services">External platforms and rule updates</h2>
           <p>
-            Google Forms, CyberChair, GitHub, Hugging Face, and the conference
-            website, and other external services may apply their own terms and
+            CyberChair, GitHub, Hugging Face, the conference website, and other
+            external services may apply their own terms and
             privacy notices. The organizers may update technical rules, dates,
             or service routes when needed for a secure and fair competition.
             Material changes will be dated and published on the
@@ -234,7 +235,7 @@ export default function TermsPage() {
           <p>
             Email <a href={`mailto:${contactEmail}`}>{contactEmail}</a>. Include
             the team name and task number when the question concerns a specific
-            registration or submission.
+            submission.
           </p>
           <p>
             See the <Link href="/privacy/">Privacy Notice</Link> for information

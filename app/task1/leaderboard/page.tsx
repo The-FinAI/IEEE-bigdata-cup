@@ -28,8 +28,9 @@ export default function Task1LeaderboardPage() {
           <p className="section-index">TASK 1</p>
           <h1>Development leaderboard</h1>
           <p>
-            Submit development predictions, receive scores immediately, and check your team&apos;s
-            current rank.
+            {developmentSpaceIsReady
+              ? "Submit development predictions without pre-registration, receive scores immediately, and view each team’s best eligible result and current rank here."
+              : "The public development leaderboard will appear here after the direct-upload service and its public result feed pass verification."}
           </p>
         </header>
 
@@ -55,7 +56,7 @@ export default function Task1LeaderboardPage() {
               target="_blank"
               rel="noreferrer"
             >
-              Submit or view my ranking
+              Submit development predictions
               <span aria-hidden="true">↗</span>
               <span className="sr-only"> (opens in a new tab)</span>
             </a>

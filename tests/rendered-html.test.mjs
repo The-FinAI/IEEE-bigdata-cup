@@ -32,7 +32,7 @@ test("renders direct web upload routes without a GitHub Issue intake", async () 
   assert.match(hub, /TASK 1 \/ PARTICIPANT HUB/);
   assert.match(hub, /DEVELOPMENT \/ 13 FILES/);
   assert.match(hub, /TEST \/ 3 FILES/);
-  assert.match(submit, /Submit Task 1 results on the web/);
+  assert.match(submit, /Submit Task 1 predictions on the web/);
   assert.match(submit, /Six steps from data to receipt/);
   assert.match(submit, /leaderboard_questions\.jsonl/);
   assert.match(submit, /leaderboard_expected_ids\.json/);
@@ -44,7 +44,11 @@ test("renders direct web upload routes without a GitHub Issue intake", async () 
   assert.match(submit, /task1_cli\.py validate/);
   assert.match(submit, /task1_cli\.py package/);
   assert.match(submit, /task1_cli\.py validate-zip/);
-  assert.match(submit, /Refresh leaderboard/);
+  assert.match(submit, /No pre-registration, approval, access code, or account is required/);
+  assert.match(submit, /Development:<\/strong> enter Team Name/);
+  assert.match(submit, /Test:<\/strong> enter the same Team Name, provide a Contact Email/);
+  assert.match(submit, /Final answer score, Reasoning steps score, receipt ID, and current rank/);
+  assert.match(submit, /score-derived signal/);
   assert.match(submit, /Challenge paper is separate/);
   assert.match(submit, /no more than six pages total/);
   assert.match(guideSource, /baseline-b0[^\n]+> blank_predictions\.jsonl/);
@@ -57,7 +61,7 @@ test("renders direct web upload routes without a GitHub Issue intake", async () 
   assert.match(cliSource, /validate_zip\.add_argument\("--submission-zip", required=True\)/);
   assert.match(submit, /Development and test submission/);
   assert.match(submit, /Test returns only an acceptance receipt/);
-  assert.doesNotMatch(`${hub}\n${submit}`, /current rank immediately|public table shows each team|eligible accepted/i);
+  assert.match(`${hub}\n${submit}`, /current rank immediately|receipt ID, and current rank/);
   assert.match(leaderboard, /Development leaderboard/);
   assert.match(leaderboard, /Two scores, shown on a 0–1 scale/);
   assert.match(leaderboard, />Final answer</);
@@ -99,20 +103,35 @@ test("renders direct web upload routes without a GitHub Issue intake", async () 
   assert.match(`${home}\n${terms}\n${readme}`, /does not offer cash prizes/);
   assert.match(`${home}\n${terms}\n${readme}`, /Registration support is not confirmed at this time/);
   assert.match(`${home}\n${terms}\n${readme}`, /Certificates do not imply (?:challenge-paper )?acceptance or publication/);
-  assert.match(privacy, /does not collect or store team access codes/);
-  assert.match(privacy, /up to 120 days from acceptance/);
+  assert.match(privacy, /does not collect or store Contact/);
+  assert.match(privacy, /Contact Email is never published/);
+  assert.match(
+    privacy,
+    /Contact Email is used only for\s+submission identification, submission-related support, matching\s+final results to the related challenge paper, and enforcing test\s+submission quotas and replay protection through a non-public\s+pseudonymous identifier/,
+  );
+  assert.match(privacy, /Readable Contact Email is kept only while needed/);
+  assert.match(privacy, /do not promise deletion of every historical\s+copy within a fixed period/);
   assert.match(sitemap, /\/task1\//);
   assert.match(sitemap, /\/task1\/submit\//);
   assert.match(sitemap, /\/task1\/leaderboard\//);
   assert.doesNotMatch(sitemap, /task1\/pilot/);
+  assert.equal((sitemap.match(/2026-09-03/g) ?? []).length, 6);
 
   const participantCopy = `${home}\n${hub}\n${submit}\n${leaderboard}\n${terms}\n${privacy}\n${readme}`;
+  assert.doesNotMatch(participantCopy, /Letter of Intent|\bLOI\b|forms\.gle/i);
+  assert.match(privacy, /Before 3 September 2026, the organizers also used a Google Forms/);
+  assert.match(privacy, /no longer a participation or submission/);
+  assert.doesNotMatch(
+    participantCopy,
+    /Registered teams|Register and receive a team code|organizer-issued (?:team )?(?:access )?code|private team code|submission code|authenticated (?:leaderboard|table)|optional public development leaderboard/i,
+  );
   assert.doesNotMatch(
     participantCopy,
     /GitHub Issues?|GitHub-only development route|official GitHub Issue Form|attached as ciphertext|immutable numeric GitHub actor ID|encrypted Issue intake/i,
   );
   assert.doesNotMatch(participantCopy, /organizer-only pilot|synthetic pilot/i);
   assert.doesNotMatch(participantCopy, /checkpoint scores?/i);
+  assert.doesNotMatch(participantCopy, /refresh for rank|refresh leaderboard/i);
   assert.doesNotMatch(readme, /Starter kits, schemas, validators, and baselines \| Coming soon/);
   assert.match(readme, /Task 1 validator, sample B0, and B1 baseline \| Live/);
   assert.match(readme, /Task 1 step-by-step submission guide/);
@@ -131,8 +150,8 @@ test("renders direct web upload routes without a GitHub Issue intake", async () 
     assert.ok(leaderboard.includes(publicConfig.developmentSpace.url));
     assert.ok(!leaderboard.includes(publicConfig.testSpace.url));
     assert.match(home, /Task 1 is live with frozen participant data and direct uploads/);
-    assert.match(home, /Refresh leaderboard to load the current best result and rank/);
-    assert.match(home, /returns only an acceptance receipt, with no online score or rank/);
+    assert.match(home, /immediately returns Final answer, Reasoning steps, a receipt, and current rank/);
+    assert.match(home, /returns only an acceptance receipt with no online score or rank/);
     assert.doesNotMatch(
       participantCopy,
       /under verification|pending verification|links? (?:remain )?withheld|links? (?:are|were) being verified before/i,
@@ -186,7 +205,8 @@ test("removes the Issue route and guards direct Space configuration", async () =
   assert.match(pages, /NEXT_PUBLIC_FINREASON_TASK1_DEVELOPMENT_SPACE_URL/);
   assert.match(pages, /NEXT_PUBLIC_FINREASON_TASK1_TEST_SPACE_URL/);
   assert.match(publicConfigSource, /two different isolated deployments/);
-  assert.match(publicConfigSource, /\.hf\.space/);
+  assert.match(publicConfigSource, /hfSpaceHostname/);
+  assert.match(publicConfigSource, /\/api\/leaderboard/);
   assert.match(rights, /six organizer-owned participant-tool files/);
   assert.doesNotMatch(rights, /\.github\/workflows|app\/task1/);
 });

@@ -1,6 +1,6 @@
 import { createHash } from "node:crypto";
 import { readdir, readFile, stat } from "node:fs/promises";
-import { basename, join, resolve } from "node:path";
+import { basename, extname, join, resolve } from "node:path";
 
 const developmentFiles = Object.freeze({
   "train_questions.jsonl": "60851375e2d64b348bb5efe95466a894acab5978caac03e55ec9bfeb6d9d3046",
@@ -30,6 +30,12 @@ const forbiddenNames = new Set([
 ]);
 const retiredIssueIntake =
   /GitHub-only development route|official GitHub Issue Form|attached as ciphertext|immutable numeric GitHub actor ID|encrypted Issue intake/i;
+const retiredRegistrationIntake =
+  /Letter of Intent|\bLOI\b|forms\.gle|Registered teams|Register and receive a team code|organizer-issued (?:team )?(?:access )?code|private team code|submission code|authenticated (?:leaderboard|table)|optional public development leaderboard/i;
+const participantBinaryExtensions = new Set([
+  ".avif", ".gif", ".ico", ".jpeg", ".jpg", ".pdf", ".png", ".webp",
+  ".woff", ".woff2", ".zip",
+]);
 
 async function filesBelow(root) {
   const result = [];
@@ -77,10 +83,17 @@ for (const path of await filesBelow(outputRoot)) {
     throw new Error(`Private or retired path reached Pages: ${path}`);
   }
   const metadata = await stat(path);
-  if (metadata.size > 10 * 1024 * 1024) continue;
+  const extension = extname(path).toLowerCase();
+  if (participantBinaryExtensions.has(extension)) continue;
+  if (metadata.size > 10 * 1024 * 1024) {
+    throw new Error(`Oversized non-binary public file was not scanned: ${path}`);
+  }
   const content = await readFile(path, "utf8");
   if (retiredIssueIntake.test(content)) {
     throw new Error(`Retired GitHub Issue intake wording reached Pages: ${path}`);
+  }
+  if (retiredRegistrationIntake.test(content)) {
+    throw new Error(`Retired registration or code wording reached Pages: ${path}`);
   }
 }
 

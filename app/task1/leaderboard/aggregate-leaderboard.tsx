@@ -182,8 +182,8 @@ export function AggregateLeaderboard({ dataUrl }: AggregateLeaderboardProps) {
                 </tr>
               </thead>
               <tbody>
-                {rows.map((row) => (
-                  <tr key={row.teamId}>
+                {rows.map((row, index) => (
+                  <tr key={`${row.rank}:${row.teamDisplayName}:${row.acceptedAt}:${index}`}>
                     <td><span className="leaderboard-rank-badge">{row.rank}</span></td>
                     <th scope="row">
                       <span className="leaderboard-team-name">{row.teamDisplayName}</span>
