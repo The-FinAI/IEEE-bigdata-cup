@@ -53,7 +53,7 @@ export function SubmissionGuide({
               No pre-registration, approval, access code, or account is required. Choose one Team Name and
               use it consistently for development and test submissions. The test page also asks for a
               Contact Email for submission identification, submission-related support, matching final
-              results to the related challenge paper, and quota and replay enforcement through an
+              results to the related challenge paper, and quota and replay enforcement through a
               non-public pseudonymous identifier; the email is not a login and is never published.
             </p>
           </div>

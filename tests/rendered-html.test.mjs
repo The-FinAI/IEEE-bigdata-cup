@@ -132,6 +132,7 @@ test("renders direct web upload routes without a GitHub Issue intake", async () 
   assert.doesNotMatch(participantCopy, /organizer-only pilot|synthetic pilot/i);
   assert.doesNotMatch(participantCopy, /checkpoint scores?/i);
   assert.doesNotMatch(participantCopy, /refresh for rank|refresh leaderboard/i);
+  assert.doesNotMatch(participantCopy, /an\s+non-public pseudonymous identifier/i);
   assert.doesNotMatch(readme, /Starter kits, schemas, validators, and baselines \| Coming soon/);
   assert.match(readme, /Task 1 validator, sample B0, and B1 baseline \| Live/);
   assert.match(readme, /Task 1 step-by-step submission guide/);
