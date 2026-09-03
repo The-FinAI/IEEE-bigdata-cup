@@ -175,7 +175,7 @@ export function SubmissionGuide({
           <div>
             <h3><span className="sr-only">Step 6 of 6: </span>Check the correct result.</h3>
             <p>
-              <strong>Development:</strong> wait for the receipt to show the final-answer and checkpoint
+              <strong>Development:</strong> wait for the receipt to show the Final answer and Reasoning steps
               scores, then select <strong>Refresh leaderboard</strong> to load the current best-per-team table
               and rank. <strong>Test:</strong> save the receipt ID; no test score or rank is shown before the
               final results are released.

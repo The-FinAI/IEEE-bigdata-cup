@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { getTask1PublicConfig } from "./task1/public-config";
 
 const ieeeCupUrl = "https://bigdataieee.org/BigData2026/cup/";
 const loiUrl = "https://forms.gle/D4VJqjgtmcaC77DL8";
@@ -9,6 +10,15 @@ const ieeeTemplateUrl =
 const contactEmail = "zhuohan.xie@mbzuai.ac.ae";
 
 export function LaunchStatus() {
+  const config = getTask1PublicConfig();
+  const spaceLinksAreReady = Boolean(
+    config.siteMode === "final" &&
+      config.developmentSpace.state === "ready" &&
+      config.developmentSpace.url &&
+      config.testSpace.state === "ready" &&
+      config.testSpace.url,
+  );
+
   return (
     <aside className="interest-form" aria-labelledby="launch-status-title">
       <div className="form-heading">
@@ -50,9 +60,9 @@ export function LaunchStatus() {
       <div className="participant-notice">
         <strong>Separate Task 1 participant hub</strong>
         <p>
-          Task 1 publishes the training, development, and test files through the participant hub.
-          Development and test use separate submission pages. Development returns scores and can
-          update the leaderboard immediately, while test returns only an acceptance receipt.
+          Task 1 data and tools are released through the participant hub. {spaceLinksAreReady
+            ? "Development accepts a 580-row predictions ZIP and returns Final answer and Reasoning steps scores immediately; select Refresh leaderboard to load the current best result and rank. Test accepts a 928-row predictions ZIP and returns only an acceptance receipt, with no online score or rank."
+            : "The two direct-upload links remain under verification; the participant hub will publish them only after both checks pass."}
         </p>
         <div className="participant-notice-links">
           <Link href="/task1/">Open Task 1 participant hub</Link>

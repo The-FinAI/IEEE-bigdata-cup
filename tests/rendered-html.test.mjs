@@ -81,6 +81,18 @@ test("renders direct web upload routes without a GitHub Issue intake", async () 
   assert.match(terms, /verified development or test service/);
   assert.match(home, /participation certificate/);
   assert.match(home, /Winning teams will receive a winner certificate/);
+  assert.match(home, /2,900 labeled training cases/);
+  assert.match(home, /290 labeled local-development cases/);
+  assert.match(home, /580 unlabeled leaderboard-development questions/);
+  assert.match(home, /928 public test questions/);
+  assert.match(home, /TASK 1 LIVE/);
+  assert.match(home, />Final answer</);
+  assert.match(home, />Reasoning steps</);
+  assert.match(home, /Task 1 test answers remain private; test scores and ranks are withheld until final results/);
+  assert.doesNotMatch(
+    `${home}\n${readme}`,
+    /ChainEval|Planned FinChain-derived problems|Final-answer accuracy|Planned scorecard/,
+  );
   assert.match(terms, /participation certificate/);
   assert.match(terms, /Winning teams will receive a winner certificate/);
   assert.match(readme, /Certificates and prizes/);
@@ -100,10 +112,12 @@ test("renders direct web upload routes without a GitHub Issue intake", async () 
     /GitHub Issues?|GitHub-only development route|official GitHub Issue Form|attached as ciphertext|immutable numeric GitHub actor ID|encrypted Issue intake/i,
   );
   assert.doesNotMatch(participantCopy, /organizer-only pilot|synthetic pilot/i);
+  assert.doesNotMatch(participantCopy, /checkpoint scores?/i);
   assert.doesNotMatch(readme, /Starter kits, schemas, validators, and baselines \| Coming soon/);
   assert.match(readme, /Task 1 validator, sample B0, and B1 baseline \| Live/);
   assert.match(readme, /Task 1 step-by-step submission guide/);
   assert.match(readme, /Task 2 and Task 3 starter kits and baselines \| Coming soon/);
+  assert.match(readme, /Final answer and Reasoning steps \(live\)/);
   await assert.rejects(access(new URL("out/task1/pilot", root)));
 
   if (publicConfig.siteMode === "final") {
@@ -116,11 +130,15 @@ test("renders direct web upload routes without a GitHub Issue intake", async () 
     assert.ok(submit.includes(publicConfig.testSpace.url));
     assert.ok(leaderboard.includes(publicConfig.developmentSpace.url));
     assert.ok(!leaderboard.includes(publicConfig.testSpace.url));
+    assert.match(home, /Task 1 is live with frozen participant data and direct uploads/);
+    assert.match(home, /Refresh leaderboard to load the current best result and rank/);
+    assert.match(home, /returns only an acceptance receipt, with no online score or rank/);
     assert.doesNotMatch(
       participantCopy,
       /under verification|pending verification|links? (?:remain )?withheld|links? (?:are|were) being verified before/i,
     );
   } else {
+    assert.match(home, /its two upload links remain under verification/);
     assert.match(submit, /Direct web upload under verification/);
     assert.match(submit, /Development upload link pending verification/);
     assert.match(submit, /Test upload link pending verification/);

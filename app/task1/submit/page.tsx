@@ -74,7 +74,7 @@ export default function Task1SubmitPage() {
           </div>
           <p>
             Development and test use separate submission pages. An accepted development upload shows
-            the final-answer and checkpoint scores in its receipt; select Refresh leaderboard in the
+            the Final answer and Reasoning steps scores in its receipt; select Refresh leaderboard in the
             development workspace to load the current best-per-team table and rank. Test returns only an
             acceptance receipt, with no score or rank before the final results are released.
           </p>
@@ -138,7 +138,7 @@ export default function Task1SubmitPage() {
           <h2>Receive scores immediately.</h2>
           <p>
             Upload the 580-row predictions ZIP. Each accepted submission immediately returns the
-            final-answer and checkpoint scores. Select Refresh leaderboard to load the current
+            Final answer and Reasoning steps scores. Select Refresh leaderboard to load the current
             best-per-team result and rank.
           </p>
         </article>

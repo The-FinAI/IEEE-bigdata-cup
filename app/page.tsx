@@ -1,4 +1,5 @@
 import { LaunchStatus } from "./launch-status";
+import { getTask1PublicConfig } from "./task1/public-config";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const loiUrl = "https://forms.gle/D4VJqjgtmcaC77DL8";
@@ -16,11 +17,11 @@ const tasks = [
     title: "Verifiable Financial Chain Reasoning",
     question: "Can a system provide an auditable path to a financial answer?",
     description:
-      "Solve multi-step financial problems and provide a final answer plus a step-by-step reasoning trace, evaluated against gold traces generated from executable FinChain templates.",
-    flow: ["Financial problem", "Step-by-step trace", "Answer + trace score"],
+      "Solve multi-step financial problems and submit a typed final answer plus values for the published intermediate-step slots. The frozen Task 1 scorer reports the two results separately.",
+    flow: ["Financial problem", "Answer + reasoning steps", "Two development scores"],
     data:
-      "Planned FinChain-derived problems across core financial domains. The exact subset, trace format, ChainEval version, and tolerance policy will be frozen with the starter kit.",
-    metrics: ["Final-answer accuracy", "ChainEval · provisional"],
+      "Released: 2,900 labeled training cases, 290 labeled local-development cases, 580 unlabeled leaderboard-development questions, and 928 public test questions. The Task 1 hub publishes the frozen schema and validator, plus the current submission guide.",
+    metrics: ["Final answer", "Reasoning steps"],
   },
   {
     number: "02",
@@ -70,7 +71,7 @@ const evaluationSteps = [
     number: "01",
     title: "Submission contract",
     detail:
-      "Published task contracts will define machine-checkable predictions, traces, and actions.",
+      "Task 1 publishes a machine-checkable prediction schema, validator, and scorer. Task 2 and Task 3 contracts will follow after organizer verification.",
   },
   {
     number: "02",
@@ -81,13 +82,13 @@ const evaluationSteps = [
     number: "03",
     title: "Hidden evaluation",
     detail:
-      "Separately constructed held-out seeds and cases are planned to reduce memorization and leakage.",
+      "Task 1 test answers remain private; test scores and ranks are withheld until final results. Task 2 and Task 3 held-out policies remain under organizer review.",
   },
   {
     number: "04",
     title: "Reproducibility review",
     detail:
-      "Final rules will specify which teams must provide code and reproducibility materials.",
+      "Task-specific code and reproducibility requirements will be published before final submission.",
   },
 ];
 
@@ -100,17 +101,18 @@ const launchItems = [
       "Teams planning to participate can share their task interests and contact details.",
   },
   {
-    state: "upcoming",
-    label: "Starter kits",
-    date: "TBD",
-    detail: "Schemas, validators, baselines, and samples are being prepared.",
-  },
-  {
     state: "current",
     label: "Task 1 participant hub",
-    date: "TASK 1 HUB",
+    date: "DATA LIVE",
     detail:
-      "One stable participant hub publishes all public Task 1 files, the development leaderboard, and current upload status.",
+      "Training, development, and test files, plus the submission guide and practice baselines, are live. The participant hub shows current upload availability.",
+  },
+  {
+    state: "upcoming",
+    label: "Task 2 + Task 3 release",
+    date: "PENDING",
+    detail:
+      "Contracts, datasets, scorers, submission routes, and task-specific dates will follow organizer testing.",
   },
   {
     state: "scheduled",
@@ -207,6 +209,15 @@ const faqs = [
 ];
 
 export default function Home() {
+  const config = getTask1PublicConfig();
+  const spaceLinksAreReady = Boolean(
+    config.siteMode === "final" &&
+      config.developmentSpace.state === "ready" &&
+      config.developmentSpace.url &&
+      config.testSpace.state === "ready" &&
+      config.testSpace.url,
+  );
+
   return (
     <>
       <a className="skip-link" href="#main-content">
@@ -383,9 +394,12 @@ export default function Home() {
           <div>
             <h2>Three financial-AI capabilities. Three technical tracks.</h2>
             <p>
-              Explore one or more tracks. Final participation rules will be
-              published with the starter kits; each dossier summarizes the
-              planned inputs, system behavior, outputs, and score signals.
+              {spaceLinksAreReady
+                ? "Task 1 is live with frozen participant data and direct uploads. "
+                : "Task 1 participant data and tools are live; its two upload links remain under verification. "}
+              Task 2 and Task 3 contracts remain in preparation; each dossier
+              summarizes the current inputs, system behavior, outputs, and
+              score signals.
             </p>
           </div>
         </div>
@@ -432,7 +446,7 @@ export default function Home() {
 
               <div className="dossier-meta">
                 <div>
-                  <span className="meta-label">Data plan</span>
+                  <span className="meta-label">Data status</span>
                   <p>{task.data}</p>
                 </div>
                 <div>
@@ -474,13 +488,13 @@ export default function Home() {
 
           <div className="scorecard">
             <div className="scorecard-heading">
-              <span>Planned scorecard</span>
-              <strong>PROVISIONAL</strong>
+              <span>Scorecard status</span>
+              <strong>TASK 1 LIVE</strong>
             </div>
             <div className="score-row">
               <span>01 / CHAIN</span>
-              <strong>Final-answer accuracy</strong>
-              <strong>ChainEval</strong>
+              <strong>Final answer</strong>
+              <strong>Reasoning steps</strong>
             </div>
             <div className="score-row">
               <span>02 / HEDGE</span>
@@ -493,8 +507,9 @@ export default function Home() {
               <strong>EER · CER</strong>
             </div>
             <p>
-              Final formulas, tolerances, tie-breaks, and validity rules will be
-              published with the public scorers.
+              Task 1 uses the published scorer and labels above. Task 2 and Task
+              3 formulas, tolerances, tie-breaks, and validity rules will be
+              published with their public scorers.
             </p>
           </div>
         </div>
@@ -506,9 +521,12 @@ export default function Home() {
           <div>
             <h2>One source of truth as the competition comes online.</h2>
             <p>
-              Final paper and solution submissions are due on 15 November.
-              Dataset, starter kit, and competition-platform dates will be
-              added after organizer testing.
+              {spaceLinksAreReady
+                ? "Task 1 data and direct uploads are live. "
+                : "Task 1 data is live; its two upload links remain under verification. "}
+              Task 2 and Task 3 release dates will be added after organizer
+              testing. Final paper and solution submissions are due on 15
+              November.
             </p>
           </div>
         </div>

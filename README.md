@@ -37,11 +37,11 @@ reasoning, sequential financial decisions, and structured verification.
 
 ### Task 1 · Verifiable Financial Chain Reasoning
 
-Solve multi-step financial problems and return both a final answer and a
-step-by-step reasoning trace. Predictions are checked against organizer references
-generated from executable [FinChain](https://github.com/mbzuai-nlp/finchain)
-templates. The released Task 1 package freezes the prediction schema, evaluator
-contract, numerical tolerance policy, and development data.
+Solve multi-step financial problems and return both a final answer and values
+for the published intermediate-step slots. The frozen scorer reports **Final
+answer** and **Reasoning steps** separately. The released Task 1 package freezes
+the prediction schema, evaluator contract, numerical tolerance policy, and
+participant data. The hub publishes the validator and current submission guide.
 
 ### Task 2 · Market-Neutral Hedging
 
@@ -64,16 +64,18 @@ audit.
 The planned release combines public filing cases and separately constructed
 held-out cases subject to leakage review.
 
-## Planned evaluation
+## Evaluation status
 
-| Task | Provisional evaluation |
+| Task | Current evaluation |
 | --- | --- |
-| Task 1 · Reason | Final-answer accuracy and step-level ChainEval |
-| Task 2 · Hedge | Cumulative return, Sharpe ratio, and maximum drawdown |
-| Task 3 · Verify | Accuracy and structural, extraction, and calculation error rates |
+| Task 1 · Reason | Final answer and Reasoning steps (live) |
+| Task 2 · Hedge | Cumulative return, Sharpe ratio, and maximum drawdown (provisional) |
+| Task 3 · Verify | Accuracy and structural, extraction, and calculation error rates (provisional) |
 
-Final scoring formulas, tolerances, tie-break procedures, submission contracts,
-and validity rules will be published with the public scorers.
+Task 1 uses the frozen public schema, validator, and scorer linked from its
+participant hub. Task 2 and Task 3 formulas, tolerances, tie-break procedures,
+submission contracts, and validity rules will be published with their public
+scorers.
 
 ## Final paper and solution submission
 
@@ -91,11 +93,12 @@ CyberChair has not yet updated its displayed deadline and currently shows a
 23:59 Anywhere on Earth, and FinReason teams should follow the challenge
 requirement above and submit no more than 6 pages total, including references.
 
-The paper portal is separate from the competition submission path. The final
-task rules will specify which solution materials each team must provide,
-including any required predictions, source code, and reproducibility materials.
-They will use the verified competition link published on the official challenge
-website after organizer testing. Both routes share the 15 November deadline.
+The paper portal is separate from the competition submission path. Registered
+Task 1 teams upload predictions through the verified development and test pages
+linked from the participant hub. Development returns scores and a current rank;
+test returns only an acceptance receipt. Task 2 and Task 3 solution materials
+and submission routes will be published after organizer testing. All routes
+share the 15 November deadline.
 
 Submission does not guarantee publication. Any publication is subject to
 conference peer review, acceptance, camera-ready submission, registration, and
@@ -175,8 +178,8 @@ The public `/task1/` route is the stable participant entry point:
   downloadable from Pages with their frozen manifests;
 - `/task1/submit/` publishes two distinct organizer-verified direct-upload links
   after both workspaces pass deployment checks;
-- the development page accepts the 580-row predictions ZIP, returns final-answer
-  and checkpoint scores immediately; participants select **Refresh leaderboard**
+- the development page accepts the 580-row predictions ZIP, returns Final answer
+  and Reasoning steps scores immediately; participants select **Refresh leaderboard**
   to load the current best result and rank;
 - the separate test workspace accepts the 928-row test predictions ZIP and
   returns only an acceptance receipt, with no score, rank, diagnostic, or test

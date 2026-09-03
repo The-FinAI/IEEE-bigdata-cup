@@ -93,7 +93,7 @@ export default function Task1HubPage() {
           <h2>Submit 580 predictions.</h2>
           <p>
             Use the published development questions and expected IDs. Accepted submissions show the
-            final-answer and checkpoint scores. Select Refresh leaderboard in the development workspace
+            Final answer and Reasoning steps scores. Select Refresh leaderboard in the development workspace
             to load the current best-per-team result and rank.
           </p>
           <Link className="button button-primary" href="/task1/submit/#how-to-submit">

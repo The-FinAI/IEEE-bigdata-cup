@@ -135,8 +135,8 @@ export default function TermsPage() {
           <h2 id="terms-evaluation">Task 1 scores and results</h2>
           <p>
             Public training materials may be used as described in their release
-            documentation. Accepted development submissions return final-answer
-            and reasoning-step scores and may enter the development leaderboard.
+            documentation. Accepted development submissions return Final answer
+            and Reasoning steps scores and may enter the development leaderboard.
             Accepted test submissions return an acceptance receipt only. They do
             not receive an online score or rank and do not appear on an online
             test leaderboard. The organizers perform official test evaluation
