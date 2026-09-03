@@ -79,6 +79,14 @@ test("renders direct web upload routes without a GitHub Issue intake", async () 
     /ORGANIZER REFERENCE|OPTIONAL PUBLIC VIEW|Public aggregate table not enabled|Legal null-prediction control|Pinned zero-shot JSON-schema generation/,
   );
   assert.match(terms, /verified development or test service/);
+  assert.match(home, /participation certificate/);
+  assert.match(home, /Winning teams will receive a winner certificate/);
+  assert.match(terms, /participation certificate/);
+  assert.match(terms, /Winning teams will receive a winner certificate/);
+  assert.match(readme, /Certificates and prizes/);
+  assert.match(`${home}\n${terms}\n${readme}`, /does not offer cash prizes/);
+  assert.match(`${home}\n${terms}\n${readme}`, /Registration support is not confirmed at this time/);
+  assert.match(`${home}\n${terms}\n${readme}`, /Certificates do not imply (?:challenge-paper )?acceptance or publication/);
   assert.match(privacy, /does not collect or store team access codes/);
   assert.match(privacy, /up to 120 days from acceptance/);
   assert.match(sitemap, /\/task1\//);

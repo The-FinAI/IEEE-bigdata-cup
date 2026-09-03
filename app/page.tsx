@@ -170,9 +170,9 @@ const faqs = [
       "The Task 1 participant hub provides the training, development, and test downloads. Registered teams upload predictions through separate development and test submission pages. Development returns scores and a leaderboard immediately; test returns a receipt only, with no online score or rank. The paper route remains separate through CyberChair SC03.",
   },
   {
-    question: "Are cash prizes confirmed?",
+    question: "What certificates and prizes are available?",
     answer:
-      "No FinReason cash prize or registration support is confirmed at this time. Award categories for task performance, reproducible open-source systems, and student teams remain provisional.",
+      "FinReason does not offer cash prizes. Registration support is not confirmed at this time. A team will receive a participation certificate if it submits both (1) at least one valid final solution under the applicable task rules and (2) a challenge paper through CyberChair SC03 by 15 November 2026, 23:59 Anywhere on Earth. Winning teams will receive a winner certificate. Additional award categories remain provisional until published. Certificates do not imply paper acceptance or publication.",
   },
   {
     question: "What happens after an LOI is submitted?",
@@ -641,7 +641,7 @@ export default function Home() {
                 <span className="sr-only"> (opens in a new tab)</span>
               </a>
             </nav>
-            <p className="footer-updated">Last reviewed 2 September 2026.</p>
+            <p className="footer-updated">Last reviewed 3 September 2026.</p>
           </div>
           <a href="#overview">Back to top ↑</a>
         </div>

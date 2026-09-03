@@ -53,7 +53,7 @@ export default function TermsPage() {
         <dl className="policy-meta">
           <div>
             <dt>Effective</dt>
-            <dd>2 September 2026</dd>
+            <dd>3 September 2026</dd>
           </div>
           <div>
             <dt>Contact</dt>
@@ -197,8 +197,26 @@ export default function TermsPage() {
           </p>
         </section>
 
+        <section className="policy-section" aria-labelledby="terms-certificates">
+          <p className="section-index">08 / CERTIFICATES AND PRIZES</p>
+          <h2 id="terms-certificates">Certificates and prizes</h2>
+          <p>
+            FinReason does not offer cash prizes. Registration support is not
+            confirmed at this time. A team will receive a participation
+            certificate if it submits both (1) at least one valid final
+            solution under the applicable task rules and (2) a challenge paper
+            through CyberChair SC03 by 15 November 2026, 23:59 Anywhere on
+            Earth. Winning teams will receive a winner certificate.
+          </p>
+          <p>
+            Additional award categories remain provisional until published.
+            Certificates do not imply challenge-paper acceptance or
+            publication.
+          </p>
+        </section>
+
         <section className="policy-section" aria-labelledby="terms-services">
-          <p className="section-index">08 / SERVICES</p>
+          <p className="section-index">09 / SERVICES</p>
           <h2 id="terms-services">External platforms and rule updates</h2>
           <p>
             Google Forms, CyberChair, GitHub, Hugging Face, and the conference
@@ -208,15 +226,10 @@ export default function TermsPage() {
             Material changes will be dated and published on the
             organizer-maintained website before they apply whenever practical.
           </p>
-          <p>
-            No FinReason cash prize or registration support is confirmed at this
-            time. Award categories remain provisional until the organizers
-            publish them.
-          </p>
         </section>
 
         <section className="policy-section policy-contact" aria-labelledby="terms-contact">
-          <p className="section-index">09 / CONTACT</p>
+          <p className="section-index">10 / CONTACT</p>
           <h2 id="terms-contact">Questions about participation</h2>
           <p>
             Email <a href={`mailto:${contactEmail}`}>{contactEmail}</a>. Include

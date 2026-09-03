@@ -101,6 +101,20 @@ Submission does not guarantee publication. Any publication is subject to
 conference peer review, acceptance, camera-ready submission, registration, and
 presentation requirements.
 
+## Certificates and prizes
+
+FinReason does not offer cash prizes. Registration support is not confirmed at
+this time. A team will receive a participation certificate if it completes both:
+
+1. at least one valid final solution submission under the applicable task
+   rules; and
+2. a challenge paper submission through CyberChair SC03 by 15 November 2026,
+   23:59 Anywhere on Earth.
+
+Winning teams will receive a winner certificate. Additional award categories
+remain provisional until published. Certificates do not imply challenge-paper
+acceptance or publication.
+
 ## Participant access
 
 Teams planning to participate should submit **one Letter of Intent per team**:
@@ -247,4 +261,4 @@ describe the current organizer-maintained participation rules.
 
 ---
 
-Last reviewed: 2 September 2026.
+Last reviewed: 3 September 2026.
