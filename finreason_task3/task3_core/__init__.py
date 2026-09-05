@@ -1,4 +1,4 @@
-"""FinReason Cup 2026 - Task 3 (FinMR financial auditing) starter kit."""
+"""FinReason Cup 2026 - Task 3 (Financial Audit Verification) starter kit."""
 
 from .schema import (
     DevelopmentExample,

@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "finreason-task3"
 version = "1.0.0"
-description = "FinReason Cup 2026 - Task 3 (FinMR financial auditing) starter kit and official evaluator"
+description = "FinReason Cup 2026 - Task 3 (Financial Audit Verification) starter kit and official evaluator"
 readme = "README.md"
 requires-python = ">=3.9"
 license = { file = "LICENSE" }

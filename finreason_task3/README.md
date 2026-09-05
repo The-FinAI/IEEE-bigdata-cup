@@ -1,7 +1,8 @@
-# FinReason Cup 2026 — Task 3: XBRL Financial Statement Auditing
+# FinReason Cup 2026 — Task 3: Financial Audit Verification
 
 Read an SEC XBRL filing and report **two numbers**: the value the filing states
 for a target concept, and the value its own calculation relationships imply.
+This is targeted numeric-fact verification, not a full financial-statement audit.
 
 > **Task 3 is method-agnostic. You do not need to train or fine-tune anything.**
 > Prompting, agents, retrieval, symbolic reasoning, rule engines, fine-tuned
