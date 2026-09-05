@@ -1,0 +1,31 @@
+# FinReason Cup 2026 - Task 3 participant requirements.
+#
+#   pip install -r requirements.txt
+#
+# Everything needed to download the data, run the dummy baseline, validate a
+# submission and score it locally. Model-serving stacks are intentionally NOT
+# pinned here - install only what your own system needs (see the extras below).
+
+# --- Data preparation ---
+huggingface_hub>=0.24,<1.0
+pandas>=2.0
+pyarrow>=14.0
+
+# --- Evaluation ---
+openai>=1.40            # official LLM judge (needs OPENAI_API_KEY)
+PyYAML>=6.0             # evaluation configs
+tqdm>=4.65              # progress bars
+
+# --- Tests ---
+pytest>=7.4
+
+# ---------------------------------------------------------------------------
+# Optional extras - install only if you use the matching baseline template.
+#
+#   baselines/claude_api_template.py  pip install 'anthropic>=1.0'
+#   baselines/hf_template.py          pip install torch transformers accelerate
+#   baselines/vllm_template.py        pip install vllm
+#
+# baselines/llm_api_template.py needs only `openai`, already required above.
+# vLLM needs a CUDA/PyTorch build that matches your GPU; it is never required.
+# ---------------------------------------------------------------------------

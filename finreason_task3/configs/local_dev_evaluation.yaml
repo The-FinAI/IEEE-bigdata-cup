@@ -1,0 +1,21 @@
+# Convenience config for local development on the public set.
+#
+# Differences from the official config: missing predictions are scored as
+# structural errors instead of rejecting the run, so a partial prediction file
+# still produces a number. Do not use for official scoring.
+
+evaluation_version: "1.0"
+
+judge:
+  provider: openai
+  model: gpt-5-mini
+  reasoning_effort: minimal
+  verbosity: low
+
+prompt_version: "finmr-judge-v1"
+max_retries: 3
+workers: 5
+cache: true
+cache_path: ".cache/evaluation_cache.sqlite"
+missing_prediction_policy: structural_error
+dataset_version: "task3-public-dev-v1.0"

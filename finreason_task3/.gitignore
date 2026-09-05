@@ -1,0 +1,51 @@
+# --- Secrets ---
+.env
+*.key
+*.pem
+# The site repository ignores `.env*` at its root, which would otherwise
+# swallow the template that tells participants which keys the kit reads.
+!.env.example
+
+# --- Private competition data (NEVER commit) ---
+# Organizer tooling and the hidden test set live outside this repository.
+**/private_test_gold.jsonl
+**/private_metadata.jsonl
+**/public_test_inputs.jsonl
+submissions/
+private/
+
+# --- Generated data (rebuild with scripts/prepare_public_dev.py) ---
+# public_dev*.jsonl are ~36 MB each; the manifest carries a fresh timestamp on
+# every run, so committing it would give everyone a spurious diff.
+data/*.jsonl
+data/public_dev_manifest.json
+!data/example_predictions.jsonl
+data/raw/
+data/cache/
+
+# --- Your own predictions and evaluation outputs ---
+# These are the filenames the README tells you to create; they are yours, not
+# ours, so they stay out of the repository.
+predictions*.jsonl
+metadata.json
+results/
+runs/
+*.sqlite
+*.sqlite3
+eval_cache*.sqlite
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+.coverage
+htmlcov/
