@@ -35,7 +35,7 @@ const tasks = [
       "Select an asset pair and manage a zero-net-dollar position over time using point-in-time prices, news, and corporate filings. Final execution and position rules will be published with the scorer.",
     flow: ["Market context", "Paired actions", "Risk-aware return"],
     data:
-      "Planned HERCULEAN-derived development and private evaluation splits. Exact windows, asset policy, costs, and validity rules will be published with the dataset release.",
+      "Training data is available from HERCULEAN: prices, news, and corporate filings in Parquet format. Development and private evaluation splits, exact windows, asset policy, costs, and validity rules will be published with the scorer.",
     metrics: [
       "Cumulative return · CR",
       "Sharpe ratio · SR",
@@ -112,7 +112,7 @@ const buildLaunchItems = (spaceLinksAreReady: boolean) => [
     label: "Task 2 + Task 3 release",
     date: "PENDING",
     detail:
-      "Contracts, datasets, scorers, submission routes, and task-specific dates will follow organizer testing.",
+      "Task 2 training data is available now. Remaining datasets, contracts, scorers, submission routes, and task-specific dates will follow organizer testing.",
   },
   {
     state: "scheduled",
@@ -225,6 +225,7 @@ export default function Home() {
           </a>
           <nav className="primary-nav" aria-label="Primary navigation">
             <a href={`${basePath}/task1/`}>Task 1</a>
+            <a href={`${basePath}/task2/`}>Task 2</a>
             <a href="#tracks">Tracks</a>
             <a href="#evaluation">Evaluation</a>
             <a href="#timeline">Timeline</a>
@@ -426,6 +427,11 @@ export default function Home() {
                 <div>
                   <span className="meta-label">Data status</span>
                   <p>{task.data}</p>
+                  {task.number === "02" && (
+                    <a className="button button-primary" href={`${basePath}/task2/`}>
+                      Download Task 2 training data
+                    </a>
+                  )}
                 </div>
                 <div>
                   <span className="meta-label">Score signals</span>
@@ -502,8 +508,8 @@ export default function Home() {
               {spaceLinksAreReady
                 ? "Task 1 data and direct uploads are live. "
                 : "Task 1 data is live; its two upload links remain under verification. "}
-              Task 2 and Task 3 release dates will be added after organizer
-              testing. Final paper and solution submissions are due on 15
+              Task 2 training data is available now. Remaining Task 2 and Task 3
+              release dates will be added after organizer testing. Final paper and solution submissions are due on 15
               November.
             </p>
           </div>

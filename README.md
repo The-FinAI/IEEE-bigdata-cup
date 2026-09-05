@@ -49,10 +49,12 @@ Select an asset pair and manage a zero-net-dollar position over time using
 point-in-time prices, news, and corporate filings. The task is designed to
 reward relative-value reasoning rather than unhedged directional exposure.
 
-The planned data are derived from
-[HERCULEAN](https://arxiv.org/abs/2605.14355). Exact market windows, eligible
-assets, execution assumptions, transaction costs, and position-validity rules
-will be published with the dataset and scorer.
+Training data is available from [HERCULEAN](https://huggingface.co/datasets/TheFinAI/Herculean/tree/main/data).
+Download `prices.parquet`, `news.parquet`, and `filings.parquet` from the
+[Task 2 training data hub](https://the-finai.github.io/IEEE-bigdata-cup/task2/).
+Development and private evaluation splits, exact market windows, eligible assets,
+execution assumptions, transaction costs, and position-validity rules will be
+published with the scorer.
 
 ### Task 3 · Financial Audit Verification
 
@@ -141,6 +143,7 @@ identifier.
 | [Task 1 step-by-step submission guide](https://the-finai.github.io/IEEE-bigdata-cup/task1/submit/#how-to-submit) | Live |
 | Task 1 validator, sample B0, and B1 baseline | Live in this repository |
 | Task 1 organizer baseline scores | B0–B2 local-development references live on the leaderboard page |
+| [Task 2 training data](https://the-finai.github.io/IEEE-bigdata-cup/task2/) | Live: prices, news, and filings (Parquet) |
 | Task 2 and Task 3 starter kits and baselines | Coming soon |
 | Participant support | [zhuohan.xie@mbzuai.ac.ae](mailto:zhuohan.xie@mbzuai.ac.ae) |
 | Terms of Participation | Live |
