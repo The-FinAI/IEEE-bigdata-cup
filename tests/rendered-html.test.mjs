@@ -276,4 +276,36 @@ test("publishes a Task 3 submission guide with the real file contract", async ()
   // Test phase returns nothing but a receipt.
   assert.match(submit, /acceptance receipt/i);
   assert.doesNotMatch(submit, /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/i);
+
+  // The filenames alone are not the contract: a copy-edit that renamed a flag
+  // would ship a command that cannot run, with every other assertion still
+  // passing. These are the flags the real scripts define.
+  assert.match(submit, /--predictions/);
+  assert.match(submit, /--reference/);
+  assert.match(submit, /--gold/);
+  assert.match(submit, /--judge deterministic/);
+});
+
+test("publishes the Task 3 leaderboard page with only measured baselines", async () => {
+  const board = await text("out/task3/leaderboard/index.html");
+
+  assert.match(board, /Development leaderboard/);
+  // The four rates, named.
+  assert.match(board, /ACC/);
+  assert.match(board, /Structural error rate/i);
+  assert.match(board, /Extraction error rate/i);
+  assert.match(board, /Calculation error rate/i);
+  // The A/S/E/C hierarchy short-circuits, and that must be explained.
+  assert.match(board, /first check that fails|short-circuit/i);
+  // The one measured baseline, with its real numbers.
+  assert.match(board, /Dummy baseline/);
+  assert.match(board, /95\.48/);
+  assert.match(board, /4\.52/);
+  assert.match(board, /332/);
+  // Practice results must never appear on the board.
+  assert.match(board, /practice/i);
+  assert.match(board, /not ranked|never ranked|excluded/i);
+  // No fabricated model baselines.
+  assert.doesNotMatch(board, /gpt-|claude-|deepseek/i);
+  assert.doesNotMatch(board, /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/i);
 });
