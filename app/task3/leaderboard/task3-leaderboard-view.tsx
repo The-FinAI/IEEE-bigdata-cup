@@ -80,7 +80,10 @@ export function Task3LeaderboardView({ dataUrl }: { dataUrl: string | null }) {
       ) : null}
 
       {rows.length === 0 ? (
-        <p className="leaderboard-test-note">No eligible results yet.</p>
+        <p className="leaderboard-test-note">
+          No results yet. The development phase opens when its dataset is published;
+          until then this board stays empty by design, not for want of entries.
+        </p>
       ) : (
         <div className="finmmeval-table-shell" role="region" aria-labelledby="task3-board-title" tabIndex={0}>
           <table className="baseline-reference-table">
