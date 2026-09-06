@@ -344,3 +344,11 @@ test("every Task 3 page cross-links the other two", async () => {
     assert.match(page, /task3\/leaderboard\/"/);
   }
 });
+
+test("the home page links to both task hubs", async () => {
+  // A participant site nobody can navigate to does not do its job. The Task 3
+  // route existed in the sitemap but no page linked to it.
+  const home = await text("out/index.html");
+  assert.match(home, /href="[^"]*\/task1\/"/);
+  assert.match(home, /href="[^"]*\/task3\/"/);
+});

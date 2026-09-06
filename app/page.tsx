@@ -225,6 +225,7 @@ export default function Home() {
           </a>
           <nav className="primary-nav" aria-label="Primary navigation">
             <a href={`${basePath}/task1/`}>Task 1</a>
+            <a href={`${basePath}/task3/`}>Task 3</a>
             <a href="#tracks">Tracks</a>
             <a href="#evaluation">Evaluation</a>
             <a href="#timeline">Timeline</a>
@@ -266,6 +267,10 @@ export default function Home() {
             <div className="hero-actions">
               <a className="button button-bright" href={`${basePath}/task1/`}>
                 Open Task 1 hub
+                <span aria-hidden="true">→</span>
+              </a>
+              <a className="button button-ghost" href={`${basePath}/task3/`}>
+                Open Task 3 hub
                 <span aria-hidden="true">→</span>
               </a>
               <a
