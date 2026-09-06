@@ -30,5 +30,12 @@ organisation changes all three URLs, so decide that first — the values above a
 the only thing that needs updating afterwards.
 
 Setting `final` while the development and test datasets do not yet exist is
-supported: those phases keep reporting themselves as pending, and only the
-practice phase accepts submissions.
+supported: the hub keeps reporting those phases as pending, and only practice
+is actually scored.
+
+Note what `final` does *not* hide. The submit page renders a reachable link to
+the receipt-only Space, labelled "opens when the test set is released", and
+that Space serves its upload form to anyone who follows it. The form is not a
+way in: the Space reports `Phase test — pending` and refuses the upload,
+because the phase gate lives in the Space and not in the link. Do not read the
+clickable link as an open phase.
