@@ -80,15 +80,21 @@ test("accepts the full percentage range", () => {
 });
 
 test("orders by accuracy NUMERICALLY, not as text", () => {
-  // "9.00" sorts after "48.19" as text but before it as a number. A parser that
-  // compared strings would accept this wrong order.
-  const wrong = [row({ rank: 1, team_name: "Low", acc: "9.00" }),
-                 row({ rank: 2, team_name: "High", acc: "48.19" })];
-  assert.throws(() => parseDevelopmentLeaderboard(payload(wrong)), /rank or order/);
+  // 90.00 and 9.00 is the pair where the two orderings genuinely disagree:
+  // numerically 90.00 outranks 9.00, but as text "9.00" sorts BEFORE "90.00",
+  // because "." (46) is below "0" (48). A pair like 48.19 vs 9.00 proves
+  // nothing here -- "4" < "9" makes both comparisons agree.
+  const correct = [
+    row({ rank: 1, team_name: "Ninety", acc: "90.00" }),
+    row({ rank: 2, team_name: "Nine", acc: "9.00" }),
+  ];
+  assert.equal(parseDevelopmentLeaderboard(payload(correct)).rows.length, 2);
 
-  const right = [row({ rank: 1, team_name: "High", acc: "48.19" }),
-                 row({ rank: 2, team_name: "Low", acc: "9.00" })];
-  assert.equal(parseDevelopmentLeaderboard(payload(right)).rows.length, 2);
+  const inverted = [
+    row({ rank: 1, team_name: "Nine", acc: "9.00" }),
+    row({ rank: 2, team_name: "Ninety", acc: "90.00" }),
+  ];
+  assert.throws(() => parseDevelopmentLeaderboard(payload(inverted)), /rank or order/);
 });
 
 test("breaks equal accuracy by lower calculation error rate", () => {
