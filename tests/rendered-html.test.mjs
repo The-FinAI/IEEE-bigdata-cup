@@ -238,3 +238,24 @@ test("publishes the Task 3 participant hub with honest phase status", async () =
   assert.doesNotMatch(hub, /hf_[A-Za-z0-9]{10,}/);
   assert.doesNotMatch(hub, /extracted_value"\s*:/);
 });
+
+test("publishes a Task 3 submission guide with the real file contract", async () => {
+  const submit = await text("out/task3/submit/index.html");
+
+  assert.match(submit, /TASK 3 \/ SUBMISSION/);
+  assert.match(submit, /predictions\.jsonl/);
+  assert.match(submit, /extracted_value/);
+  assert.match(submit, /calculated_value/);
+  assert.match(submit, /prepare_public_dev\.py/);
+  assert.match(submit, /validate_submission\.py/);
+  // Matching is by id, and a missing line invalidates the whole submission.
+  assert.match(submit, /matched .{0,20}by <code>id<\/code>|never by row order/i);
+  assert.match(submit, /332/);
+  // The three things a participant most often gets wrong.
+  assert.match(submit, /&quot;0&quot;/);
+  assert.match(submit, /UTF-8/);
+  assert.match(submit, /exactly one root-level file named <code>predictions\.jsonl<\/code>/);
+  // Test phase returns nothing but a receipt.
+  assert.match(submit, /acceptance receipt/i);
+  assert.doesNotMatch(submit, /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/i);
+});
