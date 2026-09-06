@@ -299,8 +299,20 @@ test("publishes the Task 3 leaderboard page with only measured baselines", async
   assert.match(board, /first check that fails|short-circuit/i);
   // The one measured baseline, with its real numbers.
   assert.match(board, /Dummy baseline/);
-  assert.match(board, /95\.48/);
-  assert.match(board, /4\.52/);
+  // Extract the baseline row and compare its cells as an ordered array. A
+  // span-matching regex over the whole document does not work here: the caption
+  // paragraph below the table repeats "4.52%", so a swapped-column table still
+  // satisfied it. Text outside the row cannot reach this assertion.
+  const baselineRow = board.match(/<tr[^>]*leaderboard-baseline-row[\s\S]*?<\/tr>/);
+  assert.ok(baselineRow, "the dummy baseline row is missing from the leaderboard page");
+  const baselineCells = [...baselineRow[0].matchAll(/<td[^>]*>([^<]*)<\/td>/g)].map(
+    (match) => match[1].trim(),
+  );
+  assert.deepEqual(
+    baselineCells,
+    ["0.00%", "0.00%", "95.48%", "4.52%"],
+    "the baseline row's rates are not in ACC, SER, EER, CER order",
+  );
   assert.match(board, /332/);
   // Practice results must never appear on the board.
   assert.match(board, /practice/i);

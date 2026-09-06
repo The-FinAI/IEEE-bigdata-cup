@@ -5,7 +5,7 @@ import { Task3LeaderboardView } from "./task3-leaderboard-view";
 
 export const metadata: Metadata = {
   title: "Task 3 Development Leaderboard | FinReason Cup",
-  description: "How Task 3 is scored, and the current development standings.",
+  description: "How Task 3 is scored, and the organizer baseline for the practice set.",
   alternates: {
     canonical: "https://the-finai.github.io/IEEE-bigdata-cup/task3/leaderboard/",
   },

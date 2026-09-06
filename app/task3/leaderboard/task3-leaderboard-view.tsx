@@ -27,8 +27,17 @@ export function Task3LeaderboardView({ dataUrl }: { dataUrl: string | null }) {
     const controller = new AbortController();
     setState({ status: "loading" });
     fetchDevelopmentLeaderboard(dataUrl, { signal: controller.signal })
-      .then((leaderboard) => setState({ status: "ready", leaderboard }))
-      .catch(() => setState({ status: "error" }));
+      .then((leaderboard) => {
+        // The abort cancels the request, but its rejection still arrives here
+        // and in the catch below. Without these guards the component calls
+        // setState after unmount.
+        if (controller.signal.aborted) return;
+        setState({ status: "ready", leaderboard });
+      })
+      .catch(() => {
+        if (controller.signal.aborted) return;
+        setState({ status: "error" });
+      });
     return () => controller.abort();
   }, [dataUrl]);
 
