@@ -389,9 +389,12 @@ test("rejects an unknown basis", () => {
 });
 
 test("rejects a wrong schema version, phase, or extra top-level key", () => {
-  assert.throws(() => parseDevelopmentLeaderboard(payload([row()], { schema_version: "x/2.0.0" })), /schema/i);
-  assert.throws(() => parseDevelopmentLeaderboard(payload([row()], { phase: "test" })), /schema|phase/i);
-  assert.throws(() => parseDevelopmentLeaderboard(payload([row()], { extra: 1 })), /schema|key/i);
+  // All three throw the same guard message. Asserting on /schema/ or /phase/
+  // would fail: the message is "Leaderboard must use
+  // finreason.task3.development-leaderboard/1.0.0.", which contains neither.
+  assert.throws(() => parseDevelopmentLeaderboard(payload([row()], { schema_version: "x/2.0.0" })), /must use/);
+  assert.throws(() => parseDevelopmentLeaderboard(payload([row()], { phase: "test" })), /must use/);
+  assert.throws(() => parseDevelopmentLeaderboard(payload([row()], { extra: 1 })), /must use/);
 });
 
 test("rejects a row with a missing or extra field", () => {
