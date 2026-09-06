@@ -211,3 +211,30 @@ test("removes the Issue route and guards direct Space configuration", async () =
   assert.match(rights, /six organizer-owned participant-tool files/);
   assert.doesNotMatch(rights, /\.github\/workflows|app\/task1/);
 });
+
+test("publishes the Task 3 participant hub with honest phase status", async () => {
+  const hub = await text("out/task3/index.html");
+
+  assert.match(hub, /TASK 3 \/ PARTICIPANT HUB/);
+  assert.match(hub, /Financial Audit Verification/);
+
+  // All three phases are listed, with their real status.
+  assert.match(hub, /Practice/);
+  assert.match(hub, /Development/);
+  assert.match(hub, /Test/);
+  assert.match(hub, /Live/);
+  assert.match(hub, /Coming soon/);
+
+  // The practice phase must say why it is not ranked.
+  assert.match(hub, /public/i);
+  assert.match(hub, /not ranked|never ranked/i);
+
+  // The site hosts no Task 3 data files; it points at the released sources.
+  assert.match(hub, /TheFinAI\/FinMR/);
+  assert.match(hub, /332/);
+
+  // Nothing private may appear.
+  assert.doesNotMatch(hub, /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/i);
+  assert.doesNotMatch(hub, /hf_[A-Za-z0-9]{10,}/);
+  assert.doesNotMatch(hub, /extracted_value"\s*:/);
+});
