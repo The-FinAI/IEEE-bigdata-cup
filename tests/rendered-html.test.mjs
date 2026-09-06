@@ -222,8 +222,26 @@ test("publishes the Task 3 participant hub with honest phase status", async () =
   assert.match(hub, /Practice/);
   assert.match(hub, /Development/);
   assert.match(hub, /Test/);
-  assert.match(hub, /Live/);
-  assert.match(hub, /Coming soon/);
+  // Bind each status to its own row. Asserting that "Live" and "Coming soon"
+  // merely appear somewhere would still pass if the labels were swapped between
+  // phases.
+  for (const slug of ["practice", "development", "test"]) {
+    assert.match(hub, new RegExp(`data-phase="${slug}"`), `${slug} row is missing`);
+  }
+  assert.match(hub, /data-phase="development"[\s\S]{0,600}?data-state="pending"/);
+  assert.match(hub, /data-phase="test"[\s\S]{0,600}?data-state="pending"/);
+
+  // The page must never contradict itself: if the panel says the link is still
+  // being verified, no phase row may simultaneously claim to be open. This holds
+  // in both site modes, which is why it is the assertion that would have caught
+  // the original defect.
+  if (/Link under verification/.test(hub)) {
+    assert.doesNotMatch(
+      hub,
+      /data-state="ready"/,
+      "the panel says the link is unverified while a phase row claims to be Live",
+    );
+  }
 
   // The practice phase must say why it is not ranked.
   assert.match(hub, /public/i);

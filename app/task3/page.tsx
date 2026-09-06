@@ -15,40 +15,52 @@ const starterKit = "https://github.com/The-FinAI/IEEE-bigdata-cup/tree/main/finr
 
 type PhaseCard = {
   name: string;
-  status: "live" | "pending";
+  slug: string;
+  live: boolean;
   gold: string;
   feedback: string;
   ranked: string;
 };
 
-const phases: PhaseCard[] = [
-  {
-    name: "Practice",
-    status: "live",
-    gold: "Public — the 332 FinMR cases, answers included",
-    feedback: "Scored the moment you upload",
-    ranked: "Never ranked",
-  },
-  {
-    name: "Development",
-    status: "pending",
-    gold: "Held by the organizers",
-    feedback: "Score, rank, and a public leaderboard",
-    ranked: "Ranked",
-  },
-  {
-    name: "Test",
-    status: "pending",
-    gold: "Held by the organizers",
-    feedback: "An acceptance receipt only",
-    ranked: "Decides the final result",
-  },
-];
-
 export default function Task3HubPage() {
+  // Not merely a getter: resolveTask3PublicConfig validates every endpoint and,
+  // in a "final" build, throws on any that is missing or unverified -- including
+  // testSpace and leaderboardApi, which this page never renders. Removing the
+  // call because those fields look unused would delete a build-time check.
   const config = getTask3PublicConfig();
   const scoringIsLive =
     config.siteMode === "final" && config.scoringSpace.state === "ready";
+
+  const phases: PhaseCard[] = [
+    {
+      name: "Practice",
+      slug: "practice",
+      // Single source of truth. Hard-coding this as live let the table claim the
+      // phase was open while the panel above said its link was still being
+      // verified -- which is exactly what a build with no Task 3 configuration
+      // produces.
+      live: scoringIsLive,
+      gold: "Public — the 332 FinMR cases, answers included",
+      feedback: "Scored the moment you upload",
+      ranked: "Never ranked",
+    },
+    {
+      name: "Development",
+      slug: "development",
+      live: false,
+      gold: "Held by the organizers",
+      feedback: "Score, rank, and a public leaderboard",
+      ranked: "Ranked",
+    },
+    {
+      name: "Test",
+      slug: "test",
+      live: false,
+      gold: "Held by the organizers",
+      feedback: "An acceptance receipt only",
+      ranked: "Decides the final result",
+    },
+  ];
 
   return (
     <main className="task-hub-page task1-page">
@@ -103,13 +115,13 @@ export default function Task3HubPage() {
             </thead>
             <tbody>
               {phases.map((phase) => (
-                <tr key={phase.name}>
+                <tr key={phase.slug} data-phase={phase.slug}>
                   <th scope="row">
                     <span className="leaderboard-team-name">{phase.name}</span>
                   </th>
                   <td>
-                    <span className="status-chip" data-state={phase.status === "live" ? "ready" : "pending"}>
-                      {phase.status === "live" ? "Live" : "Coming soon"}
+                    <span className="status-chip" data-state={phase.live ? "ready" : "pending"}>
+                      {phase.live ? "Live" : "Coming soon"}
                     </span>
                   </td>
                   <td>{phase.gold}</td>
