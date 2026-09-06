@@ -225,11 +225,32 @@ test("publishes the Task 3 participant hub with honest phase status", async () =
   // Bind each status to its own row. Asserting that "Live" and "Coming soon"
   // merely appear somewhere would still pass if the labels were swapped between
   // phases.
+  // Extract each row and assert within it. A window-based regex is not anchored
+  // to a row: measured against the built page, the development marker sits 275
+  // characters before the TEST row's status, so mutating development's own chip
+  // to "ready" still matched by borrowing the next row's "pending".
+  const rowOf = (slug) =>
+    hub.match(new RegExp(`<tr[^>]*data-phase="${slug}"[\\s\\S]*?</tr>`))?.[0] ?? "";
+
   for (const slug of ["practice", "development", "test"]) {
-    assert.match(hub, new RegExp(`data-phase="${slug}"`), `${slug} row is missing`);
+    assert.notEqual(rowOf(slug), "", `${slug} row is missing`);
   }
-  assert.match(hub, /data-phase="development"[\s\S]{0,600}?data-state="pending"/);
-  assert.match(hub, /data-phase="test"[\s\S]{0,600}?data-state="pending"/);
+
+  // Development and test have no datasets, in any build.
+  for (const slug of ["development", "test"]) {
+    assert.match(rowOf(slug), /data-state="pending"/, `${slug} must be pending`);
+    assert.doesNotMatch(rowOf(slug), /data-state="ready"/, `${slug} must not claim to be live`);
+  }
+
+  // Practice tracks the configuration, and this assertion works in BOTH site
+  // modes -- unlike the conditional guard below it, which is inert in a final
+  // build and so leaves the shipping configuration untested.
+  const practiceOpen = /<dd>Open now<\/dd>/.test(hub);
+  assert.match(
+    rowOf("practice"),
+    practiceOpen ? /data-state="ready"/ : /data-state="pending"/,
+    "the practice row disagrees with the quick-facts panel",
+  );
 
   // The page must never contradict itself: if the panel says the link is still
   // being verified, no phase row may simultaneously claim to be open. This holds
