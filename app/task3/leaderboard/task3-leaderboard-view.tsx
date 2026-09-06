@@ -81,8 +81,8 @@ export function Task3LeaderboardView({ dataUrl }: { dataUrl: string | null }) {
 
       {rows.length === 0 ? (
         <p className="leaderboard-test-note">
-          No results yet. The development phase opens when its dataset is published;
-          until then this board stays empty by design, not for want of entries.
+          No accepted results on this board yet. Rows appear here once submissions
+          are accepted and scored.
         </p>
       ) : (
         <div className="finmmeval-table-shell" role="region" aria-labelledby="task3-board-title" tabIndex={0}>

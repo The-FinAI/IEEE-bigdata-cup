@@ -3,7 +3,12 @@ const starterKit = "https://github.com/The-FinAI/IEEE-bigdata-cup/tree/main/finr
 type SubmissionGuideProps = {
   scoringSpaceUrl: string | null;
   testSpaceUrl: string | null;
-  linksReady: boolean;
+  // Gated independently. A single flag that required BOTH Spaces meant a build
+  // with the scoring Space verified but the test Space not yet configured
+  // published a hub row saying practice was open while this page offered no
+  // upload link at all.
+  scoringReady: boolean;
+  testReady: boolean;
 };
 
 const prepareCommand = `cd finreason_task3
@@ -25,7 +30,8 @@ const predictionLine =
 export function SubmissionGuide({
   scoringSpaceUrl,
   testSpaceUrl,
-  linksReady,
+  scoringReady,
+  testReady,
 }: SubmissionGuideProps) {
   return (
     <section className="submission-guide-card" id="how-to-submit" aria-labelledby="task3-guide-title">
@@ -102,7 +108,7 @@ export function SubmissionGuide({
               a Contact Email, which is never published and is stored only as a salted hash.
             </p>
             <div className="submission-guide-actions" aria-label="Task 3 upload links">
-              {linksReady && scoringSpaceUrl ? (
+              {scoringReady && scoringSpaceUrl ? (
                 <a href={scoringSpaceUrl} target="_blank" rel="noreferrer">
                   Practice and development upload
                   <span className="sr-only"> (opens in a new tab)</span>
@@ -110,7 +116,7 @@ export function SubmissionGuide({
               ) : (
                 <span aria-disabled="true">Upload link under verification</span>
               )}
-              {linksReady && testSpaceUrl ? (
+              {testReady && testSpaceUrl ? (
                 <a href={testSpaceUrl} target="_blank" rel="noreferrer">
                   Test upload — opens when the test set is released
                   <span className="sr-only"> (opens in a new tab)</span>

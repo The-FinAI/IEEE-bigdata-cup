@@ -205,6 +205,13 @@ test("removes the Issue route and guards direct Space configuration", async () =
   assert.match(pages, /FINREASON_TASK1_SITE_MODE/);
   assert.match(pages, /NEXT_PUBLIC_FINREASON_TASK1_DEVELOPMENT_SPACE_URL/);
   assert.match(pages, /NEXT_PUBLIC_FINREASON_TASK1_TEST_SPACE_URL/);
+  // Task 3 needs the same pass-throughs, and for the same reason: without them
+  // the deployed build silently falls back to development mode and every upload
+  // link reads "under verification" forever.
+  assert.match(pages, /FINREASON_TASK3_SITE_MODE/);
+  assert.match(pages, /NEXT_PUBLIC_FINREASON_TASK3_SCORING_SPACE_URL/);
+  assert.match(pages, /NEXT_PUBLIC_FINREASON_TASK3_TEST_SPACE_URL/);
+  assert.match(pages, /NEXT_PUBLIC_FINREASON_TASK3_LEADERBOARD_API_URL/);
   assert.match(publicConfigSource, /two different isolated deployments/);
   assert.match(publicConfigSource, /hfSpaceHostname/);
   assert.match(publicConfigSource, /\/api\/leaderboard/);
@@ -364,6 +371,40 @@ test("every Task 3 page cross-links the other two", async () => {
     assert.match(page, /task3\/submit\/"/);
     assert.match(page, /task3\/leaderboard\/"/);
   }
+});
+
+test("a Task 3 phase the hub calls open has a working upload link", async () => {
+  // The hub's Practice chip and its quick-facts panel are both derived from the
+  // same variable, so asserting they agree proves only that one value was read
+  // twice. This binds the claim to something outside that variable: the actual
+  // anchor on the submit page. It is the invariant a participant cares about --
+  // "Open now" must mean there is somewhere to upload to.
+  const [hub, submit] = await Promise.all([
+    text("out/task3/index.html"),
+    text("out/task3/submit/index.html"),
+  ]);
+
+  const practiceRow =
+    hub.match(/<tr[^>]*data-phase="practice"[\s\S]*?<\/tr>/)?.[0] ?? "";
+  assert.notEqual(practiceRow, "", "practice row is missing");
+
+  const hubSaysOpen = /data-state="ready"/.test(practiceRow);
+  const uploadLink = /<a href="https:\/\/[^"]+"[^>]*>\s*Practice and development upload/.test(submit);
+
+  assert.equal(
+    hubSaysOpen,
+    uploadLink,
+    hubSaysOpen
+      ? "the hub says practice is open but the submit page offers no upload link"
+      : "the submit page offers an upload link while the hub says practice is not open",
+  );
+
+  // And the submit page must not contradict itself in prose either.
+  assert.equal(
+    /Practice is open now/.test(submit),
+    hubSaysOpen,
+    "the submit page's prose disagrees with the hub's practice status",
+  );
 });
 
 test("the home page links to both task hubs", async () => {
