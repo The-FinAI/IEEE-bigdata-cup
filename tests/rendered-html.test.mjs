@@ -136,7 +136,12 @@ test("renders direct web upload routes without a GitHub Issue intake", async () 
   assert.doesNotMatch(readme, /Starter kits, schemas, validators, and baselines \| Coming soon/);
   assert.match(readme, /Task 1 validator, sample B0, and B1 baseline \| Live/);
   assert.match(readme, /Task 1 step-by-step submission guide/);
-  assert.match(readme, /Task 2 and Task 3 starter kits and baselines \| Coming soon/);
+  // Task 3 is released; only Task 2 is still pending. The README must not go on
+  // claiming otherwise while the header links to a live Task 3 submission page.
+  assert.match(readme, /Task 2 starter kit and baselines \| Coming soon/);
+  assert.doesNotMatch(readme, /Task 2 and Task 3 starter kits and baselines \| Coming soon/);
+  assert.match(readme, /Task 3 starter kit, validator, and scorer\]\(finreason_task3\/\) \| Live/);
+  assert.match(readme, /task3\/submit\/"><strong>Submit Task 3 predictions/);
   assert.match(readme, /Final answer and Reasoning steps \(live\)/);
   await assert.rejects(access(new URL("out/task1/pilot", root)));
 

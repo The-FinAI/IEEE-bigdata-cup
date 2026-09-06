@@ -16,6 +16,8 @@
   ·
   <a href="https://the-finai.github.io/IEEE-bigdata-cup/task1/submit/"><strong>Submit Task 1 predictions</strong></a>
   ·
+  <a href="https://the-finai.github.io/IEEE-bigdata-cup/task3/submit/"><strong>Submit Task 3 predictions</strong></a>
+  ·
   <a href="https://the-finai.github.io/IEEE-bigdata-cup/terms/"><strong>Terms</strong></a>
   ·
   <a href="https://the-finai.github.io/IEEE-bigdata-cup/privacy/"><strong>Privacy</strong></a>
@@ -61,8 +63,12 @@ XBRL filing materials by comparing reported values with values derived from
 their calculation context. This task is **not** a full financial-statement
 audit.
 
-The planned release combines public filing cases and separately constructed
-held-out cases subject to leakage review.
+The starter kit, validator, and scorer are released in `finreason_task3/`, and
+the practice phase is open: upload predictions over the 332 public FinMR cases
+and the scoring workspace returns accuracy and the three error rates
+immediately. Practice answers are public, so practice results are never ranked.
+The development and test phases combine separately constructed held-out cases
+subject to leakage review and open when those datasets are published.
 
 ## Evaluation status
 
@@ -70,12 +76,12 @@ held-out cases subject to leakage review.
 | --- | --- |
 | Task 1 · Reason | Final answer and Reasoning steps (live) |
 | Task 2 · Hedge | Cumulative return, Sharpe ratio, and maximum drawdown (provisional) |
-| Task 3 · Verify | Accuracy and structural, extraction, and calculation error rates (provisional) |
+| Task 3 · Verify | Accuracy and structural, extraction, and calculation error rates (live for practice) |
 
-Task 1 uses the frozen public schema, validator, and scorer linked from its
-participant hub. Task 2 and Task 3 formulas, tolerances, tie-break procedures,
-submission contracts, and validity rules will be published with their public
-scorers.
+Task 1 and Task 3 each use a frozen public schema, validator, and scorer linked
+from their participant hubs. Task 2 formulas, tolerances, tie-break procedures,
+submission contracts, and validity rules will be published with its public
+scorer.
 
 ## Final paper and solution submission
 
@@ -98,8 +104,10 @@ not require pre-registration, organizer approval, an access code, or an account.
 Teams upload predictions through the verified development and test pages linked
 from the participant hub. Development immediately returns two scores, a receipt,
 and a current rank, and the team's best eligible result appears on the public
-leaderboard. Test returns only an acceptance receipt. Task 2 and Task 3 solution materials
-and submission routes will be published after organizer testing. All routes
+leaderboard. Test returns only an acceptance receipt. Task 3 follows the same shape, with
+its practice route open now and its development and test routes opening with
+their datasets. Task 2 solution materials and submission routes will be
+published after organizer testing. All routes
 share the 15 November deadline.
 
 Submission does not guarantee publication. Any publication is subject to
@@ -122,9 +130,11 @@ acceptance or publication.
 
 ## Direct participation
 
-Task 1 is open for direct participation. Choose one consistent Team Name and
-follow the [step-by-step submission guide](https://the-finai.github.io/IEEE-bigdata-cup/task1/submit/#how-to-submit).
-Development requires Team Name and a canonical ZIP. Test requires the same Team
+Task 1 and the Task 3 practice phase are open for direct participation. Choose
+one consistent Team Name and follow the step-by-step submission guide for
+[Task 1](https://the-finai.github.io/IEEE-bigdata-cup/task1/submit/#how-to-submit)
+or [Task 3](https://the-finai.github.io/IEEE-bigdata-cup/task3/submit/#how-to-submit).
+In Task 1, development requires Team Name and a canonical ZIP. Test requires the same Team
 Name, a private Contact Email, and a canonical ZIP. Contact Email is not a login
 and is used only for submission identification, submission-related support,
 matching final results to the related challenge paper, and enforcing test
@@ -141,13 +151,19 @@ identifier.
 | [Task 1 step-by-step submission guide](https://the-finai.github.io/IEEE-bigdata-cup/task1/submit/#how-to-submit) | Live |
 | Task 1 validator, sample B0, and B1 baseline | Live in this repository |
 | Task 1 organizer baseline scores | B0–B2 local-development references live on the leaderboard page |
-| Task 2 and Task 3 starter kits and baselines | Coming soon |
+| [Task 3 starter kit, validator, and scorer](finreason_task3/) | Live in this repository |
+| Task 3 practice phase (332 public FinMR cases) | Live — scored on upload, never ranked |
+| Task 3 development and test datasets | Coming soon |
+| Task 2 starter kit and baselines | Coming soon |
 | Participant support | [zhuohan.xie@mbzuai.ac.ae](mailto:zhuohan.xie@mbzuai.ac.ae) |
 | Terms of Participation | Live |
 | Privacy Notice | Live |
 | [Challenge paper submission](https://wi-lab.com/cyberchair/2026/bigdata26/scripts/submit.php?subarea=SC03) | Open |
 | [Task 1 participant hub](https://the-finai.github.io/IEEE-bigdata-cup/task1/) | Public downloads live; direct-upload status published here |
 | [Task 1 leaderboard](https://the-finai.github.io/IEEE-bigdata-cup/task1/leaderboard/) | Development only |
+| [Task 3 participant hub](https://the-finai.github.io/IEEE-bigdata-cup/task3/) | Live; per-phase status published here |
+| [Task 3 step-by-step submission guide](https://the-finai.github.io/IEEE-bigdata-cup/task3/submit/#how-to-submit) | Live |
+| [Task 3 leaderboard](https://the-finai.github.io/IEEE-bigdata-cup/task3/leaderboard/) | Opens with the development dataset |
 
 The participant hub publishes only organizer-verified competition-platform and
 submission links and records their current availability.
@@ -160,13 +176,14 @@ submission links and records their current availability.
 | Winning teams announced | **25 November 2026** |
 | IEEE Big Data 2026, Phoenix, Arizona | **14–17 December 2026** |
 
-Task 2, Task 3, and remaining private-evaluation dates will be published on the
-official challenge website after organizer testing.
+Task 2, the Task 3 development and test phases, and remaining
+private-evaluation dates will be published on the official challenge website
+after organizer testing.
 
 ## Repository scope
 
 This repository contains the organizer-maintained FinReason Cup website and the
-released Task 1 participant data and tools. Task 2 and Task 3 participant
+released Task 1 and Task 3 participant data and tools. Task 2 participant
 resources will be linked here after organizer verification.
 
 Please use only links marked as verified on the
@@ -207,6 +224,37 @@ Email, submission archive, gold answer, or private evaluation record. Live mode
 requires two distinct verified root `*.hf.space` URLs and the verified public
 development leaderboard endpoint. Until then, the public site shows the upload
 links as pending rather than publishing an unverified route.
+
+### Task 3 participant hub
+
+The public `/task3/` route follows the same boundary with three phases instead
+of two:
+
+- **practice** runs on the 332 public FinMR cases whose answers ship with the
+  starter kit. Upload `predictions.jsonl` — or a ZIP containing exactly one
+  root-level file of that name — with a Team Name only, and the scoring
+  workspace returns accuracy, the structural, extraction, and calculation error
+  rates, and a receipt. Because the answers are public, practice results are
+  never ranked and never reach the leaderboard: a practice ranking would measure
+  who read them;
+- **development** runs on organizer-held gold and is the phase that ranks. It
+  additionally requires a Contact Email, which is stored only as a salted hash;
+- **test** runs on a separate receipt-only workspace that returns an acceptance
+  receipt and nothing else — no score, rank, diagnostic, or score-derived
+  signal. That workspace serves no scoring or leaderboard route at all, and
+  refuses to start if it is configured in a way that could return one.
+
+Each phase reports its own status on the hub, and a phase whose dataset does not
+exist reports itself as pending rather than accepting work it cannot score. The
+[step-by-step submission guide](https://the-finai.github.io/IEEE-bigdata-cup/task3/submit/#how-to-submit)
+covers preparing the public cases, the three required JSONL fields, and the
+validator and local scorer in `finreason_task3/`.
+
+The public JSON feed uses the frozen aggregate-only development leaderboard
+contract `finreason.task3.development-leaderboard/1.0.0`. It publishes only Team
+Name, rank, the four aggregate rates as two-decimal percentages, and acceptance
+time. Rows are ordered by accuracy descending, then by calculation, extraction,
+and structural error rates ascending, then by Team Name.
 
 ## Local development
 
