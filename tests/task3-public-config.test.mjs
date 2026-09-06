@@ -42,6 +42,18 @@ test("final mode refuses to build with a missing endpoint", () => {
   );
 });
 
+test("final mode distinguishes an invalid endpoint from a missing one", () => {
+  assert.throws(
+    () => resolveTask3PublicConfig({
+      siteMode: "final",
+      scoringSpaceUrl: SCORING,
+      testSpaceUrl: "https://yanadjenole-finreason-task3-test.hf.space/submit",
+      leaderboardApiUrl: API,
+    }),
+    /not a verified root Space URL/,
+  );
+});
+
 test("rejects non-root and non-hf.space endpoints", () => {
   for (const bad of [
     "https://yanadjenole-finreason-task3-development.hf.space/submit",

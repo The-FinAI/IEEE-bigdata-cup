@@ -67,7 +67,7 @@ test("rejects a row with a missing or extra field", () => {
 });
 
 test("rejects scores that are not two-decimal percentages", () => {
-  for (const bad of ["0.481900", "48.1", "48.190", "-1.00", "101.00", "abc", 48.19]) {
+  for (const bad of ["0.481900", "48.1", "48.190", "-1.00", "101.00", "abc", 48.19, "05.00", "00.00"]) {
     assert.throws(() => parseDevelopmentLeaderboard(payload([row({ acc: bad })])), /invalid/i,
       `accepted ${bad}`);
   }

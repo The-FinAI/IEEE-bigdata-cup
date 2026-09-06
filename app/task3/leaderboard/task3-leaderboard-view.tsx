@@ -99,8 +99,8 @@ export function Task3LeaderboardView({ dataUrl }: { dataUrl: string | null }) {
               </tr>
             </thead>
             <tbody>
-              {rows.map((row) => (
-                <tr key={`${row.rank}-${row.teamName}`}>
+              {rows.map((row, index) => (
+                <tr key={`${row.rank}-${row.teamName}-${index}`}>
                   <td className="leaderboard-score">{row.rank}</td>
                   <th scope="row">
                     <span className="leaderboard-team-name">{row.teamName}</span>
