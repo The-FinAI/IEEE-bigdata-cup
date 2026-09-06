@@ -321,3 +321,26 @@ test("publishes the Task 3 leaderboard page with only measured baselines", async
   assert.doesNotMatch(board, /gpt-|claude-|deepseek/i);
   assert.doesNotMatch(board, /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/i);
 });
+
+test("lists the Task 3 routes in the sitemap and keeps Task 1 intact", async () => {
+  const sitemap = await text("out/sitemap.xml");
+  for (const route of ["task3/", "task3/submit/", "task3/leaderboard/"]) {
+    assert.match(sitemap, new RegExp(`IEEE-bigdata-cup/${route.replace(/\//g, "\\/")}<`));
+  }
+  for (const route of ["task1/", "task1/submit/", "task1/leaderboard/"]) {
+    assert.match(sitemap, new RegExp(`IEEE-bigdata-cup/${route.replace(/\//g, "\\/")}<`));
+  }
+});
+
+test("every Task 3 page cross-links the other two", async () => {
+  const [hub, submit, board] = await Promise.all([
+    text("out/task3/index.html"),
+    text("out/task3/submit/index.html"),
+    text("out/task3/leaderboard/index.html"),
+  ]);
+  for (const page of [hub, submit, board]) {
+    assert.match(page, /task3\/"/);
+    assert.match(page, /task3\/submit\/"/);
+    assert.match(page, /task3\/leaderboard\/"/);
+  }
+});
