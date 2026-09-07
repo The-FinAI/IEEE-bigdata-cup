@@ -83,21 +83,28 @@ from their participant hubs. Task 2 formulas, tolerances, tie-break procedures,
 submission contracts, and validity rules will be published with its public
 scorer.
 
-## Final paper and solution submission
+## Competition submissions and Working Notes
 
-Teams seeking final ranking and awards must submit a challenge paper through
+**Schedule update, 7 September 2026:** the previously published combined
+15 November cutoff has been advanced. Final system submissions and required
+solution materials for all three tasks are due on **15 October 2026, 23:59
+Anywhere on Earth**. Working Notes are due separately on **23 October 2026,
+23:59 Anywhere on Earth**.
+
+Teams seeking final ranking and awards must submit Working Notes (a challenge paper) through
 the official [FinReason Cup SC03 track in
 CyberChair](https://wi-lab.com/cyberchair/2026/bigdata26/scripts/submit.php?subarea=SC03).
 
-- Length: up to 6 pages total, including references
+- Length: up to 10 pages total, including references
 - Format: [IEEE two-column conference
   template](https://www.ieee.org/conferences/publishing/templates.html)
-- Deadline: 15 November 2026, 23:59 Anywhere on Earth
+- Working Notes deadline: 23 October 2026, 23:59 Anywhere on Earth
+- Paper review feedback and organizer acceptance decisions: 6 November 2026
+- Camera-ready deadline for accepted papers: 13 November 2026, 23:59 Anywhere on Earth
 
-CyberChair has not yet updated its displayed deadline and currently shows a
-10-page upload limit. The FinReason Cup organizer deadline is 15 November 2026,
-23:59 Anywhere on Earth, and FinReason teams should follow the challenge
-requirement above and submit no more than 6 pages total, including references.
+CyberChair currently displays its deadline as to be announced and allows up to
+10 pages including references. Follow the FinReason organizer schedule above
+while the portal display is being updated.
 
 The paper portal is separate from the competition submission path. Task 1 does
 not require pre-registration, organizer approval, an access code, or an account.
@@ -107,21 +114,24 @@ and a current rank, and the team's best eligible result appears on the public
 leaderboard. Test returns only an acceptance receipt. Task 3 follows the same shape, with
 its practice route open now and its development and test routes opening with
 their datasets. Task 2 solution materials and submission routes will be
-published after organizer testing. All routes
-share the 15 November deadline.
+published after organizer testing. Competition submissions close on 15 October;
+the later Working Notes deadline does not extend the competition cutoff.
 
-Submission does not guarantee publication. Any publication is subject to
-conference peer review, acceptance, camera-ready submission, registration, and
-presentation requirements.
+The organizers review the Working Notes and decide paper acceptance. Selected
+accepted papers may be included in the conference proceedings, subject to
+conference publication, camera-ready, registration, and presentation
+requirements. Submission, ranking, or a certificate does not guarantee paper
+acceptance or proceedings publication.
 
 ## Certificates and prizes
 
 FinReason does not offer cash prizes. Registration support is not confirmed at
-this time. A team will receive a participation certificate if it completes both:
+this time, and the organizers do not promise registration funding. A team will
+receive a participation certificate if it completes both:
 
 1. at least one valid final solution submission under the applicable task
-   rules; and
-2. a challenge paper submission through CyberChair SC03 by 15 November 2026,
+   rules by 15 October 2026, 23:59 Anywhere on Earth; and
+2. a Working Notes submission through CyberChair SC03 by 23 October 2026,
    23:59 Anywhere on Earth.
 
 Winning teams will receive a winner certificate. Additional award categories
@@ -172,13 +182,19 @@ submission links and records their current availability.
 
 | Milestone | Date |
 | --- | --- |
-| Final challenge paper and solution materials | **15 November 2026, 23:59 AoE** |
-| Winning teams announced | **25 November 2026** |
+| Competition closes for Tasks 1, 2, and 3: final system submissions and required solution materials | **15 October 2026, 23:59 AoE** |
+| Final competition results | **16 October 2026**, after 12:00 UTC (16:00 Abu Dhabi time) |
+| Team Working Notes through CyberChair SC03, up to 10 pages including references | **23 October 2026, 23:59 AoE** |
+| Paper review feedback and organizer acceptance decisions | **6 November 2026** |
+| Camera-ready papers | **13 November 2026, 23:59 AoE** |
+| Organizer overview due to the conference | **20 November 2026** |
+| Winning teams announced (awards) | **25 November 2026** |
 | IEEE Big Data 2026, Phoenix, Arizona | **14–17 December 2026** |
 
-Task 2, the Task 3 development and test phases, and remaining
-private-evaluation dates will be published on the official challenge website
-after organizer testing.
+AoE means Anywhere on Earth (UTC−12). The 15 October competition cutoff passes
+at 12:00 UTC on 16 October, so final results will not be released before that
+time. Task 2 and Task 3 development/test release dates will be published after
+organizer testing; their final competition cutoff remains 15 October.
 
 ## Repository scope
 
@@ -304,4 +320,4 @@ describe the current organizer-maintained participation rules.
 
 ---
 
-Last reviewed: 3 September 2026.
+Last reviewed: 7 September 2026.

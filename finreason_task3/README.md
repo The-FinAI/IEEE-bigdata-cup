@@ -8,6 +8,16 @@ This is targeted numeric-fact verification, not a full financial-statement audit
 > Prompting, agents, retrieval, symbolic reasoning, rule engines, fine-tuned
 > models and hybrids are all welcome. You are scored on your predictions.
 
+**Schedule update, 7 September 2026:** the combined 15 November cutoff has been
+advanced. Final competition predictions are due on **15 October 2026, 23:59
+Anywhere on Earth**. Results are scheduled for 16 October after 12:00 UTC
+(16:00 Abu Dhabi time). Submit Working Notes separately through
+[CyberChair SC03](https://wi-lab.com/cyberchair/2026/bigdata26/scripts/submit.php?subarea=SC03)
+by **23 October 2026, 23:59 Anywhere on Earth**, with up to 10 pages including
+references. Review feedback and organizer acceptance decisions are scheduled
+for 6 November; camera-ready papers are due on 13 November 2026, 23:59 Anywhere
+on Earth. See the [full schedule](https://the-finai.github.io/IEEE-bigdata-cup/#timeline).
+
 ---
 
 ## 1. The task

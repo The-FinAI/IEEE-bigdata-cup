@@ -157,8 +157,14 @@ export default function Task1SubmitPage() {
       </section>
 
       <aside className="task-hub-note">
-        <strong>Final paper and solution deadline</strong>
-        <p>15 November 2026, 23:59 Anywhere on Earth.</p>
+        <strong>Competition and Working Notes deadlines</strong>
+        <p>
+          Schedule updated 7 September 2026, replacing the combined 15 November cutoff.
+          Final competition submissions close on 15 October 2026, 23:59 Anywhere on Earth.
+          Results are scheduled for 16 October after 12:00 UTC (16:00 Abu Dhabi time).
+          Working Notes are due separately on 23 October 2026, 23:59 Anywhere on Earth.{" "}
+          <Link href="/#timeline">Full competition and paper schedule</Link>.
+        </p>
       </aside>
     </main>
   );

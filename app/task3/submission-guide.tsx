@@ -146,6 +146,21 @@ export function SubmissionGuide({
           </div>
         </li>
       </ol>
+      <aside className="submission-guide-paper-note">
+        <strong>Competition submissions and Working Notes are separate.</strong>
+        <p>
+          The schedule updated on 7 September 2026 replaces the combined 15 November cutoff.
+          Final competition predictions are due on 15 October 2026, 23:59 Anywhere on Earth.
+          Final results are scheduled for 16 October after 12:00 UTC (16:00 Abu Dhabi time).
+          Submit Working Notes through{" "}
+          <a href="https://wi-lab.com/cyberchair/2026/bigdata26/scripts/submit.php?subarea=SC03">CyberChair SC03</a>{" "}
+          by 23 October 2026, 23:59 Anywhere on Earth, using the{" "}
+          <a href="https://www.ieee.org/conferences/publishing/templates.html">IEEE two-column conference template</a>{" "}
+          and no more than ten pages total, including references. Paper feedback and organizer
+          acceptance decisions are scheduled for 6 November; camera-ready papers are due on
+          13 November 2026, 23:59 Anywhere on Earth. Do not upload paper PDFs to prediction workspaces.
+        </p>
+      </aside>
     </section>
   );
 }

@@ -50,7 +50,7 @@ test("renders direct web upload routes without a GitHub Issue intake", async () 
   assert.match(submit, /Final answer score, Reasoning steps score, receipt ID, and current rank/);
   assert.match(submit, /score-derived signal/);
   assert.match(submit, /Challenge paper is separate/);
-  assert.match(submit, /no more than six pages total/);
+  assert.match(submit, /no more than ten pages total, including references/);
   assert.match(guideSource, /baseline-b0[^\n]+> blank_predictions\.jsonl/);
   assert.doesNotMatch(guideSource, /baseline-b0[^\n]+> predictions\.jsonl/);
   assert.match(cliSource, /commands\.add_parser\("validate"\)/);

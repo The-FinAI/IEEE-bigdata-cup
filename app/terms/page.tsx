@@ -53,7 +53,7 @@ export default function TermsPage() {
         <dl className="policy-meta">
           <div>
             <dt>Effective</dt>
-            <dd>3 September 2026</dd>
+            <dd>7 September 2026</dd>
           </div>
           <div>
             <dt>Contact</dt>
@@ -81,6 +81,15 @@ export default function TermsPage() {
             By using an organizer-operated participant service or submitting
             competition materials, a team agrees to these terms and the
             task-specific rules published with the applicable verified release.
+          </p>
+          <p>
+            Schedule update, 7 September 2026: the previously published combined
+            15 November cutoff has been advanced. Final system submissions and
+            required solution materials for all three tasks are due on
+            15 October 2026, 23:59 Anywhere on Earth (AoE, UTC−12). Final
+            competition results are scheduled for 16 October, after the cutoff
+            has passed at 12:00 UTC (16:00 Abu Dhabi time). Working Notes are
+            due separately on 23 October 2026, 23:59 AoE.
           </p>
         </section>
 
@@ -169,12 +178,21 @@ export default function TermsPage() {
           <p className="section-index">06 / PAPER</p>
           <h2 id="terms-paper">Challenge paper and publication</h2>
           <p>
-            Teams seeking final ranking and awards must submit a challenge paper
-            of up to 6 pages total, including references, in the IEEE two-column
-            conference format by 15 November 2026, 23:59 Anywhere on Earth.
-            Submission does not guarantee publication. Publication remains
-            subject to conference peer review, acceptance, camera-ready
-            submission, registration, and presentation requirements.
+            Teams seeking final ranking and awards must submit Working Notes
+            (a challenge paper) of up to 10 pages total, including references,
+            in the IEEE two-column conference format through CyberChair SC03 by
+            23 October 2026, 23:59 Anywhere on Earth. The organizers review the
+            papers and decide acceptance, with feedback and decisions scheduled
+            for 6 November. Accepted teams must submit camera-ready papers by
+            13 November 2026, 23:59 Anywhere on Earth.
+          </p>
+          <p>
+            Selected accepted papers may be included in the conference
+            proceedings, subject to conference publication, camera-ready,
+            registration, and presentation requirements. Submission, ranking,
+            or a certificate does not guarantee paper acceptance or publication.
+            The organizer overview is due to the conference on 20 November 2026;
+            the award announcement is scheduled for 25 November 2026.
           </p>
         </section>
 
@@ -203,10 +221,12 @@ export default function TermsPage() {
           <h2 id="terms-certificates">Certificates and prizes</h2>
           <p>
             FinReason does not offer cash prizes. Registration support is not
-            confirmed at this time. A team will receive a participation
+            confirmed at this time, and the organizers do not promise
+            registration funding. A team will receive a participation
             certificate if it submits both (1) at least one valid final
-            solution under the applicable task rules and (2) a challenge paper
-            through CyberChair SC03 by 15 November 2026, 23:59 Anywhere on
+            solution under the applicable task rules by 15 October 2026,
+            23:59 Anywhere on Earth and (2) Working Notes
+            through CyberChair SC03 by 23 October 2026, 23:59 Anywhere on
             Earth. Winning teams will receive a winner certificate.
           </p>
           <p>

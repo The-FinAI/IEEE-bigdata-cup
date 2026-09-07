@@ -91,41 +91,48 @@ const evaluationSteps = [
   },
 ];
 
-const buildLaunchItems = (spaceLinksAreReady: boolean) => [
+const launchItems = [
   {
-    state: "current",
-    label: "Task 1 direct submission",
-    date: spaceLinksAreReady ? "OPEN" : "VERIFYING",
-    detail: spaceLinksAreReady
-      ? "No pre-registration or access code is required. Submit a canonical ZIP directly through the development or test page."
-      : "No pre-registration or access code will be required. The two direct-upload links remain under verification.",
-  },
-  {
-    state: "current",
-    label: "Task 1 participant hub",
-    date: "DATA LIVE",
-    detail:
-      "Training, development, and test files, plus the submission guide and practice baselines, are live. The participant hub shows current upload availability.",
-  },
-  {
-    state: "upcoming",
-    label: "Task 2 + Task 3 release",
-    date: "PENDING",
-    detail:
-      "Contracts, datasets, scorers, submission routes, and task-specific dates will follow organizer testing.",
+    state: "scheduled",
+    label: "Competition closes · Tasks 1–3",
+    date: "15 OCT · 23:59 AOE",
+    detail: "Final system submissions and required solution materials are due through each task’s competition route.",
   },
   {
     state: "scheduled",
-    label: "Final paper + solution",
-    date: "15 NOV · 23:59 AOE",
-    detail:
-      "The challenge paper and solution materials specified in the final task rules are due.",
+    label: "Final competition results",
+    date: "16 OCT",
+    detail: "Results are released after the AoE cutoff has passed, no earlier than 16:00 Abu Dhabi time (12:00 UTC).",
+  },
+  {
+    state: "scheduled",
+    label: "Working Notes due",
+    date: "23 OCT · 23:59 AOE",
+    detail: "Submit the team’s challenge paper through CyberChair SC03, up to 10 pages total including references.",
+  },
+  {
+    state: "scheduled",
+    label: "Review feedback + acceptance",
+    date: "6 NOV",
+    detail: "The organizers return paper feedback and acceptance decisions.",
+  },
+  {
+    state: "scheduled",
+    label: "Camera-ready papers due",
+    date: "13 NOV · 23:59 AOE",
+    detail: "Accepted teams submit their revised, camera-ready papers.",
+  },
+  {
+    state: "scheduled",
+    label: "Organizer overview due",
+    date: "20 NOV",
+    detail: "The organizers submit the challenge overview to the conference.",
   },
   {
     state: "scheduled",
     label: "Winning teams announced",
     date: "25 NOV",
-    detail: "Final results and winning teams are scheduled to be announced.",
+    detail: "Award announcement. Competition results are released earlier, on 16 October.",
   },
   {
     state: "conference",
@@ -139,22 +146,22 @@ const faqs = [
   {
     question: "Where do teams submit the challenge paper?",
     answer:
-      "Use the official FinReason Cup SC03 track in CyberChair. Teams seeking final ranking and awards must submit a challenge paper of up to 6 pages total, including references, in the IEEE two-column conference format by 15 November 2026, 23:59 Anywhere on Earth.",
+      "Use the official FinReason Cup SC03 track in CyberChair. Teams seeking final ranking and awards must submit Working Notes (a challenge paper) of up to 10 pages total, including references, in the IEEE two-column conference format by 23 October 2026, 23:59 Anywhere on Earth.",
   },
   {
     question: "Is the paper submission also the competition submission?",
     answer:
-      "No. CyberChair SC03 is for the challenge paper. Task 1 solution files use the separate development and test submission pages linked from the participant hub. Both routes share the final submission deadline.",
+      "No. Final system submissions and required solution materials for all three tasks are due through the task-specific competition routes by 15 October 2026, 23:59 Anywhere on Earth. Working Notes use CyberChair SC03 and are due separately on 23 October 2026, 23:59 Anywhere on Earth. Use the participant hubs for current task availability and upload instructions.",
   },
   {
-    question: "Why does CyberChair show a 10-page limit and deadline TBA?",
+    question: "Which schedule should teams follow if CyberChair displays a different date?",
     answer:
-      "CyberChair has not yet updated its displayed deadline and currently shows a 10-page upload limit. The FinReason Cup organizer deadline is 15 November 2026, 23:59 Anywhere on Earth, and FinReason teams should submit no more than 6 pages total, including references.",
+      "CyberChair currently displays its deadline as to be announced and allows up to 10 pages including references. Follow the organizer schedule updated on 7 September 2026: competition submissions close on 15 October, Working Notes are due on 23 October, and camera-ready papers are due on 13 November, each at 23:59 Anywhere on Earth. This replaces the previously published combined 15 November cutoff. CyberChair display settings may take time to reflect this update.",
   },
   {
     question: "Does submitting a challenge paper guarantee publication?",
     answer:
-      "No. Any publication is subject to conference peer review, acceptance, camera-ready submission, registration, and presentation requirements.",
+      "No. The organizers review the Working Notes and decide paper acceptance, with feedback and decisions scheduled for 6 November. Selected accepted papers may be included in the conference proceedings, subject to conference publication, camera-ready, registration, and presentation requirements. Participation, ranking, or a certificate does not guarantee paper acceptance or proceedings publication.",
   },
   {
     question: "Can a team enter more than one task?",
@@ -169,7 +176,7 @@ const faqs = [
   {
     question: "What certificates and prizes are available?",
     answer:
-      "FinReason does not offer cash prizes. Registration support is not confirmed at this time. A team will receive a participation certificate if it submits both (1) at least one valid final solution under the applicable task rules and (2) a challenge paper through CyberChair SC03 by 15 November 2026, 23:59 Anywhere on Earth. Winning teams will receive a winner certificate. Additional award categories remain provisional until published. Certificates do not imply paper acceptance or publication.",
+      "FinReason does not offer cash prizes. Registration support is not confirmed at this time, and the organizers do not promise registration funding. A team will receive a participation certificate if it submits both (1) at least one valid final solution under the applicable task rules by 15 October 2026, 23:59 Anywhere on Earth and (2) Working Notes through CyberChair SC03 by 23 October 2026, 23:59 Anywhere on Earth. Winning teams will receive a winner certificate. Additional award categories remain provisional until published. Certificates do not imply paper acceptance or publication.",
   },
   {
     question: "Does Task 1 require registration or a team code?",
@@ -204,7 +211,6 @@ export default function Home() {
       config.testSpace.state === "ready" &&
       config.testSpace.url,
   );
-  const launchItems = buildLaunchItems(spaceLinksAreReady);
 
   return (
     <>
@@ -239,6 +245,16 @@ export default function Home() {
       </header>
 
       <main className="site-shell" id="main-content" tabIndex={-1}>
+        <aside className="schedule-notice" aria-labelledby="schedule-update-title">
+          <strong id="schedule-update-title">Schedule update · 7 September 2026</strong>
+          <p>
+            The previously published combined 15 November cutoff has been advanced.
+            Competition submissions for Tasks 1–3 now close on <strong>15 October 2026, 23:59 AoE</strong>.
+            Working Notes are due separately on <strong>23 October 2026, 23:59 AoE</strong>.
+            Team reports may contain up to 10 pages total, including references.{" "}
+            <a href="#timeline">View the full schedule</a>.
+          </p>
+        </aside>
         <div className="hero-stage" id="overview">
         <section className="hero">
           <div className="hero-copy">
@@ -325,11 +341,11 @@ export default function Home() {
           </li>
           <li>
             <span>Final report</span>
-            <strong>Up to 6 pages</strong>
+            <strong>Up to 10 pages</strong>
           </li>
           <li>
-            <span>Deadline</span>
-            <strong>15 Nov · 23:59 AoE</strong>
+            <span>Competition closes</span>
+            <strong>15 Oct · 23:59 AoE</strong>
           </li>
           <li>
             <span>Status</span>
@@ -502,14 +518,12 @@ export default function Home() {
         <div className="split-heading">
           <p className="section-index">03 / TIMELINE</p>
           <div>
-            <h2>One source of truth as the competition comes online.</h2>
+            <h2>Competition and paper schedule.</h2>
             <p>
-              {spaceLinksAreReady
-                ? "Task 1 data and direct uploads are live. "
-                : "Task 1 data is live; its two upload links remain under verification. "}
-              Task 2 and Task 3 release dates will be added after organizer
-              testing. Final paper and solution submissions are due on 15
-              November.
+              All dates below are in 2026. Competition submissions and Working Notes have
+              separate deadlines. AoE means Anywhere on Earth (UTC−12); the 15 October
+              competition cutoff passes at 12:00 UTC on 16 October. Task availability
+              and release notices remain published in the participant hubs.
             </p>
           </div>
         </div>
@@ -543,22 +557,25 @@ export default function Home() {
             <div>
               <span>01</span>
               <p>
-                Submit a paper of up to 6 pages total, including references,
-                using the IEEE two-column conference format.
+                Submit final system predictions and required solution materials
+                through the task-specific competition route by 15 October 2026,
+                23:59 Anywhere on Earth.
               </p>
             </div>
             <div>
               <span>02</span>
               <p>
-                Upload the paper through the official FinReason Cup SC03 track
-                in CyberChair.
+                Upload Working Notes of up to 10 pages total, including references,
+                in the IEEE two-column conference format through CyberChair SC03
+                by 23 October 2026, 23:59 Anywhere on Earth.
               </p>
             </div>
             <div>
               <span>03</span>
               <p>
-                Submit the final paper and solution materials by 15 November
-                2026, 23:59 Anywhere on Earth.
+                Paper feedback and organizer acceptance decisions are scheduled
+                for 6 November. Accepted teams submit camera-ready papers by
+                13 November 2026, 23:59 Anywhere on Earth.
               </p>
             </div>
           </div>
@@ -642,7 +659,7 @@ export default function Home() {
                 <span className="sr-only"> (opens in a new tab)</span>
               </a>
             </nav>
-            <p className="footer-updated">Last reviewed 3 September 2026.</p>
+            <p className="footer-updated">Last reviewed 7 September 2026.</p>
           </div>
           <a href="#overview">Back to top ↑</a>
         </div>

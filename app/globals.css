@@ -1443,14 +1443,39 @@ label {
   padding-bottom: 150px;
 }
 
+.schedule-notice {
+  background: var(--paper-bright);
+  border-left: 4px solid var(--mint-deep);
+  margin: 24px 0;
+  padding: 20px 24px;
+}
+
+.schedule-notice > strong {
+  color: var(--mint-deep);
+  font-size: 15px;
+}
+
+.schedule-notice p {
+  font-size: 14px;
+  line-height: 1.65;
+  margin: 8px 0 0;
+}
+
+.schedule-notice a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .timeline-track {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  row-gap: 38px;
   padding-top: 34px;
   position: relative;
 }
 
 .timeline-track::before {
+  display: none;
   background: var(--line);
   content: "";
   height: 1px;
@@ -2824,6 +2849,7 @@ details p {
   }
 
   .timeline-track::before {
+    display: block;
     bottom: 0;
     height: auto;
     left: 18px;
