@@ -171,7 +171,7 @@ const faqs = [
   {
     question: "Where will the competition run?",
     answer:
-      "The Task 1 participant hub provides the training, development, and test downloads. Teams upload predictions directly through separate development and test submission pages. Development returns scores and updates the public leaderboard immediately; test returns a receipt only, with no online score or rank. The paper route remains separate through CyberChair SC03.",
+      "The Task 1 participant hub provides the training, development, and test downloads. Teams upload predictions directly through separate development and test submission pages. Development returns scores and updates the public leaderboard immediately; test shows format feedback and an acceptance receipt, with no online score or rank. The paper route remains separate through CyberChair SC03.",
   },
   {
     question: "What certificates and prizes are available?",

@@ -148,9 +148,9 @@ export default function TermsPage() {
             documentation. Accepted development submissions return Final answer
             and Reasoning steps scores, a receipt, and current rank, and each
             team&apos;s best eligible result appears on the public development leaderboard.
-            Accepted test submissions return an acceptance receipt only. They do
-            not receive an online score, rank, diagnostic, score-derived signal,
-            or test leaderboard entry. The organizers perform official test
+            Test uploads receive public-format validation feedback and an acceptance receipt when accepted. They do
+            not receive an online score, rank, answer-correctness feedback, score-derived signal,
+            or scored test leaderboard entry. The organizers perform official test
             evaluation after submissions close.
           </p>
           <p>

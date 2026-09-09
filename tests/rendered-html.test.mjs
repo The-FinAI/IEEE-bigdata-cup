@@ -60,7 +60,7 @@ test("renders direct web upload routes without a GitHub Issue intake", async () 
   assert.match(cliSource, /package\.add_argument\("--output", required=True\)/);
   assert.match(cliSource, /validate_zip\.add_argument\("--submission-zip", required=True\)/);
   assert.match(submit, /Development and test submission/);
-  assert.match(submit, /Test returns only an acceptance receipt/);
+  assert.match(submit, /Test shows format-check feedback and an acceptance receipt/);
   assert.match(`${hub}\n${submit}`, /current rank immediately|receipt ID, and current rank/);
   assert.match(leaderboard, /Development leaderboard/);
   assert.match(leaderboard, /Two scores, shown on a 0–1 scale/);
@@ -157,7 +157,7 @@ test("renders direct web upload routes without a GitHub Issue intake", async () 
     assert.ok(!leaderboard.includes(publicConfig.testSpace.url));
     assert.match(home, /Task 1 is live with frozen participant data and direct uploads/);
     assert.match(home, /immediately returns Final answer, Reasoning steps, a receipt, and current rank/);
-    assert.match(home, /returns only an acceptance receipt with no online score or rank/);
+    assert.match(home, /shows format feedback and an acceptance receipt with no online score or rank/);
     assert.doesNotMatch(
       participantCopy,
       /under verification|pending verification|links? (?:remain )?withheld|links? (?:are|were) being verified before/i,
@@ -168,6 +168,31 @@ test("renders direct web upload routes without a GitHub Issue intake", async () 
     assert.match(submit, /Development upload link pending verification/);
     assert.match(submit, /Test upload link pending verification/);
     assert.doesNotMatch(submit, /href="https:\/\/[^" ]+\.hf\.space\//);
+  }
+});
+
+test("links Dev and Test while keeping test status separate from score results", async () => {
+  const [development, testStatus, sitemap] = await Promise.all([
+    text("out/task1/leaderboard/index.html"),
+    text("out/task1/leaderboard/test/index.html"),
+    text("out/sitemap.xml"),
+  ]);
+  for (const html of [development, testStatus]) {
+    assert.match(html, /aria-label="Task 1 submission phase"/);
+    assert.match(html, /href="[^\"]*\/task1\/leaderboard\/test\/"/);
+    assert.match(html, /Format check and submission status/);
+  }
+  assert.match(testStatus, /Test submission status/);
+  assert.match(testStatus, /A format pass alone is not an acceptance receipt/);
+  assert.match(testStatus, /No test score, rank, or answer-correctness feedback/);
+  assert.doesNotMatch(testStatus, /<table|Final answer score|Reasoning steps score|No-answer baseline/);
+  assert.match(sitemap, /\/task1\/leaderboard\/test\//);
+  if (publicConfig.siteMode === "final") {
+    assert.ok(testStatus.includes(publicConfig.testSpace.url));
+    assert.ok(!testStatus.includes(publicConfig.leaderboardApi.url));
+  } else {
+    assert.match(testStatus, /Test upload link pending verification/);
+    assert.doesNotMatch(testStatus, /href="https:\/\/[^" ]+\.hf\.space\//);
   }
 });
 

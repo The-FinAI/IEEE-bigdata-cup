@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { getTask1PublicConfig } from "../public-config";
 import { Task1Nav } from "../task1-nav";
 import { AggregateLeaderboard } from "./aggregate-leaderboard";
+import { PhaseNav } from "./phase-nav";
 
 export const metadata: Metadata = {
   title: "Task 1 Development Leaderboard | FinReason Cup",
@@ -34,10 +36,7 @@ export default function Task1LeaderboardPage() {
           </p>
         </header>
 
-        <div className="leaderboard-phase-status" aria-label="Current competition phase">
-          <strong>Development results</strong>
-          <span>Final results follow the submission deadline</span>
-        </div>
+        <PhaseNav current="development" />
 
         <section className="leaderboard-guide" aria-labelledby="leaderboard-guide-title">
           <div>
@@ -70,8 +69,8 @@ export default function Task1LeaderboardPage() {
         <AggregateLeaderboard dataUrl={publicLeaderboardUrl} />
 
         <p className="leaderboard-test-note">
-          Test uploads are accepted separately. Test scores and ranks remain hidden until the final
-          results are released.
+          <Link href="/task1/leaderboard/test/">Open Test submission status</Link> for format
+          checks and acceptance receipts. Test scores and ranks remain hidden until final results are released.
         </p>
       </div>
     </main>

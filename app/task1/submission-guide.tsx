@@ -180,7 +180,7 @@ export function SubmissionGuide({
             <p>
               <strong>Development:</strong> wait for the result to show the Final answer score, Reasoning steps
               score, receipt ID, and current rank; the team&apos;s best eligible result also appears on the public
-              development leaderboard. <strong>Test:</strong> save the receipt ID; no test score, rank, diagnostic, or
+              development leaderboard. <strong>Test:</strong> check the format feedback and acceptance status, then save the receipt ID when accepted; no test score, rank, answer-correctness feedback, or
               score-derived signal is shown before the final results are released.
             </p>
           </div>

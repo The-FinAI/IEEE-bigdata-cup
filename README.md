@@ -111,7 +111,7 @@ not require pre-registration, organizer approval, an access code, or an account.
 Teams upload predictions through the verified development and test pages linked
 from the participant hub. Development immediately returns two scores, a receipt,
 and a current rank, and the team's best eligible result appears on the public
-leaderboard. Test returns only an acceptance receipt. Task 3 follows the same shape, with
+leaderboard. Test shows format feedback and an acceptance receipt. Task 3 follows the same shape, with
 its practice route open now and its development and test routes opening with
 their datasets. Task 2 solution materials and submission routes will be
 published after organizer testing. Competition submissions close on 15 October;
@@ -217,8 +217,10 @@ The public `/task1/` route is the stable participant entry point:
   immediately returns Final answer, Reasoning steps, a receipt, and current rank;
 - each team's best eligible development result appears on the public leaderboard;
 - the separate test workspace accepts the 928-row test predictions ZIP and
-  requires Team Name and Contact Email, then returns only an acceptance receipt,
-  with no score, rank, diagnostic, score-derived signal, or test leaderboard;
+  requires Team Name and Contact Email, then shows public-format validation feedback
+  and an acceptance receipt when accepted, with no score, rank, answer-correctness
+  feedback, or score-derived signal;
+- the leaderboard hub has Dev and [Test submission status](https://the-finai.github.io/IEEE-bigdata-cup/task1/leaderboard/test/) tabs;
 - Contact Email, submission files, gold answers, and private evaluation records
   stay inside the verified private submission boundary and are never published.
 

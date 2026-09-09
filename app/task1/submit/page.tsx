@@ -48,7 +48,7 @@ export default function Task1SubmitPage() {
             </div>
             <div>
               <dt>Test</dt>
-              <dd>Receipt only</dd>
+              <dd>Format check + receipt</dd>
             </div>
           </dl>
         </div>
@@ -75,7 +75,7 @@ export default function Task1SubmitPage() {
           <p>
             Development and test use separate submission pages. An accepted development upload shows
             the Final answer score, Reasoning steps score, receipt ID, and current rank immediately, and
-            updates the public best-per-team leaderboard. Test returns only an acceptance receipt, with no score, rank, diagnostic, or
+            updates the public best-per-team leaderboard. Test shows format-check feedback and an acceptance receipt, with no score, rank, answer-correctness feedback, or
             score-derived signal before the final results are released.
           </p>
         </div>
@@ -147,12 +147,13 @@ export default function Task1SubmitPage() {
         </article>
         <article>
           <span>03 / TEST</span>
-          <h2>Submit without feedback.</h2>
+          <h2>Check format and acceptance.</h2>
           <p>
             Upload predictions for the public 928-question test release and retain the receipt identifier.
-            Test submissions receive no online score and never appear on a leaderboard. Official test
+            The portal shows format feedback and acceptance status. Test submissions receive no online score or rank. Official test
             evaluation is performed by the organizers after submissions close.
           </p>
+          <Link href="/task1/leaderboard/test/">Open Test submission status</Link>
         </article>
       </section>
 

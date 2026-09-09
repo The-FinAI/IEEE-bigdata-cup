@@ -63,7 +63,7 @@ export function LaunchStatus() {
         <strong>Separate Task 1 participant hub</strong>
         <p>
           Task 1 data and tools are released through the participant hub. {spaceLinksAreReady
-            ? "No pre-registration or access code is required. Development accepts Team Name plus a 580-row predictions ZIP, immediately returns Final answer, Reasoning steps, a receipt, and current rank, and publishes the team’s best eligible result on the public leaderboard. Test accepts Team Name, Contact Email, and a 928-row predictions ZIP, then returns only an acceptance receipt with no online score or rank."
+            ? "No pre-registration or access code is required. Development accepts Team Name plus a 580-row predictions ZIP, immediately returns Final answer, Reasoning steps, a receipt, and current rank, and publishes the team’s best eligible result on the public leaderboard. Test accepts Team Name, Contact Email, and a 928-row predictions ZIP, then shows format feedback and an acceptance receipt with no online score or rank."
             : "The two direct-upload links remain under verification; the participant hub will publish them only after both checks pass."}
         </p>
         <div className="participant-notice-links">

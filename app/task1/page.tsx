@@ -104,12 +104,12 @@ export default function Task1HubPage() {
           <span>02 / TEST</span>
           <h2>Download 928 test questions.</h2>
           <p>
-            The test questions are available now. Accepted test submissions return only an acceptance
-            receipt. Enter the same Team Name, a Contact Email, and the canonical ZIP. Scores and ranks
+            The test questions are available now. Test uploads receive format feedback and an acceptance
+            receipt when accepted. Enter the same Team Name, a Contact Email, and the canonical ZIP. Scores and ranks
             stay hidden until the final results are released.
           </p>
           {spaceLinksAreReady ? (
-            <Link className="button button-primary" href="/task1/submit/#how-to-submit">View test submission steps</Link>
+            <Link className="button button-primary" href="/task1/leaderboard/test/">Open Test submission status</Link>
           ) : (
             <span className="button button-disabled" aria-disabled="true">Test upload link pending verification</span>
           )}
