@@ -215,7 +215,9 @@ The public `/task1/` route is the stable participant entry point:
   after both workspaces pass deployment checks;
 - the development page accepts Team Name and the 580-row predictions ZIP, then
   immediately returns Final answer, Reasoning steps, a receipt, and current rank;
-- each team's best eligible development result appears on the public leaderboard;
+- each team's best eligible development result is ranked alongside the No-answer, Rule-based,
+  and Fin-o1-8B baselines on the same 580 development questions; baseline rows are marked
+  as references, while participant-only team ranks continue to match submission receipts;
 - the separate test workspace accepts the 928-row test predictions ZIP and
   requires Team Name and Contact Email, then shows public-format validation feedback
   and an acceptance receipt when accepted, with no score, rank, answer-correctness
