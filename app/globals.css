@@ -615,12 +615,14 @@
 .task1-dev-leaderboard .finmmeval-table-shell th:last-child,
 .task1-dev-leaderboard .finmmeval-table-shell td:last-child { padding-right: 27px; text-align: right; }
 .task1-dev-leaderboard .finmmeval-table-shell tbody tr:last-child > * { border-bottom: 0; }
-.task1-dev-leaderboard .leaderboard-baseline-row { background: #fff; }
+.task1-dev-leaderboard .leaderboard-baseline-row { background: #f4f7fc; }
 .task1-dev-leaderboard .finmmeval-table-shell tbody tr:hover { background: #f8faff; }
+.task1-dev-leaderboard .finmmeval-table-shell tbody tr.leaderboard-baseline-row:hover { background: #edf2fa; }
 .task1-dev-leaderboard .leaderboard-rank-badge { background: transparent; color: #6b788d; font-size: 14px; font-weight: 550; font-variant-numeric: tabular-nums; padding: 0; }
 .leaderboard-entry-name { align-items: center; display: flex; gap: 10px; }
 .task1-dev-leaderboard .leaderboard-team-name { margin: 0; }
-.task1-dev-leaderboard .leaderboard-entry-pill { background: #f5f7fa; border: 1px solid #e4e9f0; color: #788599; font-size: 8px; font-weight: 600; letter-spacing: .04em; padding: 3px 6px; }
+.task1-dev-leaderboard .leaderboard-entry-pill { background: #f5f7fa; border: 1px solid #e4e9f0; color: #65758d; font-size: 9px; font-weight: 600; letter-spacing: .04em; line-height: 1.4; padding: 3px 7px; }
+.task1-dev-leaderboard .leaderboard-entry-pill.baseline { background: #e9eff8; border-color: #d8e2f1; color: #506b94; }
 .task1-dev-leaderboard .leaderboard-score { color: #47566e; font-size: 15px; font-weight: 500; letter-spacing: -.01em; }
 .task1-dev-leaderboard .leaderboard-score.score-best { color: #2159cc; font-weight: 750; }
 .task1-dev-leaderboard .leaderboard-sort-arrow { color: #2159cc; font-size: 13px; margin-left: 4px; }

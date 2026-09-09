@@ -87,7 +87,7 @@ export function AggregateLeaderboard({ dataUrl }: AggregateLeaderboardProps) {
           <thead>
             <tr>
               <th scope="col">Rank</th>
-              <th scope="col">Team / model</th>
+              <th scope="col">Team</th>
               <th scope="col" aria-sort="descending">Final answer <span className="leaderboard-sort-arrow" aria-hidden="true">↓</span></th>
               <th scope="col">Reasoning steps</th>
               <th className="leaderboard-updated-column" scope="col">Updated</th>
