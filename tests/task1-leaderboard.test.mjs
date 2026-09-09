@@ -57,9 +57,8 @@ test("ranks hosted development baselines with participants by their scores", () 
       ["CPD", 1, 1],
       ["Fin-o1-8B", 2, null],
       ["Middle Team", 3, 2],
-      ["Rule-based baseline", 4, null],
+      ["Financial Rules", 4, null],
       ["Lower Team", 5, 3],
-      ["No-answer baseline", 6, null],
     ],
   );
   assert.equal(combined.find(({ teamDisplayName }) => teamDisplayName === "Lower Team").rank, 3);
@@ -73,7 +72,6 @@ test("uses the hosted baseline scores and acceptance times without participants"
     [
       ["baseline:B2", "0.234048", "0.555354", "2026-09-03T06:28:43Z", 1],
       ["baseline:B1", "0.020833", "0.011574", "2026-09-03T06:28:02Z", 2],
-      ["baseline:B0", "0.000000", "0.000000", "2026-09-02T07:52:58Z", 3],
     ],
   );
 });
@@ -106,8 +104,7 @@ test("shares rank only for both equal scores and orders tied names deterministic
       ["Alpha", 2],
       ["Fin-o1-8B", 2],
       ["Zulu", 2],
-      ["Rule-based baseline", 5],
-      ["No-answer baseline", 6],
+      ["Financial Rules", 5],
     ],
   );
   assert.deepEqual(combineDevelopmentRankings([...participants].reverse()), combined);
@@ -116,21 +113,23 @@ test("shares rank only for both equal scores and orders tied names deterministic
 test("keeps zero-score participants and baseline-name collisions distinct", () => {
   const participants = parseDevelopmentLeaderboard(payload({ rows: [
     row({
-      team_name: "No-answer baseline",
+      team_name: "Financial Rules",
       final_answer_score: "0.000000",
       reasoning_steps_score: "0.000000",
     }),
   ] })).rows;
   const combined = combineDevelopmentRankings(participants);
-  const zeroRows = combined.filter(({ seenFac }) => seenFac === "0.000000");
+  const sameNameRows = combined.filter(({ teamDisplayName }) => teamDisplayName === "Financial Rules");
   assert.deepEqual(
-    zeroRows.map(({ id, kind, displayRank, participantRank }) =>
+    sameNameRows.map(({ id, kind, displayRank, participantRank }) =>
       [id, kind, displayRank, participantRank]),
     [
-      ["baseline:B0", "baseline", 3, null],
-      ["participant:No-answer baseline", "participant", 3, 1],
+      ["baseline:B1", "baseline", 2, null],
+      ["participant:Financial Rules", "participant", 3, 1],
     ],
   );
+  assert.equal(combined.find(({ kind }) => kind === "participant").seenFac, "0.000000");
+  assert.equal(combined.find(({ kind }) => kind === "participant").seenCheckpoint, "0.000000");
   assert.equal(new Set(combined.map(({ id }) => id)).size, combined.length);
 });
 
@@ -145,7 +144,7 @@ test("leaves participants and baseline constants unchanged when combining", () =
   assert.deepEqual(participants, originalParticipants);
   assert.deepEqual(DEVELOPMENT_BASELINES, originalBaselines);
   combined.find(({ kind }) => kind === "participant").teamDisplayName = "Changed";
-  combined.find(({ kind }) => kind === "baseline").description = "Changed";
+  combined.find(({ kind }) => kind === "baseline").teamDisplayName = "Changed";
   assert.deepEqual(participants, originalParticipants);
   assert.deepEqual(DEVELOPMENT_BASELINES, originalBaselines);
 

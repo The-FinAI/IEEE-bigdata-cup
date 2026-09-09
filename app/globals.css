@@ -527,6 +527,127 @@
   }
 }
 
+/* Task 1 rankings: compact navigation, quiet labels and clear score columns. */
+.task1-dev-leaderboard {
+  background: #f6f8fb;
+  padding-bottom: 48px;
+}
+
+.task1-dev-leaderboard .leaderboard-compact-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  padding: 38px 4px 28px;
+}
+
+.leaderboard-compact-heading .section-index {
+  color: #62718a;
+  font-size: 10px;
+  letter-spacing: .09em;
+  margin: 0 0 10px;
+}
+
+.task1-dev-leaderboard .leaderboard-compact-heading h1 {
+  font-size: clamp(30px, 3.1vw, 40px);
+  letter-spacing: -.035em;
+  margin: 0;
+}
+
+.leaderboard-heading-caption {
+  color: #68758a;
+  font-size: 14px;
+  line-height: 1.6;
+  margin: 13px 0 0;
+}
+
+.leaderboard-heading-caption span { margin: 0 8px; }
+.leaderboard-heading-actions { display: flex; align-items: center; flex-direction: column; gap: 11px; flex-shrink: 0; }
+.leaderboard-heading-actions .button { background: #2159cc; border-radius: 9px; box-shadow: none; color: #fff; font-size: 13px; margin: 0; padding: 13px 19px; }
+.leaderboard-heading-actions > a:not(.button) { color: #62718a; font-size: 12px; text-decoration: none; }
+.leaderboard-heading-actions > a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+.task1-leaderboard-page .leaderboard-phase-nav {
+  border-bottom: 1px solid #dce3ed;
+  display: flex;
+  gap: 30px;
+}
+
+.task1-leaderboard-page .leaderboard-phase-nav a {
+  background: transparent;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  border-radius: 0;
+  color: #66758c;
+  padding: 12px 4px 14px;
+}
+
+.task1-leaderboard-page .leaderboard-phase-nav a[aria-current="page"] {
+  background: transparent;
+  border-color: #2159cc;
+  color: #2159cc;
+}
+
+.task1-leaderboard-page .leaderboard-phase-nav strong { font-size: 15px; }
+.task1-leaderboard-page .leaderboard-phase-nav span { color: #6e7b8e; font-size: 11px; }
+
+.task1-dev-leaderboard .finmmeval-leaderboard-card {
+  border: 1px solid #dfe5ed;
+  border-radius: 14px;
+  box-shadow: 0 4px 18px rgba(30, 46, 72, .025);
+  margin-top: 24px;
+}
+
+.task1-dev-leaderboard .finmmeval-leaderboard-head { padding: 23px 26px; }
+.task1-dev-leaderboard .finmmeval-leaderboard-head h2 { font-size: 19px; letter-spacing: -.02em; margin: 0; }
+.task1-dev-leaderboard .finmmeval-table-shell { padding: 0; }
+.task1-dev-leaderboard .finmmeval-table-shell table { min-width: 600px; }
+.task1-dev-leaderboard .finmmeval-table-shell th,
+.task1-dev-leaderboard .finmmeval-table-shell td { padding: 21px 20px; }
+.task1-dev-leaderboard .finmmeval-table-shell thead { background: #fafbfd; }
+.task1-dev-leaderboard .finmmeval-table-shell thead th { color: #7a8698; font-size: 10px; font-weight: 650; padding-top: 13px; padding-bottom: 13px; }
+.task1-dev-leaderboard .finmmeval-table-shell thead th:first-child { width: 70px; padding-left: 27px; }
+.task1-dev-leaderboard .finmmeval-table-shell tbody th { font-size: 14px; font-weight: 650; min-width: 240px; }
+.task1-dev-leaderboard .finmmeval-table-shell th:nth-child(3),
+.task1-dev-leaderboard .finmmeval-table-shell th:nth-child(4),
+.task1-dev-leaderboard .finmmeval-table-shell td:nth-child(3),
+.task1-dev-leaderboard .finmmeval-table-shell td:nth-child(4) { text-align: right; }
+.task1-dev-leaderboard .finmmeval-table-shell th:last-child,
+.task1-dev-leaderboard .finmmeval-table-shell td:last-child { padding-right: 27px; text-align: right; }
+.task1-dev-leaderboard .finmmeval-table-shell tbody tr:last-child > * { border-bottom: 0; }
+.task1-dev-leaderboard .leaderboard-baseline-row { background: #fff; }
+.task1-dev-leaderboard .finmmeval-table-shell tbody tr:hover { background: #f8faff; }
+.task1-dev-leaderboard .leaderboard-rank-badge { background: transparent; color: #6b788d; font-size: 14px; font-weight: 550; font-variant-numeric: tabular-nums; padding: 0; }
+.leaderboard-entry-name { align-items: center; display: flex; gap: 10px; }
+.task1-dev-leaderboard .leaderboard-team-name { margin: 0; }
+.task1-dev-leaderboard .leaderboard-entry-pill { background: #f5f7fa; border: 1px solid #e4e9f0; color: #788599; font-size: 8px; font-weight: 600; letter-spacing: .04em; padding: 3px 6px; }
+.task1-dev-leaderboard .leaderboard-score { color: #47566e; font-size: 15px; font-weight: 500; letter-spacing: -.01em; }
+.task1-dev-leaderboard .leaderboard-score.score-best { color: #2159cc; font-weight: 750; }
+.task1-dev-leaderboard .leaderboard-sort-arrow { color: #2159cc; font-size: 13px; margin-left: 4px; }
+.task1-dev-leaderboard .leaderboard-updated-column { color: #8a95a6; }
+.task1-dev-leaderboard .finmmeval-leaderboard-foot { background: #fff; border-top: 1px solid #e7ecf3; display: flex; align-items: flex-start; gap: 24px; justify-content: space-between; padding: 16px 26px; }
+.leaderboard-ranking-note { color: #748198; flex-shrink: 0; font-size: 11px; max-width: 320px; }
+.leaderboard-ranking-note summary { cursor: pointer; text-align: right; }
+.task1-dev-leaderboard .leaderboard-ranking-note p { margin-top: 9px; }
+.leaderboard-score-guide { color: #64748b; font-size: 12px; line-height: 1.7; margin: 20px 4px 0; max-width: 800px; }
+.leaderboard-score-guide summary { color: #44536a; cursor: pointer; font-weight: 600; }
+.leaderboard-score-guide p { margin: 10px 0; }
+.task1-dev-leaderboard .leaderboard-test-note { font-size: 11px; margin-top: 12px; }
+
+@media (max-width: 760px) {
+  .task1-dev-leaderboard .leaderboard-compact-heading { align-items: flex-start; flex-direction: column; gap: 20px; padding-top: 28px; }
+  .leaderboard-heading-actions { align-items: center; flex-direction: row; gap: 16px; }
+  .task1-dev-leaderboard .finmmeval-leaderboard-head { align-items: center; flex-direction: row; padding: 19px 18px; }
+  .task1-dev-leaderboard .finmmeval-leaderboard-head > p { font-size: 11px; }
+  .task1-dev-leaderboard .finmmeval-table-shell table { min-width: 510px; }
+  .task1-dev-leaderboard .finmmeval-table-shell th,
+  .task1-dev-leaderboard .finmmeval-table-shell td { padding: 18px 12px; }
+  .task1-dev-leaderboard .finmmeval-table-shell tbody th { min-width: 210px; }
+  .task1-dev-leaderboard .leaderboard-score { font-size: 13px; }
+  .task1-dev-leaderboard .finmmeval-leaderboard-foot { flex-direction: column; gap: 8px; padding: 14px 18px; }
+  .leaderboard-ranking-note summary { text-align: left; }
+}
+
 * {
   box-sizing: border-box;
 }

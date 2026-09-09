@@ -15,7 +15,6 @@ export type DevelopmentLeaderboard = {
 export type DevelopmentBaseline = Omit<DevelopmentLeaderboardRow, "rank"> & {
   id: string;
   kind: "baseline";
-  description: string;
 };
 
 export type DevelopmentRankingRow =
@@ -28,7 +27,6 @@ export type DevelopmentRankingRow =
       kind: "participant";
       displayRank: number;
       participantRank: number;
-      description?: never;
     });
 
 export const DEVELOPMENT_BASELINES: readonly Readonly<DevelopmentBaseline>[];

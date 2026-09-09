@@ -22,51 +22,37 @@ export default function Task1LeaderboardPage() {
   const publicLeaderboardUrl = config.siteMode === "final" ? config.leaderboardApi.url : null;
 
   return (
-    <main className="task-hub-page task1-page task1-leaderboard-page">
+    <main className="task-hub-page task1-page task1-leaderboard-page task1-dev-leaderboard">
       <div className="task1-leaderboard-shell">
         <Task1Nav current="leaderboard" />
 
-        <header className="leaderboard-page-heading">
-          <p className="section-index">TASK 1</p>
-          <h1>Development leaderboard</h1>
-          <p>
-            {developmentSpaceIsReady
-              ? "Submit development predictions without pre-registration, receive scores immediately, and view each team’s best eligible result and current rank here."
-              : "The public development leaderboard will appear here after the direct-upload service and its public result feed pass verification."}
-          </p>
+        <header className="leaderboard-page-heading leaderboard-compact-heading">
+          <div>
+            <p className="section-index">FINREASON CUP / TASK 1</p>
+            <h1>Development leaderboard</h1>
+            <p className="leaderboard-heading-caption">580 questions <span aria-hidden="true">·</span> Scores on a 0–1 scale</p>
+          </div>
+          <div className="leaderboard-heading-actions">
+            {developmentSpaceIsReady ? (
+              <a className="button button-primary" href={config.developmentSpace.url ?? undefined} target="_blank" rel="noreferrer">
+                Submit predictions <span aria-hidden="true">↗</span>
+                <span className="sr-only"> (opens in a new tab)</span>
+              </a>
+            ) : (
+              <span className="button button-disabled" aria-disabled="true">Development page coming soon</span>
+            )}
+            <Link href="/task1/submit/#how-to-submit">Submission guide</Link>
+          </div>
         </header>
 
         <PhaseNav current="development" />
 
-        <section className="leaderboard-guide" aria-labelledby="leaderboard-guide-title">
-          <div>
-            <p className="section-index">HOW SCORING WORKS</p>
-            <h2 id="leaderboard-guide-title">Two scores, shown on a 0–1 scale</h2>
-            <p>
-              <strong>Final answer</strong> measures whether the submitted answer is correct. {" "}
-              <strong>Reasoning steps</strong> measures the accuracy of the submitted intermediate
-              steps.
-            </p>
-          </div>
-          {developmentSpaceIsReady ? (
-            <a
-              className="button button-primary"
-              href={config.developmentSpace.url ?? undefined}
-              target="_blank"
-              rel="noreferrer"
-            >
-              Submit development predictions
-              <span aria-hidden="true">↗</span>
-              <span className="sr-only"> (opens in a new tab)</span>
-            </a>
-          ) : (
-            <span className="button button-disabled" aria-disabled="true">
-              Development page coming soon
-            </span>
-          )}
-        </section>
-
         <AggregateLeaderboard dataUrl={publicLeaderboardUrl} />
+
+        <details className="leaderboard-score-guide">
+          <summary>About the scores</summary>
+          <p><strong>Final answer</strong> measures answer correctness. <strong>Reasoning steps</strong> measures accuracy on the published intermediate steps. Both scores are on a 0–1 scale.</p>
+        </details>
 
         <p className="leaderboard-test-note">
           <Link href="/task1/leaderboard/test/">Open Test submission status</Link> for format

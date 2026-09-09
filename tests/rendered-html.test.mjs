@@ -63,17 +63,17 @@ test("renders direct web upload routes without a GitHub Issue intake", async () 
   assert.match(submit, /Test shows format-check feedback and an acceptance receipt/);
   assert.match(`${hub}\n${submit}`, /current rank immediately|receipt ID, and current rank/);
   assert.match(leaderboard, /Development leaderboard/);
-  assert.match(leaderboard, /Two scores, shown on a 0–1 scale/);
+  assert.match(leaderboard, /Scores on a 0–1 scale/);
   assert.match(leaderboard, />Final answer</);
   assert.match(leaderboard, />Reasoning steps</);
-  assert.match(leaderboard, /No-answer baseline/);
-  assert.match(leaderboard, /Rule-based baseline/);
+  assert.doesNotMatch(leaderboard, /No-answer baseline|No answers submitted|reference model\.|reference system\.|Team rank [0-9]/);
+  assert.match(leaderboard, /Financial Rules/);
   assert.match(leaderboard, /Fin-o1-8B/);
   assert.match(leaderboard, /0\.234048/);
   assert.match(leaderboard, /0\.555354/);
   assert.match(leaderboard, /leaderboard-entry-pill baseline/);
   assert.match(leaderboard, /All entries use the same 580 development questions/);
-  assert.match(leaderboard, /Team and baseline rankings/);
+  assert.match(leaderboard, />Rankings</);
   assert.doesNotMatch(leaderboard, /Public practice set|0\.285873|0\.592606/);
   assert.doesNotMatch(
     `${hub}\n${submit}\n${leaderboard}\n${terms}\n${privacy}`,

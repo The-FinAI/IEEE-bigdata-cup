@@ -58,13 +58,14 @@ export function AggregateLeaderboard({ dataUrl }: AggregateLeaderboardProps) {
   const participantRows = state.status === "ready" ? state.leaderboard.rows : [];
   const rows = combineDevelopmentRankings(participantRows);
   const ranksAreReady = state.status === "ready";
+  const bestFinalAnswer = Math.max(...rows.map((row) => Number(row.seenFac)));
+  const bestReasoningSteps = Math.max(...rows.map((row) => Number(row.seenCheckpoint)));
 
   return (
     <section className="finmmeval-leaderboard-card" aria-labelledby="team-table-title">
       <header className="finmmeval-leaderboard-head">
         <div>
-          <p>Development results · 580 questions</p>
-          <h2 id="team-table-title">Team and baseline rankings</h2>
+          <h2 id="team-table-title">Rankings</h2>
         </div>
         <p>
           {ranksAreReady ? `${participantRows.length} team${participantRows.length === 1 ? "" : "s"} · ` : ""}
@@ -86,8 +87,8 @@ export function AggregateLeaderboard({ dataUrl }: AggregateLeaderboardProps) {
           <thead>
             <tr>
               <th scope="col">Rank</th>
-              <th scope="col">Team / baseline</th>
-              <th scope="col">Final answer</th>
+              <th scope="col">Team / model</th>
+              <th scope="col" aria-sort="descending">Final answer <span className="leaderboard-sort-arrow" aria-hidden="true">↓</span></th>
               <th scope="col">Reasoning steps</th>
               <th className="leaderboard-updated-column" scope="col">Updated</th>
             </tr>
@@ -97,14 +98,21 @@ export function AggregateLeaderboard({ dataUrl }: AggregateLeaderboardProps) {
               <tr key={row.id} className={row.kind === "baseline" ? "leaderboard-baseline-row" : undefined}>
                 <td><span className="leaderboard-rank-badge">{ranksAreReady ? row.displayRank : "—"}</span></td>
                 <th scope="row">
-                  <span className="leaderboard-team-name">{row.teamDisplayName}</span>
-                  <span className={`leaderboard-entry-pill ${row.kind}`}>
-                    {row.kind === "baseline" ? "Baseline" : "Participant"}
-                  </span>
-                  <small>{row.kind === "baseline" ? row.description : `Team rank ${row.participantRank}`}</small>
+                  <div className="leaderboard-entry-name">
+                    <span className="leaderboard-team-name">{row.teamDisplayName}</span>
+                    <span className={`leaderboard-entry-pill ${row.kind}`}>
+                      {row.kind === "baseline" ? "Baseline" : "Team"}
+                    </span>
+                  </div>
                 </th>
-                <td className="leaderboard-score">{formatScore(row.seenFac)}</td>
-                <td className="leaderboard-score">{formatScore(row.seenCheckpoint)}</td>
+                <td className={`leaderboard-score${ranksAreReady && Number(row.seenFac) === bestFinalAnswer ? " score-best" : ""}`}>
+                  {formatScore(row.seenFac)}
+                  {ranksAreReady && Number(row.seenFac) === bestFinalAnswer ? <span className="sr-only"> (column best)</span> : null}
+                </td>
+                <td className={`leaderboard-score${ranksAreReady && Number(row.seenCheckpoint) === bestReasoningSteps ? " score-best" : ""}`}>
+                  {formatScore(row.seenCheckpoint)}
+                  {ranksAreReady && Number(row.seenCheckpoint) === bestReasoningSteps ? <span className="sr-only"> (column best)</span> : null}
+                </td>
                 <td className="leaderboard-updated-column">{formatAcceptedAt(row.acceptedAt)}</td>
               </tr>
             ))}
@@ -113,10 +121,13 @@ export function AggregateLeaderboard({ dataUrl }: AggregateLeaderboardProps) {
       </div>
       <footer className="finmmeval-leaderboard-foot">
         <p>
-          All entries use the same 580 development questions. Rows are ranked by Final answer,
-          then Reasoning steps; identical score pairs share a rank. Baselines are reference entries.
-          Team ranks exclude baselines and match the ranks shown in submission receipts.
+          Ranked by Final answer, then Reasoning steps. Bold scores lead each column.
         </p>
+        <details className="leaderboard-ranking-note">
+          <summary>Ranking details</summary>
+          <p>All entries use the same 580 development questions. Identical score pairs share a rank.
+            Baselines are reference entries; ranks in submission receipts count participant teams only.</p>
+        </details>
       </footer>
     </section>
   );
