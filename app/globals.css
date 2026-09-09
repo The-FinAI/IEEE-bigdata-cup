@@ -633,6 +633,13 @@
 .leaderboard-score-guide summary { color: #44536a; cursor: pointer; font-weight: 600; }
 .leaderboard-score-guide p { margin: 10px 0; }
 .task1-dev-leaderboard .leaderboard-test-note { font-size: 11px; margin-top: 12px; }
+.task1-dev-leaderboard details.leaderboard-ranking-note,
+.task1-dev-leaderboard details.leaderboard-score-guide { background: transparent; border: 0; border-radius: 0; padding: 0; }
+.task1-dev-leaderboard .leaderboard-ranking-note summary,
+.task1-dev-leaderboard .leaderboard-score-guide summary { display: inline-flex; align-items: center; gap: 8px; font-size: inherit; padding: 0; }
+.task1-dev-leaderboard .leaderboard-ranking-note summary { font-weight: 500; }
+.task1-dev-leaderboard .leaderboard-ranking-note summary::after,
+.task1-dev-leaderboard .leaderboard-score-guide summary::after { position: static; color: #7a879b; font-size: 12px; }
 
 @media (max-width: 760px) {
   .task1-dev-leaderboard .leaderboard-compact-heading { align-items: flex-start; flex-direction: column; gap: 20px; padding-top: 28px; }
