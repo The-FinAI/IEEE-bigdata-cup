@@ -55,7 +55,7 @@ test("ranks hosted development baselines with participants by their scores", () 
       [teamDisplayName, displayRank, participantRank]),
     [
       ["CPD", 1, 1],
-      ["Fin-o1-8B", 2, null],
+      ["Organizer Baseline", 2, null],
       ["Middle Team", 3, 2],
       ["Financial Rules", 4, null],
       ["Lower Team", 5, 3],
@@ -102,7 +102,7 @@ test("shares rank only for both equal scores and orders tied names deterministic
     [
       ["Higher Reasoning", 1],
       ["Alpha", 2],
-      ["Fin-o1-8B", 2],
+      ["Organizer Baseline", 2],
       ["Zulu", 2],
       ["Financial Rules", 5],
     ],
