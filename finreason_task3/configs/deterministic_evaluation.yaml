@@ -1,0 +1,16 @@
+# EXPERIMENTAL rule-based evaluator: no API key, no network, fully deterministic.
+#
+# NOT the official metric. Use it for smoke tests, CI, and for the agreement
+# study in DETERMINISTIC_EVALUATION_ANALYSIS.md.
+
+evaluation_version: "1.0-deterministic"
+
+judge:
+  provider: deterministic
+
+prompt_version: "finmr-judge-v1"
+max_retries: 0
+workers: 8
+cache: false
+missing_prediction_policy: structural_error
+dataset_version: "task3-public-dev-v1.0"

@@ -76,8 +76,8 @@ export default function Task1HubPage() {
               <dd>{spaceLinksAreReady ? "Development + test open" : "Links under verification"}</dd>
             </div>
             <div>
-              <dt>Deadline</dt>
-              <dd>15 Nov 2026 · 23:59 AoE</dd>
+              <dt>Competition closes</dt>
+              <dd>15 Oct 2026 · 23:59 AoE</dd>
             </div>
             <div>
               <dt>Submission</dt>
@@ -104,12 +104,12 @@ export default function Task1HubPage() {
           <span>02 / TEST</span>
           <h2>Download 928 test questions.</h2>
           <p>
-            The test questions are available now. Accepted test submissions return only an acceptance
-            receipt. Enter the same Team Name, a Contact Email, and the canonical ZIP. Scores and ranks
+            The test questions are available now. Test uploads receive format feedback and an acceptance
+            receipt when accepted. Enter the same Team Name, a Contact Email, and the canonical ZIP. Scores and ranks
             stay hidden until the final results are released.
           </p>
           {spaceLinksAreReady ? (
-            <Link className="button button-primary" href="/task1/submit/#how-to-submit">View test submission steps</Link>
+            <Link className="button button-primary" href="/task1/leaderboard/test/">Open Test submission status</Link>
           ) : (
             <span className="button button-disabled" aria-disabled="true">Test upload link pending verification</span>
           )}
@@ -154,8 +154,14 @@ export default function Task1HubPage() {
       </section>
 
       <aside className="task-hub-note">
-        <strong>Final paper and solution deadline</strong>
-        <p>15 November 2026, 23:59 Anywhere on Earth.</p>
+        <strong>Competition and Working Notes deadlines</strong>
+        <p>
+          Schedule updated 7 September 2026, replacing the combined 15 November cutoff.
+          Final competition submissions close on 15 October 2026, 23:59 Anywhere on Earth.
+          Results are scheduled for 16 October after 12:00 UTC (16:00 Abu Dhabi time).
+          Working Notes are due separately on 23 October 2026, 23:59 Anywhere on Earth.{" "}
+          <Link href="/#timeline">Full competition and paper schedule</Link>.
+        </p>
       </aside>
     </main>
   );

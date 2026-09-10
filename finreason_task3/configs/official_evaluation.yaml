@@ -1,0 +1,40 @@
+# Official FinReason Cup 2026 Task 3 evaluation configuration.
+#
+# FROZEN for official leaderboard runs. Any change requires a bump of
+# evaluation_version and a note in CHANGELOG.md. Participants may copy this file
+# and override fields locally; official scores are always produced with this one.
+
+evaluation_version: "1.0"
+
+# The judge that assigns A/S/E/C. Matches the reference notebook exactly.
+judge:
+  provider: openai
+  model: gpt-5-mini
+  reasoning_effort: minimal
+  verbosity: low
+  timeout: 120.0
+
+# Prompt file: prompts/finmr_judge_v1.txt (extracted verbatim from the
+# reference notebook). Never edit in place - publish a new version instead.
+prompt_version: "finmr-judge-v1"
+
+# Retry on network errors, rate limits and unparseable judge output.
+max_retries: 3
+retry_base_delay: 2.0
+
+# Conservative concurrency: high enough to be usable, low enough to respect
+# provider rate limits.
+workers: 5
+
+# Persistent SQLite cache; makes runs resumable and leaderboard recomputation cheap.
+cache: true
+cache_path: ".cache/evaluation_cache.sqlite"
+
+# OFFICIAL RULE: an incomplete final submission is rejected during validation
+# and is not scored. See EVALUATION.md, "Missing predictions".
+#   invalid_submission - refuse to score (official)
+#   structural_error   - score every missing case as S
+#   skip               - drop missing cases from the denominators (dev only)
+missing_prediction_policy: invalid_submission
+
+dataset_version: "task3-public-dev-v1.0"

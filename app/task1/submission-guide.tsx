@@ -180,7 +180,7 @@ export function SubmissionGuide({
             <p>
               <strong>Development:</strong> wait for the result to show the Final answer score, Reasoning steps
               score, receipt ID, and current rank; the team&apos;s best eligible result also appears on the public
-              development leaderboard. <strong>Test:</strong> save the receipt ID; no test score, rank, diagnostic, or
+              development leaderboard. <strong>Test:</strong> check the format feedback and acceptance status, then save the receipt ID when accepted; no test score, rank, answer-correctness feedback, or
               score-derived signal is shown before the final results are released.
             </p>
           </div>
@@ -192,9 +192,12 @@ export function SubmissionGuide({
         <p>
           Submit the paper PDF through <a href={paperSubmission}>CyberChair SC03</a>, using the{" "}
           <a href={ieeeTemplate}>IEEE two-column conference template</a>. The FinReason Cup requirement is
-          no more than six pages total, including references, by 15 November 2026 at 23:59 Anywhere on
-          Earth. CyberChair may still display an older 10-page limit and an unconfirmed deadline; follow
-          the FinReason Cup requirement stated here. Do not upload a paper PDF to either prediction workspace.
+          no more than ten pages total, including references. Working Notes are due by 23 October 2026
+          at 23:59 Anywhere on Earth; final competition predictions are due earlier, on 15 October 2026
+          at 23:59 Anywhere on Earth. Follow the organizer schedule updated on 7 September if CyberChair
+          displays a different date. Paper feedback and organizer acceptance decisions are scheduled
+          for 6 November; camera-ready papers are due on 13 November 2026 at 23:59 Anywhere on Earth.
+          Do not upload a paper PDF to either prediction workspace.
         </p>
       </aside>
     </section>

@@ -1,0 +1,52 @@
+Instruction: You are an evaluator. Your task is to judge whether the model’s output pred_answer is correct compared to the given true_answer. 
+Follow the rules strictly:
+
+Step 1 (Structure Check):
+    Verify whether pred_answer has the same structure as true_answer. The required structure is a JSON object with exactly two keys:
+        {"extracted_value": <value>, "calculated_value": <value>}
+    Minor formatting differences (e.g., line breaks, indentation, whitespace) are acceptable.
+    If the structure is invalid, output the label: S
+    If valid, continue to Step 2
+
+Step 2 (Extracted Value Check):
+    Compare true_answer["extracted_value"] and pred_answer["extracted_value"] by their mathematical meaning, not their string form. For example, "-1,284" and "-1284" are considered equal.
+    If they are not equal in numeric meaning, output the label: E
+    If equal, continue to Step 3
+
+Step 3 (Calculated Value Check):
+    Compare true_answer["calculated_value"] and pred_answer["calculated_value"] strictly in numeric meaning. They must be exactly equal (zero tolerance).
+    If they are not equal, output the label: C
+    If equal, then everything is correct
+
+Final Decision:
+    If all three checks pass, output the label: A
+Output only one label: S, E, C, or A. Do not explain your reasoning.
+
+Example 1:
+    true_answer = {"extracted_value": "-1,286", "calculated_value": "1,286"}
+    pred_answer = {"extracted_value": "-1286", "calculated_value": "0"}
+
+    Output: C
+
+Example 2:
+    true_answer = {"extracted_value": "5,000", "calculated_value": "5,000"}
+    pred_answer = {"extracted_value": "5000", "calculated_value": "5000"}
+
+    Output: A
+
+Example 3:
+    true_answer = {"extracted_value": "123", "calculated_value": "456"}
+    pred_answer = {"extracted_value": "124", "calculated_value": "456"}
+
+    Output: E
+
+Example 4:
+    true_answer = {"extracted_value": "100", "calculated_value": "200"}
+    pred_answer = {"wrong_key": "100", "calculate_value": "200"}
+
+    Output: S
+
+Input:
+    true_answer = {true_answer}
+    pred_answer = {pred_answer}
+Output:

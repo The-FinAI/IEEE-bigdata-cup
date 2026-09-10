@@ -21,7 +21,7 @@ export function LaunchStatus() {
   return (
     <aside className="interest-form" aria-labelledby="launch-status-title">
       <div className="form-heading">
-        <span id="launch-status-title">Paper submission</span>
+        <span id="launch-status-title">Working Notes submission</span>
         <strong>SC03 OPEN</strong>
       </div>
 
@@ -31,9 +31,11 @@ export function LaunchStatus() {
           through the official FinReason Cup track in CyberChair.
         </p>
         <ul>
-          <li>Length: up to 6 pages total, including references</li>
+          <li>Length: up to 10 pages total, including references</li>
           <li>Format: IEEE two-column conference template</li>
-          <li>Deadline: 15 November 2026, 23:59 AoE</li>
+          <li>Working Notes: 23 October 2026, 23:59 AoE</li>
+          <li>Feedback and acceptance: 6 November 2026</li>
+          <li>Camera-ready: 13 November 2026, 23:59 AoE</li>
           <li>Track: SC03 · FinReason Cup</li>
         </ul>
       </div>
@@ -50,17 +52,18 @@ export function LaunchStatus() {
       </a>
 
       <p className="form-status" role="status">
-        CyberChair has not yet updated its displayed deadline and currently
-        shows a 10-page upload limit. The FinReason organizer deadline is 15
-        November 2026, 23:59 AoE, and FinReason teams should submit no more than
-        6 pages total, including references.
+        Follow the organizer schedule updated on 7 September 2026 if CyberChair
+        displays a different date. Competition submissions close separately on
+        15 October 2026, 23:59 AoE. The organizers decide paper acceptance;
+        selected accepted papers may enter the proceedings subject to conference
+        requirements. Publication is not guaranteed.
       </p>
 
       <div className="participant-notice">
         <strong>Separate Task 1 participant hub</strong>
         <p>
           Task 1 data and tools are released through the participant hub. {spaceLinksAreReady
-            ? "No pre-registration or access code is required. Development accepts Team Name plus a 580-row predictions ZIP, immediately returns Final answer, Reasoning steps, a receipt, and current rank, and publishes the team’s best eligible result on the public leaderboard. Test accepts Team Name, Contact Email, and a 928-row predictions ZIP, then returns only an acceptance receipt with no online score or rank."
+            ? "No pre-registration or access code is required. Development accepts Team Name plus a 580-row predictions ZIP, immediately returns Final answer, Reasoning steps, a receipt, and current rank, and publishes the team’s best eligible result on the public leaderboard. Test accepts Team Name, Contact Email, and a 928-row predictions ZIP, then shows format feedback and an acceptance receipt with no online score or rank."
             : "The two direct-upload links remain under verification; the participant hub will publish them only after both checks pass."}
         </p>
         <div className="participant-notice-links">

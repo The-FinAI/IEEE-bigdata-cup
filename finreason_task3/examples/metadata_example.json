@@ -1,0 +1,9 @@
+{
+  "team_name": "Example Team",
+  "contact_email": "you@example.org",
+  "method_name": "retrieval + long-context LLM + calculation checker",
+  "system_description": "Extracts the calculation linkbase subtree for the target concept from the filing context, prompts a long-context model for the reported value, and independently recomputes the implied value with a symbolic checker. No fine-tuning.",
+  "models_used": ["gpt-4.1", "bge-large-en-v1.5"],
+  "uses_external_api": true,
+  "submission_version": "final"
+}

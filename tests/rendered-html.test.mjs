@@ -50,7 +50,7 @@ test("renders direct web upload routes without a GitHub Issue intake", async () 
   assert.match(submit, /Final answer score, Reasoning steps score, receipt ID, and current rank/);
   assert.match(submit, /score-derived signal/);
   assert.match(submit, /Challenge paper is separate/);
-  assert.match(submit, /no more than six pages total/);
+  assert.match(submit, /no more than ten pages total, including references/);
   assert.match(guideSource, /baseline-b0[^\n]+> blank_predictions\.jsonl/);
   assert.doesNotMatch(guideSource, /baseline-b0[^\n]+> predictions\.jsonl/);
   assert.match(cliSource, /commands\.add_parser\("validate"\)/);
@@ -60,19 +60,21 @@ test("renders direct web upload routes without a GitHub Issue intake", async () 
   assert.match(cliSource, /package\.add_argument\("--output", required=True\)/);
   assert.match(cliSource, /validate_zip\.add_argument\("--submission-zip", required=True\)/);
   assert.match(submit, /Development and test submission/);
-  assert.match(submit, /Test returns only an acceptance receipt/);
+  assert.match(submit, /Test shows format-check feedback and an acceptance receipt/);
   assert.match(`${hub}\n${submit}`, /current rank immediately|receipt ID, and current rank/);
   assert.match(leaderboard, /Development leaderboard/);
-  assert.match(leaderboard, /Two scores, shown on a 0–1 scale/);
+  assert.match(leaderboard, /Scores on a 0–1 scale/);
   assert.match(leaderboard, />Final answer</);
   assert.match(leaderboard, />Reasoning steps</);
-  assert.match(leaderboard, /No-answer baseline/);
-  assert.match(leaderboard, /Rule-based baseline/);
-  assert.match(leaderboard, /Fin-o1-8B/);
-  assert.match(leaderboard, /0\.285873/);
-  assert.match(leaderboard, /0\.592606/);
+  assert.doesNotMatch(leaderboard, /No-answer baseline|No answers submitted|reference model\.|reference system\.|Team rank [0-9]/);
+  assert.match(leaderboard, /Financial Rules/);
+  assert.match(leaderboard, /Organizer Baseline/);
+  assert.match(leaderboard, /0\.234048/);
+  assert.match(leaderboard, /0\.555354/);
   assert.match(leaderboard, /leaderboard-entry-pill baseline/);
-  assert.match(leaderboard, /the two should not be compared directly/);
+  assert.match(leaderboard, /All entries use the same 580 development questions/);
+  assert.match(leaderboard, />Rankings</);
+  assert.doesNotMatch(leaderboard, /Public practice set|0\.285873|0\.592606/);
   assert.doesNotMatch(
     `${hub}\n${submit}\n${leaderboard}\n${terms}\n${privacy}`,
     /SeenFAC|SeenCheckpoint/,
@@ -136,7 +138,12 @@ test("renders direct web upload routes without a GitHub Issue intake", async () 
   assert.doesNotMatch(readme, /Starter kits, schemas, validators, and baselines \| Coming soon/);
   assert.match(readme, /Task 1 validator, sample B0, and B1 baseline \| Live/);
   assert.match(readme, /Task 1 step-by-step submission guide/);
-  assert.match(readme, /Task 2 and Task 3 starter kits and baselines \| Coming soon/);
+  // Task 3 is released; only Task 2 is still pending. The README must not go on
+  // claiming otherwise while the header links to a live Task 3 submission page.
+  assert.match(readme, /Task 2 starter kit and baselines \| Coming soon/);
+  assert.doesNotMatch(readme, /Task 2 and Task 3 starter kits and baselines \| Coming soon/);
+  assert.match(readme, /Task 3 starter kit, validator, and scorer\]\(finreason_task3\/\) \| Live/);
+  assert.match(readme, /task3\/submit\/"><strong>Submit Task 3 predictions/);
   assert.match(readme, /Final answer and Reasoning steps \(live\)/);
   await assert.rejects(access(new URL("out/task1/pilot", root)));
 
@@ -152,7 +159,7 @@ test("renders direct web upload routes without a GitHub Issue intake", async () 
     assert.ok(!leaderboard.includes(publicConfig.testSpace.url));
     assert.match(home, /Task 1 is live with frozen participant data and direct uploads/);
     assert.match(home, /immediately returns Final answer, Reasoning steps, a receipt, and current rank/);
-    assert.match(home, /returns only an acceptance receipt with no online score or rank/);
+    assert.match(home, /shows format feedback and an acceptance receipt with no online score or rank/);
     assert.doesNotMatch(
       participantCopy,
       /under verification|pending verification|links? (?:remain )?withheld|links? (?:are|were) being verified before/i,
@@ -163,6 +170,31 @@ test("renders direct web upload routes without a GitHub Issue intake", async () 
     assert.match(submit, /Development upload link pending verification/);
     assert.match(submit, /Test upload link pending verification/);
     assert.doesNotMatch(submit, /href="https:\/\/[^" ]+\.hf\.space\//);
+  }
+});
+
+test("links Dev and Test while keeping test status separate from score results", async () => {
+  const [development, testStatus, sitemap] = await Promise.all([
+    text("out/task1/leaderboard/index.html"),
+    text("out/task1/leaderboard/test/index.html"),
+    text("out/sitemap.xml"),
+  ]);
+  for (const html of [development, testStatus]) {
+    assert.match(html, /aria-label="Task 1 submission phase"/);
+    assert.match(html, /href="[^\"]*\/task1\/leaderboard\/test\/"/);
+    assert.match(html, /Format check and submission status/);
+  }
+  assert.match(testStatus, /Test submission status/);
+  assert.match(testStatus, /A format pass alone is not an acceptance receipt/);
+  assert.match(testStatus, /No test score, rank, or answer-correctness feedback/);
+  assert.doesNotMatch(testStatus, /<table|Final answer score|Reasoning steps score|No-answer baseline/);
+  assert.match(sitemap, /\/task1\/leaderboard\/test\//);
+  if (publicConfig.siteMode === "final") {
+    assert.ok(testStatus.includes(publicConfig.testSpace.url));
+    assert.ok(!testStatus.includes(publicConfig.leaderboardApi.url));
+  } else {
+    assert.match(testStatus, /Test upload link pending verification/);
+    assert.doesNotMatch(testStatus, /href="https:\/\/[^" ]+\.hf\.space\//);
   }
 });
 
@@ -205,9 +237,212 @@ test("removes the Issue route and guards direct Space configuration", async () =
   assert.match(pages, /FINREASON_TASK1_SITE_MODE/);
   assert.match(pages, /NEXT_PUBLIC_FINREASON_TASK1_DEVELOPMENT_SPACE_URL/);
   assert.match(pages, /NEXT_PUBLIC_FINREASON_TASK1_TEST_SPACE_URL/);
+  // Task 3 needs the same pass-throughs, and for the same reason: without them
+  // the deployed build silently falls back to development mode and every upload
+  // link reads "under verification" forever.
+  assert.match(pages, /FINREASON_TASK3_SITE_MODE/);
+  assert.match(pages, /NEXT_PUBLIC_FINREASON_TASK3_SCORING_SPACE_URL/);
+  assert.match(pages, /NEXT_PUBLIC_FINREASON_TASK3_TEST_SPACE_URL/);
+  assert.match(pages, /NEXT_PUBLIC_FINREASON_TASK3_LEADERBOARD_API_URL/);
   assert.match(publicConfigSource, /two different isolated deployments/);
   assert.match(publicConfigSource, /hfSpaceHostname/);
   assert.match(publicConfigSource, /\/api\/leaderboard/);
   assert.match(rights, /six organizer-owned participant-tool files/);
   assert.doesNotMatch(rights, /\.github\/workflows|app\/task1/);
+});
+
+test("publishes the Task 3 participant hub with honest phase status", async () => {
+  const hub = await text("out/task3/index.html");
+
+  assert.match(hub, /TASK 3 \/ PARTICIPANT HUB/);
+  assert.match(hub, /Financial Audit Verification/);
+
+  // All three phases are listed, with their real status.
+  assert.match(hub, /Practice/);
+  assert.match(hub, /Development/);
+  assert.match(hub, /Test/);
+  // Bind each status to its own row. Asserting that "Live" and "Coming soon"
+  // merely appear somewhere would still pass if the labels were swapped between
+  // phases.
+  // Extract each row and assert within it. A window-based regex is not anchored
+  // to a row: measured against the built page, the development marker sits 275
+  // characters before the TEST row's status, so mutating development's own chip
+  // to "ready" still matched by borrowing the next row's "pending".
+  const rowOf = (slug) =>
+    hub.match(new RegExp(`<tr[^>]*data-phase="${slug}"[\\s\\S]*?</tr>`))?.[0] ?? "";
+
+  for (const slug of ["practice", "development", "test"]) {
+    assert.notEqual(rowOf(slug), "", `${slug} row is missing`);
+  }
+
+  // Development and test have no datasets, in any build.
+  for (const slug of ["development", "test"]) {
+    assert.match(rowOf(slug), /data-state="pending"/, `${slug} must be pending`);
+    assert.doesNotMatch(rowOf(slug), /data-state="ready"/, `${slug} must not claim to be live`);
+  }
+
+  // Practice tracks the configuration, and this assertion works in BOTH site
+  // modes -- unlike the conditional guard below it, which is inert in a final
+  // build and so leaves the shipping configuration untested.
+  const practiceOpen = /<dd>Open now<\/dd>/.test(hub);
+  assert.match(
+    rowOf("practice"),
+    practiceOpen ? /data-state="ready"/ : /data-state="pending"/,
+    "the practice row disagrees with the quick-facts panel",
+  );
+
+  // The page must never contradict itself: if the panel says the link is still
+  // being verified, no phase row may simultaneously claim to be open. This holds
+  // in both site modes, which is why it is the assertion that would have caught
+  // the original defect.
+  if (/Link under verification/.test(hub)) {
+    assert.doesNotMatch(
+      hub,
+      /data-state="ready"/,
+      "the panel says the link is unverified while a phase row claims to be Live",
+    );
+  }
+
+  // The practice phase must say why it is not ranked.
+  assert.match(hub, /public/i);
+  assert.match(hub, /not ranked|never ranked/i);
+
+  // The site hosts no Task 3 data files; it points at the released sources.
+  assert.match(hub, /TheFinAI\/FinMR/);
+  assert.match(hub, /332/);
+
+  // Nothing private may appear.
+  assert.doesNotMatch(hub, /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/i);
+  assert.doesNotMatch(hub, /hf_[A-Za-z0-9]{10,}/);
+  assert.doesNotMatch(hub, /extracted_value"\s*:/);
+});
+
+test("publishes a Task 3 submission guide with the real file contract", async () => {
+  const submit = await text("out/task3/submit/index.html");
+
+  assert.match(submit, /TASK 3 \/ SUBMISSION/);
+  assert.match(submit, /predictions\.jsonl/);
+  assert.match(submit, /extracted_value/);
+  assert.match(submit, /calculated_value/);
+  assert.match(submit, /prepare_public_dev\.py/);
+  assert.match(submit, /validate_submission\.py/);
+  // Matching is by id, and a missing line invalidates the whole submission.
+  assert.match(submit, /matched .{0,20}by <code>id<\/code>|never by row order/i);
+  assert.match(submit, /332/);
+  // The three things a participant most often gets wrong.
+  assert.match(submit, /&quot;0&quot;/);
+  assert.match(submit, /UTF-8/);
+  assert.match(submit, /exactly one root-level file named <code>predictions\.jsonl<\/code>/);
+  // Test phase returns nothing but a receipt.
+  assert.match(submit, /acceptance receipt/i);
+  assert.doesNotMatch(submit, /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/i);
+
+  // The filenames alone are not the contract: a copy-edit that renamed a flag
+  // would ship a command that cannot run, with every other assertion still
+  // passing. These are the flags the real scripts define.
+  assert.match(submit, /--predictions/);
+  assert.match(submit, /--reference/);
+  assert.match(submit, /--gold/);
+  assert.match(submit, /--judge deterministic/);
+});
+
+test("publishes the Task 3 leaderboard page with only measured baselines", async () => {
+  const board = await text("out/task3/leaderboard/index.html");
+
+  assert.match(board, /Development leaderboard/);
+  // The four rates, named.
+  assert.match(board, /ACC/);
+  assert.match(board, /Structural error rate/i);
+  assert.match(board, /Extraction error rate/i);
+  assert.match(board, /Calculation error rate/i);
+  // The A/S/E/C hierarchy short-circuits, and that must be explained.
+  assert.match(board, /first check that fails|short-circuit/i);
+  // The one measured baseline, with its real numbers.
+  assert.match(board, /Dummy baseline/);
+  // Extract the baseline row and compare its cells as an ordered array. A
+  // span-matching regex over the whole document does not work here: the caption
+  // paragraph below the table repeats "4.52%", so a swapped-column table still
+  // satisfied it. Text outside the row cannot reach this assertion.
+  const baselineRow = board.match(/<tr[^>]*leaderboard-baseline-row[\s\S]*?<\/tr>/);
+  assert.ok(baselineRow, "the dummy baseline row is missing from the leaderboard page");
+  const baselineCells = [...baselineRow[0].matchAll(/<td[^>]*>([^<]*)<\/td>/g)].map(
+    (match) => match[1].trim(),
+  );
+  assert.deepEqual(
+    baselineCells,
+    ["0.00%", "0.00%", "95.48%", "4.52%"],
+    "the baseline row's rates are not in ACC, SER, EER, CER order",
+  );
+  assert.match(board, /332/);
+  // Practice results must never appear on the board.
+  assert.match(board, /practice/i);
+  assert.match(board, /not ranked|never ranked|excluded/i);
+  // No fabricated model baselines.
+  assert.doesNotMatch(board, /gpt-|claude-|deepseek/i);
+  assert.doesNotMatch(board, /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/i);
+});
+
+test("lists the Task 3 routes in the sitemap and keeps Task 1 intact", async () => {
+  const sitemap = await text("out/sitemap.xml");
+  for (const route of ["task3/", "task3/submit/", "task3/leaderboard/"]) {
+    assert.match(sitemap, new RegExp(`IEEE-bigdata-cup/${route.replace(/\//g, "\\/")}<`));
+  }
+  for (const route of ["task1/", "task1/submit/", "task1/leaderboard/"]) {
+    assert.match(sitemap, new RegExp(`IEEE-bigdata-cup/${route.replace(/\//g, "\\/")}<`));
+  }
+});
+
+test("every Task 3 page cross-links the other two", async () => {
+  const [hub, submit, board] = await Promise.all([
+    text("out/task3/index.html"),
+    text("out/task3/submit/index.html"),
+    text("out/task3/leaderboard/index.html"),
+  ]);
+  for (const page of [hub, submit, board]) {
+    assert.match(page, /task3\/"/);
+    assert.match(page, /task3\/submit\/"/);
+    assert.match(page, /task3\/leaderboard\/"/);
+  }
+});
+
+test("a Task 3 phase the hub calls open has a working upload link", async () => {
+  // The hub's Practice chip and its quick-facts panel are both derived from the
+  // same variable, so asserting they agree proves only that one value was read
+  // twice. This binds the claim to something outside that variable: the actual
+  // anchor on the submit page. It is the invariant a participant cares about --
+  // "Open now" must mean there is somewhere to upload to.
+  const [hub, submit] = await Promise.all([
+    text("out/task3/index.html"),
+    text("out/task3/submit/index.html"),
+  ]);
+
+  const practiceRow =
+    hub.match(/<tr[^>]*data-phase="practice"[\s\S]*?<\/tr>/)?.[0] ?? "";
+  assert.notEqual(practiceRow, "", "practice row is missing");
+
+  const hubSaysOpen = /data-state="ready"/.test(practiceRow);
+  const uploadLink = /<a href="https:\/\/[^"]+"[^>]*>\s*Practice and development upload/.test(submit);
+
+  assert.equal(
+    hubSaysOpen,
+    uploadLink,
+    hubSaysOpen
+      ? "the hub says practice is open but the submit page offers no upload link"
+      : "the submit page offers an upload link while the hub says practice is not open",
+  );
+
+  // And the submit page must not contradict itself in prose either.
+  assert.equal(
+    /Practice is open now/.test(submit),
+    hubSaysOpen,
+    "the submit page's prose disagrees with the hub's practice status",
+  );
+});
+
+test("the home page links to both task hubs", async () => {
+  // A participant site nobody can navigate to does not do its job. The Task 3
+  // route existed in the sitemap but no page linked to it.
+  const home = await text("out/index.html");
+  assert.match(home, /href="[^"]*\/task1\/"/);
+  assert.match(home, /href="[^"]*\/task3\/"/);
 });

@@ -12,6 +12,28 @@ export type DevelopmentLeaderboard = {
   rows: DevelopmentLeaderboardRow[];
 };
 
+export type DevelopmentBaseline = Omit<DevelopmentLeaderboardRow, "rank"> & {
+  id: string;
+  kind: "baseline";
+};
+
+export type DevelopmentRankingRow =
+  | (DevelopmentBaseline & {
+      displayRank: number;
+      participantRank: null;
+    })
+  | (DevelopmentLeaderboardRow & {
+      id: string;
+      kind: "participant";
+      displayRank: number;
+      participantRank: number;
+    });
+
+export const DEVELOPMENT_BASELINES: readonly Readonly<DevelopmentBaseline>[];
+export function combineDevelopmentRankings(
+  participantRows: readonly DevelopmentLeaderboardRow[],
+): DevelopmentRankingRow[];
+
 export function parseDevelopmentLeaderboard(payload: unknown): DevelopmentLeaderboard;
 export function fetchDevelopmentLeaderboard(
   dataUrl: string,
