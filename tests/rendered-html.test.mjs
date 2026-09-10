@@ -439,10 +439,11 @@ test("a Task 3 phase the hub calls open has a working upload link", async () => 
   );
 });
 
-test("the home page links to both task hubs", async () => {
+test("the home page links to all three task hubs", async () => {
   // A participant site nobody can navigate to does not do its job. The Task 3
   // route existed in the sitemap but no page linked to it.
   const home = await text("out/index.html");
-  assert.match(home, /href="[^"]*\/task1\/"/);
-  assert.match(home, /href="[^"]*\/task3\/"/);
+  assert.match(home, /href="[^"]*\/task1\/">Open Task 1 hub/);
+  assert.match(home, /href="[^"]*\/task2\/">Open Task 2 hub/);
+  assert.match(home, /href="[^"]*\/task3\/">Open Task 3 hub/);
 });

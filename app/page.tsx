@@ -286,6 +286,10 @@ export default function Home() {
                 Open Task 1 hub
                 <span aria-hidden="true">→</span>
               </a>
+              <a className="button button-ghost" href={`${basePath}/task2/`}>
+                Open Task 2 hub
+                <span aria-hidden="true">→</span>
+              </a>
               <a className="button button-ghost" href={`${basePath}/task3/`}>
                 Open Task 3 hub
                 <span aria-hidden="true">→</span>
@@ -302,8 +306,8 @@ export default function Home() {
               </a>
             </div>
             <p className="hero-note">
-              The CyberChair paper channel is open. The Task 1 participant hub
-              publishes the canonical data and current direct-upload status.
+              The CyberChair paper channel is open. Task 1 and Task 3 publish
+              their participant workflows; Task 2 publishes its training data.
             </p>
           </div>
 
