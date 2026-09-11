@@ -162,7 +162,7 @@ identifier.
 | Task 1 direct web upload | See the participant hub for current verified availability |
 | [Task 1 step-by-step submission guide](https://the-finai.github.io/IEEE-bigdata-cup/task1/submit/#how-to-submit) | Live |
 | Task 1 validator, sample B0, and B1 baseline | Live in this repository |
-| Task 1 organizer baseline scores | Financial Rules and Organizer Baseline ranked on the 580-question development set |
+| Task 1 organizer baseline scores | Lite Baseline, Standard Baseline, and Advanced Baseline ranked on the 580-question development set |
 | [Task 2 training data](https://the-finai.github.io/IEEE-bigdata-cup/task2/) | Live: prices, news, and filings (Parquet) |
 | [Task 3 starter kit, validator, and scorer](finreason_task3/) | Live in this repository |
 | Task 3 practice phase (332 public FinMR cases) | Live — scored on upload, never ranked |
@@ -218,8 +218,9 @@ The public `/task1/` route is the stable participant entry point:
   after both workspaces pass deployment checks;
 - the development page accepts Team Name and the 580-row predictions ZIP, then
   immediately returns Final answer, Reasoning steps, a receipt, and current rank;
-- each team's best eligible development result is ranked alongside Financial Rules
-  and Organizer Baseline on the same 580 development questions; baseline rows are marked
+- each team's best eligible development result is ranked alongside Lite Baseline,
+  Standard Baseline, and Advanced Baseline on the same 580 development questions;
+  Financial Rules remains a reference in the expandable score guide; baseline rows are marked
   as references, while participant-only team ranks continue to match submission receipts;
 - the separate test workspace accepts the 928-row test predictions ZIP and
   requires Team Name and Contact Email, then shows public-format validation feedback

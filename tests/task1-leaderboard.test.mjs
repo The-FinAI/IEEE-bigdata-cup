@@ -28,7 +28,7 @@ function payload(overrides = {}) {
   };
 }
 
-test("ranks hosted development baselines with participants by their scores", () => {
+test("ranks measured development baselines with participants by their scores", () => {
   const participants = parseDevelopmentLeaderboard(payload({ rows: [
     row({
       team_name: "CPD",
@@ -54,24 +54,26 @@ test("ranks hosted development baselines with participants by their scores", () 
     combined.map(({ teamDisplayName, displayRank, participantRank }) =>
       [teamDisplayName, displayRank, participantRank]),
     [
-      ["CPD", 1, 1],
-      ["Organizer Baseline", 2, null],
-      ["Middle Team", 3, 2],
-      ["Financial Rules", 4, null],
-      ["Lower Team", 5, 3],
+      ["Advanced Baseline", 1, null],
+      ["Standard Baseline", 2, null],
+      ["CPD", 3, 1],
+      ["Lite Baseline", 4, null],
+      ["Middle Team", 5, 2],
+      ["Lower Team", 6, 3],
     ],
   );
   assert.equal(combined.find(({ teamDisplayName }) => teamDisplayName === "Lower Team").rank, 3);
 });
 
-test("uses the hosted baseline scores and acceptance times without participants", () => {
+test("uses measured baseline scores and update times without participants", () => {
   const combined = combineDevelopmentRankings([]);
   assert.deepEqual(
     combined.map(({ id, seenFac, seenCheckpoint, acceptedAt, displayRank }) =>
       [id, seenFac, seenCheckpoint, acceptedAt, displayRank]),
     [
-      ["baseline:B2", "0.234048", "0.555354", "2026-09-03T06:28:43Z", 1],
-      ["baseline:B1", "0.020833", "0.011574", "2026-09-03T06:28:02Z", 2],
+      ["baseline:B4", "0.984444", "0.990000", "2026-09-11T11:17:34Z", 1],
+      ["baseline:B3", "0.980556", "0.987725", "2026-09-11T11:20:26Z", 2],
+      ["baseline:B2", "0.234048", "0.555354", "2026-09-03T06:28:43Z", 3],
     ],
   );
 });
@@ -100,11 +102,12 @@ test("shares rank only for both equal scores and orders tied names deterministic
   assert.deepEqual(
     combined.map(({ teamDisplayName, displayRank }) => [teamDisplayName, displayRank]),
     [
-      ["Higher Reasoning", 1],
-      ["Alpha", 2],
-      ["Organizer Baseline", 2],
-      ["Zulu", 2],
-      ["Financial Rules", 5],
+      ["Advanced Baseline", 1],
+      ["Standard Baseline", 2],
+      ["Higher Reasoning", 3],
+      ["Alpha", 4],
+      ["Lite Baseline", 4],
+      ["Zulu", 4],
     ],
   );
   assert.deepEqual(combineDevelopmentRankings([...participants].reverse()), combined);
@@ -113,19 +116,19 @@ test("shares rank only for both equal scores and orders tied names deterministic
 test("keeps zero-score participants and baseline-name collisions distinct", () => {
   const participants = parseDevelopmentLeaderboard(payload({ rows: [
     row({
-      team_name: "Financial Rules",
+      team_name: "Lite Baseline",
       final_answer_score: "0.000000",
       reasoning_steps_score: "0.000000",
     }),
   ] })).rows;
   const combined = combineDevelopmentRankings(participants);
-  const sameNameRows = combined.filter(({ teamDisplayName }) => teamDisplayName === "Financial Rules");
+  const sameNameRows = combined.filter(({ teamDisplayName }) => teamDisplayName === "Lite Baseline");
   assert.deepEqual(
     sameNameRows.map(({ id, kind, displayRank, participantRank }) =>
       [id, kind, displayRank, participantRank]),
     [
-      ["baseline:B1", "baseline", 2, null],
-      ["participant:Financial Rules", "participant", 3, 1],
+      ["baseline:B2", "baseline", 3, null],
+      ["participant:Lite Baseline", "participant", 4, 1],
     ],
   );
   assert.equal(combined.find(({ kind }) => kind === "participant").seenFac, "0.000000");

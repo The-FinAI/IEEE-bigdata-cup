@@ -68,7 +68,11 @@ test("renders direct web upload routes without a GitHub Issue intake", async () 
   assert.match(leaderboard, />Reasoning steps</);
   assert.doesNotMatch(leaderboard, /No-answer baseline|No answers submitted|reference model\.|reference system\.|Team rank [0-9]/);
   assert.match(leaderboard, /Financial Rules/);
-  assert.match(leaderboard, /Organizer Baseline/);
+  assert.match(leaderboard, /Lite Baseline/);
+  assert.match(leaderboard, /Standard Baseline/);
+  assert.match(leaderboard, /Advanced Baseline/);
+  assert.match(leaderboard, /0\.980556/);
+  assert.match(leaderboard, /0\.984444/);
   assert.match(leaderboard, /0\.234048/);
   assert.match(leaderboard, /0\.555354/);
   assert.match(leaderboard, /leaderboard-entry-pill baseline/);

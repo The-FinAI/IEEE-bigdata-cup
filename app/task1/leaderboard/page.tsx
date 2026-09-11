@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { RULE_BASELINE_REFERENCE } from "../../../lib/task1-leaderboard.mjs";
 import { getTask1PublicConfig } from "../public-config";
 import { Task1Nav } from "../task1-nav";
 import { AggregateLeaderboard } from "./aggregate-leaderboard";
@@ -52,6 +53,7 @@ export default function Task1LeaderboardPage() {
         <details className="leaderboard-score-guide">
           <summary>About the scores</summary>
           <p><strong>Final answer</strong> measures answer correctness. <strong>Reasoning steps</strong> measures accuracy on the published intermediate steps. Both scores are on a 0–1 scale.</p>
+          <p><strong>Financial Rules</strong> is a simple rule-based reference: {RULE_BASELINE_REFERENCE.seenFac} for Final answer and {RULE_BASELINE_REFERENCE.seenCheckpoint} for Reasoning steps on the same 580 questions. The rankings above include the three model baselines.</p>
         </details>
 
         <p className="leaderboard-test-note">

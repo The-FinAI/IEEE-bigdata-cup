@@ -30,6 +30,10 @@ export type DevelopmentRankingRow =
     });
 
 export const DEVELOPMENT_BASELINES: readonly Readonly<DevelopmentBaseline>[];
+export const RULE_BASELINE_REFERENCE: Readonly<{
+  seenFac: string;
+  seenCheckpoint: string;
+}>;
 export function combineDevelopmentRankings(
   participantRows: readonly DevelopmentLeaderboardRow[],
 ): DevelopmentRankingRow[];
