@@ -190,11 +190,12 @@ export default function TermsPage() {
           <p>
             Include author names and affiliations in the Working Notes PDF. FinReason follows
             the <a href="https://bigdataieee.org/BigData2026/calls/papers/">conference&apos;s single-blind review policy</a>.
-            Task 1 Working Notes must cite the{" "}
-            <a href="https://aclanthology.org/2026.acl-long.662/">FinChain benchmark paper (ACL 2026)</a>
-            {" "}and the Task 1 overview paper.
-            The <Link href="/#paper-references">paper guidance</Link> links FinChain&apos;s official BibTeX;
-            the organizers will provide the Task 1 overview reference there.
+            Working Notes must cite the FinReason Cup overview and the overview for every task entered.
+            Multi-task papers cite the Cup overview once and include all applicable task overviews.
+            Task 1 papers must additionally cite the{" "}
+            <a href="https://aclanthology.org/2026.acl-long.662/">FinChain benchmark paper (ACL 2026)</a>.
+            Copy or download the BibTeX from the <Link href="/#paper-references">citation guidance</Link>.
+            Overview author lists currently use Pending; refresh these provisional entries before final paper submission.
           </p>
           <p>
             Teams seeking final ranking and awards must submit Working Notes

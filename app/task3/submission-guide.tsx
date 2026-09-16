@@ -1,3 +1,4 @@
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const starterKit = "https://github.com/The-FinAI/IEEE-bigdata-cup/tree/main/finreason_task3";
 
 type SubmissionGuideProps = {
@@ -158,7 +159,11 @@ export function SubmissionGuide({
           <a href="https://www.ieee.org/conferences/publishing/templates.html">IEEE two-column conference template</a>{" "}
           and no more than ten pages total, including references. Paper feedback and organizer
           acceptance decisions are scheduled for 6 November; camera-ready papers are due on
-          13 November 2026, 23:59 Anywhere on Earth. Do not upload paper PDFs to prediction workspaces.
+          13 November 2026, 23:59 Anywhere on Earth.
+          Working Notes must cite the FinReason Cup overview and the Task 3 overview,
+          plus the overviews for any other tasks you enter. See the{" "}
+          <a href={`${basePath}/#paper-references`}>required references and BibTeX</a>.
+          Do not upload paper PDFs to prediction workspaces.
         </p>
       </aside>
     </section>

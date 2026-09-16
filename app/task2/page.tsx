@@ -1,3 +1,4 @@
+import { TaskCitationNote } from "../task-citation-note";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -79,6 +80,7 @@ export default function Task2HubPage() {
           will be published separately. The Task 2 submission route is not yet open.
         </p>
       </aside>
+      <TaskCitationNote task={2} />
     </main>
   );
 }

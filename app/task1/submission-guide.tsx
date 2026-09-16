@@ -198,7 +198,8 @@ export function SubmissionGuide({
           displays a different date. Paper feedback and organizer acceptance decisions are scheduled
           for 6 November; camera-ready papers are due on 13 November 2026 at 23:59 Anywhere on Earth.
           Keep author names and affiliations in the PDF, following the conference&apos;s single-blind review policy.
-          Task 1 Working Notes must cite the FinChain benchmark paper and the Task 1 overview paper; see the{" "}
+          Task 1 Working Notes must cite the FinReason Cup overview, the Task 1 overview, and the FinChain benchmark paper.
+          Include the overviews for any other tasks you enter; see the{" "}
           <a href={`${basePath}/#paper-references`}>required references and available official BibTeX</a>.
           Do not upload a paper PDF to either prediction workspace.
         </p>

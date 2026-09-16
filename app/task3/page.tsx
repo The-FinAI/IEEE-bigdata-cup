@@ -1,3 +1,4 @@
+import { TaskCitationNote } from "../task-citation-note";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getTask3PublicConfig } from "./public-config";
@@ -186,6 +187,7 @@ export default function Task3HubPage() {
           <Link href="/#timeline">Full competition and paper schedule</Link>.
         </p>
       </aside>
+      <TaskCitationNote task={3} />
     </main>
   );
 }

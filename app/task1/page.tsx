@@ -1,3 +1,4 @@
+import { TaskCitationNote } from "../task-citation-note";
 import { TestSubmissionPolicy } from "./test-submission-policy";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -166,6 +167,7 @@ export default function Task1HubPage() {
           <Link href="/#timeline">Full competition and paper schedule</Link>.
         </p>
       </aside>
+      <TaskCitationNote task={1} />
     </main>
   );
 }

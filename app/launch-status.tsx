@@ -7,6 +7,12 @@ import styles from "./paper-guidance.module.css";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const finchainBibtex = readFileSync(join(process.cwd(), "public/references/finchain.bib"), "utf8").trim();
+const overviewCitations = [
+  { id: "cup-overview", label: "Cup overview · All participants", name: "FinReason Cup overview", file: "finreason2026-overview.bib" },
+  { id: "task1-overview", label: "Task 1 · Verifiable Financial Chain Reasoning", name: "Task 1 overview", file: "finreason2026-task1-overview.bib" },
+  { id: "task2-overview", label: "Task 2 · Market-Neutral Hedging", name: "Task 2 overview", file: "finreason2026-task2-overview.bib" },
+  { id: "task3-overview", label: "Task 3 · Financial Audit Verification", name: "Task 3 overview", file: "finreason2026-task3-overview.bib" },
+].map((entry) => ({ ...entry, bibtex: readFileSync(join(process.cwd(), "public/references", entry.file), "utf8").trim() }));
 const ieeeCupUrl = "https://bigdataieee.org/BigData2026/cup/";
 const paperSubmissionUrl =
   "https://wi-lab.com/cyberchair/2026/bigdata26/scripts/submit.php?subarea=SC03";
@@ -90,6 +96,11 @@ export function LaunchStatus() {
         </div>
       </div>
 
+      <p className={styles.resourceNote}>
+        Working Notes must cite the Cup overview and the overview for every task you enter.
+        {" "}<Link href="/#paper-references">View required references and BibTeX</Link>.
+      </p>
+
       <details className={styles.supplement}>
         <summary>Schedule and publication requirements</summary>
         <p>
@@ -142,6 +153,44 @@ export function LaunchStatus() {
 export function PaperReferences() {
   return (
     <div className={styles.references}>
+      <div className={styles.citationPolicy}>
+        <h3>What to cite</h3>
+        <p>
+          Your Working Notes must cite <strong>the FinReason Cup overview</strong> and
+          {" "}<strong>the overview for each task you participate in</strong>.
+          If you enter multiple tasks, cite the Cup overview once and include every relevant task overview.
+        </p>
+        <ul>
+          <li><strong>Task 1:</strong> Cup overview + Task 1 overview + FinChain benchmark paper.</li>
+          <li><strong>Task 2:</strong> Cup overview + Task 2 overview.</li>
+          <li><strong>Task 3:</strong> Cup overview + Task 3 overview.</li>
+        </ul>
+      </div>
+      <div className={styles.overviewCollection}>
+        <div className={styles.panelHeading}>
+          <h3>Organizer overview papers</h3>
+          <a href={`${basePath}/references/finreason2026-overviews.bib`} download>Download all four .bib entries</a>
+        </div>
+        <p className={styles.resourceNote}>
+          These organizer-supplied BibTeX entries are provisional. The manuscripts are in preparation;
+          author names and order are still being finalized, so all four currently use <code>Pending</code>.
+          The conference is the intended venue; publication details are not yet assigned.
+          Use these citation keys now and refresh the entries here before submitting your final paper.
+        </p>
+        <div className={styles.overviewList}>
+          {overviewCitations.map((entry) => (
+            <details className={styles.overviewEntry} id={entry.id} key={entry.id}>
+              <summary>{entry.label}</summary>
+              <BibtexCitation
+                bibtex={entry.bibtex}
+                downloadUrl={`${basePath}/references/${entry.file}`}
+                label="Provisional overview BibTeX · Authors pending"
+                citationName={entry.name}
+              />
+            </details>
+          ))}
+        </div>
+      </div>
       <article className={styles.referencePanel}>
         <span className={styles.referenceLabel}>Required benchmark reference · Task 1</span>
         <h3>
@@ -160,14 +209,6 @@ export function PaperReferences() {
         </p>
         <BibtexCitation bibtex={finchainBibtex} downloadUrl={`${basePath}/references/finchain.bib`} />
       </article>
-      <div className={styles.overviewNote}>
-        <h3>Task 1 overview paper</h3>
-        <p>
-          Task 1 Working Notes must also cite the Task 1 overview paper.
-          Its verified BibTeX will be provided here by the organizers. Please do
-          not create a placeholder citation or infer its title or author list.
-        </p>
-      </div>
       <p className={styles.resourceNote}>
         Cite the task data, tools, and any other resources used in your system as appropriate.
       </p>

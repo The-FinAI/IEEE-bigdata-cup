@@ -379,3 +379,57 @@
     gap: 12px;
   }
 }
+
+.citationPolicy {
+  background: #edf5f1;
+  border: 1px solid #cfdfd6;
+  border-radius: 16px;
+  padding: 24px 28px;
+}
+
+.citationPolicy h3,
+.overviewCollection h3 {
+  color: #182b3b;
+  font-size: 21px;
+  font-weight: 650;
+  letter-spacing: -.025em;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.citationPolicy p { margin: 12px 0; }
+.citationPolicy ul { margin: 0; padding-left: 22px; }
+.citationPolicy li + li { margin-top: 7px; }
+.overviewCollection { margin: 28px 0; }
+.overviewCollection a,
+.resourceNote a {
+  color: #126b60;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.overviewList { display: grid; gap: 10px; margin-top: 20px; }
+.overviewEntry {
+  background: #fff;
+  border: 1px solid #dce4e1;
+  border-radius: 12px;
+  min-width: 0;
+  padding: 18px 22px;
+  scroll-margin-top: 90px;
+}
+.overviewEntry summary {
+  color: #182b3b;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.6;
+  padding-right: 30px;
+}
+.overviewEntry .bibtex { margin-top: 18px; }
+.overviewEntry summary:focus-visible {
+  outline: 3px solid #126b60;
+  outline-offset: 4px;
+}
+@media (max-width: 720px) {
+  .citationPolicy { padding: 20px; }
+  .overviewEntry { padding: 16px; }
+}
