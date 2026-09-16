@@ -100,6 +100,9 @@ CyberChair](https://wi-lab.com/cyberchair/2026/bigdata26/scripts/submit.php?suba
 - Length: up to 10 pages total, including references
 - Format: [IEEE two-column conference
   template](https://www.ieee.org/conferences/publishing/templates.html)
+- Review: single-blind, following the [conference policy](https://bigdataieee.org/BigData2026/calls/papers/); include author names and affiliations in the PDF.
+- Task 1 Working Notes must cite [FinChain, ACL 2026](https://aclanthology.org/2026.acl-long.662/), using the [official BibTeX](https://aclanthology.org/2026.acl-long.662.bib).
+- Task 1 Working Notes must also cite the Task 1 overview paper. Its official reference details are pending organizer metadata and will be added to the homepage citation guidance.
 - Working Notes deadline: 23 October 2026, 23:59 Anywhere on Earth
 - Paper review feedback and organizer acceptance decisions: 6 November 2026
 - Camera-ready deadline for accepted papers: 13 November 2026, 23:59 Anywhere on Earth
@@ -125,6 +128,18 @@ conference publication, camera-ready, registration, and presentation
 requirements. Submission, ranking, or a certificate does not guarantee paper
 acceptance or proceedings publication.
 
+### Task 1 Test revisions
+
+**Updated 16 September 2026:** Test submissions are unlimited before 15 October
+2026, 23:59 AoE. There is no daily or total Test submission-count limit. Keep
+the same Team Name and Contact Email. The latest accepted, valid submission
+before the deadline supersedes earlier submissions for final evaluation.
+Invalid or rejected uploads leave the last accepted submission unchanged.
+An identical previously accepted file returns its original receipt and acceptance
+time; it does not become a new latest revision. Earlier records remain private
+for audit purposes. Test scores and ranks remain hidden until final results.
+This supersedes previous Test submission-count limits; Development limits are unchanged.
+
 ## Certificates and prizes
 
 FinReason does not offer cash prizes. Registration support is not confirmed at
@@ -149,8 +164,8 @@ or [Task 3](https://the-finai.github.io/IEEE-bigdata-cup/task3/submit/#how-to-su
 In Task 1, development requires Team Name and a canonical ZIP. Test requires the same Team
 Name, a private Contact Email, and a canonical ZIP. Contact Email is not a login
 and is used only for submission identification, submission-related support,
-matching final results to the related challenge paper, and enforcing test
-submission quotas and replay protection through a non-public pseudonymous
+matching final results to the related challenge paper, and selecting the latest accepted test
+submission and handling repeat uploads through a non-public pseudonymous
 identifier.
 
 ### Current release status

@@ -53,7 +53,7 @@ export default function TermsPage() {
         <dl className="policy-meta">
           <div>
             <dt>Effective</dt>
-            <dd>7 September 2026</dd>
+            <dd>16 September 2026</dd>
           </div>
           <div>
             <dt>Contact</dt>
@@ -114,8 +114,8 @@ export default function TermsPage() {
             Name, a Contact Email, and a canonical ZIP. The Contact Email is not
             a login, is never published, and is used only for submission
             identification, submission-related support, matching final results
-            to the related challenge paper, and enforcing test submission
-            quotas and replay protection through a non-public pseudonymous
+            to the related challenge paper, and selecting the latest accepted test submission
+            and handling repeat uploads through a non-public pseudonymous
             identifier.
           </p>
         </section>
@@ -133,7 +133,7 @@ export default function TermsPage() {
           </p>
           <p>
             Attempts to obtain hidden answers, bypass submission constraints,
-            evade submission limits, impersonate another team, or interfere with
+            evade applicable service safeguards, impersonate another team, or interfere with
             evaluation integrity may be rejected or removed from ranking. The
             organizers will document any material enforcement decision and give
             the affected team a contact route.
@@ -143,6 +143,16 @@ export default function TermsPage() {
         <section className="policy-section" aria-labelledby="terms-evaluation">
           <p className="section-index">04 / EVALUATION</p>
           <h2 id="terms-evaluation">Task 1 scores and results</h2>
+          <p>
+            Test submission policy update, 16 September 2026: there is no daily or total
+            Test submission-count limit before 15 October 2026, 23:59 AoE. Use the same
+            Team Name and Contact Email for every revision. The latest accepted, valid Test
+            submission before the deadline supersedes earlier submissions for final evaluation.
+            Invalid or rejected uploads do not replace the last accepted submission.
+            An identical repeat upload returns its original receipt and acceptance time and
+            does not create a new latest submission. This policy supersedes previous Test
+            submission-count limits; Development limits are unchanged.
+          </p>
           <p>
             Public training materials may be used as described in their release
             documentation. Accepted development submissions return Final answer
@@ -177,6 +187,15 @@ export default function TermsPage() {
         <section className="policy-section" aria-labelledby="terms-paper">
           <p className="section-index">06 / PAPER</p>
           <h2 id="terms-paper">Challenge paper and publication</h2>
+          <p>
+            Include author names and affiliations in the Working Notes PDF. FinReason follows
+            the <a href="https://bigdataieee.org/BigData2026/calls/papers/">conference&apos;s single-blind review policy</a>.
+            Task 1 Working Notes must cite the{" "}
+            <a href="https://aclanthology.org/2026.acl-long.662/">FinChain benchmark paper (ACL 2026)</a>
+            {" "}and the Task 1 overview paper.
+            The <Link href="/#paper-references">paper guidance</Link> links FinChain&apos;s official BibTeX;
+            the organizers will provide the Task 1 overview reference there.
+          </p>
           <p>
             Teams seeking final ranking and awards must submit Working Notes
             (a challenge paper) of up to 10 pages total, including references,

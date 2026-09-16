@@ -1,3 +1,4 @@
+import { TestSubmissionPolicy } from "../../test-submission-policy";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getTask1PublicConfig } from "../../public-config";
@@ -42,6 +43,8 @@ export default function Task1TestStatusPage() {
             <span className="button button-disabled" aria-disabled="true">Test upload link pending verification</span>
           )}
         </section>
+      <TestSubmissionPolicy />
+
         <section className="test-status-guide" aria-label="Test submission feedback">
           <article>
             <span>01 / FORMAT CHECK</span>

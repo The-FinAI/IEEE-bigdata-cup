@@ -33,11 +33,32 @@ export function LaunchStatus() {
         <ul>
           <li>Length: up to 10 pages total, including references</li>
           <li>Format: IEEE two-column conference template</li>
+          <li>Review: single-blind; include author names and affiliations</li>
           <li>Working Notes: 23 October 2026, 23:59 AoE</li>
           <li>Feedback and acceptance: 6 November 2026</li>
           <li>Camera-ready: 13 November 2026, 23:59 AoE</li>
           <li>Track: SC03 · FinReason Cup</li>
         </ul>
+      </div>
+
+      <p className="form-status">
+        Review format follows the <a href="https://bigdataieee.org/BigData2026/calls/papers/">conference single-blind policy</a>.
+      </p>
+      <div className="participant-notice" id="paper-references">
+        <strong>Required references for Task 1 Working Notes</strong>
+        <p>
+          Task 1 Working Notes must cite the benchmark paper: Zhuohan Xie et al. (2026),{" "}
+          <a href="https://aclanthology.org/2026.acl-long.662/">FinChain: A Symbolic Benchmark for Verifiable Chain-of-Thought Financial Reasoning</a>,
+          ACL 2026, Volume 1: Long Papers, pages 14529–14553.
+        </p>
+        <p>
+          <a href="https://aclanthology.org/2026.acl-long.662.bib">Download the official BibTeX citation</a>.
+          Cite the task data, tools, and any other resources used in your system as appropriate.
+        </p>
+        <p>
+          Task 1 Working Notes must also cite the Task 1 overview paper.
+          Its official reference details will be provided here by the organizers.
+        </p>
       </div>
 
       <a

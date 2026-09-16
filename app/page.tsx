@@ -144,6 +144,16 @@ const launchItems = [
 
 const faqs = [
   {
+    question: "Can I revise my Task 1 Test submission?",
+    answer:
+      "Yes. Test submissions are unlimited before 15 October 2026, 23:59 Anywhere on Earth, with no daily or total count limit. Keep the same Team Name and Contact Email. Your latest accepted, valid submission replaces earlier versions for final evaluation; invalid or rejected uploads do not. An identical repeat upload returns its original receipt and acceptance time, rather than creating a new revision. This policy was updated on 16 September 2026.",
+  },
+  {
+    question: "Should Working Notes be anonymous?",
+    answer:
+      "Keep author names and affiliations in your Working Notes PDF. FinReason follows the conference's published single-blind review policy: reviewers can see author identities. Submit through CyberChair SC03 using the IEEE two-column format, up to 10 pages including references.",
+  },
+  {
     question: "Where do teams submit the challenge paper?",
     answer:
       "Use the official FinReason Cup SC03 track in CyberChair. Teams seeking final ranking and awards must submit Working Notes (a challenge paper) of up to 10 pages total, including references, in the IEEE two-column conference format by 23 October 2026, 23:59 Anywhere on Earth.",
@@ -181,7 +191,7 @@ const faqs = [
   {
     question: "Does Task 1 require registration or a team code?",
     answer:
-      "No. Choose a consistent team name and submit directly. Development asks for Team Name and a canonical ZIP. Test asks for the same Team Name, a Contact Email, and a canonical ZIP. The Contact Email is private, is not used as a login, and is used only for submission identification, submission-related support, matching final results to the related challenge paper, and enforcing test submission quotas and replay protection through a non-public pseudonymous identifier.",
+      "No. Choose a consistent team name and submit directly. Development asks for Team Name and a canonical ZIP. Test asks for the same Team Name, a Contact Email, and a canonical ZIP. The Contact Email is private, is not used as a login, and is used only for submission identification, submission-related support, matching final results to the related challenge paper, and selecting the latest accepted test submission and handling repeat uploads through a non-public pseudonymous identifier.",
   },
   {
     question: "What happens after a Task 1 upload?",
@@ -670,7 +680,7 @@ export default function Home() {
                 <span className="sr-only"> (opens in a new tab)</span>
               </a>
             </nav>
-            <p className="footer-updated">Last reviewed 7 September 2026.</p>
+            <p className="footer-updated">Last reviewed 16 September 2026.</p>
           </div>
           <a href="#overview">Back to top ↑</a>
         </div>

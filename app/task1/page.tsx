@@ -1,3 +1,4 @@
+import { TestSubmissionPolicy } from "./test-submission-policy";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getTask1PublicConfig } from "./public-config";
@@ -152,6 +153,8 @@ export default function Task1HubPage() {
           and <a href={`${basePath}/task1/licenses/CC-BY-4.0.txt`}>CC BY 4.0 text</a>.
         </p>
       </section>
+
+      <TestSubmissionPolicy />
 
       <aside className="task-hub-note">
         <strong>Competition and Working Notes deadlines</strong>

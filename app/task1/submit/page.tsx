@@ -1,3 +1,4 @@
+import { TestSubmissionPolicy } from "../test-submission-policy";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getTask1PublicConfig } from "../public-config";
@@ -53,6 +54,8 @@ export default function Task1SubmitPage() {
           </dl>
         </div>
       </header>
+
+      <TestSubmissionPolicy />
 
       <SubmissionGuide
         developmentSpaceUrl={config.developmentSpace.url}
@@ -118,7 +121,7 @@ export default function Task1SubmitPage() {
           No pre-registration, approval, access code, or account is required. The development page asks for
           Team Name and a ZIP. The test page asks for Team Name, Contact Email, and a ZIP. Contact Email is
           private and is used only for submission identification, submission-related support, matching final
-          results to the related challenge paper, and enforcing test submission quotas and replay protection
+          results to the related challenge paper, and selecting the latest accepted test submission and handling repeat uploads
           through a non-public pseudonymous identifier, not as a login.
           Review the{" "}
           <Link href="/terms/">Terms of Participation</Link>{" "}

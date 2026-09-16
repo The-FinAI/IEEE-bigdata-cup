@@ -113,7 +113,7 @@ test("renders direct web upload routes without a GitHub Issue intake", async () 
   assert.match(privacy, /Contact Email is never published/);
   assert.match(
     privacy,
-    /Contact Email is used only for\s+submission identification, submission-related support, matching\s+final results to the related challenge paper, and enforcing test\s+submission quotas and replay protection through a non-public\s+pseudonymous identifier/,
+    /Contact Email is used only for\s+submission identification, submission-related support, matching\s+final results to the related challenge paper, and selecting the latest accepted test submission and handling repeat\s+uploads through a non-public\s+pseudonymous identifier/,
   );
   assert.match(privacy, /Readable Contact Email is kept only while needed/);
   assert.match(privacy, /do not promise deletion of every historical\s+copy within a fixed period/);

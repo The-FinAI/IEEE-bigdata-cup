@@ -53,7 +53,7 @@ export default function PrivacyPage() {
         <dl className="policy-meta">
           <div>
             <dt>Effective</dt>
-            <dd>3 September 2026</dd>
+            <dd>16 September 2026</dd>
           </div>
           <div>
             <dt>Privacy contact</dt>
@@ -93,8 +93,8 @@ export default function PrivacyPage() {
               submitted prediction archive, validation and receipt records, and
               event times. Contact Email is collected only for submission
               identification, submission-related support, matching final
-              results to the related challenge paper, and enforcing test
-              submission quotas and replay protection through a non-public
+              results to the related challenge paper, and selecting the latest accepted test
+              submission and handling repeat uploads through a non-public
               pseudonymous identifier.
             </li>
             <li>
@@ -118,12 +118,12 @@ export default function PrivacyPage() {
           <h2 id="privacy-purpose">Why information is used</h2>
           <p>
             The organizer team uses submission records for validation,
-            development scoring, quota and replay enforcement, leaderboard and
+            development scoring, development quota enforcement and repeat-upload handling, leaderboard and
             result administration, integrity review, and aggregate participation
             reporting. Contact Email is used only for submission identification,
             submission-related support, matching final results to the related
-            challenge paper, and enforcing test submission quotas and replay
-            protection through a non-public pseudonymous identifier.
+            challenge paper, and selecting the latest accepted test submission and handling repeat
+            uploads through a non-public pseudonymous identifier.
           </p>
           <p>
             Legacy interest-form and access-registration records are used only
@@ -199,7 +199,7 @@ export default function PrivacyPage() {
             identification, support, result matching, and test-submission
             administration, then deleted or minimized when those purposes end.
             A non-public pseudonymous identifier derived from the email may be
-            retained separately for quota enforcement and replay protection.
+            retained separately for submission-version selection and repeat-upload handling.
           </p>
           <p>
             Encrypted submission archives and non-public operational event

@@ -53,7 +53,7 @@ export function SubmissionGuide({
               No pre-registration, approval, access code, or account is required. Choose one Team Name and
               use it consistently for development and test submissions. The test page also asks for a
               Contact Email for submission identification, submission-related support, matching final
-              results to the related challenge paper, and quota and replay enforcement through a
+              results to the related challenge paper, and selection of the latest accepted test submission and handling repeat uploads through a
               non-public pseudonymous identifier; the email is not a login and is never published.
             </p>
           </div>
@@ -197,6 +197,9 @@ export function SubmissionGuide({
           at 23:59 Anywhere on Earth. Follow the organizer schedule updated on 7 September if CyberChair
           displays a different date. Paper feedback and organizer acceptance decisions are scheduled
           for 6 November; camera-ready papers are due on 13 November 2026 at 23:59 Anywhere on Earth.
+          Keep author names and affiliations in the PDF, following the conference&apos;s single-blind review policy.
+          Task 1 Working Notes must cite the FinChain benchmark paper and the Task 1 overview paper; see the{" "}
+          <a href={`${basePath}/#paper-references`}>required references and available official BibTeX</a>.
           Do not upload a paper PDF to either prediction workspace.
         </p>
       </aside>
