@@ -38,7 +38,7 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: "FinReason Cup 2026",
-    description: "Financial AI should show its work.",
+    description: "Three tasks in financial reasoning, market-neutral hedging, and audit verification at IEEE Big Data 2026.",
     siteName: "FinReason Cup",
     type: "website",
     url: siteUrl,
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "FinReason Cup 2026",
-    description: "Financial AI should show its work.",
+    description: "Three tasks in financial reasoning, market-neutral hedging, and audit verification at IEEE Big Data 2026.",
     images: [
       {
         url: `${siteUrl}og.jpg`,

@@ -1,93 +1,43 @@
-import { LaunchStatus } from "./launch-status";
+import { LaunchStatus, PaperReferences } from "./launch-status";
 import { getTask1PublicConfig } from "./task1/public-config";
+import styles from "./homepage.module.css";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
-const paperSubmissionUrl =
-  "https://wi-lab.com/cyberchair/2026/bigdata26/scripts/submit.php?subarea=SC03";
 const contactEmail = "zhuohan.xie@mbzuai.ac.ae";
 
 const tasks = [
   {
     number: "01",
     slug: "chain",
-    code: "CHAIN",
-    accent: "mint",
-    eyebrow: "Symbolic reasoning",
     title: "Verifiable Financial Chain Reasoning",
-    question: "Can a system provide an auditable path to a financial answer?",
-    description:
-      "Solve multi-step financial problems and submit a typed final answer plus values for the published intermediate-step slots. The frozen Task 1 scorer reports the two results separately.",
-    flow: ["Financial problem", "Answer + reasoning steps", "Two development scores"],
-    data:
-      "Released: 2,900 labeled training cases, 290 labeled local-development cases, 580 unlabeled leaderboard-development questions, and 928 public test questions. The Task 1 hub publishes the frozen schema and validator, plus the current submission guide.",
+    status: "TASK 1 LIVE",
+    description: "Solve multi-step financial problems with a typed final answer and values for the published reasoning steps.",
+    detail: "2,900 labeled training cases, 290 labeled local-development cases, 580 unlabeled leaderboard-development questions, and 928 public test questions.",
     metrics: ["Final answer", "Reasoning steps"],
+    href: "/task1/",
+    link: "Open Task 1 hub",
   },
   {
     number: "02",
     slug: "hedge",
-    code: "HEDGE",
-    accent: "gold",
-    eyebrow: "Sequential decisions",
     title: "Market-Neutral Hedging",
-    question:
-      "Can an agent exploit relative value without relying on net directional exposure?",
-    description:
-      "Select an asset pair and manage a zero-net-dollar position over time using point-in-time prices, news, and corporate filings. Final execution and position rules will be published with the scorer.",
-    flow: ["Market context", "Paired actions", "Risk-aware return"],
-    data:
-      "Training data is available from HERCULEAN: prices, news, and corporate filings in Parquet format. Development and private evaluation splits, exact windows, asset policy, costs, and validity rules will be published with the scorer.",
-    metrics: [
-      "Cumulative return · CR",
-      "Sharpe ratio · SR",
-      "Max drawdown · MDD",
-    ],
+    status: "TRAINING DATA AVAILABLE",
+    description: "Manage paired asset positions with zero net dollar exposure using point-in-time prices, news, and corporate filings.",
+    detail: "HERCULEAN training data is available. Evaluation windows, execution costs, and final submission rules will follow with the scorer.",
+    metrics: ["Return", "Sharpe ratio", "Drawdown"],
+    href: "/task2/",
+    link: "Open Task 2 hub",
   },
   {
     number: "03",
     slug: "verify",
-    code: "VERIFY",
-    accent: "coral",
-    eyebrow: "Structured verification",
     title: "Financial Audit Verification",
-    question:
-      "Can a reported XBRL fact be checked against its calculation context?",
-    description:
-      "Perform targeted numeric-fact verification on organizer-packaged SEC EDGAR XBRL filing materials by comparing reported and calculation-derived values. This is not a full financial-statement audit.",
-    flow: ["Filing package", "Reported + calculated values", "Match status"],
-    data:
-      "Planned public filing cases with taxonomy metadata, followed by separately constructed held-out SEC filing cases subject to leakage review.",
-    metrics: [
-      "ACC · correct",
-      "SER · format",
-      "EER · extraction",
-      "CER · calculation",
-    ],
-  },
-];
-
-const evaluationSteps = [
-  {
-    number: "01",
-    title: "Submission contract",
-    detail:
-      "Task 1 publishes a machine-checkable prediction schema, validator, and scorer. Task 2 and Task 3 contracts will follow after organizer verification.",
-  },
-  {
-    number: "02",
-    title: "Task scorer",
-    detail: "Each track measures the capability it is designed to expose.",
-  },
-  {
-    number: "03",
-    title: "Hidden evaluation",
-    detail:
-      "Task 1 test answers remain private; test scores and ranks are withheld until final results. Task 2 and Task 3 held-out policies remain under organizer review.",
-  },
-  {
-    number: "04",
-    title: "Reproducibility review",
-    detail:
-      "Task-specific code and reproducibility requirements will be published before final submission.",
+    status: "PUBLIC PRACTICE AVAILABLE",
+    description: "Verify reported numeric facts against their calculation context in organizer-packaged SEC EDGAR XBRL filings.",
+    detail: "Explore the starter kit, validator, and public practice workflow. See the task hub for phase availability and held-out evaluation updates.",
+    metrics: ["Accuracy", "Format", "Extraction", "Calculation"],
+    href: "/task3/",
+    link: "Open Task 3 hub",
   },
 ];
 
@@ -214,477 +164,122 @@ const faqs = [
 
 export default function Home() {
   const config = getTask1PublicConfig();
-  const spaceLinksAreReady = Boolean(
-    config.siteMode === "final" &&
-      config.developmentSpace.state === "ready" &&
-      config.developmentSpace.url &&
-      config.testSpace.state === "ready" &&
-      config.testSpace.url,
-  );
+  const task1Ready = Boolean(config.siteMode === "final" && config.developmentSpace.state === "ready" && config.testSpace.state === "ready");
 
   return (
-    <>
-      <a className="skip-link" href="#main-content">
-        Skip to main content
-      </a>
-      <header className="site-header">
-        <div className="masthead">
-          <a className="wordmark" href="#overview" aria-label="FinReason Cup home">
-            <span className="wordmark-symbol" aria-hidden="true">
-              <span>F</span>
-              <span>R</span>
-            </span>
-            <span className="wordmark-copy">
-              FinReason Cup
-              <small>IEEE Big Data Cup 2026</small>
-            </span>
+    <div className={styles.page}>
+      <a className={styles.skipLink} href="#main-content">Skip to main content</a>
+      <header className={styles.header}>
+        <div className={styles.headerInner}>
+          <a className={styles.brand} href="#overview" aria-label="FinReason Cup home">
+            <span className={styles.brandMark} aria-hidden="true">FR<span>26</span></span>
+            <span>FinReason Cup<small>IEEE Big Data 2026</small></span>
           </a>
-          <nav className="primary-nav" aria-label="Primary navigation">
-            <a href={`${basePath}/task1/`}>Task 1</a>
-            <a href={`${basePath}/task2/`}>Task 2</a>
-            <a href={`${basePath}/task3/`}>Task 3</a>
-            <a href="#tracks">Tracks</a>
-            <a href="#evaluation">Evaluation</a>
-            <a href="#timeline">Timeline</a>
+          <nav className={styles.nav} aria-label="Primary navigation">
+            <a href="#tracks">Tasks</a>
+            <a href="#timeline">Dates</a>
+            <a href="#interest">Working Notes</a>
+            <a href="#paper-references">Citations</a>
             <a href="#faq">FAQ</a>
-            <a className="nav-action" href="#interest">
-              <span className="nav-full">Paper details</span>
-              <span className="nav-short">Paper</span>
-            </a>
           </nav>
+          <a className={styles.headerAction} href={`${basePath}/task1/`}>Participate <span aria-hidden="true">↗</span></a>
         </div>
       </header>
 
-      <main className="site-shell" id="main-content" tabIndex={-1}>
-        <aside className="schedule-notice" aria-labelledby="schedule-update-title">
-          <strong id="schedule-update-title">Schedule update · 7 September 2026</strong>
-          <p>
-            The previously published combined 15 November cutoff has been advanced.
-            Competition submissions for Tasks 1–3 now close on <strong>15 October 2026, 23:59 AoE</strong>.
-            Working Notes are due separately on <strong>23 October 2026, 23:59 AoE</strong>.
-            Team reports may contain up to 10 pages total, including references.{" "}
-            <a href="#timeline">View the full schedule</a>.
-          </p>
-        </aside>
-        <div className="hero-stage" id="overview">
-        <section className="hero">
-          <div className="hero-copy">
-            <p className="eyebrow">
-              <span className="eyebrow-label">
-                <span className="live-indicator" aria-hidden="true" />
-                Organizer-maintained challenge site
-              </span>
-              <span className="eyebrow-divider" aria-hidden="true" />
-              <span className="eyebrow-location">
-                Phoenix · 14–17 Dec 2026
-              </span>
-            </p>
-            <h1>
-              Financial AI
-              <span>should show its work.</span>
-            </h1>
-            <p className="hero-summary">
-              FinReason Cup challenges systems to reason, act, and verify across
-              three complementary tracks—then prove how they reached the result.
-            </p>
-            <p className="hero-organizers">
-              Led by The Fin AI, with contributors affiliated with MBZUAI,
-              McGill, Stevens, Yale, and the University of Manchester.
-            </p>
-            <div className="hero-actions">
-              <a className="button button-bright" href={`${basePath}/task1/`}>
-                Open Task 1 hub
-                <span aria-hidden="true">→</span>
-              </a>
-              <a className="button button-ghost" href={`${basePath}/task2/`}>
-                Open Task 2 hub
-                <span aria-hidden="true">→</span>
-              </a>
-              <a className="button button-ghost" href={`${basePath}/task3/`}>
-                Open Task 3 hub
-                <span aria-hidden="true">→</span>
-              </a>
-              <a
-                className="button button-ghost"
-                href={paperSubmissionUrl}
-                target="_blank"
-                rel="noreferrer"
-              >
-                Submit paper
-                <span aria-hidden="true">↗</span>
-                <span className="sr-only"> (opens in a new tab)</span>
-              </a>
+      <main id="main-content">
+        <section className={`${styles.container} ${styles.hero}`} id="overview" aria-labelledby="hero-title">
+          <div className={styles.heroCopy}>
+            <p className={styles.eyebrow}><span className={styles.statusDot} /> IEEE BIG DATA CUP · 2026</p>
+            <h1 id="hero-title">FinReason Cup<span>2026</span></h1>
+            <p className={styles.heroDescription}>Agentic financial reasoning,<br className={styles.desktopBreak} /> hedging, and audit verification.</p>
+            <p className={styles.heroNote}>Three tasks for building and evaluating financial AI systems. Explore the data, develop your approach, and submit your results.</p>
+            <div className={styles.heroActions}>
+              <a className={styles.primaryButton} href="#tracks">Explore the tasks <span aria-hidden="true">↓</span></a>
+              <a className={styles.secondaryButton} href={`${basePath}/task1/leaderboard/`}>Task 1 leaderboard <span aria-hidden="true">↗</span></a>
             </div>
-            <p className="hero-note">
-              The CyberChair paper channel is open. Task 1 and Task 3 publish
-              their participant workflows; Task 2 publishes its training data.
-            </p>
+            <p className={styles.conferenceNote}>14–17 December 2026 <span aria-hidden="true">·</span> Phoenix, Arizona</p>
           </div>
-
-          <figure className="hero-art">
-            <img
-              src={`${basePath}/finreason-hero.webp`}
-              alt="An abstract verification engine connecting reasoning nodes, balanced market signals, and filing evidence."
-              width="1100"
-              height="1100"
-              decoding="async"
-              fetchPriority="high"
-            />
-            <div className="art-index art-index-one">
-              <span>01</span>
-              Reason
+          <aside className={styles.deadlinePanel} aria-labelledby="deadline-heading">
+            <div className={styles.panelTop}><span className={styles.panelLabel}>PARTICIPANT SCHEDULE</span><span className={styles.yearTag}>2026</span></div>
+            <h2 id="deadline-heading">Dates to plan around</h2>
+            <div className={styles.keyDate}>
+              <time dateTime="2026-10-15"><span>OCT</span>15</time>
+              <div><strong>Competition closes</strong><p>Tasks 1–3 · 23:59 AoE</p></div>
             </div>
-            <div className="art-index art-index-two">
-              <span>02</span>
-              Hedge
+            <div className={styles.keyDate}>
+              <time dateTime="2026-10-23"><span>OCT</span>23</time>
+              <div><strong>Working Notes due</strong><p>CyberChair SC03 · 23:59 AoE</p></div>
             </div>
-            <div className="art-index art-index-three">
-              <span>03</span>
-              Verify
-            </div>
-            <figcaption>
-              <span>Proof system / 03 tracks</span>
-              <strong>Reason · Hedge · Verify</strong>
-            </figcaption>
-          </figure>
+            <div className={styles.panelFoot}><span>Results from 16 October</span><a href="#timeline">Full schedule <span aria-hidden="true">↗</span></a></div>
+          </aside>
         </section>
 
-        <ul className="fact-rail" aria-label="Competition highlights">
-          <li>
-            <span>Tracks</span>
-            <strong>03 technical tasks</strong>
-          </li>
-          <li>
-            <span>Final report</span>
-            <strong>Up to 10 pages</strong>
-          </li>
-          <li>
-            <span>Competition closes</span>
-            <strong>15 Oct · 23:59 AoE</strong>
-          </li>
-          <li>
-            <span>Status</span>
-            <strong className="status-open">SC03 paper channel open</strong>
-          </li>
-        </ul>
-      </div>
-
-      <section className="proof-section" aria-labelledby="proof-title">
-        <div className="proof-heading">
-          <p className="section-index">00 / THE PREMISE</p>
-          <h2 id="proof-title">
-            A plausible answer is not yet a trustworthy answer.
-          </h2>
-        </div>
-        <div
-          className="proof-model"
-          role="group"
-          aria-label="FinReason verification model"
-        >
-          <div>
-            <span>Claim</span>
-            <strong>What did the system conclude?</strong>
-          </div>
-          <span className="proof-arrow" aria-hidden="true">
-            →
-          </span>
-          <div>
-            <span>Evidence</span>
-            <strong>What trace, action, or filing supports it?</strong>
-          </div>
-          <span className="proof-arrow" aria-hidden="true">
-            →
-          </span>
-          <div className="proof-verified">
-            <span>Verification</span>
-            <strong>Can the result be checked and reproduced?</strong>
-          </div>
-        </div>
-      </section>
-
-      <section className="content-section tracks-section" id="tracks">
-        <div className="split-heading">
-          <p className="section-index">01 / TRACKS</p>
-          <div>
-            <h2>Three financial-AI capabilities. Three technical tracks.</h2>
-            <p>
-              {spaceLinksAreReady
-                ? "Task 1 is live with frozen participant data and direct uploads. "
-                : "Task 1 participant data and tools are live; its two upload links remain under verification. "}
-              Task 2 and Task 3 contracts remain in preparation; each dossier
-              summarizes the current inputs, system behavior, outputs, and
-              score signals.
-            </p>
-          </div>
+        <div className={styles.container}>
+          <aside className={styles.notice} aria-label="Schedule update">
+            <span className={styles.noticeLabel}>Schedule update <span>7 Sep 2026</span></span>
+            <p>Competition submissions now close <strong>15 October</strong>; Working Notes are due <strong>23 October</strong>. These dates replace the previous combined 15 November cutoff.</p>
+          </aside>
         </div>
 
-        <nav className="track-jump" aria-label="Task shortcuts">
-          {tasks.map((task) => (
-            <a href={`#task-${task.slug}`} key={task.slug}>
-              <span>{task.number}</span>
-              {task.code}
-            </a>
-          ))}
-        </nav>
-
-        <div className="dossier-list">
-          {tasks.map((task) => (
-            <article
-              className={`task-dossier task-${task.accent}`}
-              id={`task-${task.slug}`}
-              key={task.number}
-            >
-              <div className="dossier-title">
-                <div className="track-identity">
-                  <span className="track-number">{task.number}</span>
-                  <span className="track-code">{task.code}</span>
-                </div>
-                <p>{task.eyebrow}</p>
+        <section className={`${styles.container} ${styles.section}`} id="tracks" aria-labelledby="tasks-title">
+          <div className={styles.sectionHeading}><div><p className={styles.eyebrow}>01 / COMPETITION TASKS</p><h2 id="tasks-title">Choose your task</h2></div><p>Each participant hub contains its data, rules,<br className={styles.desktopBreak} /> and current submission options.</p></div>
+          <div className={styles.taskGrid}>
+            {tasks.map((task) => (
+              <article className={styles.taskCard} id={task.slug} key={task.number}>
+                <div className={styles.taskTop}><span className={styles.taskNumber}>TASK {task.number}</span><span className={task.number === "01" && task1Ready ? styles.liveBadge : styles.phaseBadge}>{task.number === "01" && !task1Ready ? "PARTICIPANT DATA AVAILABLE" : task.status}</span></div>
                 <h3>{task.title}</h3>
-                <strong className="task-question">{task.question}</strong>
-                <p className="task-description">{task.description}</p>
-              </div>
-
-              <div
-                className="task-flow"
-                role="list"
-                aria-label={`${task.title} workflow`}
-              >
-                {task.flow.map((step, index) => (
-                  <div className="flow-step" role="listitem" key={step}>
-                    <span>{String(index + 1).padStart(2, "0")}</span>
-                    <strong>{step}</strong>
-                  </div>
-                ))}
-              </div>
-
-              <div className="dossier-meta">
-                <div>
-                  <span className="meta-label">Data status</span>
-                  <p>{task.data}</p>
-                  {task.number === "02" && (
-                    <a className="button button-primary" href={`${basePath}/task2/`}>
-                      Download Task 2 training data
-                    </a>
-                  )}
-                </div>
-                <div>
-                  <span className="meta-label">Score signals</span>
-                  <div className="metric-chips">
-                    {task.metrics.map((metric) => (
-                      <span key={metric}>{metric}</span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="evaluation-section" id="evaluation">
-        <div className="evaluation-inner">
-          <div className="split-heading split-heading-dark">
-            <p className="section-index">02 / EVALUATION</p>
-            <div>
-              <h2>A correct answer is the beginning—not the whole score.</h2>
-              <p>
-                FinReason is designed to separate plausible output from robust,
-                verifiable performance.
-              </p>
-            </div>
-          </div>
-
-          <div className="evaluation-flow">
-            {evaluationSteps.map((step) => (
-              <article key={step.number}>
-                <span>{step.number}</span>
-                <h3>{step.title}</h3>
-                <p>{step.detail}</p>
+                <p className={styles.taskDescription}>{task.description}</p>
+                <div className={styles.metrics} aria-label={`Task ${task.number} evaluation measures`}>{task.metrics.map(metric => <span key={metric}>{metric}</span>)}</div>
+                <details className={styles.taskDetails}><summary>Data &amp; evaluation details</summary><p>{task.detail}{task.number === "02" && " The displayed measures are provisional until final scoring rules are published."}{task.number === "03" && " This task evaluates targeted numeric checks, not a full financial-statement audit."}</p></details>
+                <a className={styles.taskLink} href={`${basePath}${task.href}`}>{task.link}<span aria-hidden="true">↗</span></a>
               </article>
             ))}
           </div>
+          <div className={styles.taskQuickLinks}><span>Task 1 quick links</span><a href={`${basePath}/task1/submit/`}>Submission guide ↗</a><a href={`${basePath}/task1/leaderboard/`}>Development leaderboard ↗</a><a href={`${basePath}/task1/leaderboard/test/`}>Test submission status ↗</a></div>
+        </section>
 
-          <div className="scorecard">
-            <div className="scorecard-heading">
-              <span>Scorecard status</span>
-              <strong>TASK 1 LIVE</strong>
-            </div>
-            <div className="score-row">
-              <span>01 / CHAIN</span>
-              <strong>Final answer</strong>
-              <strong>Reasoning steps</strong>
-            </div>
-            <div className="score-row">
-              <span>02 / HEDGE</span>
-              <strong>Cumulative return · Sharpe ratio</strong>
-              <strong>Maximum drawdown · provisional</strong>
-            </div>
-            <div className="score-row">
-              <span>03 / VERIFY</span>
-              <strong>ACC · SER</strong>
-              <strong>EER · CER</strong>
-            </div>
-            <p>
-              Task 1 uses the published scorer and labels above. Task 2 and Task
-              3 formulas, tolerances, tie-breaks, and validity rules will be
-              published with their public scorers.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section className="content-section timeline-section" id="timeline">
-        <div className="split-heading">
-          <p className="section-index">03 / TIMELINE</p>
-          <div>
-            <h2>Competition and paper schedule.</h2>
-            <p>
-              All dates below are in 2026. Competition submissions and Working Notes have
-              separate deadlines. AoE means Anywhere on Earth (UTC−12); the 15 October
-              competition cutoff passes at 12:00 UTC on 16 October. Task availability
-              and release notices remain published in the participant hubs. Task 2 training
-              data is available now.
-            </p>
-          </div>
-        </div>
-
-        <div className="timeline-track">
-          {launchItems.map((item, index) => (
-            <article className={`timeline-node ${item.state}`} key={item.label}>
-              <div className="timeline-marker" aria-hidden="true">
-                <span>{String(index + 1).padStart(2, "0")}</span>
-              </div>
-              <p className="timeline-date">{item.date}</p>
-              <h3>{item.label}</h3>
-              <p>{item.detail}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="interest-wrap" id="interest">
-        <div className="interest-intro">
-          <p className="section-index">04 / SUBMISSION</p>
-          <h2>Paper and competition files use separate routes.</h2>
-          <p>
-            Teams seeking final ranking and awards submit the challenge paper
-            through CyberChair SC03. Solution materials specified in the final
-            task rules use a separate participant path. The Task 1 hub is
-            the stable entry point for public data downloads, direct-upload
-            status, and the development leaderboard.
-          </p>
-          <div className="interest-points">
-            <div>
-              <span>01</span>
-              <p>
-                Submit final system predictions and required solution materials
-                through the task-specific competition route by 15 October 2026,
-                23:59 Anywhere on Earth.
-              </p>
-            </div>
-            <div>
-              <span>02</span>
-              <p>
-                Upload Working Notes of up to 10 pages total, including references,
-                in the IEEE two-column conference format through CyberChair SC03
-                by 23 October 2026, 23:59 Anywhere on Earth.
-              </p>
-            </div>
-            <div>
-              <span>03</span>
-              <p>
-                Paper feedback and organizer acceptance decisions are scheduled
-                for 6 November. Accepted teams submit camera-ready papers by
-                13 November 2026, 23:59 Anywhere on Earth.
-              </p>
+        <section className={styles.evaluationBand} id="evaluation" aria-labelledby="evaluation-title">
+          <div className={styles.container}>
+            <div className={styles.sectionHeading}><div><p className={styles.eyebrow}>02 / EVALUATION</p><h2 id="evaluation-title">From development to final results</h2></div></div>
+            <div className={styles.evaluationGrid}>
+              <article><span className={styles.stepNumber}>01</span><h3>Develop and validate</h3><p>Use the published data, schemas, and validators. Task 1 development uploads return separate final-answer and reasoning-step scores.</p></article>
+              <article><span className={styles.stepNumber}>02</span><h3>Submit test predictions</h3><p>Task 1 allows unlimited submissions before the deadline. Keep the same Team Name and Contact Email; the latest accepted, valid version is used.</p></article>
+              <article><span className={styles.stepNumber}>03</span><h3>Receive final results</h3><p>Task 1 test answers remain private; test scores and ranks are withheld until final results. Follow each hub for task-specific evaluation rules.</p></article>
             </div>
           </div>
-        </div>
-        <LaunchStatus />
-      </section>
+        </section>
 
-      <section className="content-section faq-section" id="faq">
-        <div className="split-heading">
-          <p className="section-index">05 / FAQ</p>
-          <div>
-            <h2>What teams need to know now.</h2>
-            <p>
-              Details that are still under organizer review are stated as such,
-              rather than presented as final rules.
-            </p>
-          </div>
-        </div>
-        <div className="faq-grid">
-          {faqs.map((faq) => (
-            <details key={faq.question}>
-              <summary>{faq.question}</summary>
-              <p>{faq.answer}</p>
-            </details>
-          ))}
-        </div>
-      </section>
+        <section className={`${styles.container} ${styles.section}`} id="timeline" aria-labelledby="timeline-title">
+          <div className={styles.sectionHeading}><div><p className={styles.eyebrow}>03 / KEY DATES</p><h2 id="timeline-title">Competition &amp; paper schedule</h2></div><p>All dates are in 2026.<br />AoE = Anywhere on Earth (UTC−12).</p></div>
+          <ol className={styles.schedule}>
+            {launchItems.map((item, index) => <li className={index === 0 || index === 2 ? styles.scheduleKey : undefined} key={item.label}><span className={styles.scheduleDate}>{item.date}</span><div><h3>{item.label}</h3><p>{item.detail}</p></div></li>)}
+          </ol>
+          <p className={styles.scheduleNote}>The 15 October AoE deadline passes at 12:00 UTC on 16 October. Follow the dates here if CyberChair has not yet updated its displayed deadline.</p>
+        </section>
 
+        <section className={`${styles.container} ${styles.section} ${styles.divider}`} id="interest" aria-labelledby="papers-title">
+          <div className={styles.sectionHeading}><div><p className={styles.eyebrow}>04 / WORKING NOTES</p><h2 id="papers-title">Prepare your challenge paper</h2></div><p>Prediction files go through the task hubs.<br />Working Notes go through CyberChair SC03.</p></div>
+          <LaunchStatus />
+        </section>
+
+        <section className={`${styles.container} ${styles.section} ${styles.divider}`} id="paper-references" aria-labelledby="references-title">
+          <div className={styles.sectionHeading}><div><p className={styles.eyebrow}>05 / REFERENCES</p><h2 id="references-title">Citations for your paper</h2></div><p>Use the supplied BibTeX<br />to keep reference details consistent.</p></div>
+          <PaperReferences />
+        </section>
+
+        <section className={`${styles.container} ${styles.section} ${styles.divider}`} id="faq" aria-labelledby="faq-title">
+          <div className={styles.sectionHeading}><div><p className={styles.eyebrow}>06 / PARTICIPANT FAQ</p><h2 id="faq-title">Questions &amp; answers</h2></div><a className={styles.textLink} href={`mailto:${contactEmail}`}>Contact the organizers ↗</a></div>
+          <div className={styles.faqGrid}>{faqs.map(faq => <details key={faq.question}><summary>{faq.question}</summary><p>{faq.answer}</p></details>)}</div>
+        </section>
       </main>
 
-      <footer className="footer-stage">
-        <div className="site-footer">
-          <div className="footer-brand">
-            <span className="wordmark-symbol" aria-hidden="true">
-              <span>F</span>
-              <span>R</span>
-            </span>
-            <p>
-              FinReason Cup
-              <small>Reason · Hedge · Verify</small>
-            </p>
-          </div>
-          <div className="footer-details">
-            <p className="footer-copy">
-              Organizer team led by The Fin AI, with contributors affiliated
-              with MBZUAI, McGill, Stevens, Yale, and the University of
-              Manchester. Affiliations do not imply institutional sponsorship.
-              Task-specific dates, platform settings, award categories, and
-              resource licenses are published only after organizer verification.
-            </p>
-            <nav className="source-links" aria-label="Participant information and challenge sources">
-              <a href={`${basePath}/terms/`}>Terms</a>
-              <a href={`${basePath}/privacy/`}>Privacy</a>
-              <a href={`mailto:${contactEmail}`}>Contact</a>
-              <a
-                href="https://bigdataieee.org/BigData2026/cup/"
-                target="_blank"
-                rel="noreferrer"
-              >
-                IEEE Cup
-                <span className="sr-only"> (opens in a new tab)</span>
-              </a>
-              <a
-                href="https://github.com/mbzuai-nlp/finchain"
-                target="_blank"
-                rel="noreferrer"
-              >
-                FinChain
-                <span className="sr-only"> (opens in a new tab)</span>
-              </a>
-              <a
-                href="https://arxiv.org/abs/2605.14355"
-                target="_blank"
-                rel="noreferrer"
-              >
-                HERCULEAN
-                <span className="sr-only"> (opens in a new tab)</span>
-              </a>
-              <a href="https://thefin.ai/" target="_blank" rel="noreferrer">
-                The Fin AI
-                <span className="sr-only"> (opens in a new tab)</span>
-              </a>
-            </nav>
-            <p className="footer-updated">Last reviewed 16 September 2026.</p>
-          </div>
-          <a href="#overview">Back to top ↑</a>
+      <footer className={styles.footer}>
+        <div className={styles.container}>
+          <div className={styles.footerTop}><a className={styles.brand} href="#overview"><span className={styles.brandMark} aria-hidden="true">FR<span>26</span></span><span>FinReason Cup<small>IEEE Big Data 2026</small></span></a><a href="#overview">Back to top ↑</a></div>
+          <p className={styles.footerDescription}>Led by The Fin AI, with contributors affiliated with MBZUAI, McGill, Stevens, Yale, and the University of Manchester. Affiliations do not imply institutional sponsorship.</p>
+          <div className={styles.footerBottom}><nav aria-label="Policies and sources"><a href={`${basePath}/terms/`}>Terms</a><a href={`${basePath}/privacy/`}>Privacy</a><a href={`mailto:${contactEmail}`}>Contact</a><a href="https://bigdataieee.org/BigData2026/cup/" target="_blank" rel="noreferrer">IEEE Cup ↗</a><a href="https://github.com/mbzuai-nlp/finchain" target="_blank" rel="noreferrer">FinChain ↗</a><a href="https://arxiv.org/abs/2605.14355" target="_blank" rel="noreferrer">HERCULEAN ↗</a><a href="https://thefin.ai/" target="_blank" rel="noreferrer">The Fin AI ↗</a></nav><p>Updated 16 September 2026</p></div>
         </div>
       </footer>
-    </>
+    </div>
   );
 }
