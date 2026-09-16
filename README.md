@@ -101,7 +101,7 @@ CyberChair](https://wi-lab.com/cyberchair/2026/bigdata26/scripts/submit.php?suba
 - Format: [IEEE two-column conference
   template](https://www.ieee.org/conferences/publishing/templates.html)
 - Review: single-blind, following the [conference policy](https://bigdataieee.org/BigData2026/calls/papers/); include author names and affiliations in the PDF.
-- Task 1 Working Notes must cite [FinChain, ACL 2026](https://aclanthology.org/2026.acl-long.662/), using the [official BibTeX](https://aclanthology.org/2026.acl-long.662.bib).
+- Task 1 Working Notes must cite [FinChain, ACL 2026](https://aclanthology.org/2026.acl-long.662/), using the complete official BibTeX displayed in the [homepage citation block](https://the-finai.github.io/IEEE-bigdata-cup/#paper-references), with a copy button and [downloadable .bib file](https://the-finai.github.io/IEEE-bigdata-cup/references/finchain.bib). The displayed and copied text comes from the same `public/references/finchain.bib` file.
 - Task 1 Working Notes must also cite the Task 1 overview paper. Its official reference details are pending organizer metadata and will be added to the homepage citation guidance.
 - Working Notes deadline: 23 October 2026, 23:59 Anywhere on Earth
 - Paper review feedback and organizer acceptance decisions: 6 November 2026

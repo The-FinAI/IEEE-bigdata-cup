@@ -1,6 +1,11 @@
 import Link from "next/link";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
+import { BibtexCitation } from "./bibtex-citation";
 import { getTask1PublicConfig } from "./task1/public-config";
 
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+const finchainBibtex = readFileSync(join(process.cwd(), "public/references/finchain.bib"), "utf8").trim();
 const ieeeCupUrl = "https://bigdataieee.org/BigData2026/cup/";
 const paperSubmissionUrl =
   "https://wi-lab.com/cyberchair/2026/bigdata26/scripts/submit.php?subarea=SC03";
@@ -52,12 +57,18 @@ export function LaunchStatus() {
           ACL 2026, Volume 1: Long Papers, pages 14529–14553.
         </p>
         <p>
-          <a href="https://aclanthology.org/2026.acl-long.662.bib">Download the official BibTeX citation</a>.
-          Cite the task data, tools, and any other resources used in your system as appropriate.
+          Copy the verified BibTeX below into your bibliography.
+          It uses the published ACL 2026 reference from the{" "}
+          <a href="https://aclanthology.org/2026.acl-long.662/">ACL Anthology</a>.
         </p>
+        <BibtexCitation bibtex={finchainBibtex} downloadUrl={`${basePath}/references/finchain.bib`} />
         <p>
           Task 1 Working Notes must also cite the Task 1 overview paper.
-          Its official reference details will be provided here by the organizers.
+          Its verified BibTeX will be provided here by the organizers. Please do not
+          create a placeholder citation or infer its title or author list.
+        </p>
+        <p>
+          Cite the task data, tools, and any other resources used in your system as appropriate.
         </p>
       </div>
 

@@ -2011,6 +2011,57 @@ label {
   margin-top: 12px;
 }
 
+.bibtex-citation {
+  min-width: 0;
+}
+
+.bibtex-actions {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin: 6px 0 10px;
+}
+
+.bibtex-actions button {
+  background: var(--mint-deep);
+  border: 1px solid var(--mint-deep);
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+  padding: 8px 12px;
+}
+
+.bibtex-actions a {
+  color: var(--mint-deep);
+  font-size: 12px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.bibtex-citation pre {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 11px;
+  line-height: 1.6;
+  margin: 0;
+  max-height: 280px;
+  overflow: auto;
+  overflow-wrap: anywhere;
+  padding: 12px;
+  white-space: pre-wrap;
+}
+
+.bibtex-citation .bibtex-copy-status {
+  min-height: 18px;
+  margin-top: 5px;
+}
+
 .participant-notice-links a {
   color: var(--mint-deep);
   font-family: var(--mono);
