@@ -5,7 +5,7 @@ import { Task3LeaderboardView } from "./task3-leaderboard-view";
 
 export const metadata: Metadata = {
   title: "Task 3 Development Leaderboard | FinReason Cup",
-  description: "How Task 3 is scored, and the organizer baseline for the practice set.",
+  description: "How Task 3 is scored, and the organizer baselines for the practice and development sets.",
   alternates: {
     canonical: "https://the-finai.github.io/IEEE-bigdata-cup/task3/leaderboard/",
   },
@@ -58,10 +58,10 @@ export default function Task3LeaderboardPage() {
         <section className="finmmeval-leaderboard-card" aria-labelledby="task3-baseline-title">
           <header className="finmmeval-leaderboard-head">
             <div>
-              <p>Public practice set · 332 cases</p>
-              <h2 id="task3-baseline-title">Organizer baseline</h2>
+              <p>Practice · 332 cases &nbsp;·&nbsp; Development · 680 cases</p>
+              <h2 id="task3-baseline-title">Organizer baselines</h2>
             </div>
-            <p>1 baseline</p>
+            <p>4 baselines</p>
           </header>
 
           <div className="finmmeval-table-shell" role="region" aria-labelledby="task3-baseline-title" tabIndex={0}>
@@ -69,6 +69,7 @@ export default function Task3LeaderboardPage() {
               <thead>
                 <tr>
                   <th scope="col">Baseline</th>
+                  <th scope="col">Set</th>
                   <th scope="col">ACC</th>
                   <th scope="col">Structural error rate</th>
                   <th scope="col">Extraction error rate</th>
@@ -78,24 +79,112 @@ export default function Task3LeaderboardPage() {
               <tbody>
                 <tr className="leaderboard-baseline-row">
                   <th scope="row">
-                    <span className="leaderboard-team-name">Dummy baseline</span>
+                    <span className="leaderboard-team-name">Do nothing</span>
                     <span className="leaderboard-entry-pill baseline">Baseline</span>
                     <small>Answers &quot;0&quot; for every field</small>
                   </th>
+                  <td>Practice</td>
                   <td className="leaderboard-score">0.00%</td>
                   <td className="leaderboard-score">0.00%</td>
                   <td className="leaderboard-score">95.48%</td>
                   <td className="leaderboard-score">4.52%</td>
+                </tr>
+                <tr className="leaderboard-baseline-row">
+                  <th scope="row">
+                    <span className="leaderboard-team-name">Extraction only</span>
+                    <span className="leaderboard-entry-pill baseline">Baseline</span>
+                    <small>Reads the reported figure, then asserts the filing agrees with itself</small>
+                  </th>
+                  <td>Practice</td>
+                  <td className="leaderboard-score">0.00%</td>
+                  <td className="leaderboard-score">0.00%</td>
+                  <td className="leaderboard-score">48.49%</td>
+                  <td className="leaderboard-score">51.51%</td>
+                </tr>
+                <tr className="leaderboard-baseline-row">
+                  <th scope="row">
+                    <span className="leaderboard-team-name">Extraction only</span>
+                    <span className="leaderboard-entry-pill baseline">Baseline</span>
+                    <small>Reads the reported figure, then asserts the filing agrees with itself</small>
+                  </th>
+                  <td>Development</td>
+                  <td className="leaderboard-score">0.00%</td>
+                  <td className="leaderboard-score">0.00%</td>
+                  <td className="leaderboard-score">23.97%</td>
+                  <td className="leaderboard-score">76.03%</td>
+                </tr>
+                <tr className="leaderboard-baseline-row">
+                  <th scope="row">
+                    <span className="leaderboard-team-name">Rule-based</span>
+                    <span className="leaderboard-entry-pill baseline">Baseline</span>
+                    <small>Weighted sum of the calculation children, else the taxonomy&rsquo;s balance</small>
+                  </th>
+                  <td>Practice</td>
+                  <td className="leaderboard-score">7.53%</td>
+                  <td className="leaderboard-score">0.00%</td>
+                  <td className="leaderboard-score">48.49%</td>
+                  <td className="leaderboard-score">43.98%</td>
+                </tr>
+                <tr className="leaderboard-baseline-row">
+                  <th scope="row">
+                    <span className="leaderboard-team-name">Rule-based</span>
+                    <span className="leaderboard-entry-pill baseline">Baseline</span>
+                    <small>Weighted sum of the calculation children, else the taxonomy&rsquo;s balance</small>
+                  </th>
+                  <td>Development</td>
+                  <td className="leaderboard-score">25.00%</td>
+                  <td className="leaderboard-score">0.00%</td>
+                  <td className="leaderboard-score">23.97%</td>
+                  <td className="leaderboard-score">51.03%</td>
+                </tr>
+                <tr className="leaderboard-baseline-row">
+                  <th scope="row">
+                    <span className="leaderboard-team-name">Sign flip</span>
+                    <span className="leaderboard-entry-pill baseline">Shortcut</span>
+                    <small>Negates whatever it extracted; reasons about nothing</small>
+                  </th>
+                  <td>Practice</td>
+                  <td className="leaderboard-score">9.64%</td>
+                  <td className="leaderboard-score">0.00%</td>
+                  <td className="leaderboard-score">48.49%</td>
+                  <td className="leaderboard-score">41.87%</td>
+                </tr>
+                <tr className="leaderboard-baseline-row">
+                  <th scope="row">
+                    <span className="leaderboard-team-name">Sign flip</span>
+                    <span className="leaderboard-entry-pill baseline">Shortcut</span>
+                    <small>Negates whatever it extracted; reasons about nothing</small>
+                  </th>
+                  <td>Development</td>
+                  <td className="leaderboard-score">15.29%</td>
+                  <td className="leaderboard-score">0.00%</td>
+                  <td className="leaderboard-score">23.97%</td>
+                  <td className="leaderboard-score">60.74%</td>
                 </tr>
               </tbody>
             </table>
           </div>
 
           <p className="leaderboard-test-note">
-            Measured on the practice set. The 4.52% calculation-error share is the 15 cases
+            All measured with the deterministic judge, and all reproducible from the starter
+            kit: <code>baselines/rule_baseline.py</code>, with <code>--mode extract</code> and{" "}
+            <code>--mode negate</code> for the other two. None of them is told which
+            data-quality rule a case belongs to; the rule-based baseline picks its method from
+            where the concept sits in the calculation linkbase.
+          </p>
+          <p className="leaderboard-test-note">
+            Read the sign-flip row as a floor, not a method. It negates whatever it extracted
+            and reasons about nothing, so a submission scoring near it has learned nothing
+            whatever its rank says. On development the relationships earn their keep — 25.00%
+            against the shortcut&rsquo;s 15.29% — but on practice they do not, because a third
+            of that set is the one rule whose answer is always the negation. Both numbers are
+            published as measured.
+          </p>
+          <p className="leaderboard-test-note">
+            The do-nothing row&rsquo;s 4.52% calculation-error share is the 15 practice cases
             whose reported value genuinely is zero: answering &quot;0&quot; clears the
             extraction gate for those and fails at the calculation step. Every other case fails
-            earlier. This is the score for doing nothing.
+            earlier.
           </p>
         </section>
 

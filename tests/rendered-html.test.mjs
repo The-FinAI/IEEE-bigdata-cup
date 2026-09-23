@@ -420,22 +420,39 @@ test("publishes the Task 3 leaderboard page with only measured baselines", async
   assert.match(board, /Calculation error rate/i);
   // The A/S/E/C hierarchy short-circuits, and that must be explained.
   assert.match(board, /first check that fails|short-circuit/i);
-  // The one measured baseline, with its real numbers.
-  assert.match(board, /Dummy baseline/);
-  // Extract the baseline row and compare its cells as an ordered array. A
-  // span-matching regex over the whole document does not work here: the caption
-  // paragraph below the table repeats "4.52%", so a swapped-column table still
-  // satisfied it. Text outside the row cannot reach this assertion.
-  const baselineRow = board.match(/<tr[^>]*leaderboard-baseline-row[\s\S]*?<\/tr>/);
-  assert.ok(baselineRow, "the dummy baseline row is missing from the leaderboard page");
-  const baselineCells = [...baselineRow[0].matchAll(/<td[^>]*>([^<]*)<\/td>/g)].map(
-    (match) => match[1].trim(),
+  // Every measured baseline, with its real numbers. Rows are compared as
+  // ordered cell arrays: a regex over the whole document does not work here,
+  // because the caption paragraphs below the table repeat several of these
+  // figures, so a table with its columns swapped still satisfied one. Text
+  // outside a row cannot reach these assertions.
+  const rows = [...board.matchAll(/<tr[^>]*leaderboard-baseline-row[\s\S]*?<\/tr>/g)].map(
+    (match) => {
+      const name = match[0].match(/leaderboard-team-name">([^<]*)</)?.[1]?.trim() ?? "";
+      const cells = [...match[0].matchAll(/<td[^>]*>([^<]*)<\/td>/g)].map((c) => c[1].trim());
+      return [name, ...cells];
+    },
   );
+  // name, set, then ACC, SER, EER, CER in that order.
   assert.deepEqual(
-    baselineCells,
-    ["0.00%", "0.00%", "95.48%", "4.52%"],
-    "the baseline row's rates are not in ACC, SER, EER, CER order",
+    rows,
+    [
+      ["Do nothing", "Practice", "0.00%", "0.00%", "95.48%", "4.52%"],
+      ["Extraction only", "Practice", "0.00%", "0.00%", "48.49%", "51.51%"],
+      ["Extraction only", "Development", "0.00%", "0.00%", "23.97%", "76.03%"],
+      ["Rule-based", "Practice", "7.53%", "0.00%", "48.49%", "43.98%"],
+      ["Rule-based", "Development", "25.00%", "0.00%", "23.97%", "51.03%"],
+      ["Sign flip", "Practice", "9.64%", "0.00%", "48.49%", "41.87%"],
+      ["Sign flip", "Development", "15.29%", "0.00%", "23.97%", "60.74%"],
+    ],
+    "the baseline table no longer matches the measured numbers, in ACC/SER/EER/CER order",
   );
+  // The shortcut row has to be labelled as one. Presented as a peer of the
+  // others it reads as a method worth copying, which is the opposite of why
+  // it is published.
+  const shortcut = rows.findIndex((r) => r[0] === "Sign flip");
+  assert.ok(shortcut >= 0, "the shortcut reference is missing");
+  assert.match(board, /Shortcut<\/span>/, "the sign-flip rows are not marked as a shortcut");
+  assert.match(board, /floor, not a method/i, "the page does not warn about the shortcut");
   assert.match(board, /332/);
   // Practice results must never appear on the board.
   assert.match(board, /practice/i);
