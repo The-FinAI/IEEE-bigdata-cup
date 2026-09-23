@@ -121,7 +121,12 @@ class TestInput:
     """One case as it is handed to a participant system: no answer."""
 
     id: str
-    dqc_id: str
+    #: Absent from the development and test inputs on purpose. The practice
+    #: set names each case's data-quality rule, which for one of the three
+    #: rules gives away the answer's shape; the ranked phases withhold it, so
+    #: this loader must accept a record without it or no participant can read
+    #: the files they are meant to work on.
+    dqc_id: Optional[str]
     query: str
 
     #: Tells pytest this dataclass is not a test class despite its name.
@@ -137,12 +142,16 @@ class TestInput:
                 raise SchemaError(f"{what} must not contain gold field '{forbidden}'")
         return cls(
             id=case_id,
-            dqc_id=_require_str(obj, "dqc_id", what),
+            dqc_id=_require_str(obj, "dqc_id", what) if "dqc_id" in obj else None,
             query=_require_str(obj, "query", what),
         )
 
     def to_dict(self) -> Dict[str, str]:
-        return {"id": self.id, "dqc_id": self.dqc_id, "query": self.query}
+        record: Dict[str, str] = {"id": self.id}
+        if self.dqc_id is not None:
+            record["dqc_id"] = self.dqc_id
+        record["query"] = self.query
+        return record
 
 
 @dataclass(frozen=True)
