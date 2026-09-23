@@ -443,6 +443,24 @@ test("a Task 3 phase the hub calls open has a working upload link", async () => 
   );
 });
 
+test("Task 3 states the external-lookup rule where participants will read it", async () => {
+  // Each case is a real SEC filing and names itself, so a team can find it and
+  // read the expected values off a public data-quality service instead of
+  // deriving them. The rule is only enforceable if it is actually published, in
+  // the binding terms and in the guide people follow.
+  const [terms, submit] = await Promise.all([
+    text("out/terms/index.html"),
+    text("out/task3/submit/index.html"),
+  ]);
+  for (const [name, page] of [["terms", terms], ["submit guide", submit]]) {
+    assert.match(page, /publishes data-quality findings/, `${name} must state the rule`);
+  }
+  // And the guide's pointer to the binding text must survive the base path --
+  // a bare /terms/ is a 404 on Pages.
+  const link = submit.match(/href="([^"]*terms\/)"/)?.[1] ?? "";
+  assert.match(link, /IEEE-bigdata-cup\/terms\/$/, `guide links to ${link || "nothing"}`);
+});
+
 test("the home page links to all three task hubs", async () => {
   // A participant site nobody can navigate to does not do its job. The Task 3
   // route existed in the sitemap but no page linked to it.

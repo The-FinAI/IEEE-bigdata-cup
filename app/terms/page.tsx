@@ -132,6 +132,17 @@ export default function TermsPage() {
             service.
           </p>
           <p>
+            Task 3 cases are real SEC filings and carry their own identifiers, so
+            a team can work out which filing a case came from. Deriving the two
+            reported values from the filing materials supplied with the case is
+            the task. Reading either value out of an external source that already
+            publishes data-quality findings for that filing &mdash; or out of any
+            other record of the expected answer &mdash; is not, and a submission
+            produced that way is not a valid entry, whether or not the source is
+            public. The organizers may ask a team to describe how a result was
+            produced before confirming a final ranking.
+          </p>
+          <p>
             Attempts to obtain hidden answers, bypass submission constraints,
             evade applicable service safeguards, impersonate another team, or interfere with
             evaluation integrity may be rejected or removed from ranking. The
