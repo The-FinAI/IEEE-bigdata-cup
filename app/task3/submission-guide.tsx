@@ -1,5 +1,6 @@
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const starterKit = "https://github.com/The-FinAI/IEEE-bigdata-cup/tree/main/finreason_task3";
+const hiddenDataset = "https://huggingface.co/datasets/YanAdjeNole/FinReason-Task3";
 
 type SubmissionGuideProps = {
   scoringSpaceUrl: string | null;
@@ -51,11 +52,17 @@ export function SubmissionGuide({
         <li>
           <span className="submission-step-number" aria-hidden="true">01</span>
           <div>
-            <h3><span className="sr-only">Step 1 of 5: </span>Get the practice data.</h3>
+            <h3><span className="sr-only">Step 1 of 5: </span>Get the data.</h3>
             <p>
               Clone the <a href={starterKit}>Task 3 starter kit</a> and run its prepare script.
               It downloads the 332 public cases and writes both the answered and unanswered
               copies.
+            </p>
+            <p>
+              For the two ranked phases, download{" "}
+              <code>development_inputs.jsonl</code> and <code>test_inputs.jsonl</code> from{" "}
+              <a href={hiddenDataset}>YanAdjeNole/FinReason-Task3</a>. Each holds 680
+              questions with the answers withheld, and no rule label.
             </p>
             <pre tabIndex={0} aria-label="Prepare the practice data"><code>{prepareCommand}</code></pre>
           </div>

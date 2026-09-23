@@ -13,6 +13,7 @@ export const metadata: Metadata = {
 
 const finmrDataset = "https://huggingface.co/datasets/TheFinAI/FinMR";
 const starterKit = "https://github.com/The-FinAI/IEEE-bigdata-cup/tree/main/finreason_task3";
+const hiddenDataset = "https://huggingface.co/datasets/YanAdjeNole/FinReason-Task3";
 
 type PhaseCard = {
   name: string;
@@ -31,6 +32,8 @@ export default function Task3HubPage() {
   const config = getTask3PublicConfig();
   const scoringIsLive =
     config.siteMode === "final" && config.scoringSpace.state === "ready";
+  const testIsLive =
+    config.siteMode === "final" && config.testSpace.state === "ready";
 
   const phases: PhaseCard[] = [
     {
@@ -48,16 +51,19 @@ export default function Task3HubPage() {
     {
       name: "Development",
       slug: "development",
-      live: false,
-      gold: "Held by the organizers",
+      // Development runs on the same scoring workspace as practice, so it is
+      // live under exactly the same condition. Hard-coding this would let a
+      // build with no Task 3 configuration announce an open phase.
+      live: scoringIsLive,
+      gold: "680 held-out cases, answers withheld",
       feedback: "Score, rank, and a public leaderboard",
       ranked: "Ranked",
     },
     {
       name: "Test",
       slug: "test",
-      live: false,
-      gold: "Held by the organizers",
+      live: testIsLive,
+      gold: "680 held-out cases, answers withheld",
       feedback: "An acceptance receipt only",
       ranked: "Decides the final result",
     },
@@ -145,7 +151,7 @@ export default function Task3HubPage() {
         <div className="task-platform-copy">
           <div>
             <p className="section-index">DATA</p>
-            <h2 id="task3-data-title">Where the practice data comes from</h2>
+            <h2 id="task3-data-title">Where the data comes from</h2>
           </div>
           <p>
             This site hosts no Task 3 files. The 332 public practice cases are the Financial
@@ -153,6 +159,13 @@ export default function Task3HubPage() {
             <a href={finmrDataset}>TheFinAI/FinMR</a>. The{" "}
             <a href={starterKit}>Task 3 starter kit</a> downloads them for you, and ships the
             validator, the scorer, and one baseline per way of running a model.
+          </p>
+          <p>
+            The development and test questions are published separately, without their
+            answers, as{" "}
+            <a href={hiddenDataset}>YanAdjeNole/FinReason-Task3</a> — 680 cases each. They
+            carry no rule label: for one of the three rules the label alone gives away the
+            answer&rsquo;s shape.
           </p>
         </div>
         <p className="task-platform-footnote">

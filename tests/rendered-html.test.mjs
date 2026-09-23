@@ -279,10 +279,20 @@ test("publishes the Task 3 participant hub with honest phase status", async () =
     assert.notEqual(rowOf(slug), "", `${slug} row is missing`);
   }
 
-  // Development and test have no datasets, in any build.
-  for (const slug of ["development", "test"]) {
-    assert.match(rowOf(slug), /data-state="pending"/, `${slug} must be pending`);
-    assert.doesNotMatch(rowOf(slug), /data-state="ready"/, `${slug} must not claim to be live`);
+  // The hidden datasets exist now, so these rows are no longer pinned to
+  // pending. What must still hold is that no row claims to be open in a build
+  // that has no workspace to send people to -- the original defect. Each row
+  // tracks its own workspace: practice and development share the scoring one,
+  // test has its own.
+  const panelPending = /<dd>Link under verification<\/dd>/.test(hub);
+  for (const slug of ["practice", "development", "test"]) {
+    if (panelPending) {
+      assert.match(
+        rowOf(slug),
+        /data-state="pending"/,
+        `${slug} must be pending while the site has no verified Space`,
+      );
+    }
   }
 
   // Practice tracks the configuration, and this assertion works in BOTH site
@@ -293,6 +303,15 @@ test("publishes the Task 3 participant hub with honest phase status", async () =
     rowOf("practice"),
     practiceOpen ? /data-state="ready"/ : /data-state="pending"/,
     "the practice row disagrees with the quick-facts panel",
+  );
+
+  // Development runs on the same workspace as practice, so the two rows must
+  // never disagree: one of them being open while the other is not would mean
+  // the page is reporting a workspace state that does not exist.
+  assert.equal(
+    /data-state="ready"/.test(rowOf("development")),
+    /data-state="ready"/.test(rowOf("practice")),
+    "development and practice share a workspace but report different states",
   );
 
   // The page must never contradict itself: if the panel says the link is still
@@ -441,6 +460,27 @@ test("a Task 3 phase the hub calls open has a working upload link", async () => 
     hubSaysOpen,
     "the submit page's prose disagrees with the hub's practice status",
   );
+});
+
+test("an open ranked phase says where to get its questions", async () => {
+  // "Development: Live" is an empty claim if the questions are nowhere to be
+  // found. The gold stays private, but the inputs must be reachable from both
+  // the hub and the guide before either page calls those phases open.
+  const [hub, submit] = await Promise.all([
+    text("out/task3/index.html"),
+    text("out/task3/submit/index.html"),
+  ]);
+  const devRow = hub.match(/<tr[^>]*data-phase="development"[\s\S]*?<\/tr>/)?.[0] ?? "";
+  const ranked = /data-state="ready"/.test(devRow);
+  const dataset = /huggingface\.co\/datasets\/[\w.-]+\/FinReason-Task3/;
+  if (!ranked) return;
+  for (const [name, page] of [["hub", hub], ["submit guide", submit]]) {
+    assert.match(
+      page,
+      dataset,
+      `${name} calls development open but never says where its questions are`,
+    );
+  }
 });
 
 test("the home page links to all three task hubs", async () => {
