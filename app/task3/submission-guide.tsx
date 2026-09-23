@@ -1,3 +1,4 @@
+import Link from "next/link";
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const starterKit = "https://github.com/The-FinAI/IEEE-bigdata-cup/tree/main/finreason_task3";
 const hiddenDataset = "https://huggingface.co/datasets/YanAdjeNole/FinReason-Task3";
@@ -84,6 +85,14 @@ export function SubmissionGuide({
               <code>(1,284)</code> are read as the same number. Emit <code>&quot;0&quot;</code>{" "}
               when your system cannot determine a value — never omit a line, because a missing
               id invalidates the whole submission rather than costing you one case.
+            </p>
+            <p className="submission-guide-note">
+              Both values must come from the filing materials shipped with the case. Each
+              case is a real SEC filing and says so in its own identifiers, so you can work
+              out which one it is — but reading either value out of a service that already
+              publishes data-quality findings for that filing is not a solution to this task,
+              and a submission produced that way is not a valid entry. See the{" "}
+              <Link href="/terms/">Terms of Participation</Link>.
             </p>
           </div>
         </li>
