@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { access, readFile, readdir } from "node:fs/promises";
 import test from "node:test";
 import { resolveTask1PublicConfig } from "../lib/task1-public-config.mjs";
+import { resolveTask3PublicConfig } from "../lib/task3-public-config.mjs";
 
 const root = new URL("../", import.meta.url);
 const publicConfig = resolveTask1PublicConfig({
@@ -9,6 +10,12 @@ const publicConfig = resolveTask1PublicConfig({
   developmentSpaceUrl: process.env.NEXT_PUBLIC_FINREASON_TASK1_DEVELOPMENT_SPACE_URL,
   testSpaceUrl: process.env.NEXT_PUBLIC_FINREASON_TASK1_TEST_SPACE_URL,
   leaderboardApiUrl: process.env.NEXT_PUBLIC_FINREASON_TASK1_LEADERBOARD_API_URL,
+});
+const task3Config = resolveTask3PublicConfig({
+  siteMode: process.env.FINREASON_TASK3_SITE_MODE,
+  scoringSpaceUrl: process.env.NEXT_PUBLIC_FINREASON_TASK3_SCORING_SPACE_URL,
+  testSpaceUrl: process.env.NEXT_PUBLIC_FINREASON_TASK3_TEST_SPACE_URL,
+  leaderboardApiUrl: process.env.NEXT_PUBLIC_FINREASON_TASK3_LEADERBOARD_API_URL,
 });
 
 async function text(path) {
@@ -95,7 +102,40 @@ test("renders direct web upload routes without a GitHub Issue intake", async () 
   assert.match(home, /290 labeled local-development cases/);
   assert.match(home, /580 unlabeled leaderboard-development questions/);
   assert.match(home, /928 public test questions/);
-  assert.match(home, /TASK 1 LIVE/);
+  // The badge is conditional on the site's own configuration, so this
+  // assertion has to be too. Asserting "TASK 1 LIVE" unconditionally failed
+  // every development-mode build -- which is every CI run -- while saying
+  // nothing about whether the badge tracks reality.
+  const task1Live = publicConfig.siteMode === "final"
+    && publicConfig.developmentSpace.state === "ready"
+    && publicConfig.testSpace.state === "ready";
+  assert.match(
+    home,
+    task1Live ? /TASK 1 LIVE/ : /PARTICIPANT DATA AVAILABLE/,
+    `the Task 1 badge disagrees with the configuration (live=${task1Live})`,
+  );
+  assert.doesNotMatch(
+    home,
+    task1Live ? /PARTICIPANT DATA AVAILABLE/ : /TASK 1 LIVE/,
+    "the Task 1 card shows both badge states at once",
+  );
+
+  // Same for Task 3. Its badge was the hard-coded "PUBLIC PRACTICE AVAILABLE"
+  // and stayed that way after the development and test phases opened, telling
+  // the front page's readers that only practice was available.
+  const task3Live = task3Config.siteMode === "final"
+    && task3Config.scoringSpace.state === "ready"
+    && task3Config.testSpace.state === "ready";
+  assert.match(
+    home,
+    task3Live ? /TASK 3 LIVE/ : /PUBLIC PRACTICE AVAILABLE/,
+    `the Task 3 badge disagrees with the configuration (live=${task3Live})`,
+  );
+  assert.doesNotMatch(
+    home,
+    task3Live ? /PUBLIC PRACTICE AVAILABLE/ : /TASK 3 LIVE/,
+    "the Task 3 card shows both badge states at once",
+  );
   assert.match(home, />Final answer</);
   assert.match(home, />Reasoning steps</);
   assert.match(home, /Task 1 test answers remain private; test scores and ranks are withheld until final results/);

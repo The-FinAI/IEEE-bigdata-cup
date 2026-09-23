@@ -1,5 +1,6 @@
 import { LaunchStatus, PaperReferences } from "./launch-status";
 import { getTask1PublicConfig } from "./task1/public-config";
+import { getTask3PublicConfig } from "./task3/public-config";
 import styles from "./homepage.module.css";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
@@ -165,6 +166,23 @@ const faqs = [
 export default function Home() {
   const config = getTask1PublicConfig();
   const task1Ready = Boolean(config.siteMode === "final" && config.developmentSpace.state === "ready" && config.testSpace.state === "ready");
+  // Task 3's badge used to be the hard-coded string "PUBLIC PRACTICE
+  // AVAILABLE", which went stale the moment the development and test phases
+  // opened. Derive it, so the card cannot outlive the state it describes.
+  const task3Config = getTask3PublicConfig();
+  const task3Ready = Boolean(
+    task3Config.siteMode === "final" &&
+      task3Config.scoringSpace.state === "ready" &&
+      task3Config.testSpace.state === "ready",
+  );
+
+  const badgeIsLive = (number: string) =>
+    (number === "01" && task1Ready) || (number === "03" && task3Ready);
+  const badgeLabel = (number: string, fallback: string) => {
+    if (number === "01") return task1Ready ? "TASK 1 LIVE" : "PARTICIPANT DATA AVAILABLE";
+    if (number === "03") return task3Ready ? "TASK 3 LIVE" : "PUBLIC PRACTICE AVAILABLE";
+    return fallback;
+  };
 
   return (
     <div className={styles.page}>
@@ -226,7 +244,7 @@ export default function Home() {
           <div className={styles.taskGrid}>
             {tasks.map((task) => (
               <article className={styles.taskCard} id={task.slug} key={task.number}>
-                <div className={styles.taskTop}><span className={styles.taskNumber}>TASK {task.number}</span><span className={task.number === "01" && task1Ready ? styles.liveBadge : styles.phaseBadge}>{task.number === "01" && !task1Ready ? "PARTICIPANT DATA AVAILABLE" : task.status}</span></div>
+                <div className={styles.taskTop}><span className={styles.taskNumber}>TASK {task.number}</span><span className={badgeIsLive(task.number) ? styles.liveBadge : styles.phaseBadge}>{badgeLabel(task.number, task.status)}</span></div>
                 <h3>{task.title}</h3>
                 <p className={styles.taskDescription}>{task.description}</p>
                 <div className={styles.metrics} aria-label={`Task ${task.number} evaluation measures`}>{task.metrics.map(metric => <span key={metric}>{metric}</span>)}</div>
