@@ -568,6 +568,43 @@ test("an open ranked phase says where to get its questions", async () => {
   }
 });
 
+test("Task 3 publishes its submission limits and no longer calls its phases pending", async () => {
+  // Two separate ways the documentation went stale. The README kept promising
+  // the development and test datasets were coming while they were live and
+  // linked from the same file. And the guide told people a validation failure
+  // "never costs you a submission quota" without ever saying what the quota
+  // was -- naming a limit nobody can look up is worse than silence.
+  const [readme, submit] = await Promise.all([
+    text("README.md"),
+    text("out/task3/submit/index.html"),
+  ]);
+
+  // The limits, stated in both places and agreeing with each other. The number
+  // enforced lives in a Space variable no test can reach, so the backing
+  // defence is that the workspace's own default is this same number, asserted
+  // on that side.
+  for (const [name, page] of [["README", readme], ["submit guide", submit]]) {
+    assert.match(page, /3 per day/, `${name} does not state the development limit`);
+    assert.match(page, /3 in total/, `${name} does not state the test limit`);
+    assert.match(page, /20 per hour/, `${name} does not state the practice limit`);
+  }
+
+  // A limit is only usable with the rule that makes it safe to retry.
+  assert.match(submit, /rejected during validation costs nothing|never costs you a submission/i);
+
+  // And nothing may still call Task 3's ranked phases unreleased.
+  assert.doesNotMatch(
+    readme,
+    /Task 3 development and test datasets \| Coming soon/,
+    "the README still calls the hidden datasets unreleased",
+  );
+  assert.doesNotMatch(
+    readme,
+    /Task 3 leaderboard[^|]*\| Opens with the development dataset/,
+    "the README still says the leaderboard has not opened",
+  );
+});
+
 test("the home page links to all three task hubs", async () => {
   // A participant site nobody can navigate to does not do its job. The Task 3
   // route existed in the sitemap but no page linked to it.

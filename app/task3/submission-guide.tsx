@@ -157,8 +157,46 @@ export function SubmissionGuide({
               rank, or diagnostic is shown before the final results are released.
             </p>
             <p>
-              A validation failure never costs you a submission quota. Only a file that reaches
-              scoring is counted.
+              Each phase has a limit, and a submission counts only once it reaches scoring — a
+              file rejected during validation costs nothing, so a format problem never spends
+              an attempt.
+            </p>
+            <div className="finmmeval-table-shell" role="region" aria-label="Task 3 submission limits" tabIndex={0}>
+              <table className="baseline-reference-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Phase</th>
+                    <th scope="col">Limit</th>
+                    <th scope="col">Counted per</th>
+                    <th scope="col">Resets</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">Practice</th>
+                    <td>20 per hour</td>
+                    <td>Uploader</td>
+                    <td>Hourly</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Development</th>
+                    <td>3 per day</td>
+                    <td>Team</td>
+                    <td>00:00 UTC</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Test</th>
+                    <td>3 in total</td>
+                    <td>Team</td>
+                    <td>Never</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p>
+              Practice counts per uploader because it asks for no Contact Email and so has no
+              team to count against. The test limit does not reset: three accepted test
+              submissions is all a team gets.
             </p>
           </div>
         </li>

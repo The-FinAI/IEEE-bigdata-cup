@@ -78,7 +78,7 @@ subject to leakage review and open when those datasets are published.
 | --- | --- |
 | Task 1 · Reason | Final answer and Reasoning steps (live) |
 | Task 2 · Hedge | Cumulative return, Sharpe ratio, and maximum drawdown (provisional) |
-| Task 3 · Verify | Accuracy and structural, extraction, and calculation error rates (live for practice) |
+| Task 3 · Verify | Accuracy and structural, extraction, and calculation error rates (live) |
 
 Task 1 and Task 3 each use a frozen public schema, validator, and scorer linked
 from their participant hubs. Task 2 formulas, tolerances, tie-break procedures,
@@ -116,9 +116,7 @@ not require pre-registration, organizer approval, an access code, or an account.
 Teams upload predictions through the verified development and test pages linked
 from the participant hub. Development immediately returns two scores, a receipt,
 and a current rank, and the team's best eligible result appears on the public
-leaderboard. Test shows format feedback and an acceptance receipt. Task 3 follows the same shape, with
-its practice route open now and its development and test routes opening with
-their datasets. Task 2 solution materials and submission routes will be
+leaderboard. Test shows format feedback and an acceptance receipt. Task 3 follows the same shape, and all three of its phases are open. Task 2 solution materials and submission routes will be
 published after organizer testing. Competition submissions close on 15 October;
 the later Working Notes deadline does not extend the competition cutoff.
 
@@ -155,9 +153,25 @@ Winning teams will receive a winner certificate. Additional award categories
 remain provisional until published. Certificates do not imply challenge-paper
 acceptance or publication.
 
+## Submission limits
+
+A quota applies per phase, and a submission is counted only once it reaches
+scoring — a file rejected during validation costs nothing, so you can fix a
+format problem without spending an attempt.
+
+| Task 3 phase | Limit | Counted per | Resets |
+| --- | --- | --- | --- |
+| Practice | 20 per hour | Uploader | Hourly |
+| Development | 3 per day | Team | 00:00 UTC |
+| Test | 3 in total | Team | Never |
+
+Practice is counted per uploader rather than per team because it asks for no
+Contact Email and so has no team to count against. The test quota does not
+reset: three accepted test submissions is all a team gets for the competition.
+
 ## Direct participation
 
-Task 1 and the Task 3 practice phase are open for direct participation. Choose
+Task 1 and all three Task 3 phases are open for direct participation. Choose
 one consistent Team Name and follow the step-by-step submission guide for
 [Task 1](https://the-finai.github.io/IEEE-bigdata-cup/task1/submit/#how-to-submit)
 or [Task 3](https://the-finai.github.io/IEEE-bigdata-cup/task3/submit/#how-to-submit).
@@ -181,7 +195,9 @@ identifier.
 | [Task 2 training data](https://the-finai.github.io/IEEE-bigdata-cup/task2/) | Live: prices, news, and filings (Parquet) |
 | [Task 3 starter kit, validator, and scorer](finreason_task3/) | Live in this repository |
 | Task 3 practice phase (332 public FinMR cases) | Live — scored on upload, never ranked |
-| Task 3 development and test datasets | Coming soon |
+| [Task 3 development and test questions](https://huggingface.co/datasets/YanAdjeNole/FinReason-Task3) | Live as 680 cases each, answers withheld |
+| Task 3 development phase | Live — scored, ranked, public leaderboard |
+| Task 3 test phase | Live — acceptance receipt only |
 | Task 2 starter kit and baselines | Coming soon |
 | Participant support | [zhuohan.xie@mbzuai.ac.ae](mailto:zhuohan.xie@mbzuai.ac.ae) |
 | Terms of Participation | Live |
@@ -191,7 +207,7 @@ identifier.
 | [Task 1 leaderboard](https://the-finai.github.io/IEEE-bigdata-cup/task1/leaderboard/) | Development only |
 | [Task 3 participant hub](https://the-finai.github.io/IEEE-bigdata-cup/task3/) | Live; per-phase status published here |
 | [Task 3 step-by-step submission guide](https://the-finai.github.io/IEEE-bigdata-cup/task3/submit/#how-to-submit) | Live |
-| [Task 3 leaderboard](https://the-finai.github.io/IEEE-bigdata-cup/task3/leaderboard/) | Opens with the development dataset |
+| [Task 3 leaderboard](https://the-finai.github.io/IEEE-bigdata-cup/task3/leaderboard/) | Development only |
 
 The participant hub publishes only organizer-verified competition-platform and
 submission links and records their current availability.
@@ -211,8 +227,8 @@ submission links and records their current availability.
 
 AoE means Anywhere on Earth (UTC−12). The 15 October competition cutoff passes
 at 12:00 UTC on 16 October, so final results will not be released before that
-time. Task 2 and Task 3 development/test release dates will be published after
-organizer testing; their final competition cutoff remains 15 October.
+time. Task 2 release dates will be published after organizer testing; the final
+competition cutoff remains 15 October for every task.
 
 ## Repository scope
 
