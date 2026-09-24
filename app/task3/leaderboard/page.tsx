@@ -61,7 +61,7 @@ export default function Task3LeaderboardPage() {
               <p>Practice · 332 cases &nbsp;·&nbsp; Development · 680 cases</p>
               <h2 id="task3-baseline-title">Organizer baselines</h2>
             </div>
-            <p>4 baselines</p>
+            <p>8 rows</p>
           </header>
 
           <div className="finmmeval-table-shell" role="region" aria-labelledby="task3-baseline-title" tabIndex={0}>
@@ -70,6 +70,7 @@ export default function Task3LeaderboardPage() {
                 <tr>
                   <th scope="col">Baseline</th>
                   <th scope="col">Set</th>
+                  <th scope="col">Judge</th>
                   <th scope="col">ACC</th>
                   <th scope="col">Structural error rate</th>
                   <th scope="col">Extraction error rate</th>
@@ -84,6 +85,7 @@ export default function Task3LeaderboardPage() {
                     <small>Answers &quot;0&quot; for every field</small>
                   </th>
                   <td>Practice</td>
+                  <td>Deterministic</td>
                   <td className="leaderboard-score">0.00%</td>
                   <td className="leaderboard-score">0.00%</td>
                   <td className="leaderboard-score">95.48%</td>
@@ -96,6 +98,7 @@ export default function Task3LeaderboardPage() {
                     <small>Reads the reported figure, then asserts the filing agrees with itself</small>
                   </th>
                   <td>Practice</td>
+                  <td>Deterministic</td>
                   <td className="leaderboard-score">0.00%</td>
                   <td className="leaderboard-score">0.00%</td>
                   <td className="leaderboard-score">48.49%</td>
@@ -108,6 +111,7 @@ export default function Task3LeaderboardPage() {
                     <small>Reads the reported figure, then asserts the filing agrees with itself</small>
                   </th>
                   <td>Development</td>
+                  <td>Deterministic</td>
                   <td className="leaderboard-score">0.00%</td>
                   <td className="leaderboard-score">0.00%</td>
                   <td className="leaderboard-score">23.97%</td>
@@ -120,6 +124,7 @@ export default function Task3LeaderboardPage() {
                     <small>Weighted sum of the calculation children, else the taxonomy&rsquo;s balance</small>
                   </th>
                   <td>Practice</td>
+                  <td>Deterministic</td>
                   <td className="leaderboard-score">7.53%</td>
                   <td className="leaderboard-score">0.00%</td>
                   <td className="leaderboard-score">48.49%</td>
@@ -132,10 +137,24 @@ export default function Task3LeaderboardPage() {
                     <small>Weighted sum of the calculation children, else the taxonomy&rsquo;s balance</small>
                   </th>
                   <td>Development</td>
+                  <td>Deterministic</td>
                   <td className="leaderboard-score">25.00%</td>
                   <td className="leaderboard-score">0.00%</td>
                   <td className="leaderboard-score">23.97%</td>
                   <td className="leaderboard-score">51.03%</td>
+                </tr>
+                <tr className="leaderboard-baseline-row">
+                  <th scope="row">
+                    <span className="leaderboard-team-name">Rule-based</span>
+                    <span className="leaderboard-entry-pill baseline">Baseline</span>
+                    <small>Weighted sum of the calculation children, else the taxonomy&rsquo;s balance</small>
+                  </th>
+                  <td>Development</td>
+                  <td>Official</td>
+                  <td className="leaderboard-score">25.29%</td>
+                  <td className="leaderboard-score">0.29%</td>
+                  <td className="leaderboard-score">16.91%</td>
+                  <td className="leaderboard-score">57.50%</td>
                 </tr>
                 <tr className="leaderboard-baseline-row">
                   <th scope="row">
@@ -144,6 +163,7 @@ export default function Task3LeaderboardPage() {
                     <small>Negates whatever it extracted; reasons about nothing</small>
                   </th>
                   <td>Practice</td>
+                  <td>Deterministic</td>
                   <td className="leaderboard-score">9.64%</td>
                   <td className="leaderboard-score">0.00%</td>
                   <td className="leaderboard-score">48.49%</td>
@@ -156,6 +176,7 @@ export default function Task3LeaderboardPage() {
                     <small>Negates whatever it extracted; reasons about nothing</small>
                   </th>
                   <td>Development</td>
+                  <td>Deterministic</td>
                   <td className="leaderboard-score">15.29%</td>
                   <td className="leaderboard-score">0.00%</td>
                   <td className="leaderboard-score">23.97%</td>
@@ -166,7 +187,15 @@ export default function Task3LeaderboardPage() {
           </div>
 
           <p className="leaderboard-test-note">
-            All measured with the deterministic judge, and all reproducible from the starter
+            The board above ranks by the official judge, while most of these rows are measured
+            with the deterministic one &mdash; which is why the rule-based baseline appears
+            twice with different figures. The official judge accepts 7 points more of the same
+            extractions, 16.91% extraction errors against 23.97%, because it reads values that
+            mean the same number but are written differently. Compare like with like: a
+            deterministic figure is a lower bound on the official one.
+          </p>
+          <p className="leaderboard-test-note">
+            Reproducible from the starter
             kit: <code>baselines/rule_baseline.py</code>, with <code>--mode extract</code> and{" "}
             <code>--mode negate</code> for the other two. None of them is told which
             data-quality rule a case belongs to; the rule-based baseline picks its method from

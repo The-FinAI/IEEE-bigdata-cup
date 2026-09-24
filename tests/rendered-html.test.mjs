@@ -432,20 +432,30 @@ test("publishes the Task 3 leaderboard page with only measured baselines", async
       return [name, ...cells];
     },
   );
-  // name, set, then ACC, SER, EER, CER in that order.
+  // name, set, judge, then ACC, SER, EER, CER in that order. The judge column
+  // exists because the board above ranks by the official judge while most of
+  // these are measured with the deterministic one, so the rule-based baseline
+  // legitimately appears twice with different figures -- unlabelled, that reads
+  // as one of them being wrong.
   assert.deepEqual(
     rows,
     [
-      ["Do nothing", "Practice", "0.00%", "0.00%", "95.48%", "4.52%"],
-      ["Extraction only", "Practice", "0.00%", "0.00%", "48.49%", "51.51%"],
-      ["Extraction only", "Development", "0.00%", "0.00%", "23.97%", "76.03%"],
-      ["Rule-based", "Practice", "7.53%", "0.00%", "48.49%", "43.98%"],
-      ["Rule-based", "Development", "25.00%", "0.00%", "23.97%", "51.03%"],
-      ["Sign flip", "Practice", "9.64%", "0.00%", "48.49%", "41.87%"],
-      ["Sign flip", "Development", "15.29%", "0.00%", "23.97%", "60.74%"],
+      ["Do nothing", "Practice", "Deterministic", "0.00%", "0.00%", "95.48%", "4.52%"],
+      ["Extraction only", "Practice", "Deterministic", "0.00%", "0.00%", "48.49%", "51.51%"],
+      ["Extraction only", "Development", "Deterministic", "0.00%", "0.00%", "23.97%", "76.03%"],
+      ["Rule-based", "Practice", "Deterministic", "7.53%", "0.00%", "48.49%", "43.98%"],
+      ["Rule-based", "Development", "Deterministic", "25.00%", "0.00%", "23.97%", "51.03%"],
+      ["Rule-based", "Development", "Official", "25.29%", "0.29%", "16.91%", "57.50%"],
+      ["Sign flip", "Practice", "Deterministic", "9.64%", "0.00%", "48.49%", "41.87%"],
+      ["Sign flip", "Development", "Deterministic", "15.29%", "0.00%", "23.97%", "60.74%"],
     ],
     "the baseline table no longer matches the measured numbers, in ACC/SER/EER/CER order",
   );
+  // Every row has to say which judge produced it, or the two rule-based rows
+  // look like a contradiction rather than two measurements.
+  for (const row of rows) {
+    assert.match(row[2], /^(Deterministic|Official)$/, `${row[0]}/${row[1]} names no judge`);
+  }
   // The shortcut row has to be labelled as one. Presented as a peer of the
   // others it reads as a method worth copying, which is the opposite of why
   // it is published.
