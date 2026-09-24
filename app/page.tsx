@@ -233,6 +233,22 @@ export default function Home() {
         </section>
 
         <div className={styles.container}>
+          {task3Ready ? (
+            <aside className={styles.notice} aria-label="Task 3 is open">
+              <span className={styles.noticeLabel}>Task 3 is open <span>24 Sep 2026</span></span>
+              <p>
+                All three phases of <a href={`${basePath}/task3/`}>Financial Audit Verification</a>{" "}
+                accept submissions. <strong>Practice</strong> scores you instantly against 332
+                public cases and is never ranked. <strong>Development</strong> scores and ranks
+                you on the public leaderboard. <strong>Test</strong> returns an acceptance
+                receipt and decides the final result. The development and test questions &mdash;
+                680 cases each, answers withheld &mdash; are published as{" "}
+                <a href="https://huggingface.co/datasets/YanAdjeNole/FinReason-Task3">
+                  YanAdjeNole/FinReason-Task3
+                </a>.
+              </p>
+            </aside>
+          ) : null}
           <aside className={styles.notice} aria-label="Schedule update">
             <span className={styles.noticeLabel}>Schedule update <span>7 Sep 2026</span></span>
             <p>Competition submissions now close <strong>15 October</strong>; Working Notes are due <strong>23 October</strong>. These dates replace the previous combined 15 November cutoff.</p>

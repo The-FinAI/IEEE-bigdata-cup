@@ -56,6 +56,8 @@
 .noticeLabel > span { display: block; font-size: 10px; color: var(--home-muted); font-weight: 400; margin-top: 2px; }
 .notice p { font-size: 13px; line-height: 1.65; color: var(--home-muted); max-width: 860px; }
 .notice strong { font-weight: 600; color: var(--home-ink); }
+.notice a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+.notice a:hover { color: var(--home-ink); }
 .section { padding-top: 62px; padding-bottom: 62px; }
 .sectionHeading { display: flex; gap: 32px; justify-content: space-between; align-items: end; margin-bottom: 27px; }
 .sectionHeading h2 { font-size: clamp(26px, 3vw, 34px); line-height: 1.2; letter-spacing: -.04em; font-weight: 620; margin-top: 12px; }

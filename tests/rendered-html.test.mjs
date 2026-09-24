@@ -653,6 +653,26 @@ test("the workspace health schedule names both workspaces and their roles", asyn
   assert.match(wf, /api\/leaderboard/, "the probe does not re-check role isolation");
 });
 
+test("the home page announces Task 3 only when Task 3 is actually open", async () => {
+  // The same rule the phase table follows. A banner saying every phase accepts
+  // work is the most prominent claim on the site, so a build with no verified
+  // workspace must not carry it.
+  const home = await text("out/index.html");
+  const announced = /Task 3 is open/.test(home);
+  const badgeLive = /TASK 3 LIVE/.test(home);
+  assert.equal(
+    announced,
+    badgeLive,
+    announced
+      ? "the home page announces Task 3 while its own badge says it is not live"
+      : "Task 3 is live but the home page does not announce it",
+  );
+  if (announced) {
+    assert.match(home, /datasets\/YanAdjeNole\/FinReason-Task3/, "the notice omits the data");
+    assert.match(home, /href="[^"]*\/task3\/"/, "the notice does not reach the hub");
+  }
+});
+
 test("the home page links to all three task hubs", async () => {
   // A participant site nobody can navigate to does not do its job. The Task 3
   // route existed in the sitemap but no page linked to it.
