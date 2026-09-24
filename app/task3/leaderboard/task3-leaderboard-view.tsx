@@ -44,7 +44,7 @@ export function Task3LeaderboardView({ dataUrl }: { dataUrl: string | null }) {
   if (state.status === "idle") {
     return (
       <p className="leaderboard-test-note">
-        The public leaderboard opens when the development dataset is published.
+        The leaderboard endpoint is not configured on this build, so no rows can be shown.
       </p>
     );
   }

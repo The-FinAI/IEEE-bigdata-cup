@@ -341,3 +341,45 @@ class TestStarterKitReadme:
                 "development_inputs.jsonl",
                 "test_inputs.jsonl",
             }, f"--reference {ref} names a file participants never have"
+
+
+class TestEvaluationConfigProvenance:
+    """A config that scores three phases must not name one of them.
+
+    `dataset_version` is the only field in evaluation_metadata.json that
+    identifies the data, and both the official and deterministic configs are
+    used for every phase. Naming the public practice set there stamped each
+    hidden-phase score with provenance saying it had been measured on public
+    data.
+    """
+
+    def _config(self, name):
+        import yaml
+        from pathlib import Path
+
+        path = Path(__file__).resolve().parents[1] / "configs" / name
+        return yaml.safe_load(path.read_text())
+
+    def test_the_configs_used_for_every_phase_do_not_name_the_public_set(self):
+        for name in ("official_evaluation.yaml", "deterministic_evaluation.yaml"):
+            version = self._config(name)["dataset_version"]
+            assert "public-dev" not in version, (
+                f"{name} stamps every score as {version!r}, but it scores the "
+                "hidden phases too"
+            )
+
+    def test_the_local_config_still_names_the_public_set(self):
+        # This one genuinely is for local runs on the public data.
+        assert self._config("local_dev_evaluation.yaml")["dataset_version"] == (
+            "task3-public-dev-v1.0"
+        )
+
+    def test_a_frozen_config_bump_is_recorded(self):
+        from pathlib import Path
+
+        version = str(self._config("official_evaluation.yaml")["evaluation_version"])
+        changelog = (Path(__file__).resolve().parents[1] / "CHANGELOG.md").read_text()
+        assert f"## {version}" in changelog, (
+            f"official_evaluation.yaml is at {version} with no CHANGELOG entry; "
+            "the config's own rule requires one"
+        )

@@ -4,7 +4,7 @@
 # evaluation_version and a note in CHANGELOG.md. Participants may copy this file
 # and override fields locally; official scores are always produced with this one.
 
-evaluation_version: "1.0"
+evaluation_version: "1.1"
 
 # The judge that assigns A/S/E/C. Matches the reference notebook exactly.
 judge:
@@ -37,4 +37,8 @@ cache_path: ".cache/evaluation_cache.sqlite"
 #   skip               - drop missing cases from the denominators (dev only)
 missing_prediction_policy: invalid_submission
 
-dataset_version: "task3-public-dev-v1.0"
+# This config scores whichever phase it is pointed at, so a version naming one
+# dataset was wrong on every official run: development and test scores were
+# stamped as the public practice set. The phase a run covers is identified by
+# its gold file and by num_cases in the metadata.
+dataset_version: "task3-2026"

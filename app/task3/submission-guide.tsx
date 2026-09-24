@@ -135,7 +135,7 @@ export function SubmissionGuide({
               )}
               {testReady && testSpaceUrl ? (
                 <a href={testSpaceUrl} target="_blank" rel="noreferrer">
-                  Test upload — opens when the test set is released
+                  Test upload — receipt only, no score
                   <span className="sr-only"> (opens in a new tab)</span>
                 </a>
               ) : (

@@ -101,11 +101,12 @@ export default function Task3HubPage() {
         <div className="task-platform-copy">
           <div>
             <p className="section-index">THE THREE PHASES</p>
-            <h2 id="task3-phases-title">What is open, and what is not</h2>
+            <h2 id="task3-phases-title">What each phase gives you back</h2>
           </div>
           <p>
-            Only the practice phase accepts submissions today. The development and test
-            datasets are still being built, and their pages will open when they are ready.
+            {scoringIsLive && testIsLive
+              ? "All three phases accept submissions. They differ in what comes back: practice scores you against answers you already have, development scores and ranks you against answers you do not, and test takes your work and tells you only that it arrived."
+              : "The upload links are still being verified, so no phase is accepting work from this page yet. What each phase will give you back is below."}
           </p>
         </div>
 

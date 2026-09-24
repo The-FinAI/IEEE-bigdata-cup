@@ -29,13 +29,13 @@ rather than the organisation that owns this site. Moving them to the
 organisation changes all three URLs, so decide that first — the values above are
 the only thing that needs updating afterwards.
 
-Setting `final` while the development and test datasets do not yet exist is
-supported: the hub keeps reporting those phases as pending, and only practice
-is actually scored.
+Setting `final` while a phase's dataset does not yet exist is supported: the
+hub reports that phase as pending and the Space refuses uploads to it, because
+the phase gate lives in the Space and not in the link. All three phases have
+their datasets now, so all three accept work.
 
-Note what `final` does *not* hide. The submit page renders a reachable link to
-the receipt-only Space, labelled "opens when the test set is released", and
-that Space serves its upload form to anyone who follows it. The form is not a
-way in: the Space reports `Phase test — pending` and refuses the upload,
-because the phase gate lives in the Space and not in the link. Do not read the
-clickable link as an open phase.
+Note what the phase rows do *not* tell you. A row reads `Live` when the site
+has a verified workspace for it, which is a statement about configuration, not
+about whether the organizers have loaded that phase's gold. The Space is the
+authority: it reports a phase as pending until it can read the gold from the
+private dataset repo.

@@ -13,4 +13,5 @@ max_retries: 0
 workers: 8
 cache: false
 missing_prediction_policy: structural_error
-dataset_version: "task3-public-dev-v1.0"
+# Used for the provisional score on every phase, not only the public set.
+dataset_version: "task3-2026"

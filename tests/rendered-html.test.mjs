@@ -605,6 +605,34 @@ test("Task 3 publishes its submission limits and no longer calls its phases pend
   );
 });
 
+test("the Task 3 hub's prose agrees with its own phase table", async () => {
+  // The table was rewritten to derive each row's state, and the paragraph
+  // above it was not: it went on saying "only the practice phase accepts
+  // submissions today" while all three rows read Live. A reader believes the
+  // sentence before they read the table.
+  const hub = await text("out/task3/index.html");
+  const rowOf = (slug) =>
+    hub.match(new RegExp(`<tr[^>]*data-phase="${slug}"[\\s\\S]*?</tr>`))?.[0] ?? "";
+  const open = ["practice", "development", "test"].filter((slug) =>
+    /data-state="ready"/.test(rowOf(slug)),
+  );
+
+  if (open.length === 3) {
+    assert.doesNotMatch(
+      hub,
+      /Only the practice phase accepts submissions|still being built|will open when they are ready/i,
+      "every phase is open but the hub still says they are not",
+    );
+  }
+  if (open.length === 0) {
+    assert.doesNotMatch(
+      hub,
+      /All three phases accept submissions/i,
+      "no phase is open but the hub says all three accept work",
+    );
+  }
+});
+
 test("the home page links to all three task hubs", async () => {
   // A participant site nobody can navigate to does not do its job. The Task 3
   // route existed in the sitemap but no page linked to it.
