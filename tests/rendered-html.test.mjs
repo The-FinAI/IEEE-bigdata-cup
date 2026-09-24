@@ -633,6 +633,26 @@ test("the Task 3 hub's prose agrees with its own phase table", async () => {
   }
 });
 
+test("the workspace health schedule names both workspaces and their roles", async () => {
+  // The free workspaces sleep after 48 hours idle, and a cold start is worn by
+  // whoever arrives first. This workflow keeps them warm and, because it asks
+  // /health rather than /, doubles as the only standing check that each
+  // workspace can still read its phases' gold.
+  const wf = await text(".github/workflows/space-health.yml");
+  assert.match(wf, /cron:/, "the health probe is not scheduled");
+  for (const host of [
+    "yanadjenole-finreason-task3-development",
+    "yanadjenole-finreason-task3-test",
+  ]) {
+    assert.match(wf, new RegExp(host), `${host} is not probed`);
+  }
+  assert.match(wf, /\/health/, "the probe does not ask for the health endpoint");
+  // A probe that cannot fail is not a probe. These are the two assertions that
+  // make a wrong answer an error rather than a warm workspace.
+  assert.match(wf, /expect_role/, "the probe does not check which role answered");
+  assert.match(wf, /api\/leaderboard/, "the probe does not re-check role isolation");
+});
+
 test("the home page links to all three task hubs", async () => {
   // A participant site nobody can navigate to does not do its job. The Task 3
   // route existed in the sitemap but no page linked to it.

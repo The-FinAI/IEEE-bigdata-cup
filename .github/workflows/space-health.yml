@@ -1,0 +1,108 @@
+name: Task 3 workspace health
+
+# The submission workspaces run on free Hugging Face hardware, which sleeps
+# after 48 hours without a request. A sleeping Space still works -- it wakes on
+# the first request -- but that request waits 30 to 60 seconds, and during a
+# quiet stretch of the competition the person paying that cost is the first
+# participant to try, who has no way to tell a cold start from a broken link.
+#
+# A daily request keeps both workspaces warm with a wide margin, and asking
+# /health rather than / makes the same run a real check: the endpoint reports
+# the role the workspace believes it has and whether it can read each phase's
+# gold from the private dataset repo. A phase that silently stops resolving --
+# a rotated token, a moved file -- shows up here instead of in a participant's
+# failed upload.
+#
+# Note for after the competition: GitHub disables scheduled workflows in a
+# repository with no activity for 60 days. That is longer than this
+# competition, but it is why this is a backstop and not a guarantee.
+
+on:
+  schedule:
+    # 03:17 UTC. Off the hour because scheduled runs queue behind everyone
+    # else's cron, and a few minutes of drift costs nothing against a
+    # 48-hour window.
+    - cron: "17 3 * * *"
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: space-health
+  cancel-in-progress: false
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: scoring
+            url: https://yanadjenole-finreason-task3-development.hf.space
+            expect_role: scoring
+            expect_phases: practice development
+          - name: receipt-only
+            url: https://yanadjenole-finreason-task3-test.hf.space
+            expect_role: receipt-only
+            expect_phases: test
+    steps:
+      - name: Wake ${{ matrix.name }} and check what it reports
+        env:
+          URL: ${{ matrix.url }}
+          EXPECT_ROLE: ${{ matrix.expect_role }}
+          EXPECT_PHASES: ${{ matrix.expect_phases }}
+        run: |
+          set -uo pipefail
+
+          # A cold start can outlast one request, so retry rather than fail on
+          # the first timeout. Three tries over ~4 minutes is far more than a
+          # wake needs and still finishes quickly when the Space is awake.
+          body=""
+          for attempt in 1 2 3; do
+            body=$(curl -sS -L --max-time 120 "$URL/health" || true)
+            if [ -n "$body" ] && printf '%s' "$body" | grep -q '"status"'; then
+              echo "Answered on attempt $attempt."
+              break
+            fi
+            echo "Attempt $attempt got no usable response; waiting before retry."
+            body=""
+            sleep 30
+          done
+
+          if [ -z "$body" ]; then
+            echo "::error::$URL never answered /health. The workspace is down, not asleep."
+            exit 1
+          fi
+          echo "$body"
+
+          fail=0
+          check() {
+            if printf '%s' "$body" | grep -q "$1"; then
+              echo "ok: $2"
+            else
+              echo "::error::$2"
+              fail=1
+            fi
+          }
+
+          check '"status":"ready"' "$URL reports itself ready"
+          check "\"role\":\"$EXPECT_ROLE\"" "$URL believes it is the $EXPECT_ROLE workspace"
+          for phase in $EXPECT_PHASES; do
+            check "\"$phase\":\"ready\"" "$URL can read the gold for the $phase phase"
+          done
+
+          # The workspaces must not drift into each other's job. The one that
+          # only issues receipts holds no judge key and serves no scoring
+          # route; the one that scores is not the place to send test work.
+          if [ "$EXPECT_ROLE" = "receipt-only" ]; then
+            code=$(curl -s -o /dev/null -w '%{http_code}' -L --max-time 60 "$URL/api/leaderboard")
+            if [ "$code" = "404" ]; then
+              echo "ok: $URL serves no leaderboard, as a receipt-only workspace must not"
+            else
+              echo "::error::$URL answered /api/leaderboard with $code; a receipt-only workspace must not serve it"
+              fail=1
+            fi
+          fi
+
+          exit "$fail"
