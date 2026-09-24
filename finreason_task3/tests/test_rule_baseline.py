@@ -271,3 +271,28 @@ class TestInputsWithoutARuleLabel:
         )
         with pytest.raises(DataError):
             load_inputs(path)
+
+
+class TestJudgeDependency:
+    """The judge's API must exist in the version the kit asks participants for.
+
+    The kit's floor was >=1.40 while the judge calls client.responses.create(),
+    which does not exist before 1.66.0. A participant pinning anywhere in that
+    range got an AttributeError with nothing pointing at the cause.
+    """
+
+    def test_the_declared_floor_covers_the_responses_api(self):
+        import re
+        from pathlib import Path
+
+        text = (Path(__file__).resolve().parents[1] / "requirements.txt").read_text()
+        match = re.search(r"^openai>=(\d+)\.(\d+)", text, re.M)
+        assert match, "requirements.txt no longer declares an openai floor"
+        assert (int(match.group(1)), int(match.group(2))) >= (1, 66), (
+            f"openai floor is {match.group(0)}; the official judge needs >= 1.66"
+        )
+
+    def test_the_installed_client_has_what_the_judge_calls(self):
+        openai = pytest.importorskip("openai")
+        client = openai.OpenAI(api_key="test-key-not-used")
+        assert hasattr(client, "responses")
