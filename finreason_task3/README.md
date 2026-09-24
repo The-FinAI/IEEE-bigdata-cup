@@ -112,11 +112,30 @@ python scripts/prepare_public_dev.py --revision <commit-sha>
 python scripts/prepare_public_dev.py --input /path/to/local/snapshot
 ```
 
-These 332 cases are your **development set** — use them for prompt engineering,
+These 332 cases are the **practice** set — use them for prompt engineering,
 agent design, retrieval, few-shot selection, error analysis, and optionally
 fine-tuning. They are **not** the leaderboard: FinMR is public and predates the
-competition. The leaderboard runs on new, unreleased cases built the same way.
-Test **inputs** will be released; the gold answers stay with the organizers.
+competition, so a practice ranking would measure who read the answers. Practice
+results are scored the moment you upload them and are never ranked.
+
+### The two ranked phases
+
+Both are open. Their questions are published without answers as
+[YanAdjeNole/FinReason-Task3](https://huggingface.co/datasets/YanAdjeNole/FinReason-Task3),
+680 cases each, built the same way as the practice cases but from filings that
+appear in neither the practice set nor each other:
+
+| File | Phase | What you get back |
+| --- | --- | --- |
+| `development_inputs.jsonl` | Development | Scores, a rank, and a place on the public leaderboard |
+| `test_inputs.jsonl` | Test | An acceptance receipt and nothing else |
+
+Neither file carries `dqc_id`. The practice set names each case's data-quality
+rule; the ranked phases withhold it, because for one of the three rules the
+label alone gives away the answer's shape.
+
+The gold answers for both stay with the organizers, so you cannot score either
+one locally — score against the practice set and submit the rest.
 
 ---
 
@@ -494,15 +513,36 @@ The official judge is an LLM (`gpt-5-mini`) prompted with
 here so you can read exactly how you are being judged. Judgements are cached in
 SQLite, so re-scoring an unchanged submission costs nothing.
 
-You may evaluate the public set as often as you like. You cannot score against
-the hidden test set — you do not have those answers.
+You may evaluate the practice set as often as you like. You cannot score the
+development or test cases locally — you do not have those answers. Upload them
+instead, at the [Task 3 submission page](https://the-finai.github.io/IEEE-bigdata-cup/task3/submit/).
+
+### Submission limits
+
+A submission counts only once it reaches scoring, so a file rejected during
+validation costs nothing and you can fix a format problem without spending an
+attempt.
+
+| Phase | Limit | Counted per | Resets |
+| --- | --- | --- | --- |
+| Practice | 20 per hour | Uploader | Hourly |
+| Development | 3 per day | Team | 00:00 UTC |
+| Test | 3 in total | Team | Never |
+
+Practice counts per uploader because it asks for no Contact Email and so has no
+team to count against. The test limit does not reset: three accepted test
+submissions is all a team gets.
+
+Development returns the rule-based score immediately and the official score once
+the judge finishes, so your row reaches the leaderboard a few minutes after the
+upload rather than instantly.
 
 ### Before submitting
 
 ```bash
 python scripts/validate_submission.py \
     --predictions predictions.jsonl \
-    --reference public_test_inputs.jsonl
+    --reference development_inputs.jsonl
 ```
 
 ID-based: it catches missing ids, duplicate ids, unknown ids, missing fields,

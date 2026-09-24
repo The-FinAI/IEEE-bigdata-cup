@@ -296,3 +296,48 @@ class TestJudgeDependency:
         openai = pytest.importorskip("openai")
         client = openai.OpenAI(api_key="test-key-not-used")
         assert hasattr(client, "responses")
+
+
+class TestStarterKitReadme:
+    """The kit's own README is what a participant reads after cloning.
+
+    It was written before the ranked phases existed and kept saying so: it
+    called the 332 practice cases "your development set", which now collides
+    with a real development phase, and promised that test inputs "will be
+    released" while they were already public.
+    """
+
+    @property
+    def readme(self):
+        from pathlib import Path
+
+        return (Path(__file__).resolve().parents[1] / "README.md").read_text()
+
+    def test_the_practice_set_is_not_called_the_development_set(self):
+        assert "your **development set**" not in self.readme, (
+            "the practice cases are described as the development set, which is "
+            "now a different, ranked phase"
+        )
+
+    def test_the_ranked_phases_are_described_as_open(self):
+        assert "will be released" not in self.readme
+        for needle in ("development_inputs.jsonl", "test_inputs.jsonl", "FinReason-Task3"):
+            assert needle in self.readme, f"README never mentions {needle}"
+
+    def test_the_submission_limits_are_stated(self):
+        for needle in ("20 per hour", "3 per day", "3 in total"):
+            assert needle in self.readme, f"README does not state the limit {needle!r}"
+
+    def test_it_says_where_to_upload(self):
+        assert "task3/submit/" in self.readme
+
+    def test_the_validate_example_points_at_a_file_that_exists(self):
+        # It referenced public_test_inputs.jsonl, which the kit never produces.
+        import re
+
+        for ref in re.findall(r"--reference (\S+)", self.readme):
+            assert ref in {
+                "data/public_dev_inputs.jsonl",
+                "development_inputs.jsonl",
+                "test_inputs.jsonl",
+            }, f"--reference {ref} names a file participants never have"
