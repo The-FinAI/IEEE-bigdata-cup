@@ -442,12 +442,12 @@ test("publishes the Task 3 leaderboard page with only measured baselines", async
     [
       ["Do nothing", "Practice", "Deterministic", "0.00%", "0.00%", "95.48%", "4.52%"],
       ["Extraction only", "Practice", "Deterministic", "0.00%", "0.00%", "48.49%", "51.51%"],
-      ["Extraction only", "Development", "Deterministic", "0.00%", "0.00%", "23.97%", "76.03%"],
+      ["Extraction only", "Development", "Deterministic", "0.00%", "0.00%", "10.88%", "89.12%"],
       ["Rule-based", "Practice", "Deterministic", "7.53%", "0.00%", "48.49%", "43.98%"],
-      ["Rule-based", "Development", "Deterministic", "25.00%", "0.00%", "23.97%", "51.03%"],
-      ["Rule-based", "Development", "Official", "25.29%", "0.29%", "16.91%", "57.50%"],
+      ["Rule-based", "Development", "Deterministic", "31.76%", "0.00%", "10.88%", "57.35%"],
+      ["Rule-based", "Development", "Official", "33.09%", "0.15%", "3.97%", "62.79%"],
       ["Sign flip", "Practice", "Deterministic", "9.64%", "0.00%", "48.49%", "41.87%"],
-      ["Sign flip", "Development", "Deterministic", "15.29%", "0.00%", "23.97%", "60.74%"],
+      ["Sign flip", "Development", "Deterministic", "19.85%", "0.00%", "10.88%", "69.26%"],
     ],
     "the baseline table no longer matches the measured numbers, in ACC/SER/EER/CER order",
   );
@@ -671,6 +671,31 @@ test("the home page announces Task 3 only when Task 3 is actually open", async (
     assert.match(home, /datasets\/YanAdjeNole\/FinReason-Task3/, "the notice omits the data");
     assert.match(home, /href="[^"]*\/task3\/"/, "the notice does not reach the hub");
   }
+});
+
+test("the data correction is announced with the figure it is based on", async () => {
+  // Replacing published questions mid-competition is only fair if the people
+  // already scored on the old ones are told. The notice has to carry the number
+  // that makes the case -- "easier now" with no figure is not something a team
+  // can weigh against one of three daily attempts -- and that number has to be
+  // the one the baseline table reports, or the page argues with itself.
+  const [home, board] = await Promise.all([
+    text("out/index.html"),
+    text("out/task3/leaderboard/index.html"),
+  ]);
+  const announced = /Task 3 is open/.test(home);
+  if (!announced) return; // a development build advertises nothing
+
+  assert.match(home, /data corrected/i, "the correction is not announced");
+  assert.match(home, /10\.88%/, "the notice omits the measured improvement");
+  assert.match(home, /re-download and submit again/i, "the notice does not say what to do");
+  assert.match(
+    home,
+    /scores already on the leaderboard stands|scores? already on the leaderboard stand/i,
+    "the notice does not say existing scores are unaffected",
+  );
+  // The same figure has to appear as a measured row, not only in prose.
+  assert.match(board, /10\.88%/, "the board does not report the figure the notice cites");
 });
 
 test("the home page links to all three task hubs", async () => {

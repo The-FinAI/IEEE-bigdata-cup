@@ -114,8 +114,8 @@ export default function Task3LeaderboardPage() {
                   <td>Deterministic</td>
                   <td className="leaderboard-score">0.00%</td>
                   <td className="leaderboard-score">0.00%</td>
-                  <td className="leaderboard-score">23.97%</td>
-                  <td className="leaderboard-score">76.03%</td>
+                  <td className="leaderboard-score">10.88%</td>
+                  <td className="leaderboard-score">89.12%</td>
                 </tr>
                 <tr className="leaderboard-baseline-row">
                   <th scope="row">
@@ -138,10 +138,10 @@ export default function Task3LeaderboardPage() {
                   </th>
                   <td>Development</td>
                   <td>Deterministic</td>
-                  <td className="leaderboard-score">25.00%</td>
+                  <td className="leaderboard-score">31.76%</td>
                   <td className="leaderboard-score">0.00%</td>
-                  <td className="leaderboard-score">23.97%</td>
-                  <td className="leaderboard-score">51.03%</td>
+                  <td className="leaderboard-score">10.88%</td>
+                  <td className="leaderboard-score">57.35%</td>
                 </tr>
                 <tr className="leaderboard-baseline-row">
                   <th scope="row">
@@ -151,10 +151,10 @@ export default function Task3LeaderboardPage() {
                   </th>
                   <td>Development</td>
                   <td>Official</td>
-                  <td className="leaderboard-score">25.29%</td>
-                  <td className="leaderboard-score">0.29%</td>
-                  <td className="leaderboard-score">16.91%</td>
-                  <td className="leaderboard-score">57.50%</td>
+                  <td className="leaderboard-score">33.09%</td>
+                  <td className="leaderboard-score">0.15%</td>
+                  <td className="leaderboard-score">3.97%</td>
+                  <td className="leaderboard-score">62.79%</td>
                 </tr>
                 <tr className="leaderboard-baseline-row">
                   <th scope="row">
@@ -177,10 +177,10 @@ export default function Task3LeaderboardPage() {
                   </th>
                   <td>Development</td>
                   <td>Deterministic</td>
-                  <td className="leaderboard-score">15.29%</td>
+                  <td className="leaderboard-score">19.85%</td>
                   <td className="leaderboard-score">0.00%</td>
-                  <td className="leaderboard-score">23.97%</td>
-                  <td className="leaderboard-score">60.74%</td>
+                  <td className="leaderboard-score">10.88%</td>
+                  <td className="leaderboard-score">69.26%</td>
                 </tr>
               </tbody>
             </table>
@@ -190,7 +190,7 @@ export default function Task3LeaderboardPage() {
             The board above ranks by the official judge, while most of these rows are measured
             with the deterministic one &mdash; which is why the rule-based baseline appears
             twice with different figures. The official judge accepts 7 points more of the same
-            extractions, 16.91% extraction errors against 23.97%, because it reads values that
+            extractions, 3.97% extraction errors against the deterministic judge&rsquo;s 10.88%, because it reads values that
             mean the same number but are written differently. Compare like with like: a
             deterministic figure is a lower bound on the official one.
           </p>

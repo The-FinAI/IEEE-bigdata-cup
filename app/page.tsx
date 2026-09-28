@@ -234,6 +234,22 @@ export default function Home() {
 
         <div className={styles.container}>
           {task3Ready ? (
+            <aside className={styles.notice} aria-label="Task 3 data corrected">
+              <span className={styles.noticeLabel}>Task 3 data corrected <span>28 Sep 2026</span></span>
+              <p>
+                Part of the Task 3 filing content was incomplete and has been replaced in{" "}
+                <a href="https://huggingface.co/datasets/YanAdjeNole/FinReason-Task3">
+                  YanAdjeNole/FinReason-Task3
+                </a>. The ids and the expected answers are unchanged, so every score already on
+                the leaderboard stands. The questions are easier to read now &mdash; the
+                organizers&rsquo; rule-based baseline goes from a 23.97% extraction-error rate to{" "}
+                <strong>10.88%</strong> &mdash; so <strong>re-download and submit again</strong>{" "}
+                if you have already entered. It costs one of your three development attempts for
+                the day.
+              </p>
+            </aside>
+          ) : null}
+          {task3Ready ? (
             <aside className={styles.notice} aria-label="Task 3 is open">
               <span className={styles.noticeLabel}>Task 3 is open <span>24 Sep 2026</span></span>
               <p>
