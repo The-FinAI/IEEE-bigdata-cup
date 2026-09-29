@@ -585,9 +585,46 @@ test("Task 3 publishes its submission limits and no longer calls its phases pend
   // on that side.
   for (const [name, page] of [["README", readme], ["submit guide", submit]]) {
     assert.match(page, /3 per day/, `${name} does not state the development limit`);
-    assert.match(page, /3 in total/, `${name} does not state the test limit`);
     assert.match(page, /20 per hour/, `${name} does not state the practice limit`);
+    // Test is uncapped, so the number that matters is not a count but which
+    // upload decides the result. Saying "unlimited" without saying that leaves
+    // a team guessing whether to submit their best guess or their last one.
+    assert.match(page, /Unlimited/, `${name} does not say the test phase is uncapped`);
+    assert.doesNotMatch(page, /3 in total/, `${name} still states the retired test cap`);
+    assert.match(
+      page,
+      /last valid submission[^.]*before the deadline|latest accepted, valid submission/i,
+      `${name} does not say which test submission counts`,
+    );
+    assert.match(
+      page,
+      /last one counts rather than the best one/i,
+      `${name} does not say the best upload is not the one ranked`,
+    );
   }
+  // And it has to be in the binding terms, not only in the guide -- inside
+  // Task 3's own section. Task 1 carries the identical sentence about its own
+  // phase, so a document-wide match is satisfied by a paragraph that says
+  // nothing about Task 3: the first version of this assertion could not fail.
+  const terms = await text("out/terms/index.html");
+  const task3Section =
+    terms.match(/id="terms-task3-revisions"[\s\S]*?<\/section>/)?.[0] ?? "";
+  assert.notEqual(task3Section, "", "the terms have no Task 3 Test revisions section");
+  assert.match(
+    task3Section,
+    /latest accepted, valid Test submission/,
+    "Task 3's own terms section does not say which submission counts",
+  );
+  assert.match(
+    task3Section,
+    /no daily or total Task 3 Test submission-count limit/i,
+    "Task 3's own terms section does not lift the cap",
+  );
+  assert.match(
+    task3Section,
+    /rather than the best one/i,
+    "Task 3's own terms section does not rule out ranking the best upload",
+  );
 
   // A limit is only usable with the rule that makes it safe to retry.
   assert.match(submit, /rejected during validation costs nothing|never costs you a submission/i);

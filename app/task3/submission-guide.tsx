@@ -186,17 +186,26 @@ export function SubmissionGuide({
                   </tr>
                   <tr>
                     <th scope="row">Test</th>
-                    <td>3 in total</td>
-                    <td>Team</td>
-                    <td>Never</td>
+                    <td>Unlimited</td>
+                    <td>&mdash;</td>
+                    <td>&mdash;</td>
                   </tr>
                 </tbody>
               </table>
             </div>
             <p>
               Practice counts per uploader because it asks for no Contact Email and so has no
-              team to count against. The test limit does not reset: three accepted test
-              submissions is all a team gets.
+              team to count against. Test uploads are not counted at all &mdash; but only one
+              of them decides your result: <strong>the last valid submission you make before
+              the deadline</strong>. Earlier ones are kept privately for audit and are not
+              ranked. Re-uploading a file you have already submitted returns the original
+              receipt and does not become your latest.
+            </p>
+            <p>
+              The last one counts rather than the best one. Test returns no score so that the
+              held-out cases cannot be used to pick between your own candidates; taking the
+              best of several uploads would hand that choice back. Decide which version to
+              stand behind, then upload it.
             </p>
           </div>
         </li>

@@ -151,6 +151,27 @@ export default function TermsPage() {
           </p>
         </section>
 
+        <section className="policy-section" aria-labelledby="terms-task3-revisions">
+          <p className="section-index">04 / TASK 3 TEST REVISIONS</p>
+          <h2 id="terms-task3-revisions">Which Task 3 Test submission counts</h2>
+          <p>
+            There is no daily or total Task 3 Test submission-count limit before 15 October
+            2026, 23:59 AoE. Use the same Team Name and Contact Email for every revision.
+            The latest accepted, valid Test submission before the deadline supersedes earlier
+            submissions for final evaluation. Invalid or rejected uploads do not replace the
+            last accepted submission. An identical repeat upload returns its original receipt
+            and acceptance time and does not create a new latest submission. Earlier records
+            remain private for audit purposes. Test scores and ranks remain hidden until final
+            results are released.
+          </p>
+          <p>
+            The last submission decides the result rather than the best one. The Test phase
+            returns no score precisely so that the held-out cases cannot be used to choose
+            between a team&rsquo;s own candidates; ranking the best of several uploads would
+            hand back that choice.
+          </p>
+        </section>
+
         <section className="policy-section" aria-labelledby="terms-evaluation">
           <p className="section-index">04 / EVALUATION</p>
           <h2 id="terms-evaluation">Task 1 scores and results</h2>

@@ -527,11 +527,17 @@ attempt.
 | --- | --- | --- | --- |
 | Practice | 20 per hour | Uploader | Hourly |
 | Development | 3 per day | Team | 00:00 UTC |
-| Test | 3 in total | Team | Never |
+| Test | Unlimited | — | — |
 
 Practice counts per uploader because it asks for no Contact Email and so has no
-team to count against. The test limit does not reset: three accepted test
-submissions is all a team gets.
+team to count against. Test uploads are not counted, but only one decides your
+result: **the last valid submission before the deadline**. Earlier ones are kept
+privately for audit and are not ranked, and re-uploading a file you already sent
+returns its original receipt rather than becoming your latest.
+
+The last one counts rather than the best one. Test returns no score so that the
+held-out cases cannot be used to pick between your own candidates; ranking the
+best of several uploads would hand that choice back.
 
 Development returns the rule-based score immediately and the official score once
 the judge finishes, so your row reaches the leaderboard a few minutes after the

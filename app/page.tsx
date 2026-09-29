@@ -234,6 +234,21 @@ export default function Home() {
 
         <div className={styles.container}>
           {task3Ready ? (
+            <aside className={styles.notice} aria-label="Task 3 test revisions">
+              <span className={styles.noticeLabel}>Task 3 Test is uncapped <span>29 Sep 2026</span></span>
+              <p>
+                The three-submission limit on the Task 3 Test phase is removed: upload as often
+                as you like before the deadline. <strong>The last valid submission you make
+                counts</strong> &mdash; not the best one, because a phase that returns no score
+                exists so the held-out cases cannot be used to pick between your own candidates.
+                Earlier uploads are kept privately for audit. The cap went while the filing
+                content was being corrected, so a team that spent its attempts on the old data
+                is not stuck with them. See the{" "}
+                <a href={`${basePath}/terms/`}>Terms of Participation</a>.
+              </p>
+            </aside>
+          ) : null}
+          {task3Ready ? (
             <aside className={styles.notice} aria-label="Task 3 data corrected">
               <span className={styles.noticeLabel}>Task 3 data corrected <span>28 Sep 2026</span></span>
               <p>

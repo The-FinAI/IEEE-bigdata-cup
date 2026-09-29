@@ -163,11 +163,27 @@ format problem without spending an attempt.
 | --- | --- | --- | --- |
 | Practice | 20 per hour | Uploader | Hourly |
 | Development | 3 per day | Team | 00:00 UTC |
-| Test | 3 in total | Team | Never |
+| Test | Unlimited | — | — |
 
 Practice is counted per uploader rather than per team because it asks for no
-Contact Email and so has no team to count against. The test quota does not
-reset: three accepted test submissions is all a team gets for the competition.
+Contact Email and so has no team to count against. Test uploads are not
+counted at all; see below for which one decides your result.
+
+### Task 3 Test revisions
+
+Test submissions are unlimited before 15 October 2026, 23:59 AoE. There is no
+daily or total Test submission-count limit. Keep the same Team Name and Contact
+Email. **The latest accepted, valid submission before the deadline supersedes
+earlier submissions for final evaluation.** Invalid or rejected uploads leave
+the last accepted submission unchanged. An identical previously accepted file
+returns its original receipt and acceptance time; it does not become a new
+latest revision. Earlier records remain private for audit purposes. Test scores
+and ranks remain hidden until final results.
+
+Deciding which of your own attempts is best is part of the task, which is why
+the last one counts rather than the best one: a phase that returns no score
+exists so that the hidden set cannot be used to choose between your own
+candidates.
 
 ## Direct participation
 
