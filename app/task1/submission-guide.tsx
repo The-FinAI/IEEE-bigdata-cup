@@ -187,7 +187,7 @@ export function SubmissionGuide({
         </li>
       </ol>
 
-      <aside className="submission-guide-paper-note" id="required-materials">
+      <aside className="submission-guide-paper-note submission-guide-materials-note" id="required-materials">
         <strong>Task 1 required submission materials.</strong>
         <p>
           By 15 October 2026, 23:59 Anywhere on Earth, submit a ZIP containing exactly one

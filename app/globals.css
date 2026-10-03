@@ -4347,6 +4347,10 @@ details {
   padding: 18px 20px;
 }
 
+.submission-guide-materials-note {
+  grid-template-columns: minmax(0, 1fr);
+}
+
 .submission-guide-paper-note > strong {
   font-size: 12px;
 }
