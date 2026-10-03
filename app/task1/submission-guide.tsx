@@ -187,6 +187,28 @@ export function SubmissionGuide({
         </li>
       </ol>
 
+      <aside className="submission-guide-paper-note" id="required-materials">
+        <strong>Task 1 required submission materials.</strong>
+        <p>
+          By 15 October 2026, 23:59 Anywhere on Earth, submit a ZIP containing exactly one
+          root-level <code>predictions.jsonl</code> for all 928 Test questions through the Test
+          submission portal linked above. Keep the same Team Name and Contact Email and save
+          the acceptance receipt. The latest accepted, valid Test submission determines the
+          final competition result; Development submissions do not qualify for final ranking.
+        </p>
+        <p>
+          This requirement applies to every Task 1 team seeking final ranking, not only the
+          highest-ranked teams. No separate source-code archive, model weights, repository link,
+          or additional report is required by the competition deadline. Code and reproducibility
+          materials may be shared voluntarily with your Working Notes.
+        </p>
+        <p>
+          Teams seeking final ranking and awards must also submit Working Notes through
+          <a href={paperSubmission}> CyberChair SC03</a> by 23 October 2026, 23:59 Anywhere on Earth.
+          The paper is submitted separately from the prediction ZIP.
+        </p>
+      </aside>
+
       <aside className="submission-guide-paper-note">
         <strong>Challenge paper is separate.</strong>
         <p>

@@ -91,6 +91,15 @@ export default function TermsPage() {
             has passed at 12:00 UTC (16:00 Abu Dhabi time). Working Notes are
             due separately on 23 October 2026, 23:59 AoE.
           </p>
+          <p>
+            For Task 1, required solution materials mean the canonical Test prediction ZIP
+            for all 928 questions, submitted through the Task 1 Test portal. Every team seeking
+            final ranking must submit it; Development uploads alone do not qualify. No separate
+            source-code archive, model weights, repository link, or additional report is required
+            by 15 October. Code and reproducibility materials may be shared voluntarily with
+            Working Notes. Teams seeking final ranking and awards must submit the separate
+            Working Notes paper through CyberChair SC03 by 23 October 2026, 23:59 AoE.
+          </p>
         </section>
 
         <section className="policy-section" aria-labelledby="terms-routes">

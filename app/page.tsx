@@ -100,6 +100,11 @@ const faqs = [
       "Yes. Test submissions are unlimited before 15 October 2026, 23:59 Anywhere on Earth, with no daily or total count limit. Keep the same Team Name and Contact Email. Your latest accepted, valid submission replaces earlier versions for final evaluation; invalid or rejected uploads do not. An identical repeat upload returns its original receipt and acceptance time, rather than creating a new revision. This policy was updated on 16 September 2026.",
   },
   {
+    question: "What solution materials are required for Task 1?",
+    answer:
+      "Every Task 1 team seeking final ranking must submit the canonical ZIP containing predictions.jsonl for all 928 Test questions through the Task 1 Test portal by 15 October 2026, 23:59 AoE. Development uploads alone do not qualify. No separate source-code archive, model weights, repository link, or additional report is required by that deadline. Code and reproducibility materials may be shared voluntarily with Working Notes. Teams seeking final ranking and awards must also submit the separate Working Notes paper through CyberChair SC03 by 23 October 2026, 23:59 AoE.",
+  },
+  {
     question: "Should Working Notes be anonymous?",
     answer:
       "Keep author names and affiliations in your Working Notes PDF. FinReason follows the conference's published single-blind review policy: reviewers can see author identities. Submit through CyberChair SC03 using the IEEE two-column format, up to 10 pages including references.",
