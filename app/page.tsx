@@ -120,9 +120,9 @@ const faqs = [
       "No. Final system submissions and required solution materials for all three tasks are due through the task-specific competition routes by 15 October 2026, 23:59 Anywhere on Earth. Working Notes use CyberChair SC03 and are due separately on 23 October 2026, 23:59 Anywhere on Earth. Use the participant hubs for current task availability and upload instructions.",
   },
   {
-    question: "Which schedule should teams follow if CyberChair displays a different date?",
+    question: "Is the Working Notes submission open, and which deadlines apply?",
     answer:
-      "CyberChair currently displays its deadline as to be announced and allows up to 10 pages including references. Follow the organizer schedule updated on 7 September 2026: competition submissions close on 15 October, Working Notes are due on 23 October, and camera-ready papers are due on 13 November, each at 23:59 Anywhere on Earth. This replaces the previously published combined 15 November cutoff. CyberChair display settings may take time to reflect this update.",
+      "Working Notes submission is open through CyberChair SC03, which displays the deadline as 23 October 2026, 23:59 Anywhere on Earth. Papers may be up to 10 pages including references. Competition submissions close separately on 15 October, and camera-ready papers are due on 13 November, each at 23:59 Anywhere on Earth. These dates replace the previously published combined 15 November cutoff.",
   },
   {
     question: "Does submitting a challenge paper guarantee publication?",
@@ -324,7 +324,7 @@ export default function Home() {
           <ol className={styles.schedule}>
             {launchItems.map((item, index) => <li className={index === 0 || index === 2 ? styles.scheduleKey : undefined} key={item.label}><span className={styles.scheduleDate}>{item.date}</span><div><h3>{item.label}</h3><p>{item.detail}</p></div></li>)}
           </ol>
-          <p className={styles.scheduleNote}>The 15 October AoE deadline passes at 12:00 UTC on 16 October. Follow the dates here if CyberChair has not yet updated its displayed deadline.</p>
+          <p className={styles.scheduleNote}>The 15 October AoE competition deadline passes at 12:00 UTC on 16 October. Working Notes submission is open through CyberChair SC03 until 23 October 2026, 23:59 AoE.</p>
         </section>
 
         <section className={`${styles.container} ${styles.section} ${styles.divider}`} id="interest" aria-labelledby="papers-title">
