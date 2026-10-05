@@ -173,8 +173,9 @@ export function PaperReferences() {
         </div>
         <p className={styles.resourceNote}>
           These organizer-supplied BibTeX entries are provisional. The manuscripts are in preparation;
-          author names and order are still being finalized, so all four currently use <code>Pending</code>.
-          The conference is the intended venue; publication details are not yet assigned.
+          The Cup and Task 1 entries include proposed author names and order.
+          Task 2 and Task 3 author lists still use <code>Pending</code> until their task leads confirm them.
+          Publication details are not yet assigned.
           Use these citation keys now and refresh the entries here before submitting your final paper.
         </p>
         <div className={styles.overviewList}>
@@ -184,7 +185,7 @@ export function PaperReferences() {
               <BibtexCitation
                 bibtex={entry.bibtex}
                 downloadUrl={`${basePath}/references/${entry.file}`}
-                label="Provisional overview BibTeX · Authors pending"
+                label={entry.bibtex.includes("{{Pending}}") ? "Provisional overview BibTeX · Authors pending" : "Provisional overview BibTeX · Proposed authors"}
                 citationName={entry.name}
               />
             </details>

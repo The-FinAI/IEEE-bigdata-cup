@@ -236,7 +236,7 @@ export default function TermsPage() {
             Task 1 papers must additionally cite the{" "}
             <a href="https://aclanthology.org/2026.acl-long.662/">FinChain benchmark paper (ACL 2026)</a>.
             Copy or download the BibTeX from the <Link href="/#paper-references">citation guidance</Link>.
-            Overview author lists currently use Pending; refresh these provisional entries before final paper submission.
+            The Cup and Task 1 entries include proposed author lists; Task 2 and Task 3 authors await confirmation. Refresh these provisional entries before final paper submission.
           </p>
           <p>
             Teams seeking final ranking and awards must submit Working Notes

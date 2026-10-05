@@ -9,7 +9,7 @@ export function TaskCitationNote({ task }: { task: 1 | 2 | 3 }) {
         {task === 1 && " Also cite the FinChain benchmark paper."}
         {" "}If you participate in other tasks, include their overviews as well.
         {" "}<Link href="/#paper-references">Copy or download the required BibTeX</Link>.
-        {" "}Overview author lists are currently Pending; refresh the entries before your final paper submission.
+        {" "}Cup and Task 1 author lists are provided; Task 2 and Task 3 authors await confirmation. Refresh the entries before your final paper submission.
       </p>
     </aside>
   );
