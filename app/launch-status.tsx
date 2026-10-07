@@ -7,6 +7,8 @@ import styles from "./paper-guidance.module.css";
 
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 const finchainBibtex = readFileSync(join(process.cwd(), "public/references/finchain.bib"), "utf8").trim();
+const herculeanBibtex = readFileSync(join(process.cwd(), "public/references/herculean.bib"), "utf8").trim();
+const finauditingBibtex = readFileSync(join(process.cwd(), "public/references/finauditing.bib"), "utf8").trim();
 const overviewCitations = [
   { id: "cup-overview", label: "Cup overview · All participants", name: "FinReason Cup overview", file: "finreason2026-overview.bib" },
   { id: "task1-overview", label: "Task 1 · Verifiable Financial Chain Reasoning", name: "Task 1 overview", file: "finreason2026-task1-overview.bib" },
@@ -162,8 +164,8 @@ export function PaperReferences() {
         </p>
         <ul>
           <li><strong>Task 1:</strong> Cup overview + Task 1 overview + FinChain benchmark paper.</li>
-          <li><strong>Task 2:</strong> Cup overview + Task 2 overview.</li>
-          <li><strong>Task 3:</strong> Cup overview + Task 3 overview.</li>
+          <li><strong>Task 2:</strong> Cup overview + Task 2 overview + Herculean benchmark paper.</li>
+          <li><strong>Task 3:</strong> Cup overview + Task 3 overview + Herculean + FinAuditing benchmark papers.</li>
         </ul>
       </div>
       <div className={styles.overviewCollection}>
@@ -209,6 +211,20 @@ export function PaperReferences() {
           <a href="https://aclanthology.org/2026.acl-long.662/">ACL Anthology</a>.
         </p>
         <BibtexCitation bibtex={finchainBibtex} downloadUrl={`${basePath}/references/finchain.bib`} />
+      </article>
+      <article className={styles.referencePanel}>
+        <span className={styles.referenceLabel}>Required benchmark reference · Tasks 2 and 3</span>
+        <h3><a href="https://arxiv.org/abs/2605.14355">Herculean: An Agentic Benchmark for Financial Intelligence</a></h3>
+        <p className={styles.referenceMetadata}>Xueqing Peng et al. (2026) · arXiv:2605.14355.</p>
+        <p>Task 2 and Task 3 Working Notes must cite Herculean in addition to the Cup overview and their task overview.</p>
+        <BibtexCitation bibtex={herculeanBibtex} downloadUrl={`${basePath}/references/herculean.bib`} label="Herculean arXiv BibTeX" citationName="Herculean" />
+      </article>
+      <article className={styles.referencePanel}>
+        <span className={styles.referenceLabel}>Required benchmark reference · Task 3</span>
+        <h3><a href="https://doi.org/10.1145/3805712.3808578">FinAuditing: A Financial Taxonomy-Structured Multi-Document Benchmark for Evaluating LLMs</a></h3>
+        <p className={styles.referenceMetadata}>Yan Wang et al. (2026) · SIGIR 2026, pages 3456–3463.</p>
+        <p>Task 3 Working Notes must also cite FinAuditing. This BibTeX uses the published SIGIR 2026 version, with the complete published author list and DOI.</p>
+        <BibtexCitation bibtex={finauditingBibtex} downloadUrl={`${basePath}/references/finauditing.bib`} label="Published SIGIR 2026 BibTeX" citationName="FinAuditing" />
       </article>
       <p className={styles.resourceNote}>
         Cite the task data, tools, and any other resources used in your system as appropriate.

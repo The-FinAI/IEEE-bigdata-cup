@@ -235,6 +235,8 @@ export default function TermsPage() {
             Multi-task papers cite the Cup overview once and include all applicable task overviews.
             Task 1 papers must additionally cite the{" "}
             <a href="https://aclanthology.org/2026.acl-long.662/">FinChain benchmark paper (ACL 2026)</a>.
+            Task 2 and Task 3 papers must also cite <a href="https://arxiv.org/abs/2605.14355">Herculean</a>.
+            Task 3 papers must additionally cite <a href="https://doi.org/10.1145/3805712.3808578">FinAuditing (SIGIR 2026)</a>.
             Copy or download the BibTeX from the <Link href="/#paper-references">citation guidance</Link>.
             The Cup and Task 1 entries include proposed author lists; Task 2 and Task 3 authors await confirmation. Refresh these provisional entries before final paper submission.
           </p>
