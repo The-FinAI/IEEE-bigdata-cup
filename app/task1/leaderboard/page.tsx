@@ -57,6 +57,14 @@ export default function Task1LeaderboardPage() {
         </details>
 
         <p className="leaderboard-test-note">
+          Final Test ranking uses (CombinedFAC, HiddenFAC, CombinedCheckpoint), descending,
+          after six-decimal round-half-even quantization. Exact ties share a rank; submission
+          time is not a tie-breaker. Model identities and full baseline configurations are not
+          currently public; publication of their Test scores has not been confirmed.
+          {" "}<Link href="/task1/#task1-rules-clarification">Task 1 rules clarification · 12 October 2026</Link>
+        </p>
+
+        <p className="leaderboard-test-note">
           <Link href="/task1/leaderboard/test/">Open Test submission status</Link> for format
           checks and acceptance receipts. Test scores and ranks remain hidden until final results are released.
         </p>

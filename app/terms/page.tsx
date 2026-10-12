@@ -1,3 +1,4 @@
+import { Task1RulesClarification } from "../task1/rules-clarification";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -212,6 +213,8 @@ export default function TermsPage() {
             disclose a material correction that changes published results.
           </p>
         </section>
+
+        <Task1RulesClarification />
 
         <section className="policy-section" aria-labelledby="terms-public-results">
           <p className="section-index">05 / PUBLIC RESULTS</p>

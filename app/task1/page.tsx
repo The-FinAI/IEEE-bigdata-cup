@@ -1,3 +1,4 @@
+import { Task1RulesClarification } from "./rules-clarification";
 import { TaskCitationNote } from "../task-citation-note";
 import { TestSubmissionPolicy } from "./test-submission-policy";
 import type { Metadata } from "next";
@@ -156,6 +157,7 @@ export default function Task1HubPage() {
       </section>
 
       <TestSubmissionPolicy />
+      <Task1RulesClarification />
 
       <aside className="task-hub-note">
         <strong>Competition and Working Notes deadlines</strong>

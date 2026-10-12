@@ -1,3 +1,4 @@
+import { Task1RulesClarification } from "../rules-clarification";
 import { TestSubmissionPolicy } from "../test-submission-policy";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -56,6 +57,7 @@ export default function Task1SubmitPage() {
       </header>
 
       <TestSubmissionPolicy />
+      <Task1RulesClarification />
 
       <SubmissionGuide
         developmentSpaceUrl={config.developmentSpace.url}

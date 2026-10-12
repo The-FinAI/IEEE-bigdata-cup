@@ -18,6 +18,13 @@ export function TestSubmissionPolicy() {
         Earlier records are retained privately for the competition audit trail.
         Test scores and ranks remain hidden until final results.
       </p>
+      <p>
+        To restore earlier predictions, generate a new valid ZIP containing the earlier predictions.jsonl
+        and upload it with the same Team Name and Contact Email before the deadline. The ZIP must differ
+        from the previous archive and receive a new acceptance receipt; the predictions may stay unchanged.
+        A replay returning the original receipt does not restore the earlier version.
+        Restoration clarification published 12 October 2026.
+      </p>
       <p>Policy updated 16 September 2026, replacing the previous Test submission-count limits.</p>
     </aside>
   );
