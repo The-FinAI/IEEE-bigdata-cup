@@ -54,9 +54,27 @@ reward relative-value reasoning rather than unhedged directional exposure.
 Training data is available from [HERCULEAN](https://huggingface.co/datasets/TheFinAI/Herculean/tree/main/data).
 Download `prices.parquet`, `news.parquet`, and `filings.parquet` from the
 [Task 2 training data hub](https://the-finai.github.io/IEEE-bigdata-cup/task2/).
-Development and private evaluation splits, exact market windows, eligible assets,
-execution assumptions, transaction costs, and position-validity rules will be
-published with the scorer.
+The [Task 2 test workflow](https://the-finai.github.io/IEEE-bigdata-cup/task2/#task2-test-title)
+describes the six New York data-release times, news windows, and action submissions.
+Data releases are at 09:30, 10:30, 11:30, 12:30, 14:30, and 15:30. The first
+action is due at 10:25, and the first leaderboard update is at 10:30.
+Every submission requires the same unique Team Name, Stock 1, Stock 2, and
+Action (`LS`, `SL`, or `F`). Eligible tickers are NVDA, GOOG, META, MSFT, JPM,
+AMZN, AAPL, AMD, WMT, and TSLA. There are 12 releases on 14–15 October 2026.
+Release 1 publishes data only; releases 2–12 also settle the preceding action
+and update cumulative returns. A missing valid submission is scored as `F`.
+The Codex baseline is selected and sealed from each release's available data,
+then evaluated at the next event. Live performance views publish only team and
+baseline names and cumulative returns, not stocks or actions.
+The Task 2 final action cutoff is **16 October 2026, 08:00 New York time**;
+earlier round deadlines still apply. At 09:30 that day, only terminal
+evaluation runs; final rankings and cumulative-return curves are published
+at 10:00 after settlement. The [independent Task 2 live-test website](https://carolyn-jiang.github.io/Market-Neutral-Hedging-live-trading/)
+publishes service availability and the round workflow. Private action submissions
+remain disabled until the Hugging Face backend is verified. The test uses
+equal-dollar 50% long / 50% short sizing, deadline entry snapshots, next-event
+exit snapshots, zero transaction costs, and compounded returns. OpenAI keys stay
+on the organizer's local device; they are never uploaded to either hosting service.
 
 ### Task 3 · Financial Audit Verification
 
