@@ -26,7 +26,7 @@ const tasks = [
     description: "Manage paired asset positions with zero net dollar exposure using point-in-time prices, news, and corporate filings.",
     detail: "HERCULEAN training data is available. Evaluation windows, execution costs, and final submission rules will follow with the scorer.",
     metrics: ["Return", "Sharpe ratio", "Drawdown"],
-    href: "/task2/",
+    href: "https://carolyn-jiang.github.io/Market-Neutral-Hedging-live-trading/",
     link: "Open Task 2 hub",
   },
   {

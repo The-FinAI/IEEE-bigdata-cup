@@ -740,6 +740,6 @@ test("the home page links to all three task hubs", async () => {
   // route existed in the sitemap but no page linked to it.
   const home = await text("out/index.html");
   assert.match(home, /href="[^"]*\/task1\/">Open Task 1 hub/);
-  assert.match(home, /href="[^"]*\/task2\/">Open Task 2 hub/);
+  assert.ok(home.includes('href="https://carolyn-jiang.github.io/Market-Neutral-Hedging-live-trading/">Open Task 2 hub'));
   assert.match(home, /href="[^"]*\/task3\/">Open Task 3 hub/);
 });
