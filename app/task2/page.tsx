@@ -6,6 +6,7 @@ const datasetUrl = "https://huggingface.co/datasets/TheFinAI/Herculean";
 const trainingFiles = ["prices.parquet", "news.parquet", "filings.parquet"];
 const eligibleTickers = ["NVDA", "GOOG", "META", "MSFT", "JPM", "AMZN", "AAPL", "AMD", "WMT", "TSLA"];
 const liveTestUrl = "https://carolyn-jiang.github.io/Market-Neutral-Hedging-live-trading/";
+const publicLeaderboardUrl = "https://huggingface.co/spaces/CarolynJiang/market-neutral-hedging-leaderboard";
 const testRounds = [
   { release: "09:30", news: "Previous calendar day 15:30 to today 09:30", deadline: "10:25" },
   { release: "10:30", news: "09:30–10:30", deadline: "11:25" },
@@ -71,9 +72,12 @@ export default function Task2HubPage() {
           remain disabled until the verified Hugging Face API is deployed.</p>
         </div>
         <p><a href={liveTestUrl}>Open Market-Neutral Hedging live test ↗</a></p>
+        <p><a href={publicLeaderboardUrl}>Open the public Hugging Face leaderboard ↗</a></p>
         <p className="task-platform-footnote">The public website never publishes
         team actions or stock selections. OpenAI API keys remain on the organizer&apos;s
-        local device; only generated data and public results are uploaded.</p>
+        local device; only generated data and public results are uploaded.
+        The leaderboard is a static display of uploaded results, not an action
+        submission endpoint. Until verified returns are published, it shows an empty state.</p>
       </section>
 
       <section className="task-platform-card" aria-labelledby="task2-test-title">
