@@ -227,7 +227,7 @@ export default function Task2HubPage() {
                 <tr key={event.round}><th scope="row">Release {event.round}</th><td>{event.date}</td><td>{event.time}</td><td>{event.tasks}</td></tr>
               ))}
               <tr><th scope="row">Terminal evaluation</th><td>16 October</td><td>09:30</td><td>Task 2 only: settle the final decision round; no new participant data release</td></tr>
-              <tr><th scope="row">Final results</th><td>16 October</td><td>10:00</td><td>Publish final rankings and cumulative-return curves after terminal settlement is complete</td></tr>
+              <tr><th scope="row">Final results</th><td>16 October</td><td>10:30</td><td>Publish final rankings and cumulative-return curves after terminal settlement is complete</td></tr>
             </tbody>
           </table>
         </div>
@@ -269,7 +269,7 @@ export default function Task2HubPage() {
 
         <h3>8. Read the final leaderboard and return chart</h3>
         <p>
-          At <strong>10:00 New York time on 16 October 2026</strong>, after final
+          At <strong>10:30 New York time on 16 October 2026</strong>, after final
           settlement, publish team rankings by final cumulative return and a
           reference row for the Codex baseline. The baseline is not a competing
           team. The return chart shows one line per team plus the baseline,
