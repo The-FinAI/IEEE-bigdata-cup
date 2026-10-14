@@ -8,6 +8,9 @@ private receipt service is still pending deployment. Only administrator HF
 credentials can access raw submissions in the private storage repository.
 The Dataset `CarolynJiang/Market-Neutral-Hedging-live-trading` holds only released
 price/news Parquet files and `releases.json`. It must not hold actions or CR.
+Each batch is one folder `data/YYYY-MM-DD_HH-30_NY/` containing `price.parquet`
+and `news.parquet`. Both files and the manifest are committed atomically. Only
+after that succeeds does the website Files column link to that folder.
 
 ## Event contract (America/New_York, 2026)
 

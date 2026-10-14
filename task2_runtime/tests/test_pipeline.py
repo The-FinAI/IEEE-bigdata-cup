@@ -6,6 +6,18 @@ from protocol import *
 from run_node import initial,settle,public_rows,chart_svg,run,release_tasks,submission_records
 
 class PipelineTests(unittest.TestCase):
+    def test_release_folder_contains_two_files_in_one_commit(self):
+        import tempfile
+        from unittest.mock import patch,Mock
+        import run_node
+        with tempfile.TemporaryDirectory() as directory:
+            api=Mock();state=initial()
+            with patch.object(run_node,'PRIVATE',Path(directory)),patch.object(run_node,'HfApi',return_value=api),patch.object(run_node,'save'):
+                run_node.publish_data(state,0,[{'ticker':'NVDA','price':100.0}],[{'ticker':'NVDA','summary':'Test-only fixture'}])
+            api.create_commit.assert_called_once()
+            paths=[op.path_in_repo for op in api.create_commit.call_args.kwargs['operations']]
+            self.assertEqual(paths,['data/2026-10-14_09-30_NY/price.parquet','data/2026-10-14_09-30_NY/news.parquet','releases.json'])
+            self.assertEqual(state['published'][round_id(0)]['folder_url'],'https://huggingface.co/datasets/CarolynJiang/Market-Neutral-Hedging-live-trading/tree/main/data/2026-10-14_09-30_NY')
     def test_receipt_projection_excludes_admin_only_payload(self):
         s,inbox,p,q=self.fixture();inbox['schema']='finreason.task2.receipts/1'
         result=submission_records(inbox,RELEASES[1])

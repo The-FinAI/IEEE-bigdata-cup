@@ -78,8 +78,10 @@ stock/action payloads remain accessible only in administrator-private storage. T
 publishes data only. All data collection, summaries, baseline decisions and CR
 calculation run locally through `task2_runtime/run_node.py` in exactly fourteen
 scheduled nodes. Submissions remain closed until receipt hosting is verified.
-The old standalone website redirects here and its redundant scorer/poller has
-been retired. The test uses
+The [live-test page](https://carolyn-jiang.github.io/Market-Neutral-Hedging-live-trading/)
+retains its original frontend layout and is linked from this hub. Its redundant
+scorer/poller remains retired; it reads the same published data and local CR
+snapshots rather than running a second backend. The test uses
 equal-dollar 50% long / 50% short sizing, deadline entry snapshots, next-event
 exit snapshots, zero transaction costs, and compounded returns. OpenAI keys stay
 on the organizer's local device; they are never uploaded to either hosting service.

@@ -153,12 +153,12 @@ def publish_website(snapshot,chart=None):
 def publish_data(state,i,prows,nrows):
     import pyarrow as pa
     import pyarrow.parquet as pq
-    api=HfApi();prefix=RELEASES[i].strftime('%Y-%m-%d_%H-%M')+'_NY_';ops=[];links={}
+    api=HfApi();folder=RELEASES[i].strftime('%Y-%m-%d_%H-%M')+'_NY';prefix=folder+'_';ops=[];links={}
     for kind,rows in [('price',prows),('news',nrows)]:
         path=PRIVATE/(prefix+kind+'.parquet');pq.write_table(pa.Table.from_pylist(rows),path,compression='zstd');path.chmod(0o600)
-        name='data/'+path.name;ops.append(CommitOperationAdd(path_in_repo=name,path_or_fileobj=str(path)))
+        name=f'data/{folder}/{kind}.parquet';ops.append(CommitOperationAdd(path_in_repo=name,path_or_fileobj=str(path)))
         links[kind+'_url']=f'https://huggingface.co/datasets/{DATASET}/resolve/main/{name}?download=true'
-    release={'round_id':round_id(i),'published_at':datetime.now(NY).isoformat(),**links}
+    release={'round_id':round_id(i),'published_at':datetime.now(NY).isoformat(),'folder_url':f'https://huggingface.co/datasets/{DATASET}/tree/main/data/{folder}',**links}
     manifest={'schema':'finreason.task2.releases/1','timezone':'America/New_York','published_rounds':list(state['published'].values())+[release]}
     ops.append(CommitOperationAdd(path_in_repo='releases.json',path_or_fileobj=json.dumps(manifest).encode()))
     api.create_commit(DATASET,repo_type='dataset',operations=ops,commit_message=f'Publish round {i+1} news and prices only')

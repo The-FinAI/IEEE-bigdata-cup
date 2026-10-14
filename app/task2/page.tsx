@@ -64,6 +64,8 @@ export default function Task2HubPage() {
 
       <LivePanel />
 
+      <p className="task-platform-footnote"><a href="https://carolyn-jiang.github.io/Market-Neutral-Hedging-live-trading/">Open the Task 2 live-test page ↗</a></p>
+
       <section className="task-platform-card" aria-labelledby="task2-test-title">
         <div className="task-platform-copy">
           <div>
