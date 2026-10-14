@@ -301,7 +301,7 @@ export default function Home() {
                 <p className={styles.taskDescription}>{task.description}</p>
                 <div className={styles.metrics} aria-label={`Task ${task.number} evaluation measures`}>{task.metrics.map(metric => <span key={metric}>{metric}</span>)}</div>
                 <details className={styles.taskDetails}><summary>Data &amp; evaluation details</summary><p>{task.detail}{task.number === "02" && " The displayed measures are provisional until final scoring rules are published."}{task.number === "03" && " This task evaluates targeted numeric checks, not a full financial-statement audit."}</p></details>
-                <a className={styles.taskLink} href={`${basePath}${task.href}`}>{task.link}<span aria-hidden="true">↗</span></a>
+                <a className={styles.taskLink} href={task.href.startsWith("https://") ? task.href : `${basePath}${task.href}`}>{task.link}<span aria-hidden="true">↗</span></a>
               </article>
             ))}
           </div>
