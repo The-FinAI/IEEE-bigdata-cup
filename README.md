@@ -69,9 +69,16 @@ baseline names and cumulative returns, not stocks or actions.
 The Task 2 final action cutoff is **16 October 2026, 08:00 New York time**;
 earlier round deadlines still apply. At 09:30 that day, only terminal
 evaluation runs; final rankings and cumulative-return curves are published
-at 10:00 after settlement. The [independent Task 2 live-test website](https://carolyn-jiang.github.io/Market-Neutral-Hedging-live-trading/)
-publishes service availability and the round workflow. Private action submissions
-remain disabled until the Hugging Face backend is verified. The test uses
+at 10:30 after settlement. The unified [Task 2 website](https://the-finai.github.io/IEEE-bigdata-cup/task2/)
+publishes CR ranking at events 2–14 and the final chart at event 14.
+The [Space](https://huggingface.co/spaces/CarolynJiang/market-neutral-hedging-leaderboard)
+accepts actions and issues private receipts only; the
+[Dataset](https://huggingface.co/datasets/CarolynJiang/Market-Neutral-Hedging-live-trading)
+publishes data only. All data collection, summaries, baseline decisions and CR
+calculation run locally through `task2_runtime/run_node.py` in exactly fourteen
+scheduled nodes. Submissions remain closed until receipt hosting is verified.
+The old standalone website redirects here and its redundant scorer/poller has
+been retired. The test uses
 equal-dollar 50% long / 50% short sizing, deadline entry snapshots, next-event
 exit snapshots, zero transaction costs, and compounded returns. OpenAI keys stay
 on the organizer's local device; they are never uploaded to either hosting service.
