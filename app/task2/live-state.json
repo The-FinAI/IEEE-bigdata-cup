@@ -1,105 +1,13 @@
 {
   "schema": "finreason.task2.website/1",
-  "event": 2,
-  "updated_at": "2026-10-14T01:07:01.054962-04:00",
-  "data_status": "REHEARSAL ONLY: 2 simulated releases using Oct 13 historical data; not formal trading.",
-  "submission_status": "REHEARSAL settlement completed. Submission temporarily closed pending cleanup.",
-  "ranking_status": "REHEARSAL ONLY — local CR from historical Oct 13 10:25 entry proxy to 10:30 exit proxy. Not formal results.",
+  "event": 0,
+  "updated_at": null,
+  "data_status": "Awaiting the first scheduled data release.",
+  "submission_status": "Receipt backend verified. Submissions open only after the scheduled formal data release.",
+  "ranking_status": "No verified settlements yet.",
   "final": false,
   "chart": null,
-  "releases": [
-    {
-      "round_id": "2026-10-14_09:30",
-      "published_at": "2026-10-14T01:04:42.434370-04:00",
-      "rehearsal": true,
-      "source_date": "2026-10-13",
-      "folder_url": "https://huggingface.co/datasets/CarolynJiang/Market-Neutral-Hedging-live-trading/tree/main/data/rehearsal-7699ce92a7367c65/2026-10-14_09-30_NY",
-      "price_url": "https://huggingface.co/datasets/CarolynJiang/Market-Neutral-Hedging-live-trading/resolve/main/data/rehearsal-7699ce92a7367c65/2026-10-14_09-30_NY/price.parquet?download=true",
-      "news_url": "https://huggingface.co/datasets/CarolynJiang/Market-Neutral-Hedging-live-trading/resolve/main/data/rehearsal-7699ce92a7367c65/2026-10-14_09-30_NY/news.parquet?download=true"
-    },
-    {
-      "round_id": "2026-10-14_10:30",
-      "published_at": "2026-10-14T01:06:58.051594-04:00",
-      "rehearsal": true,
-      "source_date": "2026-10-13",
-      "folder_url": "https://huggingface.co/datasets/CarolynJiang/Market-Neutral-Hedging-live-trading/tree/main/data/rehearsal-7699ce92a7367c65/2026-10-14_10-30_NY",
-      "price_url": "https://huggingface.co/datasets/CarolynJiang/Market-Neutral-Hedging-live-trading/resolve/main/data/rehearsal-7699ce92a7367c65/2026-10-14_10-30_NY/price.parquet?download=true",
-      "news_url": "https://huggingface.co/datasets/CarolynJiang/Market-Neutral-Hedging-live-trading/resolve/main/data/rehearsal-7699ce92a7367c65/2026-10-14_10-30_NY/news.parquet?download=true"
-    }
-  ],
-  "release_tasks": [
-    {
-      "round_id": "2026-10-14_09:30",
-      "status": "published",
-      "message": "REHEARSAL: historical Oct 13 data."
-    },
-    {
-      "round_id": "2026-10-14_10:30",
-      "status": "published",
-      "message": "REHEARSAL: historical Oct 13 data."
-    },
-    {
-      "round_id": "2026-10-14_11:30",
-      "status": "scheduled",
-      "message": "Awaiting formal release."
-    },
-    {
-      "round_id": "2026-10-14_12:30",
-      "status": "scheduled",
-      "message": "Awaiting formal release."
-    },
-    {
-      "round_id": "2026-10-14_14:30",
-      "status": "scheduled",
-      "message": "Awaiting formal release."
-    },
-    {
-      "round_id": "2026-10-14_15:30",
-      "status": "scheduled",
-      "message": "Awaiting formal release."
-    },
-    {
-      "round_id": "2026-10-15_09:30",
-      "status": "scheduled",
-      "message": "Awaiting formal release."
-    },
-    {
-      "round_id": "2026-10-15_10:30",
-      "status": "scheduled",
-      "message": "Awaiting formal release."
-    },
-    {
-      "round_id": "2026-10-15_11:30",
-      "status": "scheduled",
-      "message": "Awaiting formal release."
-    },
-    {
-      "round_id": "2026-10-15_12:30",
-      "status": "scheduled",
-      "message": "Awaiting formal release."
-    },
-    {
-      "round_id": "2026-10-15_14:30",
-      "status": "scheduled",
-      "message": "Awaiting formal release."
-    },
-    {
-      "round_id": "2026-10-15_15:30",
-      "status": "scheduled",
-      "message": "Awaiting formal release."
-    }
-  ],
-  "rows": [
-    {
-      "team_name": "Codex baseline",
-      "cumulative_return": 0.0016167124218086082,
-      "is_baseline": true
-    },
-    {
-      "team_name": "test",
-      "cumulative_return": -0.0020231279535278812,
-      "is_baseline": false
-    }
-  ],
-  "rehearsal": true
+  "releases": [],
+  "release_tasks": [],
+  "rows": []
 }
