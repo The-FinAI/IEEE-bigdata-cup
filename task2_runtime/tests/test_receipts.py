@@ -11,7 +11,7 @@ from protocol import RELEASES,round_id,deadline
 class ReceiptTests(unittest.TestCase):
     def setUp(self):
         self.inbox={'schema':'finreason.task2.receipts/1','teams':{},'submissions':{}}
-        self.patches=[patch.object(s,'active',return_value=0),patch.object(s,'read_inbox',side_effect=lambda:(copy.deepcopy(self.inbox),'parent')),patch.object(s,'datetime'),patch.object(s.api,'upload_file',side_effect=self.persist)]
+        self.patches=[patch.object(s,'current_context',return_value={'index':0,'mode':'live','session_id':'live','path':'inbox.json','deadline':deadline(0)}),patch.object(s,'read_inbox',side_effect=lambda *a:(copy.deepcopy(self.inbox),'parent')),patch.object(s,'datetime'),patch.object(s.api,'upload_file',side_effect=self.persist)]
         self.mocks=[p.start() for p in self.patches];self.mocks[2].now.return_value=RELEASES[0]+timedelta(minutes=10)
         self.client=TestClient(s.app);self.payload={'team_name':'Test Team','stock1':'NVDA','stock2':'GOOG','action':'LS','round_id':round_id(0)}
     def tearDown(self):
@@ -32,6 +32,11 @@ class ReceiptTests(unittest.TestCase):
         for p in [{**self.payload,'stock2':'NVDA'},{**self.payload,'stock1':'BA'},{**self.payload,'action':'both'}]:
             self.assertEqual(self.client.post('/submissions',json=p).status_code,422)
         self.assertFalse(self.inbox['teams']);self.assertFalse(self.inbox['submissions'])
+    def test_rehearsal_writes_only_isolated_test_inbox(self):
+        self.mocks[0].return_value={'index':0,'mode':'rehearsal','session_id':'a'*16,'path':'rehearsal/'+('a'*16)+'/inbox.json','deadline':deadline(0)}
+        r=self.client.post('/submissions',json=self.payload)
+        self.assertEqual(r.status_code,200)
+        self.assertEqual(self.mocks[3].call_args.kwargs['path_in_repo'],'rehearsal/'+('a'*16)+'/inbox.json')
     def test_cutoff_and_storage_failure_no_receipt(self):
         self.mocks[2].now.return_value=deadline(0)+timedelta(seconds=1)
         self.assertEqual(self.client.post('/submissions',json=self.payload).status_code,409)
