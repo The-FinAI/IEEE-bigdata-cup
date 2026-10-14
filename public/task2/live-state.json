@@ -1,0 +1,13 @@
+{
+  "schema": "finreason.task2.website/1",
+  "event": 0,
+  "updated_at": null,
+  "data_status": "Awaiting the first scheduled data release.",
+  "submission_status": "Receipt backend verified. Submissions open only after the scheduled formal data release.",
+  "ranking_status": "No verified settlements yet.",
+  "final": false,
+  "chart": null,
+  "releases": [],
+  "release_tasks": [],
+  "rows": []
+}

@@ -147,7 +147,8 @@ def publish_website(snapshot,chart=None):
     # One atomic Git commit contains only an allow-listed snapshot and final SVG.
     ref=gh(f'repos/{GITHUB}/git/ref/heads/main');parent=ref['object']['sha']
     base=gh(f'repos/{GITHUB}/git/commits/{parent}')['tree']['sha']
-    files={'app/task2/live-state.json':json.dumps(snapshot,ensure_ascii=False,indent=2)+'\n'}
+    content=json.dumps(snapshot,ensure_ascii=False,indent=2)+'\n'
+    files={'app/task2/live-state.json':content,'public/task2/live-state.json':content}
     if chart is not None:files['public/task2/final-cr.svg']=chart
     tree=[]
     for path,content in files.items():
