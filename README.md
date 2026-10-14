@@ -72,7 +72,8 @@ evaluation runs; final rankings and cumulative-return curves are published
 at 10:30 after settlement. The unified [Task 2 website](https://the-finai.github.io/IEEE-bigdata-cup/task2/)
 publishes CR ranking at events 2–14 and the final chart at event 14.
 The [Space](https://huggingface.co/spaces/CarolynJiang/market-neutral-hedging-leaderboard)
-accepts actions and issues private receipts only; the
+displays only submission metadata (team, round, receipt time and status); actual
+stock/action payloads remain accessible only in administrator-private storage. The
 [Dataset](https://huggingface.co/datasets/CarolynJiang/Market-Neutral-Hedging-live-trading)
 publishes data only. All data collection, summaries, baseline decisions and CR
 calculation run locally through `task2_runtime/run_node.py` in exactly fourteen

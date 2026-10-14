@@ -15,6 +15,7 @@ PRIVATE=ROOT/'outputs/trading-local'
 ENV=ROOT/'outputs/trading-private.env'
 DATASET='CarolynJiang/Market-Neutral-Hedging-live-trading'
 INBOX='CarolynJiang/market-neutral-hedging-private-state'
+SPACE='CarolynJiang/market-neutral-hedging-leaderboard'
 GITHUB='The-FinAI/IEEE-bigdata-cup'
 
 def save(state):
@@ -22,6 +23,46 @@ def save(state):
     temp.write_text(json.dumps(state,ensure_ascii=False,indent=2));temp.chmod(0o600);temp.replace(p)
 
 def initial():return {'published':{},'baselines':{},'settled':[],'teams':{},'baseline':{'equity':1.0,'history':[]},'website_events':[],'rows':[]}
+
+def release_tasks(state,event):
+    """Public, per-round publication states independent of baseline/CR errors."""
+    rows=[]
+    for i in range(12):
+        rid=round_id(i)
+        if rid in state['published']:
+            status,message='published','Both Dataset files committed; coverage and missing-price flags apply.'
+        elif state.get('data_attempts',{}).get(rid)=='failed':
+            status,message='failed','Collection or Dataset upload failed; no confirmed files.'
+        elif i<min(event,12):
+            status,message='pending','Release due; publication not confirmed.'
+        else:
+            status,message='scheduled','Awaiting scheduled release.'
+        rows.append({'round_id':rid,'status':status,'message':message})
+    return rows
+
+def submission_records(inbox,at):
+    """Public receipt metadata ONLY; never copy payloads, IDs or tokens."""
+    if inbox.get('schema')!='finreason.task2.receipts/1':raise ValueError('Invalid receipt schema')
+    rows=[];known={round_id(i):i for i in range(12)};seen=set()
+    for rid,records in inbox['submissions'].items():
+        if rid not in known:raise ValueError('Unknown receipt round')
+        i=known[rid]
+        for identity,r in records.items():
+            name=inbox['teams'][identity]['name'];accepted=datetime.fromisoformat(r['accepted_at'])
+            if name!=r['team_name'] or not valid_action(r) or not RELEASES[i]<=accepted<=deadline(i):raise ValueError('Invalid accepted receipt')
+            key=(name.casefold(),rid)
+            if key in seen:raise ValueError('Duplicate receipt record')
+            seen.add(key)
+            rows.append({'team_name':name,'round_id':rid,'accepted_at':accepted.isoformat(),'status':'accepted'})
+    if len(rows)>6000:raise ValueError('Receipt export exceeds team capacity')
+    rows.sort(key=lambda r:(r['round_id'],r['team_name']))
+    return {'schema':'finreason.task2.submission-records/1','updated_at':at.isoformat(),'status':'verified','rows':rows}
+
+def publish_submission_records(feed):
+    # The source here must be the allow-listed projection, never inbox.json.
+    if set(feed)!={'schema','updated_at','status','rows'} or feed['schema']!='finreason.task2.submission-records/1' or feed['status'] not in ('verified','unavailable'):raise ValueError('Unsafe public receipt feed')
+    if not isinstance(feed['rows'],list) or len(feed['rows'])>6000 or any(set(r)!={'team_name','round_id','accepted_at','status'} for r in feed['rows']):raise ValueError('Private fields must not enter public records')
+    HfApi().upload_file(repo_id=SPACE,repo_type='space',path_in_repo='submission-records.json',path_or_fileobj=json.dumps(feed,ensure_ascii=False,indent=2).encode(),commit_message='Publish submission metadata only; payloads remain administrator-private')
 
 def load_receipts(settings,instant):
     address=settings.get('RECEIPT_API_URL')
@@ -141,6 +182,14 @@ def run(event,check=False):
         state=json.loads((PRIVATE/'state.json').read_text()) if (PRIVATE/'state.json').exists() else initial()
         if event in state['website_events']:print('Node already published; no duplicate update');return
         errors=[];_,settings=local_models(ENV);api=HfApi()
+        inbox=None
+        try:
+            inbox=load_receipts(settings,instant)
+            state['public_receipts']=submission_records(inbox,instant);save(state)
+        except Exception:
+            # Preserve the last verified metadata; unavailable is not zero submissions.
+            old=state.get('public_receipts',{'schema':'finreason.task2.submission-records/1','updated_at':None,'rows':[]})
+            state['public_receipts']={**old,'status':'unavailable'}
         if event<=12:
             i=event-1;rid=round_id(i)
             try:
@@ -158,11 +207,14 @@ def run(event,check=False):
                     client,settings=local_models(ENV);action=choose_baseline(client,settings.get('CODEX_MODEL','gpt-5.3-codex'),data['prices'],data['news_rows'])
                     if not valid_action(action) or datetime.now(NY)>deadline(i):raise RuntimeError('Baseline validation or sealing deadline failed')
                     state['baselines'][rid]={'action':action,'sealed_at':datetime.now(NY).isoformat(),'model':settings.get('CODEX_MODEL','gpt-5.3-codex')};save(state)
-            except Exception as exc:errors.append('Data/baseline pending: '+type(exc).__name__)
+            except Exception as exc:
+                errors.append('Data/baseline pending: '+type(exc).__name__)
+                if rid not in state['published']:
+                    state.setdefault('data_attempts',{})[rid]='failed';save(state)
         if 2<=event<=13:
             i=event-2
             try:
-                inbox=load_receipts(settings,instant)
+                if inbox is None:raise RuntimeError('Private receipt service unavailable; CR pending')
                 entry,_=prices(deadline(i));exit,_=prices(EVENTS[event-1])
                 settle(state,inbox,i,entry,exit);save(state)
             except Exception as exc:errors.append('CR pending: '+type(exc).__name__)
@@ -171,8 +223,12 @@ def run(event,check=False):
         ranking=('Final settlement verified.' if final else f'{len(state["settled"])} of 12 rounds verified.')
         if event>=2 and len(state['settled'])<min(event-1,12):ranking+=' Incomplete inputs or receipt service unavailable; ranking is pending, not a zero-return result.'
         if event==14 and not final:errors.append('Final chart withheld: all 12 verified settlements required')
-        snapshot={'schema':'finreason.task2.website/1','event':event,'updated_at':datetime.now(NY).isoformat(),'data_status':f'{len(state["published"])} of 12 data batches published.'+(' Some input stages are pending.' if errors else ''),'submission_status':'Actions are accepted only after the receipt Space deployment is verified.','ranking_status':ranking,'final':final,'chart':'/IEEE-bigdata-cup/task2/final-cr.svg' if final else None,'releases':list(state['published'].values()),'rows':rows}
+        tasks=release_tasks(state,event)
+        failed=sum(r['status']=='failed' for r in tasks);pending=sum(r['status']=='pending' for r in tasks)
+        snapshot={'schema':'finreason.task2.website/1','event':event,'updated_at':datetime.now(NY).isoformat(),'data_status':f'{len(state["published"])} of 12 data batches published; {pending} pending; {failed} failed.','submission_status':'Actions are accepted only after the receipt Space deployment is verified.','ranking_status':ranking,'final':final,'chart':'/IEEE-bigdata-cup/task2/final-cr.svg' if final else None,'releases':list(state['published'].values()),'release_tasks':tasks,'rows':rows}
         if errors:snapshot['ranking_status']+=' '+'; '.join(errors)
+        try:publish_submission_records(state['public_receipts'])
+        except Exception:print('Public submission metadata sync pending; no private payload published.')
         publish_website(snapshot,chart_svg(state) if final else None)
         state['website_events'].append(event);save(state)
         print(f'Website event {event}/14 published; data batches={len(state["published"])}; settled rounds={len(state["settled"])}; final={final}')

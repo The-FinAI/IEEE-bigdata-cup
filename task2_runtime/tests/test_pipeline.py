@@ -3,9 +3,31 @@ from pathlib import Path
 from datetime import timedelta
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from protocol import *
-from run_node import initial,settle,public_rows,chart_svg,run
+from run_node import initial,settle,public_rows,chart_svg,run,release_tasks,submission_records
 
 class PipelineTests(unittest.TestCase):
+    def test_receipt_projection_excludes_admin_only_payload(self):
+        s,inbox,p,q=self.fixture();inbox['schema']='finreason.task2.receipts/1'
+        result=submission_records(inbox,RELEASES[1])
+        self.assertEqual(result['status'],'verified')
+        self.assertEqual(set(result['rows'][0]),{'team_name','round_id','accepted_at','status'})
+        text=json.dumps(result)
+        for private in ['stock1','stock2','action','token_hash','receipt_id','PRIVATE','private-id']:
+            self.assertNotIn(private,text)
+    def test_all_publication_states_and_independent_success(self):
+        s=initial()
+        self.assertEqual(len(release_tasks(s,0)),12)
+        self.assertTrue(all(r['status']=='scheduled' for r in release_tasks(s,0)))
+        self.assertEqual(release_tasks(s,2)[0]['status'],'pending')
+        s['data_attempts']={round_id(0):'failed'}
+        self.assertEqual(release_tasks(s,2)[0]['status'],'failed')
+        s['published'][round_id(0)]={'published_at':RELEASES[0].isoformat()}
+        rows=release_tasks(s,2)
+        self.assertEqual(rows[0]['status'],'published')
+        self.assertEqual(rows[1]['status'],'pending')
+        self.assertEqual(rows[2]['status'],'scheduled')
+        self.assertTrue(all(r['status']!='scheduled' for r in release_tasks(s,14)))
+        self.assertTrue(all(set(r)=={'round_id','status','message'} for r in rows))
     def fixture(self):
         s=initial();rid=round_id(0);ident='private-id'
         s['published'][rid]={'published_at':RELEASES[0].isoformat()}

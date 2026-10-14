@@ -1,8 +1,11 @@
 # Task 2: one local pipeline, fourteen website snapshots
 
 The sole website is https://the-finai.github.io/IEEE-bigdata-cup/task2/.
-The Space `CarolynJiang/market-neutral-hedging-leaderboard` is an action/receipt
-service only (despite its retained URL). It must not calculate or display CR.
+The static Space `CarolynJiang/market-neutral-hedging-leaderboard` displays only
+public submission records: team name, round, reception time, acceptance status.
+It has no form, actual payload downloads, scoring, or CR display. The separate
+private receipt service is still pending deployment. Only administrator HF
+credentials can access raw submissions in the private storage repository.
 The Dataset `CarolynJiang/Market-Neutral-Hedging-live-trading` holds only released
 price/news Parquet files and `releases.json`. It must not hold actions or CR.
 
@@ -66,6 +69,15 @@ Public website snapshots allow only names, aggregate CR, service status, release
 links, and event metadata. Stocks/actions, tokens, raw inboxes and keys never
 enter GitHub. Curves are generated locally as SVG and released only at event 14
 with all 12 verified settlements. Incomplete final settlement stays pending.
+
+Each website snapshot contains all twelve release-task statuses: Scheduled,
+Pending, Failed, or Published, with news windows, action deadlines and verified
+Dataset links. Data publication state is independent of baseline/CR errors;
+nodes 13–14 refresh the existing table without creating extra data releases.
+The same fourteen tasks synchronize allow-listed submission metadata to the
+static Space. No extra scheduler is created. Tokens, private receipt IDs,
+stock selections and actions are stripped locally before any public upload.
+Public source files and downloads do not contain hidden submission payloads.
 
 ## Receipt Space deployment
 

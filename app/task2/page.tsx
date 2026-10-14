@@ -300,7 +300,8 @@ export default function Task2HubPage() {
         <p>
           The test workflow, release times, eligible stocks, and submission fields
           are described above. This page is the unified test website. The Dataset
-          publishes data only; the Space accepts actions and issues receipts only.
+          publishes data only; the static Space displays public submission metadata only.
+          Actual actions and receipts remain in administrator-private storage.
           Collection, summaries, baseline decisions, and CR calculation run locally.
           The receipt service remains unavailable until its hosting is verified.
           This website does not collect actions.
