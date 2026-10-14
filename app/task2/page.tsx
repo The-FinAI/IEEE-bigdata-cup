@@ -143,6 +143,14 @@ export default function Task2HubPage() {
         <p><code>{eligibleTickers.join(", ")}</code></p>
 
         <h3>3. Fill in all four fields for every action</h3>
+        <p>
+          Each team may make <strong>at most one accepted submission per decision
+          round</strong>. A successful submission is final for that round: no
+          replacement, revision, or second action is allowed. Invalid or rejected
+          attempts do not use this allowance. A new round permits one new submission.
+          Team Name is a free-text field. Stock 1, Stock 2, and Action are
+          single-selection dropdowns; the two selected stocks must be distinct.
+        </p>
         <ul className="policy-list">
           <li><strong>Team Name:</strong> your unique, consistent team identifier.</li>
           <li><strong>Stock 1:</strong> one ticker from the eligible universe.</li>
