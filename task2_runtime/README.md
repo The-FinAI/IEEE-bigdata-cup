@@ -4,8 +4,9 @@ The sole website is https://the-finai.github.io/IEEE-bigdata-cup/task2/.
 The static Space `CarolynJiang/market-neutral-hedging-leaderboard` displays only
 public submission records: team name, round, reception time, acceptance status.
 It has no form, actual payload downloads, scoring, or CR display. The separate
-private receipt service is still pending deployment. Only administrator HF
-credentials can access raw submissions in the private storage repository.
+receipt-only Cloudflare Worker uses private D1 storage. Only the local organizer's
+administrator credential can export raw submissions. The backend has no cron or
+scorer; the static Space links to its form during authorized windows.
 The Dataset `CarolynJiang/Market-Neutral-Hedging-live-trading` holds only released
 price/news Parquet files and `releases.json`. It must not hold actions or CR.
 Each batch is one folder `data/YYYY-MM-DD_HH-30_NY/` containing `price.parquet`
@@ -83,6 +84,27 @@ stock selections and actions are stripped locally before any public upload.
 Public source files and downloads do not contain hidden submission payloads.
 
 ## Receipt Space deployment
+
+### Active receipt backend: Cloudflare
+
+`cloudflare/` contains the replacement receipt-only Worker, private D1 schema,
+deployment template, and isolated SQLite tests. The deployed HTTPS endpoint is
+`https://finreason-task2-receipts.carolyn1010011010.workers.dev`.
+Its health, authenticated export and manual receipt persistence were verified in
+an isolated historical rehearsal. No additional scheduler or cloud scorer is added.
+
+`receipt_client.py` reads a separate, owner-only local
+`outputs/receipt-local.json` (0600). When `RECEIPT_BACKEND` is `cloudflare`, the
+fourteen existing events read receipts through the authenticated administrator
+API and authorize release windows through `/admin/control`; they no longer use
+the HF inbox/control for reception. This configuration also requires the verified
+`RECEIPT_API_URL` and a dedicated `RECEIPT_ADMIN_TOKEN`. Neither belongs in Git or
+public HF files. The old HF adapter is retained only until migration is verified.
+
+See `cloudflare/README.md` for deployment steps. Account authorization and a real
+browser rehearsal remain required; local unit tests are not deployment proof.
+
+### Previous HF implementation (not active)
 
 `receipt_server.py`, `receipt.html`, `protocol.py`, and `Dockerfile` form the
 minimal Docker service. No OpenAI library, summarizer, crawler or scorer is

@@ -305,7 +305,7 @@ export default function Task2HubPage() {
           publishes data only; the static Space displays public submission metadata only.
           Actual actions and receipts remain in administrator-private storage.
           Collection, summaries, baseline decisions, and CR calculation run locally.
-          The receipt service remains unavailable until its hosting is verified.
+          The receipt backend is hosted on Cloudflare and accepts actions only during organizer-authorized submission windows.
           This website does not collect actions.
         </p>
       </aside>

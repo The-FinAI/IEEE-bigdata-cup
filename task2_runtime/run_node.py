@@ -5,10 +5,11 @@ Private state and the OpenAI key remain outside the checkout. No cloud scorer.
 import argparse,base64,fcntl,html,json,math,os,subprocess
 from datetime import datetime,timedelta
 from pathlib import Path
-from urllib.request import urlopen
+from urllib.request import urlopen,Request
 from huggingface_hub import HfApi,hf_hub_download,CommitOperationAdd
 from protocol import *
 from collect import prices,news,local_models,summarize,choose_baseline
+from receipt_client import settings as receipt_settings,administrator
 
 ROOT=Path('/Users/Carolyn/Documents/Codex/2026-09-03/qin')
 PRIVATE=ROOT/'outputs/trading-local'
@@ -65,10 +66,16 @@ def publish_submission_records(feed):
     HfApi().upload_file(repo_id=SPACE,repo_type='space',path_in_repo='submission-records.json',path_or_fileobj=json.dumps(feed,ensure_ascii=False,indent=2).encode(),commit_message='Publish submission metadata only; payloads remain administrator-private')
 
 def load_receipts(settings,instant):
+    settings=receipt_settings(settings)
     address=settings.get('RECEIPT_API_URL')
     if not address or not address.startswith('https://'):raise RuntimeError('Receipt Space not deployed; team actions unavailable, CR pending')
-    with urlopen(address.rstrip('/')+'/health',timeout=20) as r:health=json.load(r)
+    with urlopen(Request(address.rstrip('/')+'/health',headers={'User-Agent':'FinReason-Local-Organizer/1.0','Accept':'application/json'}),timeout=20) as r:health=json.load(r)
     if health.get('ok') is not True or health.get('role')!='receipts-only':raise RuntimeError('Receipt service not verified')
+    if settings.get('RECEIPT_BACKEND')=='cloudflare':
+        if health.get('storage')!='private-d1':raise RuntimeError('Wrong receipt backend')
+        inbox=administrator(settings,'/admin/receipts')
+        if inbox.get('schema')!='finreason.task2.receipts/1':raise RuntimeError('Invalid receipt ledger')
+        return inbox
     api=HfApi();info=api.repo_info(INBOX,repo_type='dataset')
     if not info.private:raise RuntimeError('Receipt inbox is not private')
     p=hf_hub_download(INBOX,'inbox.json',repo_type='dataset',revision=info.sha)
@@ -165,6 +172,11 @@ def publish_data(state,i,prows,nrows):
     state['published'][round_id(i)]=release;save(state)
 
 def open_receipt_round(state):
+    config=receipt_settings()
+    if config.get('RECEIPT_BACKEND')=='cloudflare':
+        result=administrator(config,'/admin/control','PUT',{'published':list(state['published'])})
+        if result.get('ok') is not True:raise RuntimeError('Receipt round not authorized')
+        return
     api=HfApi();info=api.repo_info(INBOX,repo_type='dataset')
     if not info.private:raise RuntimeError('Private receipt store required')
     api.upload_file(repo_id=INBOX,repo_type='dataset',path_in_repo='control.json',path_or_fileobj=json.dumps({'published':list(state['published'])}).encode(),parent_commit=info.sha,commit_message='Authorize only locally published receipt rounds')

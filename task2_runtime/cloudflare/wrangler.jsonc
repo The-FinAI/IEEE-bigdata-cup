@@ -1,0 +1,9 @@
+{
+  "name": "finreason-task2-receipts",
+  "main": "worker.mjs",
+  "compatibility_date": "2026-10-14",
+  "workers_dev": true,
+  "assets": {"directory": "./public", "binding": "ASSETS", "run_worker_first": true},
+  "observability": {"enabled": false},
+  "d1_databases": [{"binding": "DB", "database_name": "finreason-task2-receipts", "database_id": "REPLACE_AFTER_ACCOUNT_LOGIN"}]
+}
