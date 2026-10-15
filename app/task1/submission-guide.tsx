@@ -190,7 +190,7 @@ export function SubmissionGuide({
       <aside className="submission-guide-paper-note submission-guide-materials-note" id="required-materials">
         <strong>Task 1 required submission materials.</strong>
         <p>
-          By 15 October 2026, 23:59 Anywhere on Earth, submit a ZIP containing exactly one
+          By 18 October 2026, 23:59 Anywhere on Earth, submit a ZIP containing exactly one
           root-level <code>predictions.jsonl</code> for all 928 Test questions through the Test
           submission portal linked above. Keep the same Team Name and Contact Email and save
           the acceptance receipt. The latest accepted, valid Test submission determines the
@@ -204,7 +204,7 @@ export function SubmissionGuide({
         </p>
         <p>
           Teams seeking final ranking and awards must also submit Working Notes through
-          <a href={paperSubmission}> CyberChair SC03</a> by 23 October 2026, 23:59 Anywhere on Earth.
+          <a href={paperSubmission}> CyberChair SC03</a> by 26 October 2026, 23:59 Anywhere on Earth.
           The paper is submitted separately from the prediction ZIP.
         </p>
       </aside>
@@ -214,8 +214,8 @@ export function SubmissionGuide({
         <p>
           Submit the paper PDF through <a href={paperSubmission}>CyberChair SC03</a>, using the{" "}
           <a href={ieeeTemplate}>IEEE two-column conference template</a>. The FinReason Cup requirement is
-          no more than ten pages total, including references. Working Notes are due by 23 October 2026
-          at 23:59 Anywhere on Earth; final competition predictions are due earlier, on 15 October 2026
+          no more than ten pages total, including references. Working Notes are due by 26 October 2026
+          at 23:59 Anywhere on Earth; final competition predictions are due earlier, on 18 October 2026
           at 23:59 Anywhere on Earth. Follow the organizer schedule updated on 7 September if CyberChair
           displays a different date. Paper feedback and organizer acceptance decisions are scheduled
           for 6 November; camera-ready papers are due on 13 November 2026 at 23:59 Anywhere on Earth.

@@ -62,7 +62,7 @@ export function LaunchStatus() {
         <div className={styles.dates} aria-label="Working Notes deadlines">
           <div>
             <span>Working Notes</span>
-            <strong>23 October 2026</strong>
+            <strong>26 October 2026</strong>
             <span>23:59 AoE</span>
           </div>
           <div>
@@ -106,9 +106,9 @@ export function LaunchStatus() {
       <details className={styles.supplement}>
         <summary>Schedule and publication requirements</summary>
         <p>
-          Follow the organizer schedule updated on 7 September 2026 if CyberChair
-          displays a different date. Competition submissions close separately on
-          15 October 2026, 23:59 AoE.
+          The schedule was extended on 15 October 2026. Task 1 and Task 3 Test
+          submissions close on 18 October 2026, 23:59 AoE. Task 2 retains its
+          published live-trading rounds and 16 October settlement schedule.
         </p>
         <p>
           The organizers decide paper acceptance; selected accepted papers may

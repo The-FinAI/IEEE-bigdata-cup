@@ -63,7 +63,7 @@ export default function Task1TestStatusPage() {
           </article>
         </section>
         <p className="leaderboard-test-note">
-          Competition submissions close on 15 October 2026, 23:59 Anywhere on Earth.{" "}
+          Competition submissions close on 18 October 2026, 23:59 Anywhere on Earth.{" "}
           <Link href="/task1/submit/#how-to-submit">Submission format and instructions</Link>{" · "}
           <Link href="/task1/#task1-downloads-title">Download test questions</Link>
         </p>

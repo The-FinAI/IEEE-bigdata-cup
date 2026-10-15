@@ -3,7 +3,7 @@ export function TestSubmissionPolicy() {
     <aside className="task-hub-note" id="test-resubmissions">
       <strong>Test resubmissions: unlimited before the deadline</strong>
       <p>
-        You may submit revised Test predictions as often as needed before 15 October 2026,
+        You may submit revised Test predictions as often as needed before 18 October 2026,
         23:59 Anywhere on Earth. There is no daily or total Test submission quota.
         Keep the same Team Name and Contact Email for all revisions.
       </p>

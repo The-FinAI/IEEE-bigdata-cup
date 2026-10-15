@@ -84,22 +84,21 @@ export default function TermsPage() {
             task-specific rules published with the applicable verified release.
           </p>
           <p>
-            Schedule update, 7 September 2026: the previously published combined
-            15 November cutoff has been advanced. Final system submissions and
-            required solution materials for all three tasks are due on
-            15 October 2026, 23:59 Anywhere on Earth (AoE, UTC−12). Final
-            competition results are scheduled for 16 October, after the cutoff
-            has passed at 12:00 UTC (16:00 Abu Dhabi time). Working Notes are
-            due separately on 23 October 2026, 23:59 AoE.
+            Deadline extension, 15 October 2026: Task 1 and Task 3 Test submissions
+            are due on 18 October 2026, 23:59 Anywhere on Earth (AoE, UTC−12).
+            Final results for Tasks 1 and 3 are scheduled for 20 October.
+            Task 2 retains its published live-trading rounds and 16 October
+            settlement schedule. Working Notes for all tasks are due separately
+            on 26 October 2026, 23:59 AoE.
           </p>
           <p>
             For Task 1, required solution materials mean the canonical Test prediction ZIP
             for all 928 questions, submitted through the Task 1 Test portal. Every team seeking
             final ranking must submit it; Development uploads alone do not qualify. No separate
             source-code archive, model weights, repository link, or additional report is required
-            by 15 October. Code and reproducibility materials may be shared voluntarily with
+            by 18 October. Code and reproducibility materials may be shared voluntarily with
             Working Notes. Teams seeking final ranking and awards must submit the separate
-            Working Notes paper through CyberChair SC03 by 23 October 2026, 23:59 AoE.
+            Working Notes paper through CyberChair SC03 by 26 October 2026, 23:59 AoE.
           </p>
         </section>
 
@@ -165,7 +164,7 @@ export default function TermsPage() {
           <p className="section-index">04 / TASK 3 TEST REVISIONS</p>
           <h2 id="terms-task3-revisions">Which Task 3 Test submission counts</h2>
           <p>
-            There is no daily or total Task 3 Test submission-count limit before 15 October
+            There is no daily or total Task 3 Test submission-count limit before 18 October
             2026, 23:59 AoE. Use the same Team Name and Contact Email for every revision.
             The latest accepted, valid Test submission before the deadline supersedes earlier
             submissions for final evaluation. Invalid or rejected uploads do not replace the
@@ -187,7 +186,7 @@ export default function TermsPage() {
           <h2 id="terms-evaluation">Task 1 scores and results</h2>
           <p>
             Test submission policy update, 16 September 2026: there is no daily or total
-            Test submission-count limit before 15 October 2026, 23:59 AoE. Use the same
+            Test submission-count limit before 18 October 2026, 23:59 AoE. Use the same
             Team Name and Contact Email for every revision. The latest accepted, valid Test
             submission before the deadline supersedes earlier submissions for final evaluation.
             Invalid or rejected uploads do not replace the last accepted submission.
@@ -247,7 +246,7 @@ export default function TermsPage() {
             Teams seeking final ranking and awards must submit Working Notes
             (a challenge paper) of up to 10 pages total, including references,
             in the IEEE two-column conference format through CyberChair SC03 by
-            23 October 2026, 23:59 Anywhere on Earth. The organizers review the
+            26 October 2026, 23:59 Anywhere on Earth. The organizers review the
             papers and decide acceptance, with feedback and decisions scheduled
             for 6 November. Accepted teams must submit camera-ready papers by
             13 November 2026, 23:59 Anywhere on Earth.
@@ -290,9 +289,9 @@ export default function TermsPage() {
             confirmed at this time, and the organizers do not promise
             registration funding. A team will receive a participation
             certificate if it submits both (1) at least one valid final
-            solution under the applicable task rules by 15 October 2026,
-            23:59 Anywhere on Earth and (2) Working Notes
-            through CyberChair SC03 by 23 October 2026, 23:59 Anywhere on
+            solution under the applicable task rules and deadline (18 October 2026,
+            23:59 AoE for Tasks 1 and 3; the published live-trading deadlines for Task 2) and (2) Working Notes
+            through CyberChair SC03 by 26 October 2026, 23:59 Anywhere on
             Earth. Winning teams will receive a winner certificate.
           </p>
           <p>

@@ -195,9 +195,9 @@ export default function Task3HubPage() {
         <strong>Competition and Working Notes deadlines</strong>
         <p>
           Schedule updated 7 September 2026, replacing the combined 15 November cutoff.
-          Final competition submissions close on 15 October 2026, 23:59 Anywhere on Earth.
+          Final competition submissions close on 18 October 2026, 23:59 Anywhere on Earth.
           Results are scheduled for 16 October after 12:00 UTC (16:00 Abu Dhabi time).
-          Working Notes are due separately on 23 October 2026, 23:59 Anywhere on Earth.{" "}
+          Working Notes are due separately on 26 October 2026, 23:59 Anywhere on Earth.{" "}
           <Link href="/#timeline">Full competition and paper schedule</Link>.
         </p>
       </aside>

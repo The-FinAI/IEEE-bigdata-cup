@@ -45,20 +45,20 @@ const tasks = [
 const launchItems = [
   {
     state: "scheduled",
-    label: "Competition closes · Tasks 1–3",
-    date: "15 OCT · 23:59 AOE",
+    label: "Test submissions close · Tasks 1 and 3",
+    date: "18 OCT · 23:59 AOE",
     detail: "Final system submissions and required solution materials are due through each task’s competition route.",
   },
   {
     state: "scheduled",
-    label: "Final competition results",
-    date: "16 OCT",
-    detail: "Results are released after the AoE cutoff has passed, no earlier than 16:00 Abu Dhabi time (12:00 UTC).",
+    label: "Task 1 and Task 3 final results",
+    date: "20 OCT",
+    detail: "Verified final results for Tasks 1 and 3 are scheduled for 20 October. Task 2 retains its published live-trading schedule.",
   },
   {
     state: "scheduled",
     label: "Working Notes due",
-    date: "23 OCT · 23:59 AOE",
+    date: "26 OCT · 23:59 AOE",
     detail: "Submit the team’s challenge paper through CyberChair SC03, up to 10 pages total including references.",
   },
   {
@@ -83,7 +83,7 @@ const launchItems = [
     state: "scheduled",
     label: "Winning teams announced",
     date: "25 NOV",
-    detail: "Award announcement. Competition results are released earlier, on 16 October.",
+    detail: "Award announcement. Task 1 and Task 3 results are scheduled for 20 October.",
   },
   {
     state: "conference",
@@ -97,12 +97,12 @@ const faqs = [
   {
     question: "Can I revise my Task 1 Test submission?",
     answer:
-      "Yes. Test submissions are unlimited before 15 October 2026, 23:59 Anywhere on Earth, with no daily or total count limit. Keep the same Team Name and Contact Email. Your latest accepted, valid submission replaces earlier versions for final evaluation; invalid or rejected uploads do not. An identical repeat upload returns its original receipt and acceptance time, rather than creating a new revision. This policy was updated on 16 September 2026.",
+      "Yes. Test submissions are unlimited before 18 October 2026, 23:59 Anywhere on Earth, with no daily or total count limit. Keep the same Team Name and Contact Email. Your latest accepted, valid submission replaces earlier versions for final evaluation; invalid or rejected uploads do not. An identical repeat upload returns its original receipt and acceptance time, rather than creating a new revision. This policy was updated on 16 September 2026.",
   },
   {
     question: "What solution materials are required for Task 1?",
     answer:
-      "Every Task 1 team seeking final ranking must submit the canonical ZIP containing predictions.jsonl for all 928 Test questions through the Task 1 Test portal by 15 October 2026, 23:59 AoE. Development uploads alone do not qualify. No separate source-code archive, model weights, repository link, or additional report is required by that deadline. Code and reproducibility materials may be shared voluntarily with Working Notes. Teams seeking final ranking and awards must also submit the separate Working Notes paper through CyberChair SC03 by 23 October 2026, 23:59 AoE.",
+      "Every Task 1 team seeking final ranking must submit the canonical ZIP containing predictions.jsonl for all 928 Test questions through the Task 1 Test portal by 18 October 2026, 23:59 AoE. Development uploads alone do not qualify. No separate source-code archive, model weights, repository link, or additional report is required by that deadline. Code and reproducibility materials may be shared voluntarily with Working Notes. Teams seeking final ranking and awards must also submit the separate Working Notes paper through CyberChair SC03 by 26 October 2026, 23:59 AoE.",
   },
   {
     question: "Should Working Notes be anonymous?",
@@ -112,17 +112,17 @@ const faqs = [
   {
     question: "Where do teams submit the challenge paper?",
     answer:
-      "Use the official FinReason Cup SC03 track in CyberChair. Teams seeking final ranking and awards must submit Working Notes (a challenge paper) of up to 10 pages total, including references, in the IEEE two-column conference format by 23 October 2026, 23:59 Anywhere on Earth.",
+      "Use the official FinReason Cup SC03 track in CyberChair. Teams seeking final ranking and awards must submit Working Notes (a challenge paper) of up to 10 pages total, including references, in the IEEE two-column conference format by 26 October 2026, 23:59 Anywhere on Earth.",
   },
   {
     question: "Is the paper submission also the competition submission?",
     answer:
-      "No. Final system submissions and required solution materials for all three tasks are due through the task-specific competition routes by 15 October 2026, 23:59 Anywhere on Earth. Working Notes use CyberChair SC03 and are due separately on 23 October 2026, 23:59 Anywhere on Earth. Use the participant hubs for current task availability and upload instructions.",
+      "No. Task 1 and Task 3 Test submissions are due through their task-specific competition routes by 18 October 2026, 23:59 Anywhere on Earth. Task 2 retains its published live-trading rounds and 16 October settlement schedule. Working Notes use CyberChair SC03 and are due separately on 26 October 2026, 23:59 Anywhere on Earth. Use the participant hubs for current task availability and upload instructions.",
   },
   {
     question: "Is the Working Notes submission open, and which deadlines apply?",
     answer:
-      "Working Notes submission is open through CyberChair SC03, which displays the deadline as 23 October 2026, 23:59 Anywhere on Earth. Papers may be up to 10 pages including references. Competition submissions close separately on 15 October, and camera-ready papers are due on 13 November, each at 23:59 Anywhere on Earth. These dates replace the previously published combined 15 November cutoff.",
+      "Working Notes submission is open through CyberChair SC03, with a deadline of 26 October 2026, 23:59 Anywhere on Earth. Papers may be up to 10 pages including references. Task 1 and Task 3 Test submissions close separately on 18 October; Task 2 retains its published live-trading schedule, and camera-ready papers are due on 13 November, each at 23:59 Anywhere on Earth. These dates replace the previously published combined 15 November cutoff.",
   },
   {
     question: "Does submitting a challenge paper guarantee publication?",
@@ -142,7 +142,7 @@ const faqs = [
   {
     question: "What certificates and prizes are available?",
     answer:
-      "FinReason does not offer cash prizes. Registration support is not confirmed at this time, and the organizers do not promise registration funding. A team will receive a participation certificate if it submits both (1) at least one valid final solution under the applicable task rules by 15 October 2026, 23:59 Anywhere on Earth and (2) Working Notes through CyberChair SC03 by 23 October 2026, 23:59 Anywhere on Earth. Winning teams will receive a winner certificate. Additional award categories remain provisional until published. Certificates do not imply paper acceptance or publication.",
+      "FinReason does not offer cash prizes. Registration support is not confirmed at this time, and the organizers do not promise registration funding. A team will receive a participation certificate if it submits both (1) at least one valid final solution under the applicable task rules and deadline (18 October 2026, 23:59 AoE for Tasks 1 and 3; the published live-trading deadlines for Task 2) and (2) Working Notes through CyberChair SC03 by 26 October 2026, 23:59 Anywhere on Earth. Winning teams will receive a winner certificate. Additional award categories remain provisional until published. Certificates do not imply paper acceptance or publication.",
   },
   {
     question: "Does Task 1 require registration or a team code?",
@@ -226,14 +226,14 @@ export default function Home() {
             <div className={styles.panelTop}><span className={styles.panelLabel}>PARTICIPANT SCHEDULE</span><span className={styles.yearTag}>2026</span></div>
             <h2 id="deadline-heading">Dates to plan around</h2>
             <div className={styles.keyDate}>
-              <time dateTime="2026-10-15"><span>OCT</span>15</time>
-              <div><strong>Competition closes</strong><p>Tasks 1–3 · 23:59 AoE</p></div>
+              <time dateTime="2026-10-18"><span>OCT</span>18</time>
+              <div><strong>Competition closes</strong><p>Tasks 1 and 3 · 23:59 AoE</p></div>
             </div>
             <div className={styles.keyDate}>
-              <time dateTime="2026-10-23"><span>OCT</span>23</time>
+              <time dateTime="2026-10-26"><span>OCT</span>26</time>
               <div><strong>Working Notes due</strong><p>CyberChair SC03 · 23:59 AoE</p></div>
             </div>
-            <div className={styles.panelFoot}><span>Results from 16 October</span><a href="#timeline">Full schedule <span aria-hidden="true">↗</span></a></div>
+            <div className={styles.panelFoot}><span>Task 1 and 3 results: 20 October</span><a href="#timeline">Full schedule <span aria-hidden="true">↗</span></a></div>
           </aside>
         </section>
 
@@ -286,8 +286,8 @@ export default function Home() {
             </aside>
           ) : null}
           <aside className={styles.notice} aria-label="Schedule update">
-            <span className={styles.noticeLabel}>Schedule update <span>7 Sep 2026</span></span>
-            <p>Competition submissions now close <strong>15 October</strong>; Working Notes are due <strong>23 October</strong>. These dates replace the previous combined 15 November cutoff.</p>
+            <span className={styles.noticeLabel}>Deadline extension <span>15 Oct 2026</span></span>
+            <p>Deadline extension, 15 October 2026: Task 1 and Task 3 Test submissions now close <strong>18 October, 23:59 AoE</strong>; Working Notes are due <strong>26 October, 23:59 AoE</strong>. Task 2 retains its published live-trading rounds and 16 October settlement schedule.</p>
           </aside>
         </div>
 
@@ -324,7 +324,7 @@ export default function Home() {
           <ol className={styles.schedule}>
             {launchItems.map((item, index) => <li className={index === 0 || index === 2 ? styles.scheduleKey : undefined} key={item.label}><span className={styles.scheduleDate}>{item.date}</span><div><h3>{item.label}</h3><p>{item.detail}</p></div></li>)}
           </ol>
-          <p className={styles.scheduleNote}>The 15 October AoE competition deadline passes at 12:00 UTC on 16 October. Working Notes submission is open through CyberChair SC03 until 23 October 2026, 23:59 AoE.</p>
+          <p className={styles.scheduleNote}>The Task 1 and Task 3 Test cutoff is 18 October, 23:59 AoE (19 October, 11:59 UTC). Task 2 retains its published per-round deadlines and 16 October settlement schedule. Working Notes submission is open through CyberChair SC03 until 26 October 2026, 23:59 AoE.</p>
         </section>
 
         <section className={`${styles.container} ${styles.section} ${styles.divider}`} id="interest" aria-labelledby="papers-title">
