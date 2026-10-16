@@ -91,7 +91,7 @@ export default function Task3HubPage() {
             </div>
             <div>
               <dt>Competition closes</dt>
-              <dd>15 Oct 2026 · 23:59 AoE</dd>
+              <dd>18 Oct 2026 · 23:59 AoE</dd>
             </div>
           </dl>
         </div>
@@ -194,9 +194,9 @@ export default function Task3HubPage() {
       <aside className="task-hub-note">
         <strong>Competition and Working Notes deadlines</strong>
         <p>
-          Schedule updated 7 September 2026, replacing the combined 15 November cutoff.
+          Schedule updated 15 October 2026.
           Final competition submissions close on 18 October 2026, 23:59 Anywhere on Earth.
-          Results are scheduled for 16 October after 12:00 UTC (16:00 Abu Dhabi time).
+          Final results are scheduled for 20 October 2026.
           Working Notes are due separately on 26 October 2026, 23:59 Anywhere on Earth.{" "}
           <Link href="/#timeline">Full competition and paper schedule</Link>.
         </p>

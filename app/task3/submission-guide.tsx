@@ -213,9 +213,9 @@ export function SubmissionGuide({
       <aside className="submission-guide-paper-note">
         <strong>Competition submissions and Working Notes are separate.</strong>
         <p>
-          The schedule updated on 7 September 2026 replaces the combined 15 November cutoff.
+          The schedule was updated on 15 October 2026.
           Final competition predictions are due on 18 October 2026, 23:59 Anywhere on Earth.
-          Final results are scheduled for 16 October after 12:00 UTC (16:00 Abu Dhabi time).
+          Final results are scheduled for 20 October 2026.
           Submit Working Notes through{" "}
           <a href="https://wi-lab.com/cyberchair/2026/bigdata26/scripts/submit.php?subarea=SC03">CyberChair SC03</a>{" "}
           by 26 October 2026, 23:59 Anywhere on Earth, using the{" "}
