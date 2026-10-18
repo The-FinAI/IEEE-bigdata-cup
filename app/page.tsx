@@ -93,11 +93,6 @@ const launchItems = [
   },
 ];
 
-const organizers = [
-  { name: "Zhuohan Xie", affiliation: "MBZUAI" },
-  { name: "Yankai Chen", affiliation: "" },
-];
-
 const faqs = [
   {
     question: "Can I revise my Task 1 Test submission?",
@@ -209,7 +204,6 @@ export default function Home() {
             <a href="#interest">Working Notes</a>
             <a href="#paper-references">Citations</a>
             <a href="#faq">FAQ</a>
-            <a href="#organizers">Organizers</a>
           </nav>
           <a className={styles.headerAction} href={`${basePath}/task1/`}>Participate <span aria-hidden="true">↗</span></a>
         </div>
@@ -312,7 +306,6 @@ export default function Home() {
             ))}
           </div>
           <div className={styles.taskQuickLinks}><span>Task 1 quick links</span><a href={`${basePath}/task1/submit/`}>Submission guide ↗</a><a href={`${basePath}/task1/leaderboard/`}>Development leaderboard ↗</a><a href={`${basePath}/task1/leaderboard/test/`}>Test submission status ↗</a></div>
-          <div className={styles.taskQuickLinks}><span>Task 2 quick links</span><a href="https://carolyn-jiang.github.io/Market-Neutral-Hedging-live-trading/">Live-trading submission ↗</a><a href={`${basePath}/task2/leaderboard/`}>Live-trading leaderboard ↗</a></div>
         </section>
 
         <section className={styles.evaluationBand} id="evaluation" aria-labelledby="evaluation-title">
@@ -347,13 +340,6 @@ export default function Home() {
         <section className={`${styles.container} ${styles.section} ${styles.divider}`} id="faq" aria-labelledby="faq-title">
           <div className={styles.sectionHeading}><div><p className={styles.eyebrow}>06 / PARTICIPANT FAQ</p><h2 id="faq-title">Questions &amp; answers</h2></div><a className={styles.textLink} href={`mailto:${contactEmail}`}>Contact the organizers ↗</a></div>
           <div className={styles.faqGrid}>{faqs.map(faq => <details key={faq.question}><summary>{faq.question}</summary><p>{faq.answer}</p></details>)}</div>
-        </section>
-
-        <section className={`${styles.container} ${styles.section} ${styles.divider}`} id="organizers" aria-labelledby="organizers-title">
-          <div className={styles.sectionHeading}><div><p className={styles.eyebrow}>07 / ORGANIZERS</p><h2 id="organizers-title">Organizing committee</h2></div></div>
-          <ul className={styles.organizerGrid}>
-            {organizers.map(person => <li key={person.name}><strong>{person.name}</strong>{person.affiliation ? <span>{person.affiliation}</span> : null}</li>)}
-          </ul>
         </section>
       </main>
 
