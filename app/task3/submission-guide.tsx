@@ -213,16 +213,16 @@ export function SubmissionGuide({
       <aside className="submission-guide-paper-note">
         <strong>Competition submissions and Working Notes are separate.</strong>
         <p>
-          The schedule was updated on 15 October 2026.
-          Final competition predictions are due on 18 October 2026, 23:59 Anywhere on Earth.
-          Final results are scheduled for 20 October 2026.
+          The schedule was updated on 18 October 2026.
+          Final competition predictions are due on 25 October 2026, 23:59 Anywhere on Earth.
+          Final results are scheduled for 27 October 2026.
           Submit Working Notes through{" "}
           <a href="https://wi-lab.com/cyberchair/2026/bigdata26/scripts/submit.php?subarea=SC03">CyberChair SC03</a>{" "}
-          by 26 October 2026, 23:59 Anywhere on Earth, using the{" "}
+          by 2 November 2026, 23:59 Anywhere on Earth, using the{" "}
           <a href="https://www.ieee.org/conferences/publishing/templates.html">IEEE two-column conference template</a>{" "}
           and no more than ten pages total, including references. Paper feedback and organizer
-          acceptance decisions are scheduled for 6 November; camera-ready papers are due on
-          13 November 2026, 23:59 Anywhere on Earth.
+          acceptance decisions are scheduled for 9 November; camera-ready papers are due on
+          16 November 2026, 23:59 Anywhere on Earth.
           Working Notes must cite the FinReason Cup overview and the Task 3 overview,
           plus the overviews for any other tasks you enter. See the{" "}
           <a href={`${basePath}/#paper-references`}>required references and BibTeX</a>.

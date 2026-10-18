@@ -165,10 +165,10 @@ export default function Task1SubmitPage() {
       <aside className="task-hub-note">
         <strong>Competition and Working Notes deadlines</strong>
         <p>
-          Schedule updated 7 September 2026, replacing the combined 15 November cutoff.
-          Final competition submissions close on 18 October 2026, 23:59 Anywhere on Earth.
-          Results are scheduled for 16 October after 12:00 UTC (16:00 Abu Dhabi time).
-          Working Notes are due separately on 26 October 2026, 23:59 Anywhere on Earth.{" "}
+          Schedule updated 18 October 2026.
+          Final competition submissions close on 25 October 2026, 23:59 Anywhere on Earth.
+          Results are scheduled for 27 October 2026.
+          Working Notes are due separately on 2 November 2026, 23:59 Anywhere on Earth.{" "}
           <Link href="/#timeline">Full competition and paper schedule</Link>.
         </p>
       </aside>

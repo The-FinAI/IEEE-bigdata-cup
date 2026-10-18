@@ -57,11 +57,23 @@ export default function Task2HubPage() {
           <dl className="task-hub-facts" aria-label="Task 2 quick facts">
             <div><dt>Status</dt><dd>Training data available</dd></div>
             <div><dt>Format</dt><dd>3 Parquet files</dd></div>
-            <div><dt>Submission</dt><dd>Publication pending</dd></div>
+            <div><dt>Submission</dt><dd>Additional rounds: 19–23 October</dd></div>
           </dl>
         </div>
       </header>
 
+      <section className="task-platform-card" aria-labelledby="task2-extension-title">
+        <p className="section-index">DEADLINE EXTENSION / 18 OCTOBER 2026</p>
+        <h2 id="task2-extension-title">Additional live-trading rounds: 19–23 October</h2>
+        <p>The competition submission deadline is extended to <strong>25 October 2026, 23:59 AoE</strong>. Task 2 adds 29 live-trading rounds on 19–23 October. Each trading action must meet its own round deadline; the overall extension does not reopen expired rounds.</p>
+        <p>The first additional action is due on <strong>19 October at 10:25 New York time</strong>. The final data release is on <strong>23 October at 14:30</strong>, the final action is due at <strong>15:25</strong>, and final settlement is at <strong>16:00</strong>, all New York time. Original-round returns carry forward, and teams may join later with earlier rounds scored flat.</p>
+        <p><a href="https://carolyn-jiang.github.io/Market-Neutral-Hedging-live-trading/">Open the current Task 2 round schedule, submission portal, and leaderboard ↗</a>. Follow that service for the current protocol and verified settlements.</p>
+        <p>Working Notes for all tasks are due through CyberChair SC03 on <strong>2 November 2026, 23:59 AoE</strong>. Review feedback is scheduled for 9 November; camera-ready papers are due on 16 November, 23:59 AoE.</p>
+      </section>
+
+      <details className="task-platform-card">
+        <summary>Original 14–16 October round schedule and results (completed)</summary>
+        <p>This archived section describes the original rounds only. It does not apply to the additional 19–23 October rounds. Use the current live service above for the extended schedule and protocol.</p>
       <LivePanel />
 
       <p className="task-platform-footnote"><a href="https://carolyn-jiang.github.io/Market-Neutral-Hedging-live-trading/">Open the Task 2 live-test page ↗</a></p>
@@ -267,6 +279,8 @@ export default function Task2HubPage() {
           Final charts reveal returns, not the stocks or actions behind them.
         </p>
       </section>
+
+      </details>
 
       <section className="task-platform-card" aria-labelledby="task2-downloads-title">
         <div className="task-platform-copy">

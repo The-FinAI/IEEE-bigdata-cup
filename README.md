@@ -54,23 +54,17 @@ reward relative-value reasoning rather than unhedged directional exposure.
 Training data is available from [HERCULEAN](https://huggingface.co/datasets/TheFinAI/Herculean/tree/main/data).
 Download `prices.parquet`, `news.parquet`, and `filings.parquet` from the
 [Task 2 training data hub](https://the-finai.github.io/IEEE-bigdata-cup/task2/).
-The [Task 2 test workflow](https://the-finai.github.io/IEEE-bigdata-cup/task2/#task2-test-title)
-describes the six New York data-release times, news windows, and action submissions.
-Data releases are at 09:30, 10:30, 11:30, 12:30, 14:30, and 15:30. The first
-action is due at 10:25, and the first leaderboard update is at 10:30.
-Every submission requires the same unique Team Name, Stock 1, Stock 2, and
-Action (`LS`, `SL`, or `F`). Eligible tickers are NVDA, GOOG, META, MSFT, JPM,
-AMZN, AAPL, AMD, WMT, and TSLA. There are 12 releases on 14–15 October 2026.
-Release 1 publishes data only; releases 2–12 also settle the preceding action
-and update cumulative returns. A missing valid submission is scored as `F`.
-The Codex baseline is selected and sealed from each release's available data,
-then evaluated at the next event. Live performance views publish only team and
-baseline names and cumulative returns, not stocks or actions.
-The Task 2 final action cutoff is **16 October 2026, 08:00 New York time**;
-earlier round deadlines still apply. At 09:30 that day, only terminal
-evaluation runs; final rankings and cumulative-return curves are published
-at 10:30 after settlement. The unified [Task 2 website](https://the-finai.github.io/IEEE-bigdata-cup/task2/)
-publishes CR ranking at events 2–14 and the final chart at event 14.
+The competition submission deadline is **25 October 2026, 23:59 AoE**.
+Task 2's [current live service](https://carolyn-jiang.github.io/Market-Neutral-Hedging-live-trading/)
+adds **29 rounds on 19–23 October** to the original 12 rounds on 14–15 October.
+The first additional action is due **19 October at 10:25 New York time**.
+The final release is **23 October at 14:30**, the final action is due at
+**15:25**, and settlement is at **16:00**, all New York time.
+Each action must meet its own round deadline; the overall extension does not
+reopen completed rounds. Original-round returns carry forward, and late-joining
+teams have earlier rounds scored flat. Use the live service for current data,
+submission windows, protocol, and verified performance. The main Task 2 hub keeps
+the original 14–16 October schedule in a clearly marked archive.
 The [Space](https://huggingface.co/spaces/CarolynJiang/market-neutral-hedging-leaderboard)
 displays only submission metadata (team, round, receipt time and status); actual
 stock/action payloads remain accessible only in administrator-private storage. The
@@ -115,10 +109,11 @@ scorer.
 
 ## Competition submissions and Working Notes
 
-**Deadline extension, 15 October 2026:** Final system submissions and required
-solution materials for Tasks 1 and 3 are due on **18 October 2026, 23:59
-Anywhere on Earth**. Working Notes are due separately on **26 October 2026,
-23:59 Anywhere on Earth**.
+**Deadline extension, 18 October 2026:** Final system submissions and required
+solution materials for all three tasks are due on **25 October 2026, 23:59
+Anywhere on Earth**. Working Notes are due separately on **2 November 2026,
+23:59 Anywhere on Earth**. Task 2 actions must meet the published
+19–23 October per-round deadlines.
 
 Teams seeking final ranking and awards must submit Working Notes (a challenge paper) through
 the official [FinReason Cup SC03 track in
@@ -130,20 +125,19 @@ CyberChair](https://wi-lab.com/cyberchair/2026/bigdata26/scripts/submit.php?suba
 - Review: single-blind, following the [conference policy](https://bigdataieee.org/BigData2026/calls/papers/); include author names and affiliations in the PDF.
 - Task 1 Working Notes must cite [FinChain, ACL 2026](https://aclanthology.org/2026.acl-long.662/), using the complete official BibTeX displayed in the [homepage citation block](https://the-finai.github.io/IEEE-bigdata-cup/#paper-references), with a copy button and [downloadable .bib file](https://the-finai.github.io/IEEE-bigdata-cup/references/finchain.bib). The displayed and copied text comes from the same `public/references/finchain.bib` file.
 - All Working Notes must cite the FinReason Cup overview and the overview for every task entered. Multi-task papers cite the Cup overview once plus all applicable task overviews; Task 1 also requires FinChain; Tasks 2 and 3 require Herculean; Task 3 additionally requires FinAuditing (published SIGIR 2026 version). The homepage provides copy buttons and canonical downloads for `public/references/finchain.bib`, `public/references/herculean.bib`, and `public/references/finauditing.bib`. The [homepage citation guidance](https://the-finai.github.io/IEEE-bigdata-cup/#paper-references) provides four provisional organizer BibTeX entries with copy buttons, individual downloads, and a [combined .bib download](https://the-finai.github.io/IEEE-bigdata-cup/references/finreason2026-overviews.bib). The Cup and Task 1 entries include proposed author names and order. Task 2 and Task 3 author fields remain `{{Pending}}` until their task leads confirm them. Refresh the entries before final paper submission; citation keys remain stable.
-- Working Notes deadline: 26 October 2026, 23:59 Anywhere on Earth
-- Paper review feedback and organizer acceptance decisions: 6 November 2026
-- Camera-ready deadline for accepted papers: 13 November 2026, 23:59 Anywhere on Earth
+- Working Notes deadline: 2 November 2026, 23:59 Anywhere on Earth
+- Paper review feedback and organizer acceptance decisions: 9 November 2026
+- Camera-ready deadline for accepted papers: 16 November 2026, 23:59 Anywhere on Earth
 
-CyberChair accepts Working Notes until 26 October 2026, 23:59 AoE, with up to
-10 pages including references. Task 2 retains its published live-trading schedule.
+CyberChair accepts Working Notes until 2 November 2026, 23:59 AoE, with up to
+10 pages including references. Task 2 adds live-trading rounds on 19–23 October; its final action is due on 23 October at 15:25 New York time.
 
 The paper portal is separate from the competition submission path. Task 1 does
 not require pre-registration, organizer approval, an access code, or an account.
 Teams upload predictions through the verified development and test pages linked
 from the participant hub. Development immediately returns two scores, a receipt,
 and a current rank, and the team's best eligible result appears on the public
-leaderboard. Test shows format feedback and an acceptance receipt. Task 3 follows the same shape, and all three of its phases are open. Task 2 solution materials and submission routes will be
-published after organizer testing. Task 1 and Task 3 Test submissions close on 18 October; Task 2 retains its published live-trading deadlines;
+leaderboard. Test shows format feedback and an acceptance receipt. Task 3 follows the same shape, and all three of its phases are open. Task 2 uses its linked live-trading submission service. Task 1 and Task 3 Test submissions close on 25 October; Task 2 adds live-trading rounds on 19–23 October, with its final action due on 23 October at 15:25 New York time;
 the later Working Notes deadline does not extend the competition cutoff.
 
 The organizers review the Working Notes and decide paper acceptance. Selected
@@ -154,7 +148,7 @@ acceptance or proceedings publication.
 
 ### Task 1 Test revisions
 
-**Updated 16 September 2026:** Test submissions are unlimited before 18 October
+**Updated 16 September 2026:** Test submissions are unlimited before 25 October
 2026, 23:59 AoE. There is no daily or total Test submission-count limit. Keep
 the same Team Name and Contact Email. The latest accepted, valid submission
 before the deadline supersedes earlier submissions for final evaluation.
@@ -171,8 +165,8 @@ this time, and the organizers do not promise registration funding. A team will
 receive a participation certificate if it completes both:
 
 1. at least one valid final solution submission under the applicable task
-   rules and deadlines (18 October 2026, 23:59 AoE for Tasks 1 and 3; published live-trading deadlines for Task 2); and
-2. a Working Notes submission through CyberChair SC03 by 26 October 2026,
+   rules and deadlines (25 October 2026, 23:59 AoE for Tasks 1 and 3; published live-trading deadlines for Task 2); and
+2. a Working Notes submission through CyberChair SC03 by 2 November 2026,
    23:59 Anywhere on Earth.
 
 Winning teams will receive a winner certificate. Additional award categories
@@ -197,7 +191,7 @@ counted at all; see below for which one decides your result.
 
 ### Task 3 Test revisions
 
-Test submissions are unlimited before 18 October 2026, 23:59 AoE. There is no
+Test submissions are unlimited before 25 October 2026, 23:59 AoE. There is no
 daily or total Test submission-count limit. Keep the same Team Name and Contact
 Email. **The latest accepted, valid submission before the deadline supersedes
 earlier submissions for final evaluation.** Invalid or rejected uploads leave
@@ -258,20 +252,19 @@ submission links and records their current availability.
 
 | Milestone | Date |
 | --- | --- |
-| Task 1 and Task 3 Test submissions and required solution materials | **18 October 2026, 23:59 AoE** |
-| Task 1 and Task 3 final results | **20 October 2026** |
-| Task 2 final action / settlement / results | **16 October 2026, 08:00 / 09:30 / 10:30 New York time** |
-| Team Working Notes through CyberChair SC03, up to 10 pages including references | **26 October 2026, 23:59 AoE** |
-| Paper review feedback and organizer acceptance decisions | **6 November 2026** |
-| Camera-ready papers | **13 November 2026, 23:59 AoE** |
+| Competition submissions and required solution materials, all tasks | **25 October 2026, 23:59 AoE** |
+| Verified final results | **27 October 2026** |
+| Task 2 additional live-trading rounds | **19–23 October 2026; final action 23 October, 15:25 New York time** |
+| Team Working Notes through CyberChair SC03, up to 10 pages including references | **2 November 2026, 23:59 AoE** |
+| Paper review feedback and organizer acceptance decisions | **9 November 2026** |
+| Camera-ready papers | **16 November 2026, 23:59 AoE** |
 | Organizer overview due to the conference | **20 November 2026** |
 | Winning teams announced (awards) | **25 November 2026** |
 | IEEE Big Data 2026, Phoenix, Arizona | **14–17 December 2026** |
 
 AoE means Anywhere on Earth (UTC−12). The Task 1 and Task 3 cutoff is
-18 October, 23:59 AoE (19 October, 11:59 UTC). Working Notes are due on
-26 October, 23:59 AoE (27 October, 11:59 UTC). Task 2 retains its published
-per-round action deadlines and 16 October settlement schedule.
+25 October, 23:59 AoE (26 October, 11:59 UTC). Working Notes are due on
+2 November, 23:59 AoE (3 November, 11:59 UTC). Task 2 also has additional live-trading rounds on 19–23 October; its final action is due on 23 October at 15:25 New York time. Per-round deadlines still apply.
 
 ## Repository scope
 
