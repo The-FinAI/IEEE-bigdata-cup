@@ -72,5 +72,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.5,
     },
+    {
+      url: `${siteUrl}task2/leaderboard/`,
+      lastModified: new Date("2026-10-18"),
+      changeFrequency: "daily",
+      priority: 0.8,
+    },
   ];
 }

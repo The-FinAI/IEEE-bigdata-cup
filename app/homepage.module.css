@@ -105,6 +105,10 @@
 .faqGrid summary::after { top: 0; font-size: 17px; }
 .page .faqGrid p { font-size: 14px; color: var(--home-muted); line-height: 1.8; margin-top: 14px; }
 .faqGrid p a { text-decoration: underline; text-underline-offset: 3px; }
+.organizerGrid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+.organizerGrid li { padding: 18px 20px; background: #fff; border: 1px solid var(--home-line); border-radius: 12px; display: flex; flex-direction: column; gap: 4px; }
+.organizerGrid strong { font-size: 15px; font-weight: 620; letter-spacing: -.01em; }
+.organizerGrid span { font-size: 12px; color: var(--home-muted); }
 .footer { background: #edf1ed; padding: 40px 0 25px; border-top: 1px solid var(--home-line); }
 .footerTop { display: flex; justify-content: space-between; align-items: center; font-size: 12px; }
 .page .footerDescription { font-size: 12px; max-width: 750px; color: var(--home-muted); margin-top: 22px; line-height: 1.75; }
@@ -155,6 +159,7 @@
   .notice { align-items: start; gap: 20px; }
   .schedule li { grid-template-columns: 155px minmax(0, 1fr); gap: 18px; padding: 17px 20px; }
   .faqGrid { grid-template-columns: 1fr; }
+  .organizerGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .footerBottom { flex-direction: column; gap: 12px; }
 }
 @media (max-width: 480px) {

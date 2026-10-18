@@ -40,6 +40,7 @@ export default function Task2HubPage() {
         <div className="task-hub-nav-links">
           <Link href="/task1/">Task 1</Link>
           <Link href="/task2/" aria-current="page">Task 2</Link>
+          <Link href="/task2/leaderboard/">Task 2 leaderboard</Link>
         </div>
       </nav>
 
@@ -67,7 +68,7 @@ export default function Task2HubPage() {
         <h2 id="task2-extension-title">Additional live-trading rounds: 19–23 October</h2>
         <p>The competition submission deadline is extended to <strong>25 October 2026, 23:59 AoE</strong>. Task 2 adds 29 live-trading rounds on 19–23 October. Each trading action must meet its own round deadline; the overall extension does not reopen expired rounds.</p>
         <p>The first additional action is due on <strong>19 October at 10:25 New York time</strong>. The final data release is on <strong>23 October at 14:30</strong>, the final action is due at <strong>15:25</strong>, and final settlement is at <strong>16:00</strong>, all New York time. Original-round returns carry forward, and teams may join later with earlier rounds scored flat.</p>
-        <p><a href="https://carolyn-jiang.github.io/Market-Neutral-Hedging-live-trading/">Open the current Task 2 round schedule, submission portal, and leaderboard ↗</a>. Follow that service for the current protocol and verified settlements.</p>
+        <p><a href="https://carolyn-jiang.github.io/Market-Neutral-Hedging-live-trading/">Open the current Task 2 round schedule, submission portal, and leaderboard ↗</a>. Follow that service for the current protocol and verified settlements. Current standings are also shown on the <Link href="/task2/leaderboard/">Task 2 leaderboard</Link>.</p>
         <p>Working Notes for all tasks are due through CyberChair SC03 on <strong>2 November 2026, 23:59 AoE</strong>. Review feedback is scheduled for 9 November; camera-ready papers are due on 16 November, 23:59 AoE.</p>
       </section>
 
