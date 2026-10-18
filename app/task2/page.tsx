@@ -40,6 +40,7 @@ export default function Task2HubPage() {
         <div className="task-hub-nav-links">
           <Link href="/task1/">Task 1</Link>
           <Link href="/task2/" aria-current="page">Task 2</Link>
+          <a href="https://carolyn-jiang.github.io/Market-Neutral-Hedging-live-trading/#performance">Task 2 leaderboard</a>
         </div>
       </nav>
 

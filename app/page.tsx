@@ -93,6 +93,15 @@ const launchItems = [
   },
 ];
 
+const organizers = [
+  { name: "Zhuohan Xie", affiliation: "MBZUAI", photo: "zhuohan-xie.jpg", href: "https://zhuohanx.github.io/" },
+  { name: "Yankai Chen", affiliation: "MBZUAI", photo: "yankai-chen.jpg", href: "https://yankai-chen.github.io/" },
+  { name: "Xueqing Peng", affiliation: "Yale University", photo: "xueqing-peng.jpg", href: "https://medicine.yale.edu/profile/xueqing-peng/" },
+  { name: "Yuechen Jiang", affiliation: "University of Manchester", photo: "yuechen-jiang.jpg", href: "" },
+  { name: "Yan Wang", affiliation: "Yale University", photo: "yan-wang.jpg", href: "https://medicine.yale.edu/profile/yan-wang-yw937/" },
+  { name: "Lingfei Qian", affiliation: "Yale University", photo: "lingfei-qian.jpg", href: "https://medicine.yale.edu/profile/lingfei-qian/" },
+];
+
 const faqs = [
   {
     question: "Can I revise my Task 1 Test submission?",
@@ -204,6 +213,7 @@ export default function Home() {
             <a href="#interest">Working Notes</a>
             <a href="#paper-references">Citations</a>
             <a href="#faq">FAQ</a>
+            <a href="#organizers">Organizers</a>
           </nav>
           <a className={styles.headerAction} href={`${basePath}/task1/`}>Participate <span aria-hidden="true">↗</span></a>
         </div>
@@ -219,6 +229,7 @@ export default function Home() {
             <div className={styles.heroActions}>
               <a className={styles.primaryButton} href="#tracks">Explore the tasks <span aria-hidden="true">↓</span></a>
               <a className={styles.secondaryButton} href={`${basePath}/task1/leaderboard/`}>Task 1 leaderboard <span aria-hidden="true">↗</span></a>
+              <a className={styles.secondaryButton} href="https://carolyn-jiang.github.io/Market-Neutral-Hedging-live-trading/#performance">Task 2 leaderboard <span aria-hidden="true">↗</span></a>
             </div>
             <p className={styles.conferenceNote}>14–17 December 2026 <span aria-hidden="true">·</span> Phoenix, Arizona</p>
           </div>
@@ -306,6 +317,7 @@ export default function Home() {
             ))}
           </div>
           <div className={styles.taskQuickLinks}><span>Task 1 quick links</span><a href={`${basePath}/task1/submit/`}>Submission guide ↗</a><a href={`${basePath}/task1/leaderboard/`}>Development leaderboard ↗</a><a href={`${basePath}/task1/leaderboard/test/`}>Test submission status ↗</a></div>
+          <div className={styles.taskQuickLinks}><span>Task 2 quick links</span><a href="https://carolyn-jiang.github.io/Market-Neutral-Hedging-live-trading/">Live-trading submission ↗</a><a href="https://carolyn-jiang.github.io/Market-Neutral-Hedging-live-trading/#performance">Live-trading leaderboard ↗</a></div>
         </section>
 
         <section className={styles.evaluationBand} id="evaluation" aria-labelledby="evaluation-title">
@@ -340,6 +352,16 @@ export default function Home() {
         <section className={`${styles.container} ${styles.section} ${styles.divider}`} id="faq" aria-labelledby="faq-title">
           <div className={styles.sectionHeading}><div><p className={styles.eyebrow}>06 / PARTICIPANT FAQ</p><h2 id="faq-title">Questions &amp; answers</h2></div><a className={styles.textLink} href={`mailto:${contactEmail}`}>Contact the organizers ↗</a></div>
           <div className={styles.faqGrid}>{faqs.map(faq => <details key={faq.question}><summary>{faq.question}</summary><p>{faq.answer}</p></details>)}</div>
+        </section>
+
+        <section className={`${styles.container} ${styles.section} ${styles.divider}`} id="organizers" aria-labelledby="organizers-title">
+          <div className={styles.sectionHeading}><div><p className={styles.eyebrow}>07 / ORGANIZERS</p><h2 id="organizers-title">Organizing committee</h2></div></div>
+          <ul className={styles.organizerGrid}>
+            {organizers.map(person => {
+              const body = <><img src={`${basePath}/organizers/${person.photo}`} alt="" width={56} height={56} loading="lazy" /><span><strong>{person.name}</strong>{person.affiliation ? <small>{person.affiliation}</small> : null}</span></>;
+              return <li key={person.name}>{person.href ? <a href={person.href} target="_blank" rel="noreferrer">{body}</a> : <div>{body}</div>}</li>;
+            })}
+          </ul>
         </section>
       </main>
 
