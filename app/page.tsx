@@ -100,9 +100,9 @@ const organizers = [
   { name: "Yuechen Jiang", affiliation: "University of Manchester", photo: "yuechen-jiang.jpg", href: "" },
   { name: "Yan Wang", affiliation: "Yale University", photo: "yan-wang.jpg", href: "https://medicine.yale.edu/profile/yan-wang-yw937/" },
   { name: "Lingfei Qian", affiliation: "Yale University", photo: "lingfei-qian.jpg", href: "https://medicine.yale.edu/profile/lingfei-qian/" },
-  { name: "Yupeng Cao", affiliation: "Yale University", photo: "", href: "https://cyp0630.github.io/" },
-  { name: "Xue (Steve) Liu", affiliation: "MBZUAI", photo: "", href: "https://mbzuai.ac.ae/academics/faculty-directory/steve-liu" },
-  { name: "Preslav Nakov", affiliation: "MBZUAI", photo: "", href: "https://mbzuai.ac.ae/academics/faculty-directory/preslav-nakov" },
+  { name: "Yupeng Cao", affiliation: "Yale University", photo: "yupeng-cao.png", href: "https://cyp0630.github.io/" },
+  { name: "Xue (Steve) Liu", affiliation: "MBZUAI", photo: "steve-liu.jpg", href: "https://mbzuai.ac.ae/academics/faculty-directory/steve-liu" },
+  { name: "Preslav Nakov", affiliation: "MBZUAI", photo: "preslav-nakov.webp", href: "https://mbzuai.ac.ae/academics/faculty-directory/preslav-nakov" },
 ];
 
 const faqs = [
