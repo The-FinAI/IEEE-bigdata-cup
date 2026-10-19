@@ -100,6 +100,9 @@ const organizers = [
   { name: "Yuechen Jiang", affiliation: "University of Manchester", photo: "yuechen-jiang.jpg", href: "" },
   { name: "Yan Wang", affiliation: "Yale University", photo: "yan-wang.jpg", href: "https://medicine.yale.edu/profile/yan-wang-yw937/" },
   { name: "Lingfei Qian", affiliation: "Yale University", photo: "lingfei-qian.jpg", href: "https://medicine.yale.edu/profile/lingfei-qian/" },
+  { name: "Yupeng Cao", affiliation: "Yale University", photo: "", href: "https://cyp0630.github.io/" },
+  { name: "Xue (Steve) Liu", affiliation: "MBZUAI", photo: "", href: "https://mbzuai.ac.ae/academics/faculty-directory/steve-liu" },
+  { name: "Preslav Nakov", affiliation: "MBZUAI", photo: "", href: "https://mbzuai.ac.ae/academics/faculty-directory/preslav-nakov" },
 ];
 
 const faqs = [
@@ -358,7 +361,7 @@ export default function Home() {
           <div className={styles.sectionHeading}><div><p className={styles.eyebrow}>07 / ORGANIZERS</p><h2 id="organizers-title">Organizing committee</h2></div></div>
           <ul className={styles.organizerGrid}>
             {organizers.map(person => {
-              const body = <><img src={`${basePath}/organizers/${person.photo}`} alt="" width={56} height={56} loading="lazy" /><span><strong>{person.name}</strong>{person.affiliation ? <small>{person.affiliation}</small> : null}</span></>;
+              const body = <>{person.photo ? <img src={`${basePath}/organizers/${person.photo}`} alt="" width={56} height={56} loading="lazy" /> : <span className={styles.organizerAvatar} aria-hidden="true">{person.name === "Xue (Steve) Liu" ? "SL" : person.name.split(" ").map(part => part[0]).join("")}</span>}<span><strong>{person.name}</strong>{person.affiliation ? <small>{person.affiliation}</small> : null}</span></>;
               return <li key={person.name}>{person.href ? <a href={person.href} target="_blank" rel="noreferrer">{body}</a> : <div>{body}</div>}</li>;
             })}
           </ul>

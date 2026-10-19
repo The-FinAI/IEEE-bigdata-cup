@@ -110,6 +110,7 @@
 .organizerGrid a { transition: border-color .2s; }
 .organizerGrid a:hover { border-color: var(--home-teal); }
 .organizerGrid img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; flex: none; }
+.organizerGrid .organizerAvatar { width: 56px; height: 56px; border-radius: 50%; flex: none; display: flex; align-items: center; justify-content: center; background: #edf4ef; color: var(--home-teal); font-size: 18px; font-weight: 600; }
 .organizerGrid li span { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
 .organizerGrid strong { font-size: 15px; font-weight: 620; letter-spacing: -.01em; }
 .organizerGrid small { font-size: 12px; color: var(--home-muted); }
