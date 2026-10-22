@@ -175,7 +175,7 @@ export function PaperReferences() {
         <p className={styles.resourceNote}>
           These organizer-supplied BibTeX entries are provisional. The manuscripts are in preparation;
           The Cup and Task 1 entries include proposed author names and order.
-          Task 2 and Task 3 author lists still use <code>Pending</code> until their task leads confirm them.
+          The Task 2 author list still uses <code>Pending</code> until its task lead confirms it.
           Publication details are not yet assigned.
           Use these citation keys now and refresh the entries here before submitting your final paper.
         </p>
