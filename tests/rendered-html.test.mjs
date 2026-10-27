@@ -467,8 +467,18 @@ test("publishes the Task 3 leaderboard page with only measured baselines", async
   // Practice results must never appear on the board.
   assert.match(board, /practice/i);
   assert.match(board, /not ranked|never ranked|excluded/i);
-  // No fabricated model baselines.
-  assert.doesNotMatch(board, /gpt-|claude-|deepseek/i);
+  // No fabricated model baselines: a model name must not appear in a baseline
+  // row. One model name does legitimately appear on this page now -- the judge
+  // that scored the final test results -- so the guard is applied to the rows
+  // it protects, and the legitimate mention is pinned exactly.
+  for (const row of rows) {
+    assert.doesNotMatch(row.join(" "), /gpt-|claude-|deepseek/i, `${row[0]} names a model`);
+  }
+  assert.match(
+    board,
+    /<code>openai\/gpt-5-mini<\/code>/,
+    "the test results do not name the judge that produced them",
+  );
   assert.doesNotMatch(board, /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/i);
 });
 

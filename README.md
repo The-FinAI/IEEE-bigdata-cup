@@ -197,8 +197,15 @@ Email. **The latest accepted, valid submission before the deadline supersedes
 earlier submissions for final evaluation.** Invalid or rejected uploads leave
 the last accepted submission unchanged. An identical previously accepted file
 returns its original receipt and acceptance time; it does not become a new
-latest revision. Earlier records remain private for audit purposes. Test scores
-and ranks remain hidden until final results.
+latest revision. Earlier records remain private for audit purposes.
+
+**Updated 27 October 2026:** the Task 3 Test phase is closed and the final
+results are published on the
+[Task 3 results page](https://the-finai.github.io/IEEE-bigdata-cup/task3/leaderboard/),
+with accuracy by data-quality rule. 23 independent teams were ranked from 79
+accepted uploads; none arrived late. Teams are ranked by ACC, then by
+calculation, extraction and structural error rate in that order, then by team
+name. Earlier records stay private for audit.
 
 Deciding which of your own attempts is best is part of the task, which is why
 the last one counts rather than the best one: a phase that returns no score
@@ -232,8 +239,8 @@ identifier.
 | [Task 3 starter kit, validator, and scorer](finreason_task3/) | Live in this repository |
 | Task 3 practice phase (332 public FinMR cases) | Live — scored on upload, never ranked |
 | [Task 3 development and test questions](https://huggingface.co/datasets/YanAdjeNole/FinReason-Task3) | Live as 680 cases each, answers withheld |
-| Task 3 development phase | Live — scored, ranked, public leaderboard |
-| Task 3 test phase | Live — acceptance receipt only |
+| Task 3 development phase | Live — scored, ranked, public leaderboard (no bearing on the final results) |
+| Task 3 test phase | Closed — [final results published](https://the-finai.github.io/IEEE-bigdata-cup/task3/leaderboard/) for 23 teams |
 | Task 2 starter kit and baselines | Coming soon |
 | Participant support | [zhuohan.xie@mbzuai.ac.ae](mailto:zhuohan.xie@mbzuai.ac.ae) |
 | Terms of Participation | Live |

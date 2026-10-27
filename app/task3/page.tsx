@@ -64,8 +64,8 @@ export default function Task3HubPage() {
       slug: "test",
       live: testIsLive,
       gold: "680 held-out cases, answers withheld",
-      feedback: "An acceptance receipt only",
-      ranked: "Decides the final result",
+      feedback: "An acceptance receipt while open; results now published",
+      ranked: "Decided the final result",
     },
   ];
 

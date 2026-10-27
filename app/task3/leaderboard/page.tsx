@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import { getTask3PublicConfig } from "../public-config";
 import { Task3Nav } from "../task3-nav";
 import { Task3LeaderboardView } from "./task3-leaderboard-view";
+import { Task3TestResults } from "./task3-test-results";
 
 export const metadata: Metadata = {
-  title: "Task 3 Development Leaderboard | FinReason Cup",
-  description: "How Task 3 is scored, and the organizer baselines for the practice and development sets.",
+  title: "Task 3 Results | FinReason Cup",
+  description: "Final Task 3 test results, accuracy by data-quality rule, the organizer baselines, and the development leaderboard.",
   alternates: {
     canonical: "https://the-finai.github.io/IEEE-bigdata-cup/task3/leaderboard/",
   },
@@ -22,10 +23,12 @@ export default function Task3LeaderboardPage() {
 
         <header className="leaderboard-page-heading">
           <p className="section-index">TASK 3</p>
-          <h1>Development leaderboard</h1>
+          <h1>Results</h1>
           <p>
-            Every case receives exactly one label, and the first check that fails decides it.
-            The four rates below are shares of the cases that received a valid label.
+            The final test results are below, followed by the organizer baselines and the
+            development leaderboard. Every case receives exactly one label, and the first
+            check that fails decides it. The four rates below are shares of the cases that
+            received a valid label.
           </p>
         </header>
 
@@ -54,6 +57,8 @@ export default function Task3LeaderboardPage() {
             </p>
           </div>
         </section>
+
+        <Task3TestResults />
 
         <section className="finmmeval-leaderboard-card" aria-labelledby="task3-baseline-title">
           <header className="finmmeval-leaderboard-head">
@@ -217,13 +222,21 @@ export default function Task3LeaderboardPage() {
           </p>
         </section>
 
+        <header className="leaderboard-page-heading">
+          <h2>Development leaderboard</h2>
+          <p>
+            The development phase stays open to read. It ranks every team&rsquo;s best
+            development upload and has no bearing on the final results above.
+          </p>
+        </header>
+
         <Task3LeaderboardView dataUrl={dataUrl} />
 
         <p className="leaderboard-test-note">
           Practice results are never ranked and are excluded from this board: the practice
           answers are public, so a practice ranking would measure who read them. Test uploads
-          return an acceptance receipt only, and test scores and ranks stay hidden until the
-          final results are released.
+          returned an acceptance receipt only while the phase was open; the test scores and
+          ranks are now final and published at the top of this page.
         </p>
       </div>
     </main>
