@@ -1,0 +1,527 @@
+{
+  "schema_version": "finreason.task3.test-results/1.0.0",
+  "phase": "test",
+  "basis": "official",
+  "judge": {
+    "provider": "openai",
+    "model": "gpt-5-mini",
+    "prompt_version": "finmr-judge-v1",
+    "evaluation_version": "1.1"
+  },
+  "gold_sha256": "bd036288f315ed439a1235a526dc01d2ccd86b7cc4e28c9168ef681f35c53218",
+  "cases": 680,
+  "deadline": "2026-10-26T12:00:00Z",
+  "deadline_aoe": "2026-10-25 23:59 AoE",
+  "counts": {
+    "teams": 23,
+    "accepted_submissions": 79,
+    "scored": 23,
+    "excluded_late": 0
+  },
+  "tiebreak": [
+    "acc",
+    "cer",
+    "eer",
+    "ser",
+    "team_name"
+  ],
+  "rules": [
+    {
+      "id": "DQC_US_0015",
+      "cases": 162
+    },
+    {
+      "id": "DQC_US_0117",
+      "cases": 54
+    },
+    {
+      "id": "DQC_US_0126",
+      "cases": 464
+    }
+  ],
+  "rows": [
+    {
+      "rank": 1,
+      "team_name": "Polymanes",
+      "acc": "97.79",
+      "ser": "0.00",
+      "eer": "0.44",
+      "cer": "1.76",
+      "parsing_success_rate": "100.00",
+      "merged": true,
+      "names_used": [
+        "Polymanes"
+      ],
+      "submissions": 6,
+      "per_rule": {
+        "DQC_US_0015": "91.36",
+        "DQC_US_0117": "98.15",
+        "DQC_US_0126": "100.00"
+      },
+      "tied_with": [
+        "FinVeritas"
+      ]
+    },
+    {
+      "rank": 2,
+      "team_name": "FinVeritas",
+      "acc": "97.79",
+      "ser": "0.00",
+      "eer": "0.29",
+      "cer": "1.91",
+      "parsing_success_rate": "100.00",
+      "merged": false,
+      "names_used": [
+        "FinVeritas"
+      ],
+      "submissions": 5,
+      "per_rule": {
+        "DQC_US_0015": "91.36",
+        "DQC_US_0117": "98.15",
+        "DQC_US_0126": "100.00"
+      },
+      "tied_with": [
+        "Polymanes"
+      ]
+    },
+    {
+      "rank": 3,
+      "team_name": "xai",
+      "acc": "97.50",
+      "ser": "0.00",
+      "eer": "0.59",
+      "cer": "1.91",
+      "parsing_success_rate": "100.00",
+      "merged": false,
+      "names_used": [
+        "xai"
+      ],
+      "submissions": 1,
+      "per_rule": {
+        "DQC_US_0015": "90.12",
+        "DQC_US_0117": "98.15",
+        "DQC_US_0126": "100.00"
+      },
+      "tied_with": []
+    },
+    {
+      "rank": 4,
+      "team_name": "FinProbeBench",
+      "acc": "97.21",
+      "ser": "0.00",
+      "eer": "1.03",
+      "cer": "1.76",
+      "parsing_success_rate": "100.00",
+      "merged": false,
+      "names_used": [
+        "FinProbeBench"
+      ],
+      "submissions": 5,
+      "per_rule": {
+        "DQC_US_0015": "91.98",
+        "DQC_US_0117": "88.89",
+        "DQC_US_0126": "100.00"
+      },
+      "tied_with": []
+    },
+    {
+      "rank": 5,
+      "team_name": "Patodiya Research",
+      "acc": "96.62",
+      "ser": "0.15",
+      "eer": "0.59",
+      "cer": "2.65",
+      "parsing_success_rate": "100.00",
+      "merged": false,
+      "names_used": [
+        "Patodiya Research"
+      ],
+      "submissions": 1,
+      "per_rule": {
+        "DQC_US_0015": "90.74",
+        "DQC_US_0117": "85.19",
+        "DQC_US_0126": "100.00"
+      },
+      "tied_with": []
+    },
+    {
+      "rank": 6,
+      "team_name": "EDB",
+      "acc": "96.47",
+      "ser": "0.00",
+      "eer": "1.47",
+      "cer": "2.06",
+      "parsing_success_rate": "100.00",
+      "merged": false,
+      "names_used": [
+        "EDB"
+      ],
+      "submissions": 8,
+      "per_rule": {
+        "DQC_US_0015": "89.51",
+        "DQC_US_0117": "87.04",
+        "DQC_US_0126": "100.00"
+      },
+      "tied_with": [
+        "TieOut"
+      ]
+    },
+    {
+      "rank": 7,
+      "team_name": "TieOut",
+      "acc": "96.47",
+      "ser": "0.29",
+      "eer": "0.74",
+      "cer": "2.50",
+      "parsing_success_rate": "100.00",
+      "merged": false,
+      "names_used": [
+        "TieOut"
+      ],
+      "submissions": 4,
+      "per_rule": {
+        "DQC_US_0015": "91.36",
+        "DQC_US_0117": "81.48",
+        "DQC_US_0126": "100.00"
+      },
+      "tied_with": [
+        "EDB"
+      ]
+    },
+    {
+      "rank": 8,
+      "team_name": "DOVE",
+      "acc": "96.32",
+      "ser": "0.00",
+      "eer": "1.03",
+      "cer": "2.65",
+      "parsing_success_rate": "100.00",
+      "merged": true,
+      "names_used": [
+        "666",
+        "668",
+        "DOVE",
+        "QuantCat"
+      ],
+      "submissions": 4,
+      "per_rule": {
+        "DQC_US_0015": "91.36",
+        "DQC_US_0117": "79.63",
+        "DQC_US_0126": "100.00"
+      },
+      "tied_with": [
+        "NIA.XS"
+      ]
+    },
+    {
+      "rank": 9,
+      "team_name": "NIA.XS",
+      "acc": "96.32",
+      "ser": "0.15",
+      "eer": "0.74",
+      "cer": "2.79",
+      "parsing_success_rate": "100.00",
+      "merged": false,
+      "names_used": [
+        "NIA.XS"
+      ],
+      "submissions": 3,
+      "per_rule": {
+        "DQC_US_0015": "90.12",
+        "DQC_US_0117": "83.33",
+        "DQC_US_0126": "100.00"
+      },
+      "tied_with": [
+        "DOVE"
+      ]
+    },
+    {
+      "rank": 10,
+      "team_name": "abbo",
+      "acc": "96.18",
+      "ser": "0.15",
+      "eer": "2.35",
+      "cer": "1.32",
+      "parsing_success_rate": "100.00",
+      "merged": false,
+      "names_used": [
+        "abbo"
+      ],
+      "submissions": 3,
+      "per_rule": {
+        "DQC_US_0015": "88.89",
+        "DQC_US_0117": "85.19",
+        "DQC_US_0126": "100.00"
+      },
+      "tied_with": []
+    },
+    {
+      "rank": 11,
+      "team_name": "HumanSlop",
+      "acc": "96.03",
+      "ser": "0.00",
+      "eer": "1.91",
+      "cer": "2.06",
+      "parsing_success_rate": "100.00",
+      "merged": false,
+      "names_used": [
+        "HumanSlop"
+      ],
+      "submissions": 3,
+      "per_rule": {
+        "DQC_US_0015": "87.65",
+        "DQC_US_0117": "87.04",
+        "DQC_US_0126": "100.00"
+      },
+      "tied_with": []
+    },
+    {
+      "rank": 12,
+      "team_name": "lucaluo925",
+      "acc": "95.88",
+      "ser": "0.15",
+      "eer": "2.50",
+      "cer": "1.47",
+      "parsing_success_rate": "100.00",
+      "merged": false,
+      "names_used": [
+        "lucaluo925"
+      ],
+      "submissions": 10,
+      "per_rule": {
+        "DQC_US_0015": "88.27",
+        "DQC_US_0117": "83.33",
+        "DQC_US_0126": "100.00"
+      },
+      "tied_with": []
+    },
+    {
+      "rank": 13,
+      "team_name": "NTaiwanUs",
+      "acc": "95.59",
+      "ser": "0.15",
+      "eer": "1.76",
+      "cer": "2.50",
+      "parsing_success_rate": "100.00",
+      "merged": false,
+      "names_used": [
+        "NTaiwanUs"
+      ],
+      "submissions": 2,
+      "per_rule": {
+        "DQC_US_0015": "86.42",
+        "DQC_US_0117": "85.19",
+        "DQC_US_0126": "100.00"
+      },
+      "tied_with": []
+    },
+    {
+      "rank": 14,
+      "team_name": "bluck",
+      "acc": "95.44",
+      "ser": "0.44",
+      "eer": "1.03",
+      "cer": "3.09",
+      "parsing_success_rate": "100.00",
+      "merged": false,
+      "names_used": [
+        "bluck"
+      ],
+      "submissions": 1,
+      "per_rule": {
+        "DQC_US_0015": "90.74",
+        "DQC_US_0117": "77.78",
+        "DQC_US_0126": "99.14"
+      },
+      "tied_with": []
+    },
+    {
+      "rank": 15,
+      "team_name": "Terng",
+      "acc": "95.29",
+      "ser": "0.15",
+      "eer": "1.18",
+      "cer": "3.38",
+      "parsing_success_rate": "100.00",
+      "merged": false,
+      "names_used": [
+        "Terng"
+      ],
+      "submissions": 4,
+      "per_rule": {
+        "DQC_US_0015": "91.98",
+        "DQC_US_0117": "64.81",
+        "DQC_US_0126": "100.00"
+      },
+      "tied_with": [
+        "besk.tech"
+      ]
+    },
+    {
+      "rank": 16,
+      "team_name": "besk.tech",
+      "acc": "95.29",
+      "ser": "0.15",
+      "eer": "1.03",
+      "cer": "3.53",
+      "parsing_success_rate": "100.00",
+      "merged": false,
+      "names_used": [
+        "besk.tech"
+      ],
+      "submissions": 3,
+      "per_rule": {
+        "DQC_US_0015": "88.89",
+        "DQC_US_0117": "83.33",
+        "DQC_US_0126": "98.92"
+      },
+      "tied_with": [
+        "Terng"
+      ]
+    },
+    {
+      "rank": 17,
+      "team_name": "zhuozhuowang",
+      "acc": "94.71",
+      "ser": "0.29",
+      "eer": "2.65",
+      "cer": "2.35",
+      "parsing_success_rate": "100.00",
+      "merged": false,
+      "names_used": [
+        "zhuozhuowang"
+      ],
+      "submissions": 1,
+      "per_rule": {
+        "DQC_US_0015": "90.12",
+        "DQC_US_0117": "64.81",
+        "DQC_US_0126": "99.78"
+      },
+      "tied_with": []
+    },
+    {
+      "rank": 18,
+      "team_name": "Ledger Logic",
+      "acc": "94.26",
+      "ser": "0.15",
+      "eer": "0.74",
+      "cer": "4.85",
+      "parsing_success_rate": "100.00",
+      "merged": false,
+      "names_used": [
+        "Ledger Logic"
+      ],
+      "submissions": 3,
+      "per_rule": {
+        "DQC_US_0015": "90.74",
+        "DQC_US_0117": "55.56",
+        "DQC_US_0126": "100.00"
+      },
+      "tied_with": []
+    },
+    {
+      "rank": 19,
+      "team_name": "KevinSoLab",
+      "acc": "93.97",
+      "ser": "0.59",
+      "eer": "2.06",
+      "cer": "3.38",
+      "parsing_success_rate": "100.00",
+      "merged": false,
+      "names_used": [
+        "KevinSoLab"
+      ],
+      "submissions": 1,
+      "per_rule": {
+        "DQC_US_0015": "88.27",
+        "DQC_US_0117": "59.26",
+        "DQC_US_0126": "100.00"
+      },
+      "tied_with": [
+        "sader"
+      ]
+    },
+    {
+      "rank": 20,
+      "team_name": "sader",
+      "acc": "93.97",
+      "ser": "0.00",
+      "eer": "1.91",
+      "cer": "4.12",
+      "parsing_success_rate": "100.00",
+      "merged": false,
+      "names_used": [
+        "sader"
+      ],
+      "submissions": 7,
+      "per_rule": {
+        "DQC_US_0015": "88.89",
+        "DQC_US_0117": "57.41",
+        "DQC_US_0126": "100.00"
+      },
+      "tied_with": [
+        "KevinSoLab"
+      ]
+    },
+    {
+      "rank": 21,
+      "team_name": "Tick & Tie",
+      "acc": "92.65",
+      "ser": "0.59",
+      "eer": "2.21",
+      "cer": "4.56",
+      "parsing_success_rate": "100.00",
+      "merged": false,
+      "names_used": [
+        "Tick & Tie"
+      ],
+      "submissions": 2,
+      "per_rule": {
+        "DQC_US_0015": "83.33",
+        "DQC_US_0117": "68.52",
+        "DQC_US_0126": "98.71"
+      },
+      "tied_with": []
+    },
+    {
+      "rank": 22,
+      "team_name": "Ting-Yi",
+      "acc": "79.12",
+      "ser": "0.74",
+      "eer": "7.35",
+      "cer": "12.79",
+      "parsing_success_rate": "100.00",
+      "merged": false,
+      "names_used": [
+        "Ting-Yi"
+      ],
+      "submissions": 1,
+      "per_rule": {
+        "DQC_US_0015": "56.79",
+        "DQC_US_0117": "53.70",
+        "DQC_US_0126": "89.87"
+      },
+      "tied_with": []
+    },
+    {
+      "rank": 23,
+      "team_name": "baekyounghan",
+      "acc": "71.62",
+      "ser": "1.32",
+      "eer": "6.76",
+      "cer": "20.29",
+      "parsing_success_rate": "100.00",
+      "merged": false,
+      "names_used": [
+        "baekyounghan"
+      ],
+      "submissions": 1,
+      "per_rule": {
+        "DQC_US_0015": "41.36",
+        "DQC_US_0117": "5.56",
+        "DQC_US_0126": "89.87"
+      },
+      "tied_with": []
+    }
+  ]
+}
