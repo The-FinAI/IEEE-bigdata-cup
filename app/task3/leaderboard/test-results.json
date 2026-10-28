@@ -1,5 +1,5 @@
 {
-  "schema_version": "finreason.task3.test-results/1.0.0",
+  "schema_version": "finreason.task3.test-results/1.1.0",
   "phase": "test",
   "basis": "official",
   "judge": {
@@ -42,6 +42,8 @@
   "rows": [
     {
       "rank": 1,
+      "display_rank": 1,
+      "joint": true,
       "team_name": "Polymanes",
       "acc": "97.79",
       "ser": "0.00",
@@ -64,6 +66,8 @@
     },
     {
       "rank": 2,
+      "display_rank": 1,
+      "joint": true,
       "team_name": "FinVeritas",
       "acc": "97.79",
       "ser": "0.00",
@@ -86,6 +90,8 @@
     },
     {
       "rank": 3,
+      "display_rank": 3,
+      "joint": false,
       "team_name": "xai",
       "acc": "97.50",
       "ser": "0.00",
@@ -106,6 +112,8 @@
     },
     {
       "rank": 4,
+      "display_rank": 4,
+      "joint": false,
       "team_name": "FinProbeBench",
       "acc": "97.21",
       "ser": "0.00",
@@ -126,6 +134,8 @@
     },
     {
       "rank": 5,
+      "display_rank": 5,
+      "joint": false,
       "team_name": "Patodiya Research",
       "acc": "96.62",
       "ser": "0.15",
@@ -146,6 +156,8 @@
     },
     {
       "rank": 6,
+      "display_rank": 6,
+      "joint": true,
       "team_name": "EDB",
       "acc": "96.47",
       "ser": "0.00",
@@ -168,6 +180,8 @@
     },
     {
       "rank": 7,
+      "display_rank": 6,
+      "joint": true,
       "team_name": "TieOut",
       "acc": "96.47",
       "ser": "0.29",
@@ -190,6 +204,8 @@
     },
     {
       "rank": 8,
+      "display_rank": 8,
+      "joint": true,
       "team_name": "DOVE",
       "acc": "96.32",
       "ser": "0.00",
@@ -215,6 +231,8 @@
     },
     {
       "rank": 9,
+      "display_rank": 8,
+      "joint": true,
       "team_name": "NIA.XS",
       "acc": "96.32",
       "ser": "0.15",
@@ -237,6 +255,8 @@
     },
     {
       "rank": 10,
+      "display_rank": 10,
+      "joint": false,
       "team_name": "abbo",
       "acc": "96.18",
       "ser": "0.15",
@@ -257,6 +277,8 @@
     },
     {
       "rank": 11,
+      "display_rank": 11,
+      "joint": false,
       "team_name": "HumanSlop",
       "acc": "96.03",
       "ser": "0.00",
@@ -277,6 +299,8 @@
     },
     {
       "rank": 12,
+      "display_rank": 12,
+      "joint": false,
       "team_name": "lucaluo925",
       "acc": "95.88",
       "ser": "0.15",
@@ -297,6 +321,8 @@
     },
     {
       "rank": 13,
+      "display_rank": 13,
+      "joint": false,
       "team_name": "NTaiwanUs",
       "acc": "95.59",
       "ser": "0.15",
@@ -317,6 +343,8 @@
     },
     {
       "rank": 14,
+      "display_rank": 14,
+      "joint": false,
       "team_name": "bluck",
       "acc": "95.44",
       "ser": "0.44",
@@ -337,6 +365,8 @@
     },
     {
       "rank": 15,
+      "display_rank": 15,
+      "joint": true,
       "team_name": "Terng",
       "acc": "95.29",
       "ser": "0.15",
@@ -359,6 +389,8 @@
     },
     {
       "rank": 16,
+      "display_rank": 15,
+      "joint": true,
       "team_name": "besk.tech",
       "acc": "95.29",
       "ser": "0.15",
@@ -381,6 +413,8 @@
     },
     {
       "rank": 17,
+      "display_rank": 17,
+      "joint": false,
       "team_name": "zhuozhuowang",
       "acc": "94.71",
       "ser": "0.29",
@@ -401,6 +435,8 @@
     },
     {
       "rank": 18,
+      "display_rank": 18,
+      "joint": false,
       "team_name": "Ledger Logic",
       "acc": "94.26",
       "ser": "0.15",
@@ -421,6 +457,8 @@
     },
     {
       "rank": 19,
+      "display_rank": 19,
+      "joint": true,
       "team_name": "KevinSoLab",
       "acc": "93.97",
       "ser": "0.59",
@@ -443,6 +481,8 @@
     },
     {
       "rank": 20,
+      "display_rank": 19,
+      "joint": true,
       "team_name": "sader",
       "acc": "93.97",
       "ser": "0.00",
@@ -465,6 +505,8 @@
     },
     {
       "rank": 21,
+      "display_rank": 21,
+      "joint": false,
       "team_name": "Tick & Tie",
       "acc": "92.65",
       "ser": "0.59",
@@ -485,6 +527,8 @@
     },
     {
       "rank": 22,
+      "display_rank": 22,
+      "joint": false,
       "team_name": "Ting-Yi",
       "acc": "79.12",
       "ser": "0.74",
@@ -505,6 +549,8 @@
     },
     {
       "rank": 23,
+      "display_rank": 23,
+      "joint": false,
       "team_name": "baekyounghan",
       "acc": "71.62",
       "ser": "1.32",

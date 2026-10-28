@@ -205,7 +205,13 @@ results are published on the
 with accuracy by data-quality rule. 23 independent teams were ranked from 79
 accepted uploads; none arrived late. Teams are ranked by ACC, then by
 calculation, extraction and structural error rate in that order, then by team
-name. Earlier records stay private for audit.
+name. **Teams that finished on an identical ACC are joint at that rank and share
+a rank number**; the order printed inside such a group comes from the
+calculation error rate, which decides how the rows are listed and not how the
+teams placed. Five groups share an accuracy, including first place:
+**Polymanes and FinVeritas are joint first**, each answering 665 of the 680
+held-out cases correctly (97.79%) and each wrong on the same number of cases
+under every rule. Earlier records stay private for audit.
 
 Deciding which of your own attempts is best is part of the task, which is why
 the last one counts rather than the best one: a phase that returns no score

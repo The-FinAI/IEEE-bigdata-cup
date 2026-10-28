@@ -21,7 +21,7 @@ async function text(path) {
 }
 
 test("the schema version is frozen", () => {
-  assert.equal(data.schema_version, "finreason.task3.test-results/1.0.0");
+  assert.equal(data.schema_version, "finreason.task3.test-results/1.1.0");
   assert.equal(data.phase, "test");
   assert.equal(data.basis, "official");
 });
@@ -34,10 +34,27 @@ test("the basis names the judge that produced every score", () => {
   assert.equal(data.cases, 680);
 });
 
-test("ranks are 1..n with no gaps and no duplicates", () => {
+test("the ordinal position is 1..n with no gaps and no duplicates", () => {
   const ranks = data.rows.map((r) => r.rank);
   assert.deepEqual(ranks, data.rows.map((_, i) => i + 1));
   assert.equal(new Set(data.rows.map((r) => r.team_name)).size, data.rows.length);
+});
+
+test("teams on an identical accuracy are joint at one rank", () => {
+  // Standard competition ranking. Two teams that answered the same number of
+  // cases correctly finished level: the tiebreak decides the printed order,
+  // and must not be reported as a difference in result. So 1, 1, 3 -- never
+  // 1, 2, 3 (a tie read as a placing) and never 1, 1, 2 (ranks invented).
+  const expected = data.rows.map((row, i) =>
+    i > 0 && data.rows[i - 1].acc === row.acc ? null : i + 1);
+  for (let i = 1; i < expected.length; i += 1) {
+    if (expected[i] === null) expected[i] = expected[i - 1];
+  }
+  assert.deepEqual(data.rows.map((r) => r.display_rank), expected);
+  for (const row of data.rows) {
+    assert.equal(row.joint, row.tied_with.length > 0,
+      `${row.team_name} is marked joint=${row.joint} but ties ${row.tied_with.length}`);
+  }
 });
 
 test("the row count matches the team count the roster reports", () => {
@@ -144,4 +161,58 @@ test("the page no longer says Test scores are hidden", async () => {
   const page = await text("out/task3/leaderboard/index.html");
   assert.doesNotMatch(page, /stay hidden until the final results are released/i,
     "the final results are released; that sentence is now false");
+});
+
+// The first table on the page, as rows of plain-text cells.
+function rankingRows(page) {
+  const body = page.slice(page.indexOf("<tbody>"), page.indexOf("</tbody>"));
+  return body
+    .split("<tr")
+    .slice(1)
+    .map((row) =>
+      row
+        .split(/<t[dh][^>]*>/)
+        .slice(1)
+        .map((cell) => cell.replace(/<[^>]*>/g, "").replace(/&amp;/g, "&").trim()));
+}
+
+test("the rank column prints the joint rank, not the row's position", async () => {
+  const page = await text("out/task3/leaderboard/index.html");
+  const printed = rankingRows(page).map((cells) => cells[0]);
+  assert.deepEqual(printed, data.rows.map((r) => String(r.display_rank)),
+    "the table numbers the rows instead of showing the joint rank");
+});
+
+test("the page announces a shared first place above the table", async () => {
+  const page = await text("out/task3/leaderboard/index.html");
+  const leaders = data.rows.filter((r) => r.display_rank === 1);
+  if (leaders.length === 1) {
+    assert.doesNotMatch(page, /joint first/i, "first place is not shared");
+    return;
+  }
+  // The complaint this answers: the tie was on the page, but only as a note in
+  // small type under a team name, so the table read as a clean first and
+  // second. The designation has to come before the table, in its own words.
+  const announcement = page.search(/joint first place/i);
+  assert.ok(announcement !== -1, "the page does not name the shared first place");
+  assert.ok(announcement < page.indexOf("<tbody>"),
+    "the shared first place is stated after the table, where it reads as a footnote");
+  const intro = page.slice(announcement - 600, page.indexOf("<tbody>"));
+  for (const row of leaders) {
+    assert.ok(intro.includes(row.team_name),
+      `the joint first place does not name ${row.team_name}`);
+  }
+});
+
+test("a joint row says it is joint, not merely tied", async () => {
+  const page = await text("out/task3/leaderboard/index.html");
+  const joint = data.rows.filter((r) => r.joint);
+  assert.ok(joint.length > 0, "this test needs at least one joint row to be meaningful");
+  const cells = rankingRows(page);
+  for (const row of joint) {
+    const cell = cells.find((c) => c[1].startsWith(row.team_name));
+    assert.ok(cell, `no row rendered for ${row.team_name}`);
+    assert.match(cell[1], /joint/i,
+      `${row.team_name} shares an accuracy but its row does not say joint`);
+  }
 });

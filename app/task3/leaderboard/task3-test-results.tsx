@@ -8,11 +8,25 @@ const RULE_LABEL: Record<string, string> = {
   DQC_US_0126: "DQC_US_0126",
 };
 
-function tieNote(row: Row) {
+function ordinal(n: number) {
+  const tens = n % 100;
+  if (tens >= 11 && tens <= 13) return `${n}th`;
+  return `${n}${["th", "st", "nd", "rd"][n % 10] ?? "th"}`;
+}
+
+function list(names: string[]) {
+  if (names.length < 3) return names.join(" and ");
+  return `${names.slice(0, -1).join(", ")} and ${names[names.length - 1]}`;
+}
+
+// A shared accuracy is a shared placing. The note says "joint", not "tied":
+// a tie reads as something a tiebreak then resolved, and the order inside the
+// group is a listing decision, not a difference in what the systems achieved.
+function jointNote(row: Row) {
   if (row.tied_with.length === 0) return null;
   return (
     <small>
-      Tied on ACC with {row.tied_with.join(", ")}; placed by calculation error rate
+      {`Joint ${ordinal(row.display_rank)} on ACC with ${list(row.tied_with)}; the group is listed in calculation-error-rate order`}
     </small>
   );
 }
@@ -20,6 +34,31 @@ function tieNote(row: Row) {
 export function Task3TestResults() {
   const { rows, rules, counts, judge } = results;
   const merged = rows.filter((row) => row.merged);
+  const leaders = rows.filter((row) => row.display_rank === 1);
+  const perRule = (row: Row, id: string) => row.per_rule[id as keyof typeof row.per_rule];
+  const sameUnderEveryRule = leaders.every((row) =>
+    rules.every((rule) => perRule(row, rule.id) === perRule(leaders[0], rule.id)),
+  );
+  const correct = Math.round((Number(leaders[0].acc) / 100) * results.cases);
+  const jointGroups = new Set(
+    rows.filter((row) => row.joint).map((row) => row.display_rank),
+  ).size;
+  const jointFirst =
+    leaders.length > 1
+      ? {
+          headline: `Joint first place: ${list(leaders.map((row) => row.team_name))}.`,
+          detail:
+            `Each answered ${correct} of the ${results.cases} held-out cases correctly ` +
+            `(ACC ${leaders[0].acc}%)` +
+            (sameUnderEveryRule
+              ? ", and each is wrong on the same number of cases under every rule."
+              : "."),
+          order:
+            `The table lists ${leaders[0].team_name} above ${list(leaders.slice(1).map((row) => row.team_name))} ` +
+            "under the ordering this board has applied throughout the Cup — accuracy, then " +
+            "calculation error rate. That settles the listing, not the result.",
+        }
+      : null;
 
   return (
     <section className="finmmeval-leaderboard-card" aria-labelledby="task3-test-results-title">
@@ -30,6 +69,12 @@ export function Task3TestResults() {
         </div>
         <p>{rows.length} teams</p>
       </header>
+
+      {jointFirst ? (
+        <p className="task3-joint-first">
+          <strong>{jointFirst.headline}</strong> {jointFirst.detail} {jointFirst.order}
+        </p>
+      ) : null}
 
       <div
         className="finmmeval-table-shell"
@@ -52,13 +97,13 @@ export function Task3TestResults() {
           <tbody>
             {rows.map((row) => (
               <tr key={row.team_name}>
-                <td>{row.rank}</td>
+                <td>{row.display_rank}</td>
                 <th scope="row">
                   <span className="leaderboard-team-name">{row.team_name}</span>
                   {row.merged ? (
                     <span className="leaderboard-entry-pill baseline">Merged</span>
                   ) : null}
-                  {tieNote(row)}
+                  {jointNote(row)}
                 </th>
                 <td className="leaderboard-score">{`${row.acc}%`}</td>
                 <td className="leaderboard-score">{`${row.ser}%`}</td>
@@ -74,8 +119,11 @@ export function Task3TestResults() {
       <p className="leaderboard-test-note">
         Ranked by <strong>ACC</strong>, then by calculation, extraction and structural error
         rate in that order, then by team name &mdash; the ordering this board has applied to
-        the development phase throughout the Cup. Five pairs share an accuracy to the second
-        decimal and are separated by their calculation error rate, including first place.
+        the development phase throughout the Cup. Teams on an identical accuracy are{" "}
+        <strong>joint at that rank</strong> and share a number; the order printed within such a
+        group comes from the calculation error rate, which decides how the rows are listed and
+        not how the teams placed. {jointGroups} groups of teams share an accuracy to the second
+        decimal, including first place.
       </p>
       <p className="leaderboard-test-note">
         Every team is scored on its <strong>last valid upload before the deadline</strong>, not
@@ -107,7 +155,7 @@ export function Task3TestResults() {
           <tbody>
             {rows.map((row) => (
               <tr key={row.team_name}>
-                <td>{row.rank}</td>
+                <td>{row.display_rank}</td>
                 <th scope="row">
                   <span className="leaderboard-team-name">{row.team_name}</span>
                 </th>
