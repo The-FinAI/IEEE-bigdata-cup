@@ -9,7 +9,7 @@ export function PhaseNav({ current }: { current: "development" | "test" }) {
       </Link>
       <Link href="/task1/leaderboard/test/" aria-current={current === "test" ? "page" : undefined}>
         <strong>Test</strong>
-        <span>Format check and submission status</span>
+        <span>Final Test results</span>
       </Link>
     </nav>
   );

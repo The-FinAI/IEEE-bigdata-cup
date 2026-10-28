@@ -11,7 +11,7 @@ export function TaskCitationNote({ task }: { task: 1 | 2 | 3 }) {
         {task === 3 && " Also cite the Herculean and FinAuditing benchmark papers."}
         {" "}If you participate in other tasks, include their overviews as well.
         {" "}<Link href="/#paper-references">Copy or download the required BibTeX</Link>.
-        {" "}Cup and Task 1 author lists are provided; Task 2 and Task 3 authors await confirmation. Refresh the entries before your final paper submission.
+        {" "}Cup, Task 1, and Task 3 author lists are provided; Task 2 authors await confirmation. Refresh the entries before your final paper submission.
       </p>
     </aside>
   );

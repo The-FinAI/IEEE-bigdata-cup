@@ -138,7 +138,7 @@ test("renders direct web upload routes without a GitHub Issue intake", async () 
   );
   assert.match(home, />Final answer</);
   assert.match(home, />Reasoning steps</);
-  assert.match(home, /Task 1 test answers remain private; test scores and ranks are withheld until final results/);
+  assert.match(home, /Task 1 Test scores and ranks are now published under the frozen evaluation configuration/);
   assert.doesNotMatch(
     `${home}\n${readme}`,
     /ChainEval|Planned FinChain-derived problems|Final-answer accuracy|Planned scorecard/,
@@ -217,7 +217,7 @@ test("renders direct web upload routes without a GitHub Issue intake", async () 
   }
 });
 
-test("links Dev and Test while keeping test status separate from score results", async () => {
+test("links Dev and published Test results while retaining receipt access", async () => {
   const [development, testStatus, sitemap] = await Promise.all([
     text("out/task1/leaderboard/index.html"),
     text("out/task1/leaderboard/test/index.html"),
@@ -226,12 +226,16 @@ test("links Dev and Test while keeping test status separate from score results",
   for (const html of [development, testStatus]) {
     assert.match(html, /aria-label="Task 1 submission phase"/);
     assert.match(html, /href="[^\"]*\/task1\/leaderboard\/test\/"/);
-    assert.match(html, /Format check and submission status/);
+    assert.match(html, /Final Test results/);
   }
-  assert.match(testStatus, /Test submission status/);
-  assert.match(testStatus, /A format pass alone is not an acceptance receipt/);
-  assert.match(testStatus, /No test score, rank, or answer-correctness feedback/);
-  assert.doesNotMatch(testStatus, /<table|Final answer score|Reasoning steps score|No-answer baseline/);
+  assert.match(testStatus, /Test results/);
+  assert.match(testStatus, /format pass alone was not an acceptance receipt/);
+  assert.match(testStatus, /no test score, rank, or answer-correctness feedback/);
+  assert.match(testStatus, /<table/);
+  assert.match(testStatus, /Known question inconsistency/);
+  assert.match(testStatus, /SJX/);
+  assert.match(testStatus, /0\.999167/);
+  assert.match(testStatus, /2026-test-results\.csv/);
   assert.match(sitemap, /\/task1\/leaderboard\/test\//);
   if (publicConfig.siteMode === "final") {
     assert.ok(testStatus.includes(publicConfig.testSpace.url));
