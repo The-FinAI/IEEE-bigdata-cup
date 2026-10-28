@@ -108,11 +108,10 @@ export default function Task1HubPage() {
           <h2>Download 928 test questions.</h2>
           <p>
             The test questions are available now. Test uploads receive format feedback and an acceptance
-            receipt when accepted. Enter the same Team Name, a Contact Email, and the canonical ZIP. Scores and ranks
-            stay hidden until the final results are released.
+            receipt when accepted. Enter the same Team Name, a Contact Email, and the canonical ZIP. Test scores and ranks are now published under the frozen evaluation configuration, with an evaluation note on the results page.
           </p>
           {spaceLinksAreReady ? (
-            <Link className="button button-primary" href="/task1/leaderboard/test/">Open Test submission status</Link>
+            <Link className="button button-primary" href="/task1/leaderboard/test/">Open Test results</Link>
           ) : (
             <span className="button button-disabled" aria-disabled="true">Test upload link pending verification</span>
           )}

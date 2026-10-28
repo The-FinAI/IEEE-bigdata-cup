@@ -1,0 +1,228 @@
+{
+  "published_date": "2026-10-28",
+  "scored_at_utc": "2026-10-27T13:16:50.346787+00:00",
+  "scorer_version": "finreason.task1.scorer/2.0.0",
+  "cutoff_exclusive_utc": "2026-10-26T12:00:00Z",
+  "teams": 27,
+  "accepted_submissions": 59,
+  "cases": 928,
+  "known_issue": "One evaluation question has a confirmed inconsistency between its wording and frozen reference answer. These published scores retain the original frozen evaluation; no correction or exclusion has been applied. Any later adjudication will be announced with a versioned results update.",
+  "rows": [
+    {
+      "rank": 1,
+      "team": "SJX",
+      "combined_fac": "0.999167",
+      "hidden_fac": "1.000000",
+      "combined_checkpoint": "0.999583",
+      "correct_final": 927
+    },
+    {
+      "rank": 2,
+      "team": "sader",
+      "combined_fac": "0.999167",
+      "hidden_fac": "1.000000",
+      "combined_checkpoint": "0.997500",
+      "correct_final": 927
+    },
+    {
+      "rank": 2,
+      "team": "FinVeritas",
+      "combined_fac": "0.999167",
+      "hidden_fac": "1.000000",
+      "combined_checkpoint": "0.997500",
+      "correct_final": 927
+    },
+    {
+      "rank": 4,
+      "team": "Patodiya Research",
+      "combined_fac": "0.999167",
+      "hidden_fac": "1.000000",
+      "combined_checkpoint": "0.995417",
+      "correct_final": 927
+    },
+    {
+      "rank": 5,
+      "team": "nitishxbt",
+      "combined_fac": "0.998175",
+      "hidden_fac": "0.998016",
+      "combined_checkpoint": "0.996111",
+      "correct_final": 926
+    },
+    {
+      "rank": 6,
+      "team": "NIA.XS",
+      "combined_fac": "0.997500",
+      "hidden_fac": "1.000000",
+      "combined_checkpoint": "0.996111",
+      "correct_final": 925
+    },
+    {
+      "rank": 7,
+      "team": "EDB",
+      "combined_fac": "0.997500",
+      "hidden_fac": "1.000000",
+      "combined_checkpoint": "0.995417",
+      "correct_final": 925
+    },
+    {
+      "rank": 7,
+      "team": "DSsama",
+      "combined_fac": "0.997500",
+      "hidden_fac": "1.000000",
+      "combined_checkpoint": "0.995417",
+      "correct_final": 925
+    },
+    {
+      "rank": 9,
+      "team": "bluck",
+      "combined_fac": "0.997341",
+      "hidden_fac": "0.998016",
+      "combined_checkpoint": "0.994286",
+      "correct_final": 925
+    },
+    {
+      "rank": 10,
+      "team": "NTaiwanUs",
+      "combined_fac": "0.996458",
+      "hidden_fac": "1.000000",
+      "combined_checkpoint": "0.995590",
+      "correct_final": 924
+    },
+    {
+      "rank": 11,
+      "team": "HumanSlop",
+      "combined_fac": "0.995466",
+      "hidden_fac": "0.998016",
+      "combined_checkpoint": "0.992614",
+      "correct_final": 923
+    },
+    {
+      "rank": 12,
+      "team": "Infinity Analyze",
+      "combined_fac": "0.994077",
+      "hidden_fac": "0.995238",
+      "combined_checkpoint": "0.992614",
+      "correct_final": 922
+    },
+    {
+      "rank": 13,
+      "team": "Ledger Logic",
+      "combined_fac": "0.994008",
+      "hidden_fac": "0.989683",
+      "combined_checkpoint": "0.960810",
+      "correct_final": 923
+    },
+    {
+      "rank": 14,
+      "team": "ni shuo de dou dui",
+      "combined_fac": "0.992341",
+      "hidden_fac": "0.989683",
+      "combined_checkpoint": "0.953155",
+      "correct_final": 921
+    },
+    {
+      "rank": 15,
+      "team": "VeriFin",
+      "combined_fac": "0.991429",
+      "hidden_fac": "0.984524",
+      "combined_checkpoint": "0.993631",
+      "correct_final": 920
+    },
+    {
+      "rank": 16,
+      "team": "SSB",
+      "combined_fac": "0.990308",
+      "hidden_fac": "0.987698",
+      "combined_checkpoint": "0.985967",
+      "correct_final": 919
+    },
+    {
+      "rank": 17,
+      "team": "carnot",
+      "combined_fac": "0.985304",
+      "hidden_fac": "0.976025",
+      "combined_checkpoint": "0.988745",
+      "correct_final": 917
+    },
+    {
+      "rank": 18,
+      "team": "xai",
+      "combined_fac": "0.982887",
+      "hidden_fac": "0.974107",
+      "combined_checkpoint": "0.975109",
+      "correct_final": 913
+    },
+    {
+      "rank": 19,
+      "team": "TieOut",
+      "combined_fac": "0.980546",
+      "hidden_fac": "0.969841",
+      "combined_checkpoint": "0.976920",
+      "correct_final": 912
+    },
+    {
+      "rank": 20,
+      "team": "KevinSoLab",
+      "combined_fac": "0.973929",
+      "hidden_fac": "0.994444",
+      "combined_checkpoint": "0.983108",
+      "correct_final": 896
+    },
+    {
+      "rank": 21,
+      "team": "besk.tech",
+      "combined_fac": "0.971042",
+      "hidden_fac": "0.943750",
+      "combined_checkpoint": "0.983016",
+      "correct_final": 906
+    },
+    {
+      "rank": 22,
+      "team": "nailong",
+      "combined_fac": "0.968373",
+      "hidden_fac": "0.942460",
+      "combined_checkpoint": "0.969494",
+      "correct_final": 908
+    },
+    {
+      "rank": 23,
+      "team": "Push and Pray",
+      "combined_fac": "0.967870",
+      "hidden_fac": "0.943122",
+      "combined_checkpoint": "0.974577",
+      "correct_final": 904
+    },
+    {
+      "rank": 24,
+      "team": "Metric Max",
+      "combined_fac": "0.961224",
+      "hidden_fac": "0.929828",
+      "combined_checkpoint": "0.952209",
+      "correct_final": 900
+    },
+    {
+      "rank": 25,
+      "team": "ABBO",
+      "combined_fac": "0.916862",
+      "hidden_fac": "0.838724",
+      "combined_checkpoint": "0.937222",
+      "correct_final": 872
+    },
+    {
+      "rank": 26,
+      "team": "Math",
+      "combined_fac": "0.488333",
+      "hidden_fac": "0.000000",
+      "combined_checkpoint": "0.489861",
+      "correct_final": 566
+    },
+    {
+      "rank": 27,
+      "team": "ut1776",
+      "combined_fac": "0.336389",
+      "hidden_fac": "0.055456",
+      "combined_checkpoint": "0.345046",
+      "correct_final": 377
+    }
+  ]
+}

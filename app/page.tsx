@@ -319,7 +319,7 @@ export default function Home() {
               </article>
             ))}
           </div>
-          <div className={styles.taskQuickLinks}><span>Task 1 quick links</span><a href={`${basePath}/task1/submit/`}>Submission guide ↗</a><a href={`${basePath}/task1/leaderboard/`}>Development leaderboard ↗</a><a href={`${basePath}/task1/leaderboard/test/`}>Test submission status ↗</a></div>
+          <div className={styles.taskQuickLinks}><span>Task 1 quick links</span><a href={`${basePath}/task1/submit/`}>Submission guide ↗</a><a href={`${basePath}/task1/leaderboard/`}>Development leaderboard ↗</a><a href={`${basePath}/task1/leaderboard/test/`}>Test results ↗</a></div>
           <div className={styles.taskQuickLinks}><span>Task 2 quick links</span><a href="https://carolyn-jiang.github.io/Market-Neutral-Hedging-live-trading/">Live-trading submission ↗</a><a href="https://carolyn-jiang.github.io/Market-Neutral-Hedging-live-trading/#performance">Live-trading leaderboard ↗</a></div>
         </section>
 
@@ -329,7 +329,7 @@ export default function Home() {
             <div className={styles.evaluationGrid}>
               <article><span className={styles.stepNumber}>01</span><h3>Develop and validate</h3><p>Use the published data, schemas, and validators. Task 1 development uploads return separate final-answer and reasoning-step scores.</p></article>
               <article><span className={styles.stepNumber}>02</span><h3>Submit test predictions</h3><p>Task 1 allows unlimited submissions before the deadline. Keep the same Team Name and Contact Email; the latest accepted, valid version is used.</p></article>
-              <article><span className={styles.stepNumber}>03</span><h3>Receive final results</h3><p>Task 1 test answers remain private; test scores and ranks are withheld until final results. Follow each hub for task-specific evaluation rules.</p></article>
+              <article><span className={styles.stepNumber}>03</span><h3>Receive final results</h3><p>Task 1 Test scores and ranks are now published under the frozen evaluation configuration, with a known-question inconsistency noted on the results page. Test answers remain private. Follow each hub for task-specific evaluation rules.</p></article>
             </div>
           </div>
         </section>
