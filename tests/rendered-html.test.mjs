@@ -201,7 +201,11 @@ test("renders direct web upload routes without a GitHub Issue intake", async () 
     assert.ok(submit.includes(publicConfig.developmentSpace.url));
     assert.ok(submit.includes(publicConfig.testSpace.url));
     assert.ok(leaderboard.includes(publicConfig.developmentSpace.url));
-    assert.ok(!leaderboard.includes(publicConfig.testSpace.url));
+    // The global reminder links to both contact forms; the Development ranking
+    // page itself must still direct prediction uploads to Development only.
+    const leaderboardMain = leaderboard.match(/<main\b[\s\S]*?<\/main>/)?.[0];
+    assert.ok(leaderboardMain);
+    assert.ok(!leaderboardMain.includes(publicConfig.testSpace.url));
     assert.match(home, /Task 1 is live with frozen participant data and direct uploads/);
     assert.match(home, /immediately returns Final answer, Reasoning steps, a receipt, and current rank/);
     assert.match(home, /shows format feedback and an acceptance receipt with no online score or rank/);
