@@ -53,7 +53,7 @@ export default function PrivacyPage() {
         <dl className="policy-meta">
           <div>
             <dt>Effective</dt>
-            <dd>16 September 2026</dd>
+            <dd>29 October 2026</dd>
           </div>
           <div>
             <dt>Privacy contact</dt>
@@ -86,7 +86,18 @@ export default function PrivacyPage() {
               Development submission records, including Team Name, submitted
               prediction archive, validation record, aggregate scores, receipt
               information, and event times. Team Name is the only
-              participant-provided identity or contact field for development.
+              participant-provided identity or contact field for development prediction uploads.
+            </li>
+            <li>
+              Optional participant contact registrations, available separately
+              from prediction uploads from 29 October 2026. These include Team
+              Name, contact email, phase, a matching submission reference,
+              registration time, and agreement to receive Working Notes reminders
+              and competition administration messages. The email and team details
+              are encrypted before storage in organizer-private repositories.
+              Test registrations are matched against the original email-derived
+              identifier and Team Name. Development registrations match a team
+              and receipt and are self-declared contacts; they do not verify email ownership.
             </li>
             <li>
               Test submission records, including Team Name, Contact Email,
@@ -126,6 +137,12 @@ export default function PrivacyPage() {
             uploads through a non-public pseudonymous identifier.
           </p>
           <p>
+            Contact details saved through the optional reminder form are used
+            for Working Notes deadline reminders, result and paper matching,
+            and direct competition administration. Saving a contact is voluntary
+            and does not change accepted submissions, scores, or submission deadlines.
+          </p>
+          <p>
             Legacy interest-form and access-registration records are used only
             for transition support, record consistency, and handling related
             participant requests. They are not used to require approval or a
@@ -145,7 +162,8 @@ export default function PrivacyPage() {
             Email, submission files, gold answers, or private evaluation data.
             Team Name and competition files are entered only in the separate
             verified participant services linked from the Task 1 hub. Contact
-            Email is entered only on the verified test submission page.
+            Email is entered on the verified test submission page or on the
+            separate optional reminder form in either Task 1 portal.
           </p>
           <p>
             The public site may receive ordinary technical requests handled by
@@ -195,14 +213,19 @@ export default function PrivacyPage() {
           <p className="section-index">07 / RETENTION</p>
           <h2 id="privacy-retention">How long records are kept</h2>
           <p>
-            Readable Contact Email is kept only while needed for submission
-            identification, support, result matching, and test-submission
-            administration, then deleted or minimized when those purposes end.
-            A non-public pseudonymous identifier derived from the email may be
-            retained separately for submission-version selection and repeat-upload handling.
+            Original Test prediction uploads used the email in memory to derive
+            a private pseudonymous identifier; those records do not retain a
+            recoverable email. Original Development prediction uploads did not
+            collect email. From 29 October 2026, participants can separately save
+            a contact email for reminders. These optional contact records are
+            encrypted at rest and can be read only using organizer-held keys.
+            They are retained only while needed for Working Notes, results,
+            related competition administration, and participant requests, subject
+            to the repository-history limits below. A private pseudonymous
+            identifier may remain for submission-version selection and repeat uploads.
           </p>
           <p>
-            Encrypted submission archives and non-public operational event
+            Encrypted submission archives, optional contact records, and non-public operational event
             records may remain in restricted organizer-private repository
             history for challenge administration, integrity review, audit,
             dispute resolution, security, and applicable institutional or legal
